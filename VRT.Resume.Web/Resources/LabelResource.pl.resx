@@ -132,6 +132,9 @@
   <data name="ButtonCancel" xml:space="preserve">
     <value>Anuluj</value>
   </data>
+  <data name="ButtonDelete" xml:space="preserve">
+    <value>Skasuj</value>
+  </data>
   <data name="ButtonEditData" xml:space="preserve">
     <value>Edutuj dane</value>
   </data>

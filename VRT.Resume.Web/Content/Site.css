@@ -141,4 +141,23 @@ textarea {
     background-position:center;
 }
 
+/* Skill styles*/
 
+.skill-toolbar {
+    display:inline-block;    
+    flex-wrap: nowrap;
+}
+.skill-toolbar:before {
+    content: "";    
+    margin-left:15px;
+}
+.skill-toolbar a {
+    border: 0;
+    display:inline-block;
+    /*border: 1px solid red;*/    
+    border-radius: 50%;
+}
+.skill-toolbar img {
+    width: 24px;
+    height: 24px;    
+}

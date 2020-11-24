@@ -311,6 +311,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\img\btn-edit.svg" />
+    <Content Include="Content\img\btn-delete.svg" />
     <Content Include="Content\img\resume.png" />
     <Content Include="Content\img\sso-google.svg" />
     <Content Include="Content\Resume.css" />

@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persons\Queries\GetPersonSkills\" />
     <Folder Include="Resumes\Commands\" />
   </ItemGroup>
 

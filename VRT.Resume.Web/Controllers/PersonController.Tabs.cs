@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using VRT.Resume.Application.Persons.Queries.GetPersonData;
 using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
+using VRT.Resume.Application.Persons.Queries.GetPersonSkills;
 
 namespace VRT.Resume.Web.Controllers
 {
@@ -28,10 +29,11 @@ namespace VRT.Resume.Web.Controllers
 
         [HttpGet]
         [Route(TabNames.Skills)]
-        public ActionResult SkillsTab()
+        public async Task<ActionResult> SkillsTab()
         {
-            SetTabName(TabNames.Skills);            
-            return View();
+            SetTabName(TabNames.Skills);
+            var result = await Mediator.Send(new GetPersonSkillListQuery());
+            return ToActionResult(result);
         }
 
         [HttpGet]        

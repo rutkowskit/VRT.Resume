@@ -22,6 +22,7 @@
         public const string ButtonEditData = "ButtonEditData";
         public const string ButonChangeImg = "ButonChangeImg";
         public const string ButtonAddNewEdu = "ButtonAddNewEdu";
+        public const string ButtonDelete = "ButtonDelete";
 
         // other labels
         public const string BornOn = "BornOn";
