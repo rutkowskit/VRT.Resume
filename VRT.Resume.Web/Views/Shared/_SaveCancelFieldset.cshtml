@@ -1,0 +1,6 @@
+﻿<fieldset class="border-bottom d-flex">
+    <input class="btn btn-primary" type="submit" value="@(Html.GetLabel(LabelNames.ButtonSave))" required />
+    <a class="btn btn-outline-danger ml-2" href="@(Url.Action("Cancel"))">
+        @(Html.GetLabel(LabelNames.ButtonCancel))
+    </a>
+</fieldset>

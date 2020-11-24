@@ -1,0 +1,29 @@
+﻿@model string[]
+
+@{
+    if (Model == null || Model.Length == 0)
+    {
+        return;
+    }
+}
+
+<ul id="profileTabs" class="nav nav-tabs" role="tablist">
+    @for (var i = 0; i < Model.Length; i++)
+    {
+        var tabName = Model[i];
+        <li class="nav-item">
+            <a class="nav-link" id="@(tabName)-tab" data-toggle="tab" href="#@tabName"
+               role="tab" aria-controls="home" aria-selected="@(i==0?"true":"false")">
+                @Html.GetLabel(tabName)
+            </a>
+        </li>
+    }
+</ul>
+
+<div class="tab-content">
+    @for (var i = 0; i < Model.Length; i++)
+    {
+        var tabName = Model[i];
+        <div class="tab-pane@(i==0 ? " active" : "")" id="@tabName"></div>
+    }
+</div>

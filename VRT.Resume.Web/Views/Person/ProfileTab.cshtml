@@ -1,0 +1,37 @@
+﻿@using VRT.Resume.Application.Persons.Queries.GetPersonData
+@model PersonDataVM
+
+@{ 
+    var userInfo = Model ?? new PersonDataVM();
+}
+
+<div class="mt-2 mb-5 d-flex justify-content-start">
+    <div class="card rounded">
+        <div class="d-block justify-content-center">
+            <div class="area2 text-center px-3">
+                <div class="image mr-3">
+                    <img src="@Url.Action("ProfileImage", "Images")" class="rounded-circle" width="100" />
+                    <h4 class="name mt-3">@string.Format("{0} {1}", userInfo.FirstName, userInfo.LastName)</h4>
+                    @if (userInfo.DateOfBirth.HasValue)
+                    {
+                        <p class="information mt-3 text-center">@(Html.GetLabel(LabelNames.BornOn)): @string.Format("{0:yyyy-MM-dd}", userInfo.DateOfBirth) </p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer card-buttons">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Edit", "PersonData")">
+                        @(Html.GetLabel(LabelNames.ButtonEditData))
+                    </a>                    
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="@Url.Action("Edit", "PersonImage")">
+                        @(Html.GetLabel(LabelNames.ButonChangeImg))
+                    </a>                    
+                </li>                
+            </ul>            
+        </div>
+    </div>
+</div>

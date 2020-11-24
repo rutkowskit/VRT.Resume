@@ -1,0 +1,15 @@
+﻿<legend>Sign in</legend>
+@{
+    using (Html.BeginForm("SignIn", "Account", new { returnUrl = "~/" }))
+    {
+        @Html.AntiForgeryToken()
+        <div id="socialLoginList">
+            <p>                
+                <button type="submit" class="btn btn-outline-primary btn-block sso-button sso-google" id="Google" name="type"
+                        value="Google" title="Log in using your Google account">
+                    Sign in using Google
+                </button>                
+            </p>
+        </div>
+    }
+}

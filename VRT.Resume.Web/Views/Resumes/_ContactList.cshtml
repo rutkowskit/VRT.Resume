@@ -1,0 +1,15 @@
+﻿@using VRT.Resume.Application.Resumes.Queries.GetResume
+@model ContactItemDto[]
+
+@{    
+    var contacts = null == Model 
+        ? new ContactItemDto[0]
+        : Model;
+    foreach (var contact in contacts)
+    {
+        <div class="resume-contact-item">
+            @contact.GetIconHtmlString()
+            @contact.GetValueHtmlString()            
+        </div>
+    }
+}  

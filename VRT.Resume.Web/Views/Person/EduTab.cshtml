@@ -1,0 +1,49 @@
+﻿@using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
+@model PersonEducationInListVM[]
+
+<div class="text-right mt-3 d-flex justify-content-between  ">
+    <span class="h4 text-muted">Wykształcenie</span>
+    <a class="btn btn-light btn-outline-secondary"
+       title="@Html.GetLabel(LabelNames.ButtonAddNewEdu)"
+       href="@(Url.Action("Add", "PersonEducation"))">
+        <span class="mr-auto">+</span>
+    </a>
+</div>
+<div class="table-responsive">    
+    <table class="table mt-0">        
+        <thead>
+            <tr>
+                <th scope="col">@Html.GetLabel(LabelNames.SchoolName)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Field)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Degree)</th>                
+                <th scope="col">@Html.GetLabel(LabelNames.FromDate)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.ToDate)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Specialization)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.ThesisTitle)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Grade)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Actions)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.SchoolName</td>
+                    <td>@m.Field</td>
+                    <td>@m.Degree</td>
+                    <td class="text-nowrap" >@m.FromDate.ToDateString()</td>
+                    <td class="text-nowrap">@m.ToDate.ToDateString()</td>
+                    <td>@m.Specialization</td>
+                    <td>@m.ThesisTitle</td>
+                    <td>@m.Grade</td>
+                    <td>
+                        <a class="nav-link text-nowrap" href="@Url.Action("Edit", "PersonEdu",new { id=m.EducationId })">
+                            @(Html.GetLabel(LabelNames.ButtonEditData))
+                        </a>                        
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
