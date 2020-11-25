@@ -5,7 +5,6 @@ namespace VRT.Resume.Web
 {
     public static class HtmlHelperExtensions
     {
-
         public static IHtmlString ProfileTabPane(this System.Web.Mvc.HtmlHelper html,
            string tabName, string currentTabName)
         {
@@ -25,6 +24,17 @@ namespace VRT.Resume.Web
             if (string.IsNullOrWhiteSpace(value))
                 value = resourceKey;  
             
+            return new HtmlString(value);
+        }
+
+        public static IHtmlString GetMessage(this System.Web.Mvc.HtmlHelper html,
+           string resourceKey, string defaultValue = null)
+        {
+            var value = Resources.MessageResource.ResourceManager.GetString(resourceKey)
+                ?? defaultValue;
+            if (string.IsNullOrWhiteSpace(value))
+                value = resourceKey;
+
             return new HtmlString(value);
         }
     }

@@ -81,15 +81,24 @@ namespace VRT.Resume.Web.Controllers
             }
         }
 
+        protected ControllerBase SetResult(Result result)
+        {
+            return result.IsFailure
+                ? SetError(result.Error)
+                : SetSuccess();            
+        }
+
         protected ControllerBase SetSuccess(string message = null)
         {
             TempData[TempDataKeys.SuccessMsg] = message ?? Resources.MessageResource.DataSavedSuccess;
+            TempData.Remove(TempDataKeys.ErrorMsg);
             return this;
         }
 
         protected ControllerBase SetError(string message)
         {
             TempData[TempDataKeys.ErrorMsg] = message ?? Resources.MessageResource.ErrorOccured;
+            TempData.Remove(TempDataKeys.SuccessMsg);
             return this;
         }
     }

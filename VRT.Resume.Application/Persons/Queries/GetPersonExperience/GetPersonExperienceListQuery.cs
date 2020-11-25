@@ -11,7 +11,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperience
 
     public sealed class GetPersonExperienceListQuery : IRequest<Result<PersonExperienceInListVM[]>>
     {
-        public sealed class GetPersonSkillListQueryHandler : HandlerBase, 
+        internal sealed class GetPersonSkillListQueryHandler : HandlerBase, 
             IRequestHandler<GetPersonExperienceListQuery, Result<PersonExperienceInListVM[]>>
         { 
             public GetPersonSkillListQueryHandler(AppDbContext context, ICurrentUserService userService)

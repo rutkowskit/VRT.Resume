@@ -79,6 +79,15 @@ namespace VRT.Resume.Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record not found.
+        /// </summary>
+        internal static string RecordNotFound {
+            get {
+                return ResourceManager.GetString("RecordNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User is unauthorized.
         /// </summary>
         internal static string UserUnauthorized {

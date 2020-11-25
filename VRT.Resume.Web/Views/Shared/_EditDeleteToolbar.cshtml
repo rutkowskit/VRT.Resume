@@ -13,7 +13,7 @@
         <img src="@Url.Content("~/Content/img/btn-edit.svg")"
              alt="@editButtonLabel" title="@editButtonLabel" />
     </a>
-    <a href="@Url.Action("Delete", @Model.Controller, new { id = Model.EntityId })">
+    <a href="@Url.Action("ConfirmDelete", @Model.Controller, new { id = Model.EntityId })">
         <img src="@Url.Content("~/Content/img/btn-delete.svg")"
              alt="@deleteButtonLabel" title="@deleteButtonLabel" />
     </a>

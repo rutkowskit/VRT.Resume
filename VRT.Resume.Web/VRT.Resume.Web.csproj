@@ -57,6 +57,9 @@
     <Reference Include="CSharpFunctionalExtensions, Version=2.12.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CSharpFunctionalExtensions.2.12.2\lib\net461\CSharpFunctionalExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.8.6.1\lib\net45\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="MediatR, Version=9.0.0.0, Culture=neutral, PublicKeyToken=bb9a41a5e8aaa7e2, processorArchitecture=MSIL">
       <HintPath>..\packages\MediatR.9.0.0\lib\net461\MediatR.dll</HintPath>
     </Reference>
@@ -257,6 +260,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Constants\MsgNames.cs" />
     <Compile Include="Constants\LabelNames.cs" />
     <Compile Include="Constants\TempDataKeys.cs" />
     <Compile Include="Constants\TabNames.cs" />
@@ -265,15 +269,16 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\PersonEditControllerBase.cs" />
+    <Compile Include="Controllers\PersonSkillsController.cs" />
     <Compile Include="Controllers\PersonEduController.cs" />
     <Compile Include="Controllers\PersonImageController.cs" />
     <Compile Include="Controllers\PersonDataController.cs" />
     <Compile Include="Controllers\PersonController.Tabs.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\ResumesController.cs" />
-    <Compile Include="Extensions\AllowPartialRenderingAttribute.cs" />
+    <Compile Include="Filters\AllowPartialRenderingAttribute.cs" />
     <Compile Include="Extensions\ContactItemViewModelExtensions.cs" />
-    <Compile Include="Extensions\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
@@ -289,6 +294,7 @@
     </Compile>
     <Compile Include="Models\EditDeleteToolbarData.cs" />
     <Compile Include="Models\PersonDataViewModel.cs" />
+    <Compile Include="Models\PersonSkillEditViewModel.cs" />
     <Compile Include="Models\PersonEduViewModel.cs" />
     <Compile Include="Models\UserLoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -301,6 +307,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LabelResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\MessageResource.pl.Designer.cs">
+      <DependentUpon>MessageResource.pl.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Resources\MessageResource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -367,6 +378,11 @@
     <Content Include="Views\PersonEdu\Edit.cshtml" />
     <Content Include="Views\Shared\_SaveCancelFieldset.cshtml" />
     <Content Include="Views\Shared\_EditDeleteToolbar.cshtml" />
+    <Content Include="Views\PersonSkills\Add.cshtml" />
+    <Content Include="Views\PersonSkills\Edit.cshtml" />
+    <Content Include="Views\PersonSkills\_SkillEditor.cshtml" />
+    <Content Include="Views\Shared\ConfirmDelete.cshtml" />
+    <Content Include="Views\Shared\_OkCancelFieldset.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -383,6 +399,10 @@
     <EmbeddedResource Include="Resources\LabelResource.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LabelResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\MessageResource.pl.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MessageResource.pl.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\MessageResource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

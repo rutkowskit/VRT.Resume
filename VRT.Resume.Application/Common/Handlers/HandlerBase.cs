@@ -6,7 +6,7 @@ using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Application
 {
-    public abstract class HandlerBase
+    internal abstract class HandlerBase
     {
         private readonly ICurrentUserService _userService;
 

@@ -10,7 +10,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonData
 {
     public sealed class GetPersonDataQuery : IRequest<Result<PersonDataVM>>
     {
-        public sealed class GetPersonDataQueryHandler : HandlerBase, IRequestHandler<GetPersonDataQuery, Result<PersonDataVM>>
+        internal sealed class GetPersonDataQueryHandler : HandlerBase, IRequestHandler<GetPersonDataQuery, Result<PersonDataVM>>
         { 
             public GetPersonDataQueryHandler(AppDbContext context, ICurrentUserService userService)
                 : base(context, userService)

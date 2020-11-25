@@ -12,7 +12,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeList
     public sealed class GetResumeListQuery : IRequest<IEnumerable<ResumeInListVM>>
     {
         public int ResumeId { get; set; }
-        public sealed class GetResumeListQueryHandler : HandlerBase, IRequestHandler<GetResumeListQuery, IEnumerable<ResumeInListVM>>
+        internal sealed class GetResumeListQueryHandler : HandlerBase, IRequestHandler<GetResumeListQuery, IEnumerable<ResumeInListVM>>
         {
             public GetResumeListQueryHandler(AppDbContext context, ICurrentUserService service)
                 : base(context, service)

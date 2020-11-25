@@ -3,9 +3,11 @@ using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
 using MediatR;
+using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application;
 using VRT.Resume.Application.Common.Abstractions;
+using VRT.Resume.Application.Common.Behaviours;
 using VRT.Resume.Persistence.Data;
 using VRT.Resume.Web.Services;
 
@@ -19,6 +21,7 @@ namespace VRT.Resume.Web
                 .RegisterControllers()                       
                 .RegisterDbContext()
                 .RegisterMediator()
+                .RegisterMediatorPipelineBehaviours()
                 .RegisterCurrentUserService()
                 .RegisterServiceFactory()
                 .RegisterImplementadInterfaces()
@@ -84,6 +87,41 @@ namespace VRT.Resume.Web
               .InstancePerLifetimeScope();
             return builder;
         }
+
+        private static ContainerBuilder RegisterMediatorPipelineBehaviours(this ContainerBuilder builder)
+        {
+            var mediatrOpenTypes = new[]
+            {
+                typeof(IRequestHandler<,>),
+                typeof(IRequestExceptionHandler<,,>),
+                typeof(IRequestExceptionAction<,>),
+                typeof(INotificationHandler<>),
+            };
+
+            var appAssembly = typeof(ValidationBehaviour<,>).Assembly;
+            foreach (var mediatrOpenType in mediatrOpenTypes)
+            {
+                builder
+                    .RegisterAssemblyTypes(appAssembly)
+                    .AsClosedTypesOf(mediatrOpenType)                    
+                    .AsImplementedInterfaces();
+            }
+
+            // It appears Autofac returns the last registered types first
+            builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(RequestExceptionActionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(RequestExceptionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(ValidationBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
+            //builder.RegisterGeneric(typeof(GenericRequestPreProcessor<>)).As(typeof(IRequestPreProcessor<>));
+            //builder.RegisterGeneric(typeof(GenericRequestPostProcessor<,>)).As(typeof(IRequestPostProcessor<,>));
+            //builder.RegisterGeneric(typeof(GenericPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
+            //builder.RegisterGeneric(typeof(ConstrainedRequestPostProcessor<,>)).As(typeof(IRequestPostProcessor<,>));
+            //builder.RegisterGeneric(typeof(ConstrainedPingedHandler<>)).As(typeof(INotificationHandler<>));                        
+            return builder;
+        }
+
+        
         private static void SetDependencyResolver(this IContainer container)
         {
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

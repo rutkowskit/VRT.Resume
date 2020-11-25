@@ -1,4 +1,6 @@
-﻿namespace VRT.Resume.Web.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VRT.Resume.Web.Models
 {
     public sealed class EditDeleteToolbarData
     {
@@ -8,7 +10,9 @@
             EntityId = entityId;
         }
 
+        [Required]
         public string Controller { get; }
+        [Required]
         public int EntityId { get; }
     }
 }

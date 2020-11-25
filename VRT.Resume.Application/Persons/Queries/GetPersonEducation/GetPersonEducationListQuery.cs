@@ -11,7 +11,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonEducation
 
     public sealed class GetPersonEducationListQuery : IRequest<Result<PersonEducationInListVM[]>>
     {
-        public sealed class GetPersonEducationListQueryHandler : HandlerBase, IRequestHandler<GetPersonEducationListQuery, Result<PersonEducationInListVM[]>>
+        internal sealed class GetPersonEducationListQueryHandler : HandlerBase, IRequestHandler<GetPersonEducationListQuery, Result<PersonEducationInListVM[]>>
         { 
             public GetPersonEducationListQueryHandler(AppDbContext context, ICurrentUserService userService)
                 : base(context, userService)

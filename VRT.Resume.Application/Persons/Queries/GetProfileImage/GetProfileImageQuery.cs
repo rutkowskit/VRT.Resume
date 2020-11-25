@@ -9,7 +9,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetProfileImage
 {
     public sealed class GetProfileImageQuery : IRequest<ProfileImageVM>
     {
-        public sealed class GetProfileImageQueryHandler : HandlerBase, IRequestHandler<GetProfileImageQuery, ProfileImageVM>
+        internal sealed class GetProfileImageQueryHandler : HandlerBase, IRequestHandler<GetProfileImageQuery, ProfileImageVM>
         {
             public GetProfileImageQueryHandler(AppDbContext context, ICurrentUserService userService)
                 : base(context, userService)

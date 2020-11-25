@@ -129,6 +129,9 @@
   <data name="ButtonAddNewExp" xml:space="preserve">
     <value>Add work experience</value>
   </data>
+  <data name="ButtonAddSkill" xml:space="preserve">
+    <value>Add skill</value>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
@@ -158,6 +161,12 @@
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
+  </data>
+  <data name="Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="PageAbout" xml:space="preserve">
     <value>About</value>
@@ -206,6 +215,9 @@
   </data>
   <data name="ToDate" xml:space="preserve">
     <value>To</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="WorkExpTab" xml:space="preserve">
     <value>Work Experience</value>

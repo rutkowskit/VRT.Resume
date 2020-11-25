@@ -70,6 +70,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to remove this record ?.
+        /// </summary>
+        internal static string DeleteConfirmMessage {
+            get {
+                return ResourceManager.GetString("DeleteConfirmMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error occured.
         /// </summary>
         internal static string ErrorOccured {
@@ -84,6 +93,15 @@ namespace VRT.Resume.Web.Resources {
         internal static string ImageNotProvided {
             get {
                 return ResourceManager.GetString("ImageNotProvided", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Validation failed.
+        /// </summary>
+        internal static string ValidationFailed {
+            get {
+                return ResourceManager.GetString("ValidationFailed", resourceCulture);
             }
         }
     }

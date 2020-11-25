@@ -120,10 +120,16 @@
   <data name="DataSavedSuccess" xml:space="preserve">
     <value>Data Successfully saved</value>
   </data>
+  <data name="DeleteConfirmMessage" xml:space="preserve">
+    <value>Are you sure you want to remove this record ?</value>
+  </data>
   <data name="ErrorOccured" xml:space="preserve">
     <value>Error occured</value>
   </data>
   <data name="ImageNotProvided" xml:space="preserve">
     <value>Image not provided</value>
+  </data>
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>Validation failed</value>
   </data>
 </root>

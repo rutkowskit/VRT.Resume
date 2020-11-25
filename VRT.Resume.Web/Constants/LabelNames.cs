@@ -23,7 +23,8 @@
         public const string ButonChangeImg = "ButonChangeImg";
         public const string ButtonAddNewEdu = "ButtonAddNewEdu";
         public const string ButtonAddNewExp = "ButtonAddNewExp";
-        public const string ButtonDelete = "ButtonDelete";
+        public const string ButtonAddSkill = "ButtonAddSkill";
+        public const string ButtonDelete = "ButtonDelete";        
 
         // other labels
         public const string BornOn = "BornOn";
@@ -36,5 +37,9 @@
         public const string ThesisTitle = "ThesisTitle";
         public const string Grade = "Grade";
         public const string Actions = "Actions";
+        public const string Yes = "Yes";
+        public const string No = "No";
+        public const string Success = "Success";
+        public const string Error = "Error";
     }
 }

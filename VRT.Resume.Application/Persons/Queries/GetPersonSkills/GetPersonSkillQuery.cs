@@ -9,16 +9,17 @@ using VRT.Resume.Persistence.Data;
 namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
 {
 
-    public sealed class GetPersonSkillListQuery : IRequest<Result<PersonSkillInListVM[]>>
+    public sealed class GetPersonSkillQuery : IRequest<Result<PersonSkillVM>>
     {
+        public int SkillId { get; set; }
         internal sealed class GetPersonSkillListQueryHandler : HandlerBase, 
-            IRequestHandler<GetPersonSkillListQuery, Result<PersonSkillInListVM[]>>
+            IRequestHandler<GetPersonSkillQuery, Result<PersonSkillVM>>
         { 
             public GetPersonSkillListQueryHandler(AppDbContext context, ICurrentUserService userService)
                 : base(context, userService)
             {                
             }
-            public async Task<Result<PersonSkillInListVM[]>> Handle(GetPersonSkillListQuery request, CancellationToken cancellationToken)
+            public async Task<Result<PersonSkillVM>> Handle(GetPersonSkillQuery request, CancellationToken cancellationToken)
             {
                 await Task.Yield();
                 return GetCurrentUserPersonId()
@@ -26,14 +27,15 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
                     {
                         var query = from per in Context.PersonSkill
                                     where per.PersonId == p
-                                    select new PersonSkillInListVM()
+                                    where per.SkillId == request.SkillId
+                                    select new PersonSkillVM()
                                     {
                                         SkillId = per.SkillId,
-                                        Type = per.SkillType.Name,
+                                        SkillTypeId = per.SkillTypeId,
                                         Name = per.Name,
                                         Level = per.Level                                        
                                     };
-                        return query.ToArray();
+                        return query.FirstOrDefault();
                     });                
             }
         }

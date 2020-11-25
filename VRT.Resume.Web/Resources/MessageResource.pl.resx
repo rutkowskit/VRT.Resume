@@ -117,16 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentCannotBeNull_Name" xml:space="preserve">
-    <value>Argument {0} can not be null</value>
+  <data name="DataSavedSuccess" xml:space="preserve">
+    <value>Dane zostały zapisane</value>
   </data>
-  <data name="PersonNotExists" xml:space="preserve">
-    <value>Person data not exists</value>
+  <data name="DeleteConfirmMessage" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć rekord ?</value>
   </data>
-  <data name="RecordNotFound" xml:space="preserve">
-    <value>Record not found</value>
+  <data name="ErrorOccured" xml:space="preserve">
+    <value>Wystąpił błąd</value>
   </data>
-  <data name="UserUnauthorized" xml:space="preserve">
-    <value>User is unauthorized</value>
+  <data name="ImageNotProvided" xml:space="preserve">
+    <value>Nie wskazano pliku graficznego</value>
+  </data>
+  <data name="ValidationFailed" xml:space="preserve">
+    <value>Walidacja nie powiodła się</value>
   </data>
 </root>

@@ -1,0 +1,18 @@
+﻿@model EditDeleteToolbarData
+
+<div class="profile-person-data">
+
+    @using (Html.BeginForm("Delete", Model.Controller, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <fieldset>
+            <legend>@Html.GetMessage(MsgNames.DeleteConfirmMessage)</legend>
+            <div class="form-group">
+                @Html.HiddenFor(m => m.EntityId)
+            </div>
+        </fieldset>
+        @Html.Partial("_OkCancelFieldset");        
+    }
+</div>
+

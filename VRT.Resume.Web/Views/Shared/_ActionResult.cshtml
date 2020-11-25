@@ -7,7 +7,7 @@
              style="min-height: 200px;position:fixed;bottom:-20px;left:20px">            
             <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
                 <div class="toast-header">
-                    <strong class="mr-auto text-danger">ERROR</strong>
+                    <strong class="mr-auto text-danger">@Html.GetLabel(LabelNames.Error)</strong>
                     <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -25,7 +25,7 @@
              style="min-height: 200px;position:fixed;bottom:-20px;left:20px">            
             <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true" data-delay="10000">
                 <div class="toast-header">
-                    <strong class="mr-auto text-success">Success</strong>
+                    <strong class="mr-auto text-success">@Html.GetLabel(LabelNames.Success)</strong>
                     <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
