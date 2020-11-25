@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using VRT.Resume.Application.Persons.Queries.GetPersonData;
 using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
 using VRT.Resume.Application.Persons.Queries.GetPersonSkills;
+using VRT.Resume.Application.Persons.Queries.GetPersonExperience;
 
 namespace VRT.Resume.Web.Controllers
 {
@@ -38,10 +39,11 @@ namespace VRT.Resume.Web.Controllers
 
         [HttpGet]        
         [Route(TabNames.WorkExp)]
-        public ActionResult WorkExpTab()
+        public async Task<ActionResult> WorkExpTab()
         {
             SetTabName(TabNames.WorkExp);
-            return View();
+            var result = await Mediator.Send(new GetPersonExperienceListQuery());
+            return ToActionResult(result);           
         }
 
         private void SetTabName(string tabName=null, [CallerMemberName] string memberName = "")

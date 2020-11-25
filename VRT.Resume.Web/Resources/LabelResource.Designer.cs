@@ -88,6 +88,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add work experience.
+        /// </summary>
+        public static string ButtonAddNewExp {
+            get {
+                return ResourceManager.GetString("ButtonAddNewExp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string ButtonCancel {

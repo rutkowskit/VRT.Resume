@@ -32,16 +32,7 @@
         <div class="card mr-2 mb-2">            
             <div class="card-body">
                 <span class="h6" >@m.Name (@(m.Level))</span>  
-                <div class="skill-toolbar">
-                    <a href="@Url.Action("Edit", "PersonSkills", new { id = m.SkillId })">
-                        <img src="@Url.Content("~/Content/img/btn-edit.svg")"
-                             alt="@editButtonLabel" title="@editButtonLabel" />
-                    </a>
-                    <a href="@Url.Action("Delete", "PersonSkills", new { id = m.SkillId })">
-                        <img src="@Url.Content("~/Content/img/btn-delete.svg")"
-                             alt="@deleteButtonLabel" title="@deleteButtonLabel" />
-                    </a>                    
-                </div>
+                @Html.Partial("_EditDeleteToolbar", new EditDeleteToolbarData("PersonSkills",m.SkillId))                
             </div>            
         </div>
     }

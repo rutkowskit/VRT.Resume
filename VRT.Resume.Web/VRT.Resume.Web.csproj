@@ -287,6 +287,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EditDeleteToolbarData.cs" />
     <Compile Include="Models\PersonDataViewModel.cs" />
     <Compile Include="Models\PersonEduViewModel.cs" />
     <Compile Include="Models\UserLoginViewModel.cs" />
@@ -365,6 +366,7 @@
     <Content Include="Views\Person\_TabsView.cshtml" />
     <Content Include="Views\PersonEdu\Edit.cshtml" />
     <Content Include="Views\Shared\_SaveCancelFieldset.cshtml" />
+    <Content Include="Views\Shared\_EditDeleteToolbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

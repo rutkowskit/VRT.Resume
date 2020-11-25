@@ -126,6 +126,9 @@
   <data name="ButtonAddNewEdu" xml:space="preserve">
     <value>Add new education record</value>
   </data>
+  <data name="ButtonAddNewExp" xml:space="preserve">
+    <value>Add work experience</value>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>

@@ -129,6 +129,9 @@
   <data name="ButtonAddNewEdu" xml:space="preserve">
     <value>Dodaj nowy wpis dotyczący edukacji</value>
   </data>
+  <data name="ButtonAddNewExp" xml:space="preserve">
+    <value>Dodaj doświadczenie zawodowe</value>
+  </data>
   <data name="ButtonCancel" xml:space="preserve">
     <value>Anuluj</value>
   </data>
