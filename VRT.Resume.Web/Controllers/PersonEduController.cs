@@ -1,46 +1,57 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Mvc;
+using AutoMapper;
+using CSharpFunctionalExtensions;
 using MediatR;
+using VRT.Resume.Application.Persons.Commands.DeletePersonEducation;
+using VRT.Resume.Application.Persons.Commands.UpsertPersonEducation;
+using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
 using VRT.Resume.Web.Models;
 
 namespace VRT.Resume.Web.Controllers
 {
     public sealed class PersonEduController : PersonEditControllerBase
     {
-        public PersonEduController(IMediator mediator) : base(mediator)
+        private readonly IMapper _mapper;
+
+        public PersonEduController(IMediator mediator, IMapper mapper) : base(mediator)
         {
+            _mapper = mapper;
         }
+        
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            //var result = await Mediator.Send(new GetPersonDataQuery())
-            //    .Map(r => new PersonDataViewModel(r));
-
-            //return ToActionResult(result);
-            await Task.Yield();
-            return View();
+            var query = new GetPersonEducationQuery(id);
+            var result = await Mediator.Send(query)
+                .Map(r => _mapper.Map<PersonEducationInListVM, PersonEducationViewModel>(r));
+            
+            return ToActionResult(result);            
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Save(PersonEduViewModel data)
+        public async Task<ActionResult> Save(UpsertPersonEducationCommand data)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return View("Edit");
-            //}
-            //var cmd = new UpsertPersonDataCommand()
-            //{
-            //    FirstName = data.FirstName,
-            //    LastName = data.LastName,
-            //    DateOfBirth = data.DateOfBirth
-            //};
-            //await Mediator.Send(cmd);
-            //TempData[TempDataKeys.TabName] = TabNames.Profile;
-            await Task.Yield();
+            var result = await Send(data);
+            if (result.IsFailure)
+            {
+                return View("Edit");
+            }            
             return ToProfileAfterSave(TabNames.Education);
         }
+
+        [HttpDelete]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(int entityId)
+        {
+            var result = await Send(new DeletePersonEducationCommand(entityId));
+            if (result.IsFailure)
+                return ToRequestReferer();
+            return ToProfileAfterSave(TabNames.Education);
+        }
+
         public override ActionResult Cancel() 
             => ToProfile(TabNames.Education);
     }

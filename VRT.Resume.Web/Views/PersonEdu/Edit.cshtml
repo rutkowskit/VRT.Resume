@@ -1,13 +1,4 @@
-﻿<b>Editable</b>
+﻿@model PersonEducationViewModel
 
-
-
-@using (Html.BeginForm("Save", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-    <fieldset class="border-bottom">
-        <!--TODO tu skonczylem-->
-    </fieldset>
-    @Html.Partial("_SaveCancelFieldset");
-}
+<legend>@Html.GetLabel(LabelNames.ButtonEditData) - @Html.GetLabel(LabelNames.ResumeEducation) </legend>
+@Html.Partial("_EduEditor")

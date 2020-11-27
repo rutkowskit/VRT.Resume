@@ -54,6 +54,9 @@
     <Reference Include="Autofac.Integration.Mvc, Version=6.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Mvc5.6.0.0\lib\net472\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="CSharpFunctionalExtensions, Version=2.12.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CSharpFunctionalExtensions.2.12.2\lib\net461\CSharpFunctionalExtensions.dll</HintPath>
     </Reference>
@@ -292,10 +295,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MappingProfiles\AutoMapperProfile.cs" />
     <Compile Include="Models\EditDeleteToolbarData.cs" />
     <Compile Include="Models\PersonDataViewModel.cs" />
+    <Compile Include="Models\PersonEducationViewModel.cs" />
     <Compile Include="Models\PersonSkillEditViewModel.cs" />
-    <Compile Include="Models\PersonEduViewModel.cs" />
     <Compile Include="Models\UserLoginViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\LabelResource.pl.Designer.cs">
@@ -383,6 +387,8 @@
     <Content Include="Views\PersonSkills\_SkillEditor.cshtml" />
     <Content Include="Views\Shared\ConfirmDelete.cshtml" />
     <Content Include="Views\Shared\_OkCancelFieldset.cshtml" />
+    <Content Include="Views\PersonEdu\_EduEditor.cshtml" />
+    <Content Include="Views\PersonEdu\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

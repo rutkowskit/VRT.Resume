@@ -13,6 +13,8 @@ namespace VRT.Resume.Web.Controllers
         protected PersonEditControllerBase(IMediator mediator) : base(mediator)
         {
         }
+        
+        public virtual ActionResult Add() => View();
 
         [HttpGet]
         public virtual ActionResult Cancel() => ToProfile();

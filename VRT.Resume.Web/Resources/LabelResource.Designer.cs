@@ -151,6 +151,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Degree.
+        /// </summary>
+        public static string Degree {
+            get {
+                return ResourceManager.GetString("Degree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Education.
         /// </summary>
         public static string EduTab {
@@ -169,6 +178,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Field.
+        /// </summary>
+        public static string Field {
+            get {
+                return ResourceManager.GetString("Field", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {
@@ -183,6 +201,15 @@ namespace VRT.Resume.Web.Resources {
         public static string FromDate {
             get {
                 return ResourceManager.GetString("FromDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grade.
+        /// </summary>
+        public static string Grade {
+            get {
+                return ResourceManager.GetString("Grade", resourceCulture);
             }
         }
         
@@ -327,6 +354,15 @@ namespace VRT.Resume.Web.Resources {
         public static string SkillsTab {
             get {
                 return ResourceManager.GetString("SkillsTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specialization.
+        /// </summary>
+        public static string Specialization {
+            get {
+                return ResourceManager.GetString("Specialization", resourceCulture);
             }
         }
         

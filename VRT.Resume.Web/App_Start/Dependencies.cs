@@ -2,13 +2,16 @@
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
+using AutoMapper;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Application.Common.Behaviours;
+using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
 using VRT.Resume.Persistence.Data;
+using VRT.Resume.Web.MappingProfiles;
 using VRT.Resume.Web.Services;
 
 namespace VRT.Resume.Web
@@ -20,6 +23,7 @@ namespace VRT.Resume.Web
             new ContainerBuilder()
                 .RegisterControllers()                       
                 .RegisterDbContext()
+                .RegisterMappings()
                 .RegisterMediator()
                 .RegisterMediatorPipelineBehaviours()
                 .RegisterCurrentUserService()
@@ -106,18 +110,34 @@ namespace VRT.Resume.Web
                     .AsClosedTypesOf(mediatrOpenType)                    
                     .AsImplementedInterfaces();
             }
-
+            
             // It appears Autofac returns the last registered types first
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestExceptionActionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestExceptionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(ValidationBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
-            //builder.RegisterGeneric(typeof(GenericRequestPreProcessor<>)).As(typeof(IRequestPreProcessor<>));
-            //builder.RegisterGeneric(typeof(GenericRequestPostProcessor<,>)).As(typeof(IRequestPostProcessor<,>));
-            //builder.RegisterGeneric(typeof(GenericPipelineBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            //builder.RegisterGeneric(typeof(ConstrainedRequestPostProcessor<,>)).As(typeof(IRequestPostProcessor<,>));
-            //builder.RegisterGeneric(typeof(ConstrainedPingedHandler<>)).As(typeof(INotificationHandler<>));                        
+            
+            return builder;
+        }
+
+        private static ContainerBuilder RegisterMappings(this ContainerBuilder builder)
+        {
+            builder.Register(context => new MapperConfiguration(cfg =>
+            {
+                //Register Mapper Profile
+                cfg.AddProfile<AutoMapperProfile>();
+            }
+            )).AsSelf().SingleInstance();
+
+            builder.Register(c =>
+            {                
+                var context = c.Resolve<IComponentContext>();
+                var config = context.Resolve<MapperConfiguration>();
+                return config.CreateMapper(context.Resolve);
+            })
+            .As<IMapper>()
+            .InstancePerLifetimeScope();
             return builder;
         }
 

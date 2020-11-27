@@ -1,8 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using VRT.Resume.Application.Common.Abstractions;
+using VRT.Resume.Application.Common.Services;
 using VRT.Resume.Domain;
 using VRT.Resume.Persistence.Data;
 
@@ -17,9 +19,20 @@ namespace VRT.Resume.Application
         where TCommand: IRequest<Result>
         where TDomainModel: class, new()
     {
-        protected UpsertHandlerBase(AppDbContext context, ICurrentUserService userService)
+        protected IDateTimeService DateService { get; }
+
+        protected UpsertHandlerBase(AppDbContext context,
+            ICurrentUserService userService)
+            : this (context, userService, new DateTimeService())
+        {            
+        }
+
+        protected UpsertHandlerBase(AppDbContext context, 
+            ICurrentUserService userService, 
+            IDateTimeService dateService)
             : base(context, userService)
         {
+            DateService = dateService;
         }
 
         public async Task<Result> Handle(TCommand request, CancellationToken cancellationToken)
@@ -42,6 +55,8 @@ namespace VRT.Resume.Application
                         person.PersonId = s;
                     return result;
                 });
-        }        
+        }    
+        //TODO: create date time service
+        protected DateTime GetCurrentDate()=> DateService.Now;        
     }
 }

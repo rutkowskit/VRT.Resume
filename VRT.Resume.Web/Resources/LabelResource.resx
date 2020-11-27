@@ -147,17 +147,26 @@
   <data name="DateOfBirth" xml:space="preserve">
     <value>Date of birth</value>
   </data>
+  <data name="Degree" xml:space="preserve">
+    <value>Degree</value>
+  </data>
   <data name="EduTab" xml:space="preserve">
     <value>Education</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Field" xml:space="preserve">
+    <value>Field</value>
+  </data>
   <data name="FirstName" xml:space="preserve">
     <value>First name</value>
   </data>
   <data name="FromDate" xml:space="preserve">
     <value>From</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Grade</value>
   </data>
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
@@ -206,6 +215,9 @@
   </data>
   <data name="SkillsTab" xml:space="preserve">
     <value>Skills</value>
+  </data>
+  <data name="Specialization" xml:space="preserve">
+    <value>Specialization</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>Success</value>

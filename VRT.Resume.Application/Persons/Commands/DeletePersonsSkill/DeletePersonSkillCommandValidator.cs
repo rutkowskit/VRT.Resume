@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace VRT.Resume.Application.Persons.Commands.DeletePersonsEntity
+namespace VRT.Resume.Application.Persons.Commands.DeletePersonsSkill
 {
     public sealed class DeletePersonSkillCommandValidator : AbstractValidator<DeletePersonSkillCommand>
     {

@@ -2,8 +2,9 @@
 
 <div class="profile-person-data">
 
-    @using (Html.BeginForm("Delete", Model.Controller, FormMethod.Post))
+    @using (Html.BeginForm("Delete", Model.Controller))
     {
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
         @Html.AntiForgeryToken()
 
         <fieldset>
@@ -12,7 +13,7 @@
                 @Html.HiddenFor(m => m.EntityId)
             </div>
         </fieldset>
-        @Html.Partial("_OkCancelFieldset");        
+        @Html.Partial("_OkCancelFieldset");
     }
 </div>
 

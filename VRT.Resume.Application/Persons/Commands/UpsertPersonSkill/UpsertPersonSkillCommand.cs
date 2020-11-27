@@ -21,9 +21,6 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonSkill
             {                
             }
 
-            protected override Result<PersonSkill> CreateNewData(UpsertPersonSkillCommand request)
-                => GetCurrentUserPersonId().Map(p => new PersonSkill() { PersonId = p });            
-
             protected override Result<PersonSkill> UpdateData(PersonSkill current, UpsertPersonSkillCommand request)
             {
                 current.Level = request.SkillLevel;

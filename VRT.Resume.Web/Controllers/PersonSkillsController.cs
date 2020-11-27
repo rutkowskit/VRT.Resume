@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using CSharpFunctionalExtensions;
 using MediatR;
-using VRT.Resume.Application.Persons.Commands.DeletePersonsEntity;
+using VRT.Resume.Application.Persons.Commands.DeletePersonsSkill;
 using VRT.Resume.Application.Persons.Commands.UpsertPersonSkill;
 using VRT.Resume.Application.Persons.Queries.GetPersonSkills;
 using VRT.Resume.Web.Models;
@@ -14,9 +14,7 @@ namespace VRT.Resume.Web.Controllers
         public PersonSkillsController(IMediator mediator) : base(mediator)
         {
         }
-
-        public ActionResult Add() => View();
-        
+                
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
@@ -36,7 +34,7 @@ namespace VRT.Resume.Web.Controllers
             return ToActionResult(result);            
         }
 
-        [HttpPost]
+        [HttpDelete]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int entityId)
         {            

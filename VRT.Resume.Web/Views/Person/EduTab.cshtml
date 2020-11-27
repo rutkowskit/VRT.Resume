@@ -1,11 +1,18 @@
 ﻿@using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
 @model PersonEducationInListVM[]
 
+
+@{ 
+    var eduList = Model == null
+        ? new PersonEducationInListVM[0]
+        : Model.OrderByDescending(o => o.FromDate).ThenByDescending(o => o.ToDate).ToArray();
+}
+
 <div class="text-right mt-3 d-flex justify-content-between  ">
-    <span class="h4 text-muted">Wykształcenie</span>
+    <span class="h4 text-muted">@Html.GetLabel(TabNames.Education)</span>
     <a class="btn btn-light btn-outline-secondary"
        title="@Html.GetLabel(LabelNames.ButtonAddNewEdu)"
-       href="@(Url.Action("Add", "PersonEducation"))">
+       href="@(Url.Action("Add", "PersonEdu"))">
         <span class="mr-auto">+</span>
     </a>
 </div>
@@ -36,10 +43,8 @@
                     <td>@m.Specialization</td>
                     <td>@m.ThesisTitle</td>
                     <td>@m.Grade</td>
-                    <td>
-                        <a class="nav-link text-nowrap" href="@Url.Action("Edit", "PersonEdu",new { id=m.EducationId })">
-                            @(Html.GetLabel(LabelNames.ButtonEditData))
-                        </a>                        
+                    <td class="text-nowrap">
+                        @Html.Partial("_EditDeleteToolbar", new EditDeleteToolbarData("PersonEdu", m.EducationId))                        
                     </td>
                 </tr>
             }
