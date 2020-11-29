@@ -1,13 +1,8 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Mvc;
-using CSharpFunctionalExtensions;
-using FluentValidation;
-using FluentValidation.Results;
+﻿using System.Web.Mvc;
 using MediatR;
 
 namespace VRT.Resume.Web.Controllers
-{    
+{
     public abstract class PersonEditControllerBase : ControllerBase
     {
         protected PersonEditControllerBase(IMediator mediator) : base(mediator)
@@ -36,54 +31,6 @@ namespace VRT.Resume.Web.Controllers
         {            
             TempData[TempDataKeys.TabName] = selectedTab;
             return RedirectToActionPermanent("Index", "Person");
-        }
-
-
-        protected async Task<Result<TModel>> Send<TRequest, TModel>(TRequest request)
-            where TRequest : IRequest<Result<TModel>>
-        {
-            try
-            {
-                var result=await Mediator.Send(request);
-                if (result.IsSuccess)
-                    return result.Value;
-                return Result.Failure<TModel>(result.Error);
-            }
-            catch (ValidationException vex)
-            {
-                SetModelStateErrors(vex);
-                return Result.Failure<TModel>(Resources.MessageResource.ValidationFailed);
-            }
-        }
-
-        protected async Task<Result> Send<TRequest>(TRequest request)
-            where TRequest : IRequest<Result>
-        {
-            try
-            {
-                var result = await Mediator.Send(request);
-                SetResult(result);
-                return result.IsSuccess
-                    ? result
-                    : Result.Failure(result.Error);                
-            }
-            catch (ValidationException vex)
-            {
-                SetModelStateErrors(vex);
-                SetError(Resources.MessageResource.ValidationFailed);
-                return Result.Failure(Resources.MessageResource.ValidationFailed);
-            }
-        }
-        
-        private void SetModelStateErrors(ValidationException vex )
-        {
-            var errors = vex?.Errors?.ToArray() ?? new ValidationFailure[0];
-            if (errors.Length == 0)
-                return;
-            foreach (var err in errors)
-            {
-                ModelState.AddModelError(err.PropertyName, err.ErrorMessage);
-            }
-        }
+        }        
     }
 }

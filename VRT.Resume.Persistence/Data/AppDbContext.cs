@@ -20,6 +20,7 @@ namespace VRT.Resume.Persistence.Data
         public virtual DbSet<Degree> Degree { get; set; }
         public virtual DbSet<EducationField> EducationField { get; set; }
         public virtual DbSet<Person> Person { get; set; }
+        public virtual DbSet<PersonContact> PersonContact { get; set; }
         public virtual DbSet<PersonEducation> PersonEducation { get; set; }
         public virtual DbSet<PersonEmail> PersonEmail { get; set; }
         public virtual DbSet<PersonExperience> PersonExperience { get; set; }
@@ -28,7 +29,6 @@ namespace VRT.Resume.Persistence.Data
         public virtual DbSet<PersonImage> PersonImage { get; set; }
         public virtual DbSet<PersonResume> PersonResume { get; set; }
         public virtual DbSet<PersonSkill> PersonSkill { get; set; }
-        public virtual DbSet<ResumeContact> ResumeContact { get; set; }
         public virtual DbSet<ResumePersonSkill> ResumePersonSkill { get; set; }
         public virtual DbSet<School> School { get; set; }
         public virtual DbSet<SkillType> SkillType { get; set; }
@@ -39,6 +39,7 @@ namespace VRT.Resume.Persistence.Data
             modelBuilder.ApplyConfiguration(new DegreeConfiguration());
             modelBuilder.ApplyConfiguration(new EducationFieldConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonContactConfiguration());
             modelBuilder.ApplyConfiguration(new PersonEducationConfiguration());
             modelBuilder.ApplyConfiguration(new PersonEmailConfiguration());
             modelBuilder.ApplyConfiguration(new PersonExperienceConfiguration());
@@ -47,7 +48,6 @@ namespace VRT.Resume.Persistence.Data
             modelBuilder.ApplyConfiguration(new PersonImageConfiguration());
             modelBuilder.ApplyConfiguration(new PersonResumeConfiguration());
             modelBuilder.ApplyConfiguration(new PersonSkillConfiguration());
-            modelBuilder.ApplyConfiguration(new ResumeContactConfiguration());
             modelBuilder.ApplyConfiguration(new ResumePersonSkillConfiguration());
             modelBuilder.ApplyConfiguration(new SchoolConfiguration());
             modelBuilder.ApplyConfiguration(new SkillTypeConfiguration());

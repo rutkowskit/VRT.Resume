@@ -19,6 +19,12 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Person resume data");
 
+            entity.Property(e => e.Description)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasDefaultValueSql("(N'Resume')")
+                .HasComment("Description of the resume (e.g. .net develper to asseco)");
+
             entity.Property(e => e.ModifiedDate)
                 .HasColumnType("datetime")
                 .HasComment("Last modification date and time");

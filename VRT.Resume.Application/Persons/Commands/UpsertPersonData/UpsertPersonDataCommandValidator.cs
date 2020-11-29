@@ -2,7 +2,8 @@
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonData
 {
-    public sealed class UpsertPersonDataCommandValidator : AbstractValidator<UpsertPersonDataCommand>
+    public sealed class 
+        UpsertPersonDataCommandValidator : AbstractValidator<UpsertPersonDataCommand>
     {
         public UpsertPersonDataCommandValidator()
         {

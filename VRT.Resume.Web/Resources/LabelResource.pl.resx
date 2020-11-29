@@ -120,6 +120,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Operacje</value>
   </data>
+  <data name="AddNewEntry" xml:space="preserve">
+    <value>Dodaj nowy wpis</value>
+  </data>
   <data name="BornOn" xml:space="preserve">
     <value>Data urodzenia</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="ButtonAddNewExp" xml:space="preserve">
     <value>Dodaj doświadczenie zawodowe</value>
+  </data>
+  <data name="ButtonAddResume" xml:space="preserve">
+    <value>Dodaj życiorys</value>
   </data>
   <data name="ButtonAddSkill" xml:space="preserve">
     <value>Dodaj umiejętność</value>
@@ -147,11 +153,26 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Zapisz</value>
   </data>
+  <data name="ButtonShow" xml:space="preserve">
+    <value>Pokaż</value>
+  </data>
+  <data name="DataProcessingPermission" xml:space="preserve">
+    <value>Zgoda na przetwarzanie danych</value>
+  </data>
   <data name="DateOfBirth" xml:space="preserve">
     <value>Data urodzenia</value>
   </data>
   <data name="Degree" xml:space="preserve">
     <value>Tytuł</value>
+  </data>
+  <data name="DeleteEntry" xml:space="preserve">
+    <value>Skasuj wpis</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Opis</value>
+  </data>
+  <data name="EditEntry" xml:space="preserve">
+    <value>Edytuj wpis</value>
   </data>
   <data name="EduTab" xml:space="preserve">
     <value>Edukacja</value>
@@ -171,6 +192,9 @@
   <data name="Grade" xml:space="preserve">
     <value>Ocena</value>
   </data>
+  <data name="LastModification" xml:space="preserve">
+    <value>Ostatnia modyfikacja</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Nazwisko</value>
   </data>
@@ -188,6 +212,9 @@
   </data>
   <data name="PageResume" xml:space="preserve">
     <value>Życiorys</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Pozycja</value>
   </data>
   <data name="ProfileTab" xml:space="preserve">
     <value>Profil</value>
@@ -216,6 +243,9 @@
   <data name="SchoolName" xml:space="preserve">
     <value>Nazwa uczelni</value>
   </data>
+  <data name="ShowProfilePhoto" xml:space="preserve">
+    <value>Pokazuj zdjęcie</value>
+  </data>
   <data name="SkillsTab" xml:space="preserve">
     <value>Umiejętności</value>
   </data>
@@ -224,6 +254,9 @@
   </data>
   <data name="Success" xml:space="preserve">
     <value>Sukces</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Podsumowanie</value>
   </data>
   <data name="ThesisTitle" xml:space="preserve">
     <value>Tytuł pracy dyplomowej</value>

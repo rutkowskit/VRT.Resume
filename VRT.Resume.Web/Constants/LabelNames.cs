@@ -24,7 +24,14 @@
         public const string ButtonAddNewEdu = "ButtonAddNewEdu";
         public const string ButtonAddNewExp = "ButtonAddNewExp";
         public const string ButtonAddSkill = "ButtonAddSkill";
-        public const string ButtonDelete = "ButtonDelete";        
+        public const string ButtonDelete = "ButtonDelete";
+        public const string ButtonAddResume = "ButtonAddResume";
+        public const string ButtonShow = "ButtonShow";
+
+        //crud labels
+        public const string AddNewEntry = "AddNewEntry";
+        public const string DeleteEntry = "DeleteEntry";
+        public const string EditEntry = "EditEntry";
 
         // other labels
         public const string BornOn = "BornOn";
@@ -41,5 +48,14 @@
         public const string No = "No";
         public const string Success = "Success";
         public const string Error = "Error";
+        public const string Position = "Position";
+        public const string LastModification = "LastModification";
+
+        // labels for resume
+        public const string Summary = "Summary";
+        public const string ShowProfilePhoto = "ShowProfilePhoto";
+        public const string DataProcessingPermission = "DataProcessingPermission";
+        public const string Description = "Description";
+
     }
 }

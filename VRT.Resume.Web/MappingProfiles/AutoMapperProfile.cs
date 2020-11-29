@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using System.Web.Mvc;
 using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
-using VRT.Resume.Domain.Entities;
+using VRT.Resume.Application.Resumes.Queries.GetResume;
 using VRT.Resume.Web.Models;
 
 namespace VRT.Resume.Web.MappingProfiles
@@ -10,7 +9,8 @@ namespace VRT.Resume.Web.MappingProfiles
     {
         public AutoMapperProfile()
         {
-            CreateMap<PersonEducationInListVM, PersonEducationViewModel>();            
+            CreateMap<PersonEducationInListVM, PersonEducationViewModel>();
+            CreateMap<ResumeVM, PersonResumeViewModel>();
         }
     }
 }

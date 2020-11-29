@@ -9,17 +9,16 @@ using VRT.Resume.Domain.Entities;
 
 namespace VRT.Resume.Persistence.Data
 {
-    public class ResumeContactConfiguration : IEntityTypeConfiguration<ResumeContact>
+    public class PersonContactConfiguration : IEntityTypeConfiguration<PersonContact>
     {
-        public void Configure(EntityTypeBuilder<ResumeContact> entity)
+        public void Configure(EntityTypeBuilder<PersonContact> entity)
         {
-            entity.HasKey(e => new { e.ContactId, e.ResumeId });
+            entity.HasKey(e => e.ContactId)
+                .HasName("PK_Person_Contact");
 
-            entity.ToTable("ResumeContact", "Resumes");
+            entity.ToTable("PersonContact", "Persons");
 
-            entity.HasComment("Table of contacts connected with resume");
-
-            entity.Property(e => e.ContactId).ValueGeneratedOnAdd();
+            entity.HasComment("Table of contacts connected with person");
 
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
 
@@ -31,11 +30,11 @@ namespace VRT.Resume.Persistence.Data
 
             entity.Property(e => e.Value).IsRequired();
 
-            entity.HasOne(d => d.Resume)
-                .WithMany(p => p.ResumeContact)
-                .HasForeignKey(d => d.ResumeId)
+            entity.HasOne(d => d.Person)
+                .WithMany(p => p.PersonContact)
+                .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ResumeContact_Resume");
+                .HasConstraintName("FK_PersonContact_Person");
         }
     }
 }

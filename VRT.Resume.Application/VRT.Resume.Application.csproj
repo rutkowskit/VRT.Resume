@@ -31,8 +31,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Resumes\Commands\" />
-  </ItemGroup>
-
 </Project>

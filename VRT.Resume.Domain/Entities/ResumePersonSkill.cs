@@ -18,6 +18,10 @@ namespace VRT.Resume.Domain.Entities
         /// The flag indicates wheter the skill is significant for potencial employer
         /// </summary>
         public bool IsRelevant { get; set; }
+        /// <summary>
+        /// The flag indicates wheter the skill should be hidden in profile skills section (main)
+        /// </summary>
+        public bool IsHidden { get; set; }
 
         public virtual PersonResume Resume { get; set; }
         public virtual PersonSkill Skill { get; set; }

@@ -37,7 +37,8 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeList
                             {
                                 ResumeId = rd.ResumeId,
                                 Position = rd.Position,
-                                ModifiedDate = rd.ModifiedDate
+                                ModifiedDate = rd.ModifiedDate,
+                                Description = rd.Description
                             };
 
                 return query.ToList();

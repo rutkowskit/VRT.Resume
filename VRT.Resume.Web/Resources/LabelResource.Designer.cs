@@ -61,6 +61,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new entry.
+        /// </summary>
+        public static string AddNewEntry {
+            get {
+                return ResourceManager.GetString("AddNewEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Born on.
         /// </summary>
         public static string BornOn {
@@ -93,6 +102,15 @@ namespace VRT.Resume.Web.Resources {
         public static string ButtonAddNewExp {
             get {
                 return ResourceManager.GetString("ButtonAddNewExp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add resume.
+        /// </summary>
+        public static string ButtonAddResume {
+            get {
+                return ResourceManager.GetString("ButtonAddResume", resourceCulture);
             }
         }
         
@@ -142,6 +160,24 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show.
+        /// </summary>
+        public static string ButtonShow {
+            get {
+                return ResourceManager.GetString("ButtonShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data processing permission.
+        /// </summary>
+        public static string DataProcessingPermission {
+            get {
+                return ResourceManager.GetString("DataProcessingPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date of birth.
         /// </summary>
         public static string DateOfBirth {
@@ -156,6 +192,33 @@ namespace VRT.Resume.Web.Resources {
         public static string Degree {
             get {
                 return ResourceManager.GetString("Degree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete entry.
+        /// </summary>
+        public static string DeleteEntry {
+            get {
+                return ResourceManager.GetString("DeleteEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit entry.
+        /// </summary>
+        public static string EditEntry {
+            get {
+                return ResourceManager.GetString("EditEntry", resourceCulture);
             }
         }
         
@@ -214,6 +277,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Last modification.
+        /// </summary>
+        public static string LastModification {
+            get {
+                return ResourceManager.GetString("LastModification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
         public static string LastName {
@@ -264,6 +336,15 @@ namespace VRT.Resume.Web.Resources {
         public static string PageResume {
             get {
                 return ResourceManager.GetString("PageResume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position.
+        /// </summary>
+        public static string Position {
+            get {
+                return ResourceManager.GetString("Position", resourceCulture);
             }
         }
         
@@ -349,6 +430,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show photo.
+        /// </summary>
+        public static string ShowProfilePhoto {
+            get {
+                return ResourceManager.GetString("ShowProfilePhoto", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skills.
         /// </summary>
         public static string SkillsTab {
@@ -372,6 +462,15 @@ namespace VRT.Resume.Web.Resources {
         public static string Success {
             get {
                 return ResourceManager.GetString("Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary.
+        /// </summary>
+        public static string Summary {
+            get {
+                return ResourceManager.GetString("Summary", resourceCulture);
             }
         }
         

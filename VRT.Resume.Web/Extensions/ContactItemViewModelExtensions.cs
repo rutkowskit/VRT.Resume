@@ -16,14 +16,17 @@ namespace VRT.Resume.Web
         public static IHtmlString GetValueHtmlString(this ContactItemDto contact)
         {
             if (contact == null) return null;
-            switch(contact.Type)
+            var type = !string.IsNullOrWhiteSpace(contact.Url)
+                ? ContactItemTypes.Link
+                : ContactItemTypes.PlainText;
+            switch (type)
             {
                 case ContactItemTypes.PlainText:
                     return new HtmlString($"<span>{contact.Value}</span>");
                 case ContactItemTypes.Link:
                     return new HtmlString($"<a href=\"{contact.Url}\" target=\"_blank\">{contact.Value}</a>");
                 default:
-                    return new HtmlString($"Unknown contact type: {contact.Type.ToString()}");             
+                    return new HtmlString($"Unknown contact type: {type.ToString()}");             
             }            
         }
     }

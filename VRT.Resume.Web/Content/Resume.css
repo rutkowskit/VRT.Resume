@@ -73,8 +73,9 @@
         height: 1.5em;
     }
 
-    .resume-contact-item a, span {
-        word-break:break-all;
+    .resume-contact-item a,
+    .resume-contact-item span {
+        word-break: break-all;
     }
 
 .resume-language-list {
@@ -137,8 +138,6 @@
     border-left: 1.5px solid black;
 }
 
-
-
 .resume-work-resp {
     margin-left: 1.3em;
     margin-top: 0.5em;
@@ -146,14 +145,15 @@
 
     .resume-work-resp li {
         margin-bottom: 0.3em;
-        list-style-type: disc;
-    }
+        list-style-type: disc;        
+    }        
 
 .resume-rodo {
     font-size: 0.7rem;
     text-align: justify;
     justify-self: end;
     position: relative;
+    min-width:100%;
 }
 
 

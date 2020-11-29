@@ -268,6 +268,9 @@
     <Compile Include="Constants\TempDataKeys.cs" />
     <Compile Include="Constants\TabNames.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ControllerBase.Mediator.cs" />
+    <Compile Include="Controllers\ControllerBase.Redirect.cs" />
+    <Compile Include="Controllers\ControllerBase.Culture.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
@@ -298,6 +301,7 @@
     <Compile Include="MappingProfiles\AutoMapperProfile.cs" />
     <Compile Include="Models\EditDeleteToolbarData.cs" />
     <Compile Include="Models\PersonDataViewModel.cs" />
+    <Compile Include="Models\PersonResumeViewModel.cs" />
     <Compile Include="Models\PersonEducationViewModel.cs" />
     <Compile Include="Models\PersonSkillEditViewModel.cs" />
     <Compile Include="Models\UserLoginViewModel.cs" />
@@ -327,6 +331,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\img\btn-avatar.svg" />
     <Content Include="Content\img\btn-edit.svg" />
     <Content Include="Content\img\btn-delete.svg" />
     <Content Include="Content\img\resume.png" />
@@ -359,7 +364,7 @@
     <Content Include="Views\Shared\_MenuBar.cshtml" />
     <Content Include="Scripts\README.md" />
     <Content Include="Views\Resumes\_ContactList.cshtml" />
-    <Content Include="Views\Resumes\Index.cshtml" />
+    <Content Include="Views\Resumes\Show.cshtml" />
     <Content Include="Views\Resumes\_Profile.cshtml" />
     <Content Include="Views\Resumes\_Education.cshtml" />
     <Content Include="Views\Resumes\_TechnicalSkills.cshtml" />
@@ -389,6 +394,10 @@
     <Content Include="Views\Shared\_OkCancelFieldset.cshtml" />
     <Content Include="Views\PersonEdu\_EduEditor.cshtml" />
     <Content Include="Views\PersonEdu\Add.cshtml" />
+    <Content Include="Views\Resumes\Add.cshtml" />
+    <Content Include="Views\Resumes\_ResumeEditor.cshtml" />
+    <Content Include="Views\Resumes\Edit.cshtml" />
+    <Content Include="Views\Shared\_AddToolbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -11,7 +11,6 @@ namespace VRT.Resume.Domain.Entities
     {
         public PersonResume()
         {
-            ResumeContact = new HashSet<ResumeContact>();
             ResumePersonSkill = new HashSet<ResumePersonSkill>();
         }
 
@@ -40,9 +39,12 @@ namespace VRT.Resume.Domain.Entities
         /// Last modification date and time
         /// </summary>
         public DateTime ModifiedDate { get; set; }
+        /// <summary>
+        /// Description of the resume (e.g. .net develper to asseco)
+        /// </summary>
+        public string Description { get; set; }
 
         public virtual Person Person { get; set; }
-        public virtual ICollection<ResumeContact> ResumeContact { get; set; }
         public virtual ICollection<ResumePersonSkill> ResumePersonSkill { get; set; }
     }
 }

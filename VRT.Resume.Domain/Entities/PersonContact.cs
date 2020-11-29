@@ -5,18 +5,18 @@ using System.Collections.Generic;
 namespace VRT.Resume.Domain.Entities
 {
     /// <summary>
-    /// Table of contacts connected with resume
+    /// Table of contacts connected with person
     /// </summary>
-    public partial class ResumeContact
+    public partial class PersonContact
     {
         public int ContactId { get; set; }
-        public int ResumeId { get; set; }
+        public int PersonId { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
         public string Icon { get; set; }
         public string Url { get; set; }
         public DateTime ModifiedDate { get; set; }
 
-        public virtual PersonResume Resume { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

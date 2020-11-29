@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddNewEntry" xml:space="preserve">
+    <value>Add new entry</value>
+  </data>
   <data name="BornOn" xml:space="preserve">
     <value>Born on</value>
   </data>
@@ -128,6 +131,9 @@
   </data>
   <data name="ButtonAddNewExp" xml:space="preserve">
     <value>Add work experience</value>
+  </data>
+  <data name="ButtonAddResume" xml:space="preserve">
+    <value>Add resume</value>
   </data>
   <data name="ButtonAddSkill" xml:space="preserve">
     <value>Add skill</value>
@@ -144,11 +150,26 @@
   <data name="ButtonSave" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="ButtonShow" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="DataProcessingPermission" xml:space="preserve">
+    <value>Data processing permission</value>
+  </data>
   <data name="DateOfBirth" xml:space="preserve">
     <value>Date of birth</value>
   </data>
   <data name="Degree" xml:space="preserve">
     <value>Degree</value>
+  </data>
+  <data name="DeleteEntry" xml:space="preserve">
+    <value>Delete entry</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="EditEntry" xml:space="preserve">
+    <value>Edit entry</value>
   </data>
   <data name="EduTab" xml:space="preserve">
     <value>Education</value>
@@ -168,6 +189,9 @@
   <data name="Grade" xml:space="preserve">
     <value>Grade</value>
   </data>
+  <data name="LastModification" xml:space="preserve">
+    <value>Last modification</value>
+  </data>
   <data name="LastName" xml:space="preserve">
     <value>Last name</value>
   </data>
@@ -185,6 +209,9 @@
   </data>
   <data name="PageResume" xml:space="preserve">
     <value>Resume</value>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>Position</value>
   </data>
   <data name="ProfileTab" xml:space="preserve">
     <value>Profile</value>
@@ -213,6 +240,9 @@
   <data name="SchoolName" xml:space="preserve">
     <value>School name</value>
   </data>
+  <data name="ShowProfilePhoto" xml:space="preserve">
+    <value>Show photo</value>
+  </data>
   <data name="SkillsTab" xml:space="preserve">
     <value>Skills</value>
   </data>
@@ -221,6 +251,9 @@
   </data>
   <data name="Success" xml:space="preserve">
     <value>Success</value>
+  </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary</value>
   </data>
   <data name="ThesisTitle" xml:space="preserve">
     <value>Thesis title</value>

@@ -8,14 +8,8 @@
         : Model.OrderByDescending(o => o.FromDate).ThenByDescending(o => o.ToDate).ToArray();
 }
 
-<div class="text-right mt-3 d-flex justify-content-between  ">
-    <span class="h4 text-muted">@Html.GetLabel(TabNames.Education)</span>
-    <a class="btn btn-light btn-outline-secondary"
-       title="@Html.GetLabel(LabelNames.ButtonAddNewEdu)"
-       href="@(Url.Action("Add", "PersonEdu"))">
-        <span class="mr-auto">+</span>
-    </a>
-</div>
+@Html.Partial("_AddToolbar", new EditDeleteToolbarData("PersonEdu",0,TabNames.Education))
+
 <div class="table-responsive">    
     <table class="table mt-0">        
         <thead>

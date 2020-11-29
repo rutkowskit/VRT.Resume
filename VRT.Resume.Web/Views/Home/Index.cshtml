@@ -5,28 +5,33 @@
         ? Model.ToArray()
         : new ResumeInListVM[0];
 
-    <legend>Your resumes</legend>
+    @Html.Partial("_AddToolbar", new EditDeleteToolbarData("Resumes",0,LabelNames.PageResume))
+    
     <table class="table">
         <thead>
             <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Position</th>
-                <th scope="col">Last Modifed</th>
-                <th scope="col">Actions</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Description)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Position)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.LastModification)</th>
+                <th scope="col">@Html.GetLabel(LabelNames.Actions)</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var resume in resumes)
             {
                 <tr>
-                    <th>@resume.ResumeId</th>
+                    <td>@resume.Description</td>
                     <td>@resume.Position</td>
-                    <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>                    
-                    <td>                        
-                        @Html.ActionLink("Show","/","Resumes", new { id = resume.ResumeId }, new { })                        
+                    <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td class="skill-toolbar">
+                        <a href="@Url.Action("Show", "Resumes", new { id = resume.ResumeId })">
+                            <img src="@Url.Content("~/Content/img/btn-avatar.svg")"
+                                 alt="@(Html.GetLabel(LabelNames.ButtonShow))" title="@(Html.GetLabel(LabelNames.ButtonShow))" />
+                        </a>                                                
+                        @Html.Partial("_EditDeleteToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
                     </td>
                 </tr>
-            }            
+            }
         </tbody>
     </table>
 }
