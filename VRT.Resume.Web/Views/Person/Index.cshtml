@@ -6,6 +6,7 @@
         TabNames.Education,
         TabNames.Skills,
         TabNames.WorkExp,
+        TabNames.Contact
     };
 }
 
@@ -17,8 +18,7 @@
         function selectTab(tabId) {
             if (!tabId) {
                 return;
-            }
-            console.log(tabId);
+            }            
             $(".tab-pane").each(function () {
                 $(this).empty();
             });

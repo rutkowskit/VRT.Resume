@@ -275,6 +275,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\PersonEditControllerBase.cs" />
+    <Compile Include="Controllers\PersonContactsController.cs" />
     <Compile Include="Controllers\PersonSkillsController.cs" />
     <Compile Include="Controllers\PersonEduController.cs" />
     <Compile Include="Controllers\PersonImageController.cs" />
@@ -300,6 +301,7 @@
     </Compile>
     <Compile Include="MappingProfiles\AutoMapperProfile.cs" />
     <Compile Include="Models\EditDeleteToolbarData.cs" />
+    <Compile Include="Models\PersonContactViewModel.cs" />
     <Compile Include="Models\PersonDataViewModel.cs" />
     <Compile Include="Models\PersonResumeViewModel.cs" />
     <Compile Include="Models\PersonEducationViewModel.cs" />
@@ -398,6 +400,10 @@
     <Content Include="Views\Resumes\_ResumeEditor.cshtml" />
     <Content Include="Views\Resumes\Edit.cshtml" />
     <Content Include="Views\Shared\_AddToolbar.cshtml" />
+    <Content Include="Views\Person\ContactTab.cshtml" />
+    <Content Include="Views\PersonContacts\Edit.cshtml" />
+    <Content Include="Views\PersonContacts\_ContactEditor.cshtml" />
+    <Content Include="Views\PersonContacts\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

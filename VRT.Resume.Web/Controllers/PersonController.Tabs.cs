@@ -5,6 +5,7 @@ using VRT.Resume.Application.Persons.Queries.GetPersonData;
 using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
 using VRT.Resume.Application.Persons.Queries.GetPersonSkills;
 using VRT.Resume.Application.Persons.Queries.GetPersonExperience;
+using VRT.Resume.Application.Persons.Queries.GetPersonContacts;
 
 namespace VRT.Resume.Web.Controllers
 {
@@ -44,6 +45,15 @@ namespace VRT.Resume.Web.Controllers
             SetTabName(TabNames.WorkExp);
             var result = await Mediator.Send(new GetPersonExperienceListQuery());
             return ToActionResult(result);           
+        }
+
+        [HttpGet]
+        [Route(TabNames.Contact)]
+        public async Task<ActionResult> ContactTab()
+        {
+            SetTabName(TabNames.Contact);
+            var result = await Mediator.Send(new GetPersonContactListQuery());
+            return ToActionResult(result);
         }
 
         private void SetTabName(string tabName=null, [CallerMemberName] string memberName = "")

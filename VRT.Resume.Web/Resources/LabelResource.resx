@@ -153,6 +153,9 @@
   <data name="ButtonShow" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="ContactTab" xml:space="preserve">
+    <value>Contact</value>
+  </data>
   <data name="DataProcessingPermission" xml:space="preserve">
     <value>Data processing permission</value>
   </data>
@@ -188,6 +191,9 @@
   </data>
   <data name="Grade" xml:space="preserve">
     <value>Grade</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icon</value>
   </data>
   <data name="LastModification" xml:space="preserve">
     <value>Last modification</value>
@@ -263,6 +269,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
   </data>
   <data name="WorkExpTab" xml:space="preserve">
     <value>Work Experience</value>

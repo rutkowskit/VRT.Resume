@@ -156,6 +156,9 @@
   <data name="ButtonShow" xml:space="preserve">
     <value>Pokaż</value>
   </data>
+  <data name="ContactTab" xml:space="preserve">
+    <value>Kontakt</value>
+  </data>
   <data name="DataProcessingPermission" xml:space="preserve">
     <value>Zgoda na przetwarzanie danych</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="Grade" xml:space="preserve">
     <value>Ocena</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Ikona</value>
   </data>
   <data name="LastModification" xml:space="preserve">
     <value>Ostatnia modyfikacja</value>
@@ -266,6 +272,9 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Typ</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Wartość</value>
   </data>
   <data name="WorkExpTab" xml:space="preserve">
     <value>Doświadczenie</value>

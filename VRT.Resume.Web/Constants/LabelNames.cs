@@ -34,22 +34,26 @@
         public const string EditEntry = "EditEntry";
 
         // other labels
-        public const string BornOn = "BornOn";
-        public const string SchoolName = "SchoolName";
-        public const string Field = "Field";
-        public const string Degree = "Degree";
-        public const string FromDate = "FromDate";
-        public const string ToDate = "ToDate";
-        public const string Specialization = "Specialization";
-        public const string ThesisTitle = "ThesisTitle";
-        public const string Grade = "Grade";
         public const string Actions = "Actions";
-        public const string Yes = "Yes";
-        public const string No = "No";
-        public const string Success = "Success";
+        public const string BornOn = "BornOn";        
+        public const string Degree = "Degree";
         public const string Error = "Error";
-        public const string Position = "Position";
+        public const string Field = "Field";        
+        public const string FromDate = "FromDate";
+        public const string Grade = "Grade";
+        public const string Icon = "Icon";
         public const string LastModification = "LastModification";
+        public const string Name = "Name";
+        public const string No = "No";        
+        public const string Position = "Position";
+        public const string ToDate = "ToDate";
+        public const string SchoolName = "SchoolName";
+        public const string Specialization = "Specialization";
+        public const string Success = "Success";
+        public const string ThesisTitle = "ThesisTitle";                
+        public const string Value = "Value";        
+        public const string Yes = "Yes";
+
 
         // labels for resume
         public const string Summary = "Summary";

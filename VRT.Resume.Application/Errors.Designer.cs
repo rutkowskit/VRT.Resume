@@ -22,7 +22,7 @@ namespace VRT.Resume.Application {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Errors {
+    public class Errors {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace VRT.Resume.Application {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("VRT.Resume.Application.Errors", typeof(Errors).Assembly);
@@ -51,7 +51,7 @@ namespace VRT.Resume.Application {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace VRT.Resume.Application {
         /// <summary>
         ///   Looks up a localized string similar to Argument {0} can not be null.
         /// </summary>
-        internal static string ArgumentCannotBeNull_Name {
+        public static string ArgumentCannotBeNull_Name {
             get {
                 return ResourceManager.GetString("ArgumentCannotBeNull_Name", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace VRT.Resume.Application {
         /// <summary>
         ///   Looks up a localized string similar to Person data not exists.
         /// </summary>
-        internal static string PersonNotExists {
+        public static string PersonNotExists {
             get {
                 return ResourceManager.GetString("PersonNotExists", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace VRT.Resume.Application {
         /// <summary>
         ///   Looks up a localized string similar to Record not found.
         /// </summary>
-        internal static string RecordNotFound {
+        public static string RecordNotFound {
             get {
                 return ResourceManager.GetString("RecordNotFound", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace VRT.Resume.Application {
         /// <summary>
         ///   Looks up a localized string similar to User is unauthorized.
         /// </summary>
-        internal static string UserUnauthorized {
+        public static string UserUnauthorized {
             get {
                 return ResourceManager.GetString("UserUnauthorized", resourceCulture);
             }
