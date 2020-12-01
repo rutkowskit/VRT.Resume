@@ -23,7 +23,7 @@ namespace VRT.Resume.Application
 
         protected UpsertHandlerBase(AppDbContext context,
             ICurrentUserService userService)
-            : this (context, userService, new DateTimeService())
+            : this(context, userService, new DateTimeService())
         {            
         }
 
@@ -32,7 +32,7 @@ namespace VRT.Resume.Application
             IDateTimeService dateService)
             : base(context, userService)
         {
-            DateService = dateService;
+            DateService = dateService ?? throw new ArgumentNullException(nameof(dateService));
         }
 
         public async Task<Result> Handle(TCommand request, CancellationToken cancellationToken)
@@ -55,8 +55,7 @@ namespace VRT.Resume.Application
                         person.PersonId = s;
                     return result;
                 });
-        }    
-        //TODO: create date time service
+        }            
         protected DateTime GetCurrentDate()=> DateService.Now;        
     }
 }

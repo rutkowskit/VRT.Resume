@@ -4,11 +4,10 @@ using FluentValidation;
 using Autofac;
 using VRT.Resume.Persistence.Data;
 using VRT.Resume.Domain.Entities;
-using System.Linq;
 
-namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume.Tests
+namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
 {
-    public class UpsertPersonResumeCommandTests : ApplicationTestBase
+    public class UpsertPersonResumeCommandTests : ApplicationTestBase<UpsertPersonResumeCommand>
     {      
         [Fact()]
         public async Task Send_CommandWithoutDescription_ShouldThrowValidationError()
@@ -25,23 +24,6 @@ namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume.Tests
             sut.Position = null;
             
             await Assert.ThrowsAsync<ValidationException>(() => Send(sut));
-        }
-
-        [Fact()]
-        public async Task Send_CommandWhenUserDoesNotExistsInDb_ShouldFailWithUnauthorizedMessage()
-        {
-            var sut = CreateSut();
-
-            var result = await Send(sut, onBeforeSend: scope=> 
-            {
-                var db = scope.Resolve<AppDbContext>();
-                db.UserPerson.RemoveRange(db.UserPerson);
-                db.Person.RemoveRange(db.Person);                
-                db.SaveChanges();                
-            });
-
-            Assert.True(result.IsFailure, nameof(result.IsFailure));
-            Assert.Equal(Errors.UserUnauthorized, result.Error);
         }
 
         [Fact()]
@@ -82,11 +64,11 @@ namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume.Tests
             Assert.True(result.IsSuccess, result.GetErrorSafe());
         }
 
-        private UpsertPersonResumeCommand CreateSut(int resumeId=1)
+        protected override UpsertPersonResumeCommand CreateSut()
         {
             return new UpsertPersonResumeCommand()
             {
-                ResumeId = resumeId,
+                ResumeId = 1,
                 Description = "Description",
                 Position = "Position",
                 DataProcessingPermission = "DataProcessingPermission",

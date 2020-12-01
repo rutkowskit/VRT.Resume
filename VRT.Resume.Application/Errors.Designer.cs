@@ -70,6 +70,15 @@ namespace VRT.Resume.Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Image not found.
+        /// </summary>
+        public static string ImageNotFound {
+            get {
+                return ResourceManager.GetString("ImageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Person data not exists.
         /// </summary>
         public static string PersonNotExists {
@@ -84,6 +93,15 @@ namespace VRT.Resume.Application {
         public static string RecordNotFound {
             get {
                 return ResourceManager.GetString("RecordNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provided image is not supported.
+        /// </summary>
+        public static string UnsupportedImage {
+            get {
+                return ResourceManager.GetString("UnsupportedImage", resourceCulture);
             }
         }
         

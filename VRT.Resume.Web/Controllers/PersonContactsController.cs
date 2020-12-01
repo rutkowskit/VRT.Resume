@@ -9,6 +9,7 @@ using VRT.Resume.Web.Models;
 
 namespace VRT.Resume.Web.Controllers
 {
+    [ValidateInput(false)]
     public sealed class PersonContactsController : PersonEditControllerBase
     {
         public PersonContactsController(IMediator mediator) : base(mediator)
@@ -46,7 +47,7 @@ namespace VRT.Resume.Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]        
         public async Task<ActionResult> Save(UpsertPersonContactCommand data)
         {            
             var result = await Send(data);

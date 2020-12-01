@@ -16,8 +16,9 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonSkill
 
         internal  sealed class UpsertPersonDataCommandHandler : UpsertHandlerBase<UpsertPersonSkillCommand, PersonSkill>            
         {
-            public UpsertPersonDataCommandHandler(AppDbContext context, ICurrentUserService userService)
-                : base(context, userService)
+            public UpsertPersonDataCommandHandler(AppDbContext context, 
+                ICurrentUserService userService, IDateTimeService dateTimeService)
+                : base(context, userService, dateTimeService)
             {                
             }
 
@@ -39,7 +40,7 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonSkill
                                     where p.SkillId == request.SkillId
                                     select p;
                         var result = query.FirstOrDefault();
-                        return result ?? Result.Failure<PersonSkill>("Current data not exists");                        
+                        return result ?? Result.Failure<PersonSkill>(Errors.RecordNotFound);                        
                     });                
             }
         }

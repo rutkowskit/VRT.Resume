@@ -67,7 +67,8 @@
     display: inline-block;
 }
 
-    .resume-contact-item svg {
+    .resume-contact-item svg,
+    .resume-contact-item img {
         margin-right: 5px;
         width: 1.5em;
         height: 1.5em;

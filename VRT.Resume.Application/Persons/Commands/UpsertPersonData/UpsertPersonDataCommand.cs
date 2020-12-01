@@ -17,8 +17,9 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonData
         internal sealed class UpsertPersonDataCommandHandler : UpsertHandlerBase<UpsertPersonDataCommand, Person>
             
         {
-            public UpsertPersonDataCommandHandler(AppDbContext context, ICurrentUserService userService)
-                : base(context, userService)
+            public UpsertPersonDataCommandHandler(AppDbContext context, 
+                ICurrentUserService userService, IDateTimeService dateTimeService)
+                : base(context, userService, dateTimeService)
             {                
             }
 
@@ -29,7 +30,7 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonData
                 current.DateOfBirth = request.DateOfBirth;
                 if (current.HasChanges(Context))
                 {
-                    current.ModifiedDate = DateTime.Now; //TODO: create date service
+                    current.ModifiedDate = GetCurrentDate();
                 }
                 return current;
             }

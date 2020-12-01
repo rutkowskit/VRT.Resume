@@ -14,7 +14,8 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertProfileImage
 
         internal sealed class UpsertProfileImageCommandHandler : UpsertHandlerBase<UpsertProfileImageCommand, PersonImage>        
         {
-            public UpsertProfileImageCommandHandler(AppDbContext context, ICurrentUserService userService)
+            public UpsertProfileImageCommandHandler(AppDbContext context, 
+                ICurrentUserService userService)
                 : base(context, userService)
             {                
             }
@@ -35,7 +36,7 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertProfileImage
                                    where img.PersonId == m
                                    select img;
                        var result = query.FirstOrDefault();
-                       return result ?? Result.Failure<PersonImage>("Image not found");
+                       return result ?? Result.Failure<PersonImage>(Errors.ImageNotFound);
                    });
             }
         }

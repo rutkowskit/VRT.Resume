@@ -26,8 +26,9 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonEducation
         internal sealed class UpsertPersonEducationCommandHandler : UpsertHandlerBase<UpsertPersonEducationCommand, PersonEducation>
             
         {
-            public UpsertPersonEducationCommandHandler(AppDbContext context, ICurrentUserService userService)
-                : base(context, userService)
+            public UpsertPersonEducationCommandHandler(AppDbContext context, 
+                ICurrentUserService userService,IDateTimeService dateTimeService)
+                : base(context, userService, dateTimeService)
             {                
             }
 

@@ -8,7 +8,7 @@ using VRT.Resume.Persistence.Data;
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
 {
     public sealed class UpsertPersonContactCommand : IRequest<Result>
-    {
+    {        
         public int ContactId { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
@@ -17,15 +17,15 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
 
         internal  sealed class UpsertPersonDataCommandHandler : UpsertHandlerBase<UpsertPersonContactCommand, PersonContact>            
         {
-            public UpsertPersonDataCommandHandler(AppDbContext context, ICurrentUserService userService)
-                : base(context, userService)
+            public UpsertPersonDataCommandHandler(AppDbContext context, 
+                ICurrentUserService userService, IDateTimeService dateTimeService)
+                : base(context, userService, dateTimeService)
             {                
             }
-
             protected override Result<PersonContact> UpdateData(PersonContact current, UpsertPersonContactCommand request)
             {                
                 current.Name = request.Name;
-                current.Icon = request.Icon;
+                current.Icon = request.Icon.ToSafeImage();
                 current.Value = request.Value;
                 current.Url = request.Url;
                 if(current.HasChanges(Context))

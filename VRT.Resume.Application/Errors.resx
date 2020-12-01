@@ -120,11 +120,17 @@
   <data name="ArgumentCannotBeNull_Name" xml:space="preserve">
     <value>Argument {0} can not be null</value>
   </data>
+  <data name="ImageNotFound" xml:space="preserve">
+    <value>Image not found</value>
+  </data>
   <data name="PersonNotExists" xml:space="preserve">
     <value>Person data not exists</value>
   </data>
   <data name="RecordNotFound" xml:space="preserve">
     <value>Record not found</value>
+  </data>
+  <data name="UnsupportedImage" xml:space="preserve">
+    <value>Provided image is not supported</value>
   </data>
   <data name="UserUnauthorized" xml:space="preserve">
     <value>User is unauthorized</value>
