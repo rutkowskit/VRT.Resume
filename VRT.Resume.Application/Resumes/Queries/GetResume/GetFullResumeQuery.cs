@@ -75,7 +75,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                                     Name = ds.Skill.Name,
                                     Type = (SkillTypes)ds.Skill.SkillTypeId,
                                     Level = ds.Skill.Level,
-                                    IsRelevant = true
+                                    IsRelevent = true
                                 }).ToArray()
                             }).ToArray()
                     });
@@ -90,7 +90,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                             where pk.PersonId == personId
                             select new SkillDto()
                             {
-                                IsRelevant = x.IsRelevant,
+                                IsRelevent = x.IsRelevent,
                                 IsHidden = x.IsHidden,
                                 Name = pk.Name,
                                 Level = pk.Level,

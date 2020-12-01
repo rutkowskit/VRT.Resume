@@ -24,7 +24,7 @@
                     <td>@resume.Position</td>
                     <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
                     <td class="skill-toolbar">
-                        <a href="@Url.Action("Show", "Resumes", new { id = resume.ResumeId })">
+                        <a href="@Url.Action("/", "Resumes", new { id = resume.ResumeId })">
                             <img src="@Url.Content("~/Content/img/btn-avatar.svg")"
                                  alt="@(Html.GetLabel(LabelNames.ButtonShow))" title="@(Html.GetLabel(LabelNames.ButtonShow))" />
                         </a>                                                

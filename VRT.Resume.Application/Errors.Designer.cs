@@ -97,6 +97,15 @@ namespace VRT.Resume.Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resume not found.
+        /// </summary>
+        public static string ResumeNotFound {
+            get {
+                return ResourceManager.GetString("ResumeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Provided image is not supported.
         /// </summary>
         public static string UnsupportedImage {

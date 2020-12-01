@@ -282,6 +282,7 @@
     <Compile Include="Controllers\PersonDataController.cs" />
     <Compile Include="Controllers\PersonController.Tabs.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\ResumeSkillsController.cs" />
     <Compile Include="Controllers\ResumesController.cs" />
     <Compile Include="Filters\AllowPartialRenderingAttribute.cs" />
     <Compile Include="Extensions\ContactItemViewModelExtensions.cs" />
@@ -404,6 +405,7 @@
     <Content Include="Views\PersonContacts\Edit.cshtml" />
     <Content Include="Views\PersonContacts\_ContactEditor.cshtml" />
     <Content Include="Views\PersonContacts\Add.cshtml" />
+    <Content Include="Views\ResumeSkills\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

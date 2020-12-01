@@ -41,12 +41,15 @@
         public const string Field = "Field";        
         public const string FromDate = "FromDate";
         public const string Grade = "Grade";
+        public const string Hidden = "Hidden";
         public const string Icon = "Icon";
         public const string LastModification = "LastModification";
         public const string Name = "Name";
         public const string No = "No";        
         public const string Position = "Position";
+        public const string Relevent = "Relevent";        
         public const string ToDate = "ToDate";
+        public const string Type = "Type";
         public const string SchoolName = "SchoolName";
         public const string Specialization = "Specialization";
         public const string Success = "Success";

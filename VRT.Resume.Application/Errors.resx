@@ -129,6 +129,9 @@
   <data name="RecordNotFound" xml:space="preserve">
     <value>Record not found</value>
   </data>
+  <data name="ResumeNotFound" xml:space="preserve">
+    <value>Resume not found</value>
+  </data>
   <data name="UnsupportedImage" xml:space="preserve">
     <value>Provided image is not supported</value>
   </data>

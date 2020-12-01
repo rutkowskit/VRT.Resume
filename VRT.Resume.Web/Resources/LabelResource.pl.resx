@@ -195,6 +195,9 @@
   <data name="Grade" xml:space="preserve">
     <value>Ocena</value>
   </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Ukryty</value>
+  </data>
   <data name="Icon" xml:space="preserve">
     <value>Ikona</value>
   </data>
@@ -224,6 +227,9 @@
   </data>
   <data name="ProfileTab" xml:space="preserve">
     <value>Profil</value>
+  </data>
+  <data name="Relevent" xml:space="preserve">
+    <value>Istotny</value>
   </data>
   <data name="ResumeContact" xml:space="preserve">
     <value>Kontakt</value>

@@ -1,5 +1,7 @@
 ﻿using System.Web;
+using System.Web.Mvc;
 using System.Web.Mvc.Html;
+using System.Web.Routing;
 
 namespace VRT.Resume.Web
 {
@@ -12,18 +14,18 @@ namespace VRT.Resume.Web
                 ? html.Partial(tabName).ToHtmlString()
                 : null;
             var activeClass = render == null ? "" : "active";
-            var htmlText = $"<div class=\"tab-pane {activeClass}\" id=\"{tabName}\">{render}</div>";            
+            var htmlText = $"<div class=\"tab-pane {activeClass}\" id=\"{tabName}\">{render}</div>";
             return new HtmlString(htmlText);
         }
 
         public static IHtmlString GetLabel(this System.Web.Mvc.HtmlHelper html,
-           string resourceKey, string defaultValue=null)
+           string resourceKey, string defaultValue = null)
         {
-            var value = Resources.LabelResource.ResourceManager.GetString(resourceKey) 
+            var value = Resources.LabelResource.ResourceManager.GetString(resourceKey)
                 ?? defaultValue;
             if (string.IsNullOrWhiteSpace(value))
-                value = resourceKey;  
-            
+                value = resourceKey;
+
             return new HtmlString(value);
         }
 
