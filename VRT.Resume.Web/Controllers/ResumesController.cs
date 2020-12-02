@@ -39,8 +39,9 @@ namespace VRT.Resume.Web.Controllers
 
         [HttpGet]
         [Route("Edit/{id:int}")]
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int id, string returnUrl="")
         {
+            TempData[TempDataKeys.ReturnUrl] = returnUrl;
             var query = new GetResumeQuery()
             {
                 ResumeId = id
@@ -60,7 +61,7 @@ namespace VRT.Resume.Web.Controllers
             {
                 return View(nameof(Edit));
             }
-            return ToHome(); 
+            return ToReturnUrl() ?? ToHome(); 
         }
 
         [HttpGet]
@@ -80,10 +81,10 @@ namespace VRT.Resume.Web.Controllers
             var result = await Send(new DeletePersonResumeCommand(entityId));
             if (result.IsFailure)
                 return ToRequestReferer();
-            return ToHome();
+            return ToReturnUrl() ?? ToHome();
         }
         [HttpGet]
         [Route(nameof(Cancel))]
-        public ActionResult Cancel() => ToHome();
+        public ActionResult Cancel() => ToReturnUrl() ?? ToHome();
     }
 }

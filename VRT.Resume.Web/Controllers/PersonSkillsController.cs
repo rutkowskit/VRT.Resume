@@ -16,8 +16,10 @@ namespace VRT.Resume.Web.Controllers
         }
                 
         [HttpGet]
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int id, string returnUrl = "")
         {
+            TempData[TempDataKeys.ReturnUrl] = returnUrl;
+
             var query = new GetPersonSkillQuery()
             {
                 SkillId = id

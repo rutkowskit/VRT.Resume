@@ -22,6 +22,11 @@ body {
     height: 64px;
 }
 
+.nav-icon {
+    width: 24px;
+    height:24px;    
+}
+
 #navbarContent ul {
     display: flex;
     margin: 10px;

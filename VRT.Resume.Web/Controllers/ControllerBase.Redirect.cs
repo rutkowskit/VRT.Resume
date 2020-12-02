@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace VRT.Resume.Web.Controllers
 {
-    // Partial for handling current thread culture
+    // Partial for handling redirections
     partial class ControllerBase
     {
         protected ActionResult ToActionResult<T>(Result<T> result)
@@ -17,6 +17,14 @@ namespace VRT.Resume.Web.Controllers
         protected ActionResult ToRequestReferer()
         {
             return new RedirectResult(Request.UrlReferrer.AbsoluteUri);
+        }
+
+        protected ActionResult ToReturnUrl()
+        {
+            var url = TempData[TempDataKeys.ReturnUrl]?.ToString();                
+            return string.IsNullOrWhiteSpace(url)
+                ? null
+                : new RedirectResult(url);
         }
 
         protected ActionResult ToHome()

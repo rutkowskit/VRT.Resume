@@ -20,14 +20,14 @@
             @foreach (var resume in resumes)
             {
                 <tr>
-                    <td>@resume.Description</td>
+                    <td>
+                        <a class="nav-link no-padding" href="@Url.Action("/", "Resumes", new { id = resume.ResumeId })">
+                            @resume.Description
+                        </a>                        
+                    </td>
                     <td>@resume.Position</td>
                     <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                    <td class="skill-toolbar">
-                        <a href="@Url.Action("/", "Resumes", new { id = resume.ResumeId })">
-                            <img src="@Url.Content("~/Content/img/btn-avatar.svg")"
-                                 alt="@(Html.GetLabel(LabelNames.ButtonShow))" title="@(Html.GetLabel(LabelNames.ButtonShow))" />
-                        </a>                                                
+                    <td class="text-nowrap">                        
                         @Html.Partial("_EditDeleteToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
                     </td>
                 </tr>

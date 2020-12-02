@@ -5,33 +5,51 @@
     <div class="jumbotron">
         No resume data provided
     </div>
-    return;
+    return;    
 }
-<a href="@(Url.Action("/", "ResumeSkills", new { id = Model.ResumeId }))">Edit skills</a>
+@{ 
+    var navActionData = new
+    {
+        id = Model.ResumeId,
+        returnUrl = this.Request.AppRelativeCurrentExecutionFilePath
+    };
+}
 
 <div class="container">
+    <nav class="nav border rounded mt-3">
+        <a class="nav-link mr-3 nav-icon" href="#" onclick="window.print();return false;">
+            <img class="nav-icon" title="Print" src="@Url.Content("~/Content/img/printer.svg")" alt="Print" />
+        </a>
+        <a class="nav-link" href="@(Url.Action("Edit", "Resumes", navActionData))">            
+            <span>@Html.GetLabel(LabelNames.EditEntry)</span>
+        </a>
+        <a class="nav-link" href="@(Url.Action("/", "ResumeSkills", navActionData))">            
+            <span>@Html.GetLabel(TabNames.Skills)</span>
+        </a>
+    </nav> 
+    
     <div class="resume page-a4">
         <div class="resume-container">
             <div class="resume-left-panel">
                 <div class="resume-profile card bg-white border-light">
-                    @{  Html.RenderPartial("_Profile", Model); }
+                    @{ Html.RenderPartial("_Profile", Model); }
                 </div>
                 <div class="card bg-white border-light">
                     <div class="card-body">
                         <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeContact)</h5>
-                        @{ Html.RenderPartial("_ContactList", Model.Contact); }                                             
+                        @{ Html.RenderPartial("_ContactList", Model.Contact); }
                     </div>
                 </div>
                 <div class="card bg-white border-light">
                     <div class="card-body">
                         <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeTechSkills)</h5>
-                        @{ Html.RenderPartial("_TechnicalSkills", Model.Skills); }                        
+                        @{ Html.RenderPartial("_TechnicalSkills", Model.Skills); }
                     </div>
                 </div>
                 <div class="card bg-white border-light">
                     <div class="card-body">
                         <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeSoftSkills)</h5>
-                        @{ Html.RenderPartial("_SoftSkills", Model.Skills); }                        
+                        @{ Html.RenderPartial("_SoftSkills", Model.Skills); }
                     </div>
                 </div>
                 <div class="card bg-white border-light">
@@ -52,19 +70,19 @@
                 </div>
                 <div class="resume-experience card bg-white border-light">
                     <div class="card-body">
-                        <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeWorkExp)</h5>                        
+                        <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeWorkExp)</h5>
                         @{ Html.RenderPartial("_WorkExperience", Model.WorkExperience); }
                     </div>
                 </div>
                 <div class="resume-education card bg-white border-light">
                     <div class="card-body">
                         <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeEducation)</h5>
-                        @{ Html.RenderPartial("_Education",Model.Education); }
+                        @{ Html.RenderPartial("_Education", Model.Education); }
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="resume-rodo">
-                @Model.Permission                
+                @Model.Permission
             </div>
         </div>
     </div>
