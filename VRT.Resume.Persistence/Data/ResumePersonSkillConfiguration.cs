@@ -30,7 +30,6 @@ namespace VRT.Resume.Persistence.Data
             entity.HasOne(d => d.Resume)
                 .WithMany(p => p.ResumePersonSkill)
                 .HasForeignKey(d => d.ResumeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ResumePersonSkill_Resume");
 
             entity.HasOne(d => d.Skill)

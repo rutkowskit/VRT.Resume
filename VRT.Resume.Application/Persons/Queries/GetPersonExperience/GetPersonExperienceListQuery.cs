@@ -38,7 +38,8 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperience
                                             .Select(s => new PersonExperienceDutyInListDto()
                                             {
                                                 DutyId = s.DutyId,
-                                                Name = s.Name
+                                                Name = s.Name,
+                                                Skills = s.PersonExperienceDutySkill.Select(d=>d.Skill.Name)
                                             })
                                     };
                         return query.ToArray();

@@ -6,10 +6,10 @@ using AutoMapper;
 using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using VRT.Resume.Application;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Application.Common.Behaviours;
-using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
 using VRT.Resume.Persistence.Data;
 using VRT.Resume.Web.MappingProfiles;
 using VRT.Resume.Web.Services;
@@ -21,6 +21,7 @@ namespace VRT.Resume.Web
         public static void Register()
         {
             new ContainerBuilder()
+                .RegisterLogger()
                 .RegisterControllers()                       
                 .RegisterDbContext()
                 .RegisterMappings()
@@ -33,6 +34,14 @@ namespace VRT.Resume.Web
                 .SetDependencyResolver();             
         }
 
+        private static ContainerBuilder RegisterLogger(this ContainerBuilder builder)
+        {            
+            builder.RegisterType<LoggingService>()
+                .As<ILogger>()
+                .SingleInstance();
+            return builder;
+        }
+
         private static ContainerBuilder RegisterControllers(this ContainerBuilder builder)
         {
             builder.RegisterControllers(typeof(Dependencies).Assembly);
@@ -43,8 +52,16 @@ namespace VRT.Resume.Web
         {
             builder.Register(ctx =>
             {
+                var loggerFactory = LoggerFactory.Create(builder =>
+                {
+                    builder.AddFilter((category, level) =>
+                        category == DbLoggerCategory.Database.Command.Name
+                        && level == LogLevel.Information);                    
+                });
+
                 var opt = new DbContextOptionsBuilder<AppDbContext>()
-                    .UseSqlServer(@"Data Source=.\sql2; Initial Catalog=ResumeData; Integrated Security=True;MultipleActiveResultSets=true;");
+                    .UseSqlServer(@"Data Source=.\sql2; Initial Catalog=ResumeData; Integrated Security=True;MultipleActiveResultSets=true;")                    
+                    .UseLoggerFactory(loggerFactory);
                 return opt.Options;
             }).SingleInstance();
 

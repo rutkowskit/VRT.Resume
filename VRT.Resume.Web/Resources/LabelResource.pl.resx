@@ -156,6 +156,9 @@
   <data name="ButtonShow" xml:space="preserve">
     <value>Pokaż</value>
   </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>Nazwa firmy</value>
+  </data>
   <data name="ContactTab" xml:space="preserve">
     <value>Kontakt</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="Description" xml:space="preserve">
     <value>Opis</value>
+  </data>
+  <data name="Duties" xml:space="preserve">
+    <value>Obowiązki</value>
   </data>
   <data name="EditEntry" xml:space="preserve">
     <value>Edytuj wpis</value>
@@ -209,6 +215,9 @@
   </data>
   <data name="Level" xml:space="preserve">
     <value>Poziom</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Lokalizacja</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nazwa</value>

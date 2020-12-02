@@ -70,11 +70,29 @@ namespace VRT.Resume.Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Chronology error. Check dates..
+        /// </summary>
+        public static string ChronologyError {
+            get {
+                return ResourceManager.GetString("ChronologyError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image not found.
         /// </summary>
         public static string ImageNotFound {
             get {
                 return ResourceManager.GetString("ImageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Person experience not found.
+        /// </summary>
+        public static string PersonExperienceNotExists {
+            get {
+                return ResourceManager.GetString("PersonExperienceNotExists", resourceCulture);
             }
         }
         

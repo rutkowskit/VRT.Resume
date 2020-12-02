@@ -1,7 +1,5 @@
 ﻿using CSharpFunctionalExtensions;
 using MediatR;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,20 +8,9 @@ using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Application.Persons.Queries.GetPersonExperience
 {
-    public sealed class PersonExperienceVM
-    {
-        public int ExperienceId { get; internal set; }
-        public string Position { get; internal set; }
-        public string CompanyName { get; internal set; }
-        public string Location { get; internal set; }
-        public DateTime FromDate { get; internal set; }
-        public DateTime? ToDate { get; internal set; }
-        public IEnumerable<PersonExperienceDutyInListDto> Duties { get; set; }
-    }
-
     public sealed class GetPersonExperienceQuery : IRequest<Result<PersonExperienceVM>>
     {
-        
+        public int ExperienceId { get; set; }
         internal sealed class GetPersonExperienceQueryHandler : HandlerBase, 
             IRequestHandler<GetPersonExperienceQuery, Result<PersonExperienceVM>>
         { 
@@ -39,6 +26,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperience
                     {
                         var query = from per in Context.PersonExperience
                                     where per.PersonId == p
+                                    where per.ExperienceId == request.ExperienceId
                                     select new PersonExperienceVM()
                                     {
                                         ExperienceId = per.ExperienceId,
@@ -46,13 +34,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperience
                                         FromDate = per.FromDate,
                                         ToDate = per.ToDate,
                                         Location = per.Location,
-                                        Position = per.Position,
-                                        Duties = per.PersonExperienceDuty
-                                            .Select(s => new PersonExperienceDutyInListDto()
-                                            {
-                                                DutyId = s.DutyId,
-                                                Name = s.Name
-                                            })
+                                        Position = per.Position                                        
                                     };
                         return query.FirstOrDefault();
                     });                

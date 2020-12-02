@@ -148,7 +148,7 @@ body {
 }
 .skill-toolbar:before {
     content: "";    
-    margin-left:15px;
+    margin-left:6px;
 }
 .skill-toolbar a {
     border: 0;

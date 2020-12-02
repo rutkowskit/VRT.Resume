@@ -35,7 +35,7 @@
 
         // other labels
         public const string Actions = "Actions";
-        public const string BornOn = "BornOn";        
+        public const string BornOn = "BornOn";            
         public const string Degree = "Degree";
         public const string Error = "Error";
         public const string Field = "Field";        
@@ -57,12 +57,14 @@
         public const string Value = "Value";        
         public const string Yes = "Yes";
 
-
         // labels for resume
+        public const string CompanyName = "CompanyName";
+        public const string Duties = "Duties";
+        public const string Skills = "SkillsTab";
         public const string Summary = "Summary";
         public const string ShowProfilePhoto = "ShowProfilePhoto";
         public const string DataProcessingPermission = "DataProcessingPermission";
         public const string Description = "Description";
-
+        public const string Location = "Location";
     }
 }
