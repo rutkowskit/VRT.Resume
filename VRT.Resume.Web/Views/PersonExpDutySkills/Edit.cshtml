@@ -1,0 +1,48 @@
+﻿@using VRT.Resume.Application.Persons.Queries.GetPersonExperienceDutySkillList
+@model PersonExpDutySkillListVM
+
+@if (Model == null || Model.DutySkills == null || Model.DutySkills.Length == 0)
+{
+    <b>No data</b>
+    return;
+}
+
+@using (Html.BeginForm("Save", null, FormMethod.Post))
+{
+    var skills = Model;
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(m => skills.DutyId)
+    <div class="mb-4 border-bottom" style="height:70vh; overflow:auto">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.GetLabel(LabelNames.Name)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.Type)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.Relevent)</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < skills.DutySkills.Length; i++)
+                {
+                    var skill = skills.DutySkills[i];
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(m => skills.DutySkills[i].SkillId)
+                            @skill.Name
+                        </td>
+                        <td>
+                            @skill.Type
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => skills.DutySkills[i].IsRelevent)
+                        </td>                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @Html.Partial("_SaveCancelFieldset")    
+
+}

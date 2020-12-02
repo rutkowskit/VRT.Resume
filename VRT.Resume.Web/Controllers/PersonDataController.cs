@@ -38,7 +38,7 @@ namespace VRT.Resume.Web.Controllers
                 DateOfBirth = data.DateOfBirth
             };
             await Mediator.Send(cmd);            
-            return ToProfileAfterSave();            
+            return ToProfile();            
         }             
     }
 }

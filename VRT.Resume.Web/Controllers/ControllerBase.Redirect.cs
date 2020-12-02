@@ -31,5 +31,10 @@ namespace VRT.Resume.Web.Controllers
         {
             return Redirect("~/");
         }
+        protected ActionResult ToProfile(string selectedTab = TabNames.Profile)
+        {
+            TempData[TempDataKeys.TabName] = selectedTab;
+            return RedirectToActionPermanent("Index", "Person");
+        }
     }
 }

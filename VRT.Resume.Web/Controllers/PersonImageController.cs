@@ -34,7 +34,7 @@ namespace VRT.Resume.Web.Controllers
                 ImageType = file.ContentType
             };
             await Mediator.Send(cmd);
-            return ToProfileAfterSave();            
+            return ToProfile();            
         }             
     }
 }

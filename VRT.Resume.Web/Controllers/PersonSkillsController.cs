@@ -43,7 +43,7 @@ namespace VRT.Resume.Web.Controllers
             var result = await Send(new DeletePersonSkillCommand(entityId));
             if (result.IsFailure)
                 return ToRequestReferer();
-            return ToProfileAfterSave(TabNames.Skills);            
+            return ToProfile(TabNames.Skills);            
         }
 
         [HttpPost]
@@ -54,7 +54,7 @@ namespace VRT.Resume.Web.Controllers
             
             if(result.IsFailure)
                 return View("Edit");            
-            return ToProfileAfterSave(TabNames.Skills);
+            return ToProfile(TabNames.Skills);
         }
         public override ActionResult Cancel() 
             => ToProfile(TabNames.Skills);

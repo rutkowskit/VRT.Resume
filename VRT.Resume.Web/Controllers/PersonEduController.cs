@@ -39,7 +39,7 @@ namespace VRT.Resume.Web.Controllers
             {
                 return View("Edit");
             }            
-            return ToProfileAfterSave(TabNames.Education);
+            return ToProfile(TabNames.Education);
         }
 
         [HttpDelete]
@@ -49,7 +49,7 @@ namespace VRT.Resume.Web.Controllers
             var result = await Send(new DeletePersonEducationCommand(entityId));
             if (result.IsFailure)
                 return ToRequestReferer();
-            return ToProfileAfterSave(TabNames.Education);
+            return ToProfile(TabNames.Education);
         }
 
         public override ActionResult Cancel() 

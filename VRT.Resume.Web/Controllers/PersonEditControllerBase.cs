@@ -20,17 +20,6 @@ namespace VRT.Resume.Web.Controllers
             var ctrl= ControllerContext.RouteData.Values["controller"]?.ToString();
             var data = new Models.EditDeleteToolbarData(ctrl, id);
             return View("ConfirmDelete", data);
-        }
-
-        protected ActionResult ToProfile(string selectedTab=TabNames.Profile)
-        {
-            TempData[TempDataKeys.TabName] = selectedTab;            
-            return RedirectToActionPermanent("Index", "Person");
-        }
-        protected ActionResult ToProfileAfterSave(string selectedTab = TabNames.Profile)
-        {            
-            TempData[TempDataKeys.TabName] = selectedTab;
-            return RedirectToActionPermanent("Index", "Person");
-        }        
+        }                 
     }
 }

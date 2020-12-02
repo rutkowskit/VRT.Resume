@@ -43,7 +43,7 @@ namespace VRT.Resume.Web.Controllers
             var result = await Send(new DeletePersonContactCommand(entityId));
             if (result.IsFailure)
                 return ToRequestReferer();
-            return ToProfileAfterSave(TabNames.Contact);            
+            return ToProfile(TabNames.Contact);            
         }
 
         [HttpPost]
@@ -54,7 +54,7 @@ namespace VRT.Resume.Web.Controllers
             
             if(result.IsFailure)
                 return View("Edit");            
-            return ToProfileAfterSave(TabNames.Contact);
+            return ToProfile(TabNames.Contact);
         }
         public override ActionResult Cancel() 
             => ToProfile(TabNames.Contact);

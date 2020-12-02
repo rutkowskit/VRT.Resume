@@ -53,7 +53,7 @@ namespace VRT.Resume.Web.Controllers
             var result = await Send(new DeletePersonExperienceDutyCommand(entityId));
             if (result.IsFailure)
                 return ToRequestReferer();
-            return ToProfileAfterSave(TabNames.WorkExp);
+            return ToProfile(TabNames.WorkExp);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace VRT.Resume.Web.Controllers
 
             if (result.IsFailure)
                 return View(data.ExperienceId>0 ? nameof(Edit) : nameof(Add));
-            return ToProfileAfterSave(TabNames.WorkExp);
+            return ToProfile(TabNames.WorkExp);
         }
         public override ActionResult Cancel() => ToProfile(TabNames.WorkExp);
     }

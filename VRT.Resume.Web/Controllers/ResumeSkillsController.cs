@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using VRT.Resume.Application.Resumes.Commands.MergeResumeSkills;
