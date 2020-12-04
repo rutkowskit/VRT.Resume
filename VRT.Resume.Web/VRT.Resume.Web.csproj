@@ -303,6 +303,7 @@
     <Compile Include="Constants\LabelNames.cs" />
     <Compile Include="Constants\TempDataKeys.cs" />
     <Compile Include="Constants\TabNames.cs" />
+    <Compile Include="Controllers\CultureController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerBase.Mediator.cs" />
     <Compile Include="Controllers\ControllerBase.Redirect.cs" />
@@ -340,6 +341,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MappingProfiles\AutoMapperProfile.cs" />
+    <Compile Include="Models\CultureSettingsViewModel.cs" />
     <Compile Include="Models\EditDeleteToolbarData.cs" />
     <Compile Include="Models\PersonContactViewModel.cs" />
     <Compile Include="Models\PersonDataViewModel.cs" />
@@ -458,6 +460,8 @@
     <Content Include="Views\PersonExpDuty\Add.cshtml" />
     <Content Include="Views\PersonExpDuty\Edit.cshtml" />
     <Content Include="Views\PersonExpDutySkills\Edit.cshtml" />
+    <Content Include="Views\Culture\Change.cshtml" />
+    <Content Include="Views\Culture\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

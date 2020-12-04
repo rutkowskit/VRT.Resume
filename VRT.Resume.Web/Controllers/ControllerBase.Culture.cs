@@ -8,15 +8,22 @@ namespace VRT.Resume.Web.Controllers
     // Partial for handling current thread culture
     partial class ControllerBase
     {
+        protected const string CultureCookieKey = "culture";
         partial void SetupThreadCulture()
         {
-            var langCookie = Request?.Cookies["culture"];
-            var lang = langCookie == null
-                ? GetDefaultLanguage()
-                : langCookie.Value;
-
+            var lang = GetCurrentLanguage();
+            AddLanguageCookie(lang);
             SetThreadLanguage(lang);
         }
+
+        protected string GetCurrentLanguage()
+        {
+            var langCookie = Request?.Cookies[CultureCookieKey];
+            return langCookie == null
+                ? GetDefaultLanguage()
+                : langCookie.Value;
+        }
+
         private string GetDefaultLanguage()
         {
             var userLanguage = Request?.UserLanguages;
@@ -29,15 +36,14 @@ namespace VRT.Resume.Web.Controllers
                 : userLang;
         }
 
-        private void AddLanguageCookie(string language)
+        protected void AddLanguageCookie(string language)
         {
-            if (Response == null) return;            
-            var langCookie = new HttpCookie("culture", language)
+            if (Response == null) return;
+            var langCookie = new HttpCookie(CultureCookieKey, language)
             {
                 Expires = DateTime.Now.AddYears(1)
             };
             Response.Cookies.Add(langCookie);
-            
         }
 
         private void SetThreadLanguage(string language)

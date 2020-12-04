@@ -207,6 +207,9 @@
   <data name="Icon" xml:space="preserve">
     <value>Ikona</value>
   </data>
+  <data name="Language" xml:space="preserve">
+    <value>Język</value>
+  </data>
   <data name="LastModification" xml:space="preserve">
     <value>Ostatnia modyfikacja</value>
   </data>

@@ -6,5 +6,6 @@
         public const string SuccessMsg = "SuccessMessage";
         public const string ErrorMsg = "ErrorMessage";
         public const string ReturnUrl = "ReturnUrl";
+        public const string CultureKey = "CultureKey";
     }
 }

@@ -42,7 +42,8 @@
         public const string FromDate = "FromDate";
         public const string Grade = "Grade";
         public const string Hidden = "Hidden";
-        public const string Icon = "Icon";
+        public const string Icon = "Icon";        
+        public const string Language = "Language";
         public const string LastModification = "LastModification";
         public const string Name = "Name";
         public const string No = "No";        
