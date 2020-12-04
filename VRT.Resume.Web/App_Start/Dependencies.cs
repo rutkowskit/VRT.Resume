@@ -1,4 +1,7 @@
-﻿using System.Web;
+﻿using System;
+using System.Linq;
+using System.Configuration;
+using System.Web;
 using System.Web.Mvc;
 using Autofac;
 using Autofac.Integration.Mvc;
@@ -22,7 +25,7 @@ namespace VRT.Resume.Web
         {
             new ContainerBuilder()
                 .RegisterLogger()
-                .RegisterControllers()                       
+                .RegisterControllers()
                 .RegisterDbContext()
                 .RegisterMappings()
                 .RegisterMediator()
@@ -31,11 +34,12 @@ namespace VRT.Resume.Web
                 .RegisterServiceFactory()
                 .RegisterImplementadInterfaces()
                 .Build()
-                .SetDependencyResolver();             
+                .SetDependencyResolver()
+                .CreateDbIfNotExists();
         }
 
         private static ContainerBuilder RegisterLogger(this ContainerBuilder builder)
-        {            
+        {
             builder.RegisterType<LoggingService>()
                 .As<ILogger>()
                 .SingleInstance();
@@ -56,12 +60,12 @@ namespace VRT.Resume.Web
                 {
                     builder.AddFilter((category, level) =>
                         category == DbLoggerCategory.Database.Command.Name
-                        && level == LogLevel.Information);                    
+                        && level == LogLevel.Information);
                 });
-
+                var conString = ConfigurationManager.ConnectionStrings["AppDbContext:MSSQL"];
                 var opt = new DbContextOptionsBuilder<AppDbContext>()
-                    .UseSqlServer(@"Data Source=.\sql2; Initial Catalog=ResumeData; Integrated Security=True;MultipleActiveResultSets=true;")                    
-                    .UseLoggerFactory(loggerFactory);
+                    .UseSqlServer(conString.ConnectionString);
+                //.UseLoggerFactory(loggerFactory);
                 return opt.Options;
             }).SingleInstance();
 
@@ -124,17 +128,17 @@ namespace VRT.Resume.Web
             {
                 builder
                     .RegisterAssemblyTypes(appAssembly)
-                    .AsClosedTypesOf(mediatrOpenType)                    
+                    .AsClosedTypesOf(mediatrOpenType)
                     .AsImplementedInterfaces();
             }
-            
+
             // It appears Autofac returns the last registered types first
             builder.RegisterGeneric(typeof(RequestPostProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestPreProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestExceptionActionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(RequestExceptionProcessorBehavior<,>)).As(typeof(IPipelineBehavior<,>));
             builder.RegisterGeneric(typeof(ValidationBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
-            
+
             return builder;
         }
 
@@ -148,7 +152,7 @@ namespace VRT.Resume.Web
             )).AsSelf().SingleInstance();
 
             builder.Register(c =>
-            {                
+            {
                 var context = c.Resolve<IComponentContext>();
                 var config = context.Resolve<MapperConfiguration>();
                 return config.CreateMapper(context.Resolve);
@@ -158,10 +162,44 @@ namespace VRT.Resume.Web
             return builder;
         }
 
-        
-        private static void SetDependencyResolver(this IContainer container)
+        private static IContainer SetDependencyResolver(this IContainer container)
         {
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            return container;
+        }
+
+        private static void CreateDbIfNotExists(this IContainer container)
+        {
+            using (var scope = container.BeginLifetimeScope())
+            {
+                var options = scope.Resolve<DbContextOptions<AppDbContext>>();
+                var ctx = new AppDbContext(options);
+                if (ctx.Database.EnsureCreated())
+                {
+                    ctx.SeedSkillTypes();
+                    ctx.SaveChanges();
+                }
+            }
+        }
+
+        private static AppDbContext SeedSkillTypes(this AppDbContext ctx)
+        {
+            ctx.SkillType.AddRange(Enum.GetNames(typeof(SkillTypes))
+                .Select(skillName => AsSkillType(skillName))
+                .Where(w => w != null)                
+            );
+            return ctx;
+        }
+
+        private static Domain.Entities.SkillType AsSkillType(string skillName)
+        {
+            return Enum.TryParse<SkillTypes>(skillName, out var skillType)
+                ? new Domain.Entities.SkillType()
+                {
+                    SkillTypeId = (byte)skillType,
+                    Name = skillName
+                }                          
+                : null;
         }
     }
 }

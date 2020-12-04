@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRT.Resume.Domain", "VRT.Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRT.Resume.Application", "VRT.Resume.Application\VRT.Resume.Application.csproj", "{39002F6A-704F-45DF-9FC4-DBA218BF032C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VRT.Resume.Application.Tests.Unit", "VRT.Resume.Application.Tests.Unit\VRT.Resume.Application.Tests.Unit.csproj", "{42F46436-8049-438E-A7BF-0D6542290907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VRT.Resume.Application.Tests.Unit", "VRT.Resume.Application.Tests.Unit\VRT.Resume.Application.Tests.Unit.csproj", "{42F46436-8049-438E-A7BF-0D6542290907}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

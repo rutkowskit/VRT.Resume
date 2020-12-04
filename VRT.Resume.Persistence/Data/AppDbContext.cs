@@ -21,8 +21,7 @@ namespace VRT.Resume.Persistence.Data
         public virtual DbSet<EducationField> EducationField { get; set; }
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PersonContact> PersonContact { get; set; }
-        public virtual DbSet<PersonEducation> PersonEducation { get; set; }
-        public virtual DbSet<PersonEmail> PersonEmail { get; set; }
+        public virtual DbSet<PersonEducation> PersonEducation { get; set; }        
         public virtual DbSet<PersonExperience> PersonExperience { get; set; }
         public virtual DbSet<PersonExperienceDuty> PersonExperienceDuty { get; set; }
         public virtual DbSet<PersonExperienceDutySkill> PersonExperienceDutySkill { get; set; }
@@ -40,8 +39,7 @@ namespace VRT.Resume.Persistence.Data
             modelBuilder.ApplyConfiguration(new EducationFieldConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
             modelBuilder.ApplyConfiguration(new PersonContactConfiguration());
-            modelBuilder.ApplyConfiguration(new PersonEducationConfiguration());
-            modelBuilder.ApplyConfiguration(new PersonEmailConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonEducationConfiguration());            
             modelBuilder.ApplyConfiguration(new PersonExperienceConfiguration());
             modelBuilder.ApplyConfiguration(new PersonExperienceDutyConfiguration());
             modelBuilder.ApplyConfiguration(new PersonExperienceDutySkillConfiguration());

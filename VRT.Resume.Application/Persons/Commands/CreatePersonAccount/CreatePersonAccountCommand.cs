@@ -52,7 +52,7 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
                     : id;
             }
             
-            private Result<UserPerson> InitiateAccout(CreatePersonAccountCommand request)
+            private static Result<UserPerson> InitiateAccout(CreatePersonAccountCommand request)
             {
                 var curDate = DateTime.UtcNow;
                 var result = new UserPerson()
@@ -63,11 +63,13 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
                         FirstName = request.FirstName,
                         LastName = request.LastName,
                         ModifiedDate = curDate,
-                        PersonEmail = new[]
+                        PersonContact = new[]
                         {
-                            new PersonEmail()
+                            new PersonContact()
                             {
-                                EmailAdress = request.Email,
+                                Name = "Email",
+                                Value = request.Email,
+                                Url = $"mailto:{request.Email}",                                
                                 ModifiedDate = curDate
                             }
                         }                        

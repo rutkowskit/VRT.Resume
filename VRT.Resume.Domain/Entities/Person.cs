@@ -13,7 +13,6 @@ namespace VRT.Resume.Domain.Entities
         {
             PersonContact = new HashSet<PersonContact>();
             PersonEducation = new HashSet<PersonEducation>();
-            PersonEmail = new HashSet<PersonEmail>();
             PersonExperience = new HashSet<PersonExperience>();
             PersonImage = new HashSet<PersonImage>();
             PersonResume = new HashSet<PersonResume>();
@@ -28,8 +27,7 @@ namespace VRT.Resume.Domain.Entities
         public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<PersonContact> PersonContact { get; set; }
-        public virtual ICollection<PersonEducation> PersonEducation { get; set; }
-        public virtual ICollection<PersonEmail> PersonEmail { get; set; }
+        public virtual ICollection<PersonEducation> PersonEducation { get; set; }        
         public virtual ICollection<PersonExperience> PersonExperience { get; set; }
         public virtual ICollection<PersonImage> PersonImage { get; set; }
         public virtual ICollection<PersonResume> PersonResume { get; set; }
