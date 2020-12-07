@@ -1,0 +1,15 @@
+﻿@{
+    // Layout = "";
+    var info = TempData[TempDataKeys.ExceptionInfo] as System.Web.Mvc.HandleErrorInfo;
+}
+
+<div class="jumbotron border mt-3 bg-light text-danger">
+    <div class="h3">@Html.GetLabel(LabelNames.Error)</div>
+    @if (info != null && info.Exception != null)
+    {
+        <div class="h5">@info.Exception.Message</div>
+        <div class="h6 silent">@(info.ControllerName)/@info.ActionName</div>
+    }
+</div>
+
+

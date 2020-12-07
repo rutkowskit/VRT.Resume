@@ -33,8 +33,16 @@
                     const tabToSelect = $(`#profileTabs li a[href='#${tabId}']`);
                     if (tabToSelect) {                        
                         tabToSelect.tab('show');
-                    }
-                }
+                    }                   
+                },
+                error: function (request) {                    
+                    $("#" + tabId).html(request.responseText);
+                    
+                    const tabToSelect = $(`#profileTabs li a[href='#${tabId}']`);
+                    if (tabToSelect) {
+                        tabToSelect.tab('show');
+                    } 
+                }                
             })
         }
 

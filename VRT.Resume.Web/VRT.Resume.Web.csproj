@@ -303,12 +303,14 @@
     <Compile Include="Constants\LabelNames.cs" />
     <Compile Include="Constants\TempDataKeys.cs" />
     <Compile Include="Constants\TabNames.cs" />
+    <Compile Include="Controllers\ControllerBase.Exceptions.cs" />
     <Compile Include="Controllers\CultureController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerBase.Mediator.cs" />
     <Compile Include="Controllers\ControllerBase.Redirect.cs" />
     <Compile Include="Controllers\ControllerBase.Culture.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\ErrorHandlerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\PersonEditControllerBase.cs" />
@@ -459,6 +461,7 @@
     <Content Include="Views\PersonExpDutySkills\Edit.cshtml" />
     <Content Include="Views\Culture\Change.cshtml" />
     <Content Include="Views\Culture\Index.cshtml" />
+    <Content Include="Views\ErrorHandler\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
