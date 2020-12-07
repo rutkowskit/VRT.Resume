@@ -19,6 +19,17 @@ namespace VRT.Resume.Web
             var htmlText = $"<div class=\"tab-pane {activeClass}\" id=\"{tabName}\">{render}</div>";
             return new HtmlString(htmlText);
         }
+        public static IHtmlString FormatLabel(this HtmlHelper html,
+           string resourceKey, params object[] formatValues)
+        {
+            var value = Resources.LabelResource.ResourceManager.GetString(resourceKey)
+                ?? "";
+            value = string.IsNullOrWhiteSpace(value)
+                ? resourceKey
+                : string.Format(value, formatValues);
+
+            return new HtmlString(value);
+        }
 
         public static IHtmlString GetLabel(this HtmlHelper html,
            string resourceKey, string defaultValue = null)

@@ -258,6 +258,15 @@
   <data name="ShowProfilePhoto" xml:space="preserve">
     <value>Show photo</value>
   </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="SignInUsing_Name" xml:space="preserve">
+    <value>Sign in usign {0}</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Sign Out</value>
+  </data>
   <data name="SkillsTab" xml:space="preserve">
     <value>Skills</value>
   </data>

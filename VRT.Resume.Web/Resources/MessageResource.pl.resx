@@ -129,6 +129,9 @@
   <data name="ImageNotProvided" xml:space="preserve">
     <value>Nie wskazano pliku graficznego</value>
   </data>
+  <data name="UserIsSignedIn" xml:space="preserve">
+    <value>Użytkownik jest zalogowany</value>
+  </data>
   <data name="ValidationFailed" xml:space="preserve">
     <value>Walidacja nie powiodła się</value>
   </data>

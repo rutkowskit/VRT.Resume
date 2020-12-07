@@ -18,13 +18,9 @@ namespace VRT.Resume.Web.Controllers
             return View(result);
         }
 
+        [AllowAnonymous]
         public ActionResult About()
         {            
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
             return View();
         }        
     }

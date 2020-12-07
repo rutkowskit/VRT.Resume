@@ -52,6 +52,9 @@
         public const string ToDate = "ToDate";
         public const string Type = "Type";
         public const string SchoolName = "SchoolName";
+        public const string SignIn = "SignIn";
+        public const string SignInUsing_Name = "SignInUsing_Name";
+        public const string SignOut = "SignOut";
         public const string Specialization = "Specialization";
         public const string Success = "Success";
         public const string ThesisTitle = "ThesisTitle";                

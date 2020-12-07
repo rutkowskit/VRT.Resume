@@ -1,13 +1,13 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    <legend>User is signed in</legend>
+    <legend>@Html.GetMessage(MsgNames.UserSignedIn)</legend>
     <div class="position-absolute">
         @using (Html.BeginForm("SignOut", "Account", new { returnUrl = "~/" }))
         {
             @Html.AntiForgeryToken()
             <button type="submit" class="btn btn-outline-primary btn-block" id="sign-out-button" name="type"
                     title="Sign out the user">
-                Sign out
+                @Html.GetLabel(LabelNames.SignOut)
             </button>
         }
     </div>

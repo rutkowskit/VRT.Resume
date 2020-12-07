@@ -484,6 +484,33 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sign In.
+        /// </summary>
+        public static string SignIn {
+            get {
+                return ResourceManager.GetString("SignIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in usign {0}.
+        /// </summary>
+        public static string SignInUsing_Name {
+            get {
+                return ResourceManager.GetString("SignInUsing_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign Out.
+        /// </summary>
+        public static string SignOut {
+            get {
+                return ResourceManager.GetString("SignOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Skills.
         /// </summary>
         public static string SkillsTab {

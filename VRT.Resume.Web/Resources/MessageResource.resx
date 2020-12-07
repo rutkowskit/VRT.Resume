@@ -129,6 +129,9 @@
   <data name="ImageNotProvided" xml:space="preserve">
     <value>Image not provided</value>
   </data>
+  <data name="UserIsSignedIn" xml:space="preserve">
+    <value>User is signed in</value>
+  </data>
   <data name="ValidationFailed" xml:space="preserve">
     <value>Validation failed</value>
   </data>

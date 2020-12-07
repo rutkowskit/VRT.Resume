@@ -97,6 +97,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User is signed in.
+        /// </summary>
+        internal static string UserIsSignedIn {
+            get {
+                return ResourceManager.GetString("UserIsSignedIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Validation failed.
         /// </summary>
         internal static string ValidationFailed {

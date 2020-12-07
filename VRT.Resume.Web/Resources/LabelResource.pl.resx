@@ -270,6 +270,15 @@
   <data name="ShowProfilePhoto" xml:space="preserve">
     <value>Pokazuj zdjęcie</value>
   </data>
+  <data name="SignIn" xml:space="preserve">
+    <value>Zaloguj się</value>
+  </data>
+  <data name="SignInUsing_Name" xml:space="preserve">
+    <value>Zaloguj się za pomocą {0}</value>
+  </data>
+  <data name="SignOut" xml:space="preserve">
+    <value>Wyloguj się</value>
+  </data>
   <data name="SkillsTab" xml:space="preserve">
     <value>Umiejętności</value>
   </data>
