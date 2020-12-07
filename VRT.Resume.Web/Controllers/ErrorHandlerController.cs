@@ -7,8 +7,7 @@ using System.Web.Mvc;
 namespace VRT.Resume.Web.Controllers
 {
     public class ErrorHandlerController : Controller
-    {        
-        [OutputCache(NoStore =true)]
+    {           
         public ActionResult Index()
         {
             return View();

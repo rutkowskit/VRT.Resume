@@ -58,7 +58,9 @@
             else
             {
                 <li class="nav-item">
-                    <a class="nav-link font-weight-bold" href='@Url.Action("Index", "Account")'>Sign In</a>
+                    <a class="nav-link font-weight-bold" href='@Url.Action("Index", "Account")'>
+                        @Html.GetLabel(LabelNames.SignIn)
+                    </a>
                 </li>
             }
         </ul>
