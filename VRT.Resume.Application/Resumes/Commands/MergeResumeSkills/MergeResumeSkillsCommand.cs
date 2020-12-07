@@ -34,15 +34,14 @@ namespace VRT.Resume.Application.Resumes.Commands.MergeResumeSkills
             {
                 var toAdd = from r in skills ?? System.Array.Empty<ResumePersonSkillDto>()
                             join e in resume.ResumePersonSkill on r.SkillId equals e.SkillId into ge
-                            from e in ge.DefaultIfEmpty()
-                            where e == null || r.IsHidden!=e.IsHidden || r.IsRelevent!=e.IsRelevent
+                            from e in ge.DefaultIfEmpty()                            
                             select (r, e);
 
                 foreach (var (skill, existing) in toAdd)
                 {
                     if (existing == null)
                     {
-                        if(skill.IsHidden || skill.IsRelevent)
+                        if(skill.IsHidden || skill.IsRelevent || skill.Position>1)
                             resume.ResumePersonSkill.Add(Update(new ResumePersonSkill(), skill));
                     }                        
                     else
@@ -54,6 +53,7 @@ namespace VRT.Resume.Application.Resumes.Commands.MergeResumeSkills
                 skill.IsHidden = newValue.IsHidden;
                 skill.IsRelevent = newValue.IsRelevent;                
                 skill.SkillId = newValue.SkillId;
+                skill.Position = newValue.Position;
                 return skill;
             }
             private Result<PersonResume> GetResumeWithSkills(int personId, int resumeId)

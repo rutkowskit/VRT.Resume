@@ -5,5 +5,6 @@
         public int SkillId { get; set; }
         public bool IsRelevent { get; set; }
         public bool IsHidden { get; set; }
+        public int Position { get; set; }
     }
 }

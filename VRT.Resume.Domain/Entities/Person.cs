@@ -27,7 +27,7 @@ namespace VRT.Resume.Domain.Entities
         public DateTime ModifiedDate { get; set; }
 
         public virtual ICollection<PersonContact> PersonContact { get; set; }
-        public virtual ICollection<PersonEducation> PersonEducation { get; set; }        
+        public virtual ICollection<PersonEducation> PersonEducation { get; set; }
         public virtual ICollection<PersonExperience> PersonExperience { get; set; }
         public virtual ICollection<PersonImage> PersonImage { get; set; }
         public virtual ICollection<PersonResume> PersonResume { get; set; }

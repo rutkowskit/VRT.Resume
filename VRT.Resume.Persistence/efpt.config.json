@@ -44,11 +44,6 @@
       },
       {
          "HasPrimaryKey": true,
-         "Name": "[Persons].[PersonEmail]",
-         "ObjectType": 0
-      },
-      {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonExperience]",
          "ObjectType": 0
       },

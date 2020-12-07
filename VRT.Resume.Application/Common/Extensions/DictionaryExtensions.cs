@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VRT.Resume.Web
+namespace VRT.Resume
 {
     public static class DictionaryExtensions
     {

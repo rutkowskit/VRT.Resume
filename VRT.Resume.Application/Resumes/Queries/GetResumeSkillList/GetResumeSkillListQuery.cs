@@ -47,7 +47,8 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeSkillList
                                 Name = rd.Name,
                                 Type = rd.SkillType.Name,
                                 IsRelevent = rs.IsRelevent,
-                                IsHidden = rs.IsHidden
+                                IsHidden = rs.IsHidden,
+                                Position = rs.Position
                             };
 
                 return query.ToArray();

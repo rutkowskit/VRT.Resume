@@ -9,8 +9,9 @@
     @{
         var query = Model
                         .OrderByDescending(o => o.FromDate)
-                        .ThenByDescending(o => o.ToDate.GetValueOrDefault(DateTime.MaxValue));
-        foreach (var exp in Model)
+                        .ThenByDescending(o => o.ToDate.GetValueOrDefault(DateTime.MaxValue))
+                        .ToArray();
+        foreach (var exp in query)
         {
             if (exp == null)
             {

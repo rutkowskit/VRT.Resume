@@ -8,5 +8,6 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeSkillList
         public bool IsHidden { get; internal set; }
         public string Name { get; internal set; }
         public string Type { get; internal set; }
+        public int Position { get; internal set; }
     }
 }

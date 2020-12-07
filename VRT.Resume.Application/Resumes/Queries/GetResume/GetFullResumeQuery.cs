@@ -28,7 +28,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                         r.Education = GetEducationItems(r.PersonId).ToArray();
                         r.Skills = GetSkills(r.ResumeId, r.PersonId).ToArray();
                         r.Contact = GetContactItems(r.PersonId).ToArray();
-                        r.WorkExperience = GetWorkExperience(r.PersonId).ToArray();
+                        r.WorkExperience = GetWorkExperience(r.ResumeId, r.PersonId).ToArray();
                     });                    
             }
 
@@ -54,8 +54,10 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                     : result;
             }
 
-            private IQueryable<WorkExperienceDto> GetWorkExperience(int personId)
-            {
+            private IQueryable<WorkExperienceDto> GetWorkExperience(int resumeId, int personId)
+            {                
+                var skillsQuery = GetSkills(resumeId, personId);
+
                 return Context.PersonExperience
                     .Where(c => c.PersonId == personId)                    
                     .Select(s => new WorkExperienceDto()
@@ -69,14 +71,9 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                             .Select(d => new WorkActivityDto()
                             {
                                 Description = d.Name,
-                                Skills = d.PersonExperienceDutySkill
-                                .Select(ds => new SkillDto()
-                                {
-                                    Name = ds.Skill.Name,
-                                    Type = (SkillTypes)ds.Skill.SkillTypeId,
-                                    Level = ds.Skill.Level,
-                                    IsRelevent = true
-                                }).ToArray()
+                                Skills = (from pds in d.PersonExperienceDutySkill
+                                         join sq in skillsQuery on pds.SkillId equals sq.SkillId
+                                         select sq).ToArray()                                
                             }).ToArray()
                     });
             }
@@ -90,11 +87,13 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                             where pk.PersonId == personId
                             select new SkillDto()
                             {
+                                SkillId = pk.SkillId,
                                 IsRelevent = x.IsRelevent,
                                 IsHidden = x.IsHidden,
                                 Name = pk.Name,
                                 Level = pk.Level,
-                                Type = (SkillTypes)pk.SkillTypeId,                                
+                                Type = (SkillTypes)pk.SkillTypeId,  
+                                Position = x.Position
                             };
                 return query;
             }

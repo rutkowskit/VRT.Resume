@@ -21,7 +21,8 @@ namespace VRT.Resume.Web
 
         public static IEnumerable<SkillDto> GetTechnicalSkills(this IEnumerable<SkillDto> data, bool onlyVisible=true)
             => data.GetSkills(Application.SkillTypes.Technical)
-                   .Where(s => !onlyVisible || !s.IsHidden);
+                   .Where(s => !onlyVisible || !s.IsHidden)
+                   .OrderByDescending(o=>o.Position);
 
         public static IEnumerable<SkillDto> GetSoftSkills(this IEnumerable<SkillDto> data)
             => data.GetSkills(Application.SkillTypes.Soft);

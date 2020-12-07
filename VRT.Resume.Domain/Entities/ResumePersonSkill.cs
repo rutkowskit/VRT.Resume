@@ -22,6 +22,10 @@ namespace VRT.Resume.Domain.Entities
         /// The flag indicates wheter the skill should be hidden in profile skills section (main)
         /// </summary>
         public bool IsHidden { get; set; }
+        /// <summary>
+        /// Position on the skills list (skills with higher values goes first - they are more important)
+        /// </summary>
+        public int Position { get; set; }
 
         public virtual PersonResume Resume { get; set; }
         public virtual PersonSkill Skill { get; set; }

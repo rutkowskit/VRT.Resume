@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VRT.Resume.Web
+namespace VRT.Resume
 {
     public static class DateTimeExtensions
     {

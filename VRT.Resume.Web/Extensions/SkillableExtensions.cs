@@ -12,7 +12,7 @@ namespace VRT.Resume.Web
 
         public static IHtmlString FormatSkills(this ISkillable entity, 
             string prefix, string postfix, string separator, 
-            Func<VRT.Resume.Application.Resumes.Queries.GetResume.SkillDto,string> formatter)
+            Func<SkillDto, string> formatter)
         {
             if (entity == null || entity.Skills==null || entity.Skills.Length==0)
                 return null;
@@ -29,13 +29,8 @@ namespace VRT.Resume.Web
             }
             return new HtmlString($"{prefix}{result}{postfix}");                
         }
-        private static string FormatSkill(VRT.Resume.Application.Resumes.Queries.GetResume.SkillDto skill)
-            => $"<span class=\"{skill.GetCssClass("")}\">{skill.Name}</span>";                        
-
-        //private static string FormatSkillChip(VRT.Resume.Application.Resumes.Queries.GetResume.SkillDto skill)
-        //{
-        //    return $"<span class=\"{skill.GetCssClass("chip")}\">{skill.Name}</span>";            
-        //}
+        private static string FormatSkill(SkillDto skill)
+            => $"<span class=\"{skill.GetCssClass("")}\">{skill.Name}</span>";                                
             
     }
 }

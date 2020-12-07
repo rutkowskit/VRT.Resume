@@ -327,14 +327,11 @@
     <Compile Include="Filters\AllowPartialRenderingAttribute.cs" />
     <Compile Include="Extensions\ContactItemViewModelExtensions.cs" />
     <Compile Include="Filters\CustomAuthorizeAttribute.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Extensions\HttpPostedFileBaseExtensions.cs" />
     <Compile Include="Extensions\PrincipalExtensions.cs" />
     <Compile Include="Extensions\SkillDtoExtensions.cs" />
     <Compile Include="Extensions\SkillableExtensions.cs" />
-    <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Extensions\TempDataDictionaryExtensions.cs" />
     <Compile Include="Extensions\TimeRangeExtensions.cs" />
     <Compile Include="Global.asax.cs">
