@@ -3,8 +3,7 @@
 namespace VRT.Resume.Application.Fakes
 {
     internal sealed class FakeCurrentUserService : ICurrentUserService
-    {
-        internal const string DefaultUserId = "tester@testing.me";
-        public string UserId => DefaultUserId;
+    {        
+        public string UserId => Defaults.UserId;
     }
 }

@@ -14,6 +14,7 @@ namespace VRT.Resume.Application.Fakes
         internal static IContainer Register()
         {
             return new ContainerBuilder()
+                .RegisterDateTimeService()
                 .RegisterDbContext()                
                 .RegisterMediator()
                 .RegisterMediatorPipelineBehaviours()
@@ -21,6 +22,14 @@ namespace VRT.Resume.Application.Fakes
                 .RegisterServiceFactory()
                 .RegisterImplementadInterfaces()
                 .Build();                
+        }
+
+        private static ContainerBuilder RegisterDateTimeService(this ContainerBuilder builder)
+        {
+            builder
+                 .RegisterType<FakeDateTimeService>()
+                 .AsImplementedInterfaces();
+            return builder;
         }
 
         private static ContainerBuilder RegisterDbContext(this ContainerBuilder builder)

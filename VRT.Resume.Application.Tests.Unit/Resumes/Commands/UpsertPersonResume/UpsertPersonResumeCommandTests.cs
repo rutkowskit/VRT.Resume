@@ -54,7 +54,7 @@ namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
                 var resume = Assert.Single(scope.Resolve<AppDbContext>().PersonResume);
                 Assert.Equal(sut.Description, resume.Description);
                 Assert.Equal(sut.Position, resume.Position);
-                Assert.Equal(DefaultPersonId, resume.PersonId);
+                Assert.Equal(Defaults.PersonId, resume.PersonId);
                 Assert.Equal(sut.ResumeId, resume.ResumeId);
                 Assert.Equal(sut.Summary, resume.Summary);
                 Assert.Equal(sut.DataProcessingPermission, resume.Permission);
@@ -84,7 +84,7 @@ namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
             var toAdd = new PersonResume()
             {
                 ResumeId = 1,   
-                PersonId = DefaultPersonId,
+                PersonId = Defaults.PersonId,
                 Description = "Default",
                 Permission = "Default",
                 ShowProfilePhoto = false,

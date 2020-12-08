@@ -36,7 +36,7 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
                 var resume = Assert.Single(scope.Resolve<AppDbContext>().PersonContact);
                 Assert.Equal(sut.Name, resume.Name);
                 Assert.Equal(sut.Value, resume.Value);
-                Assert.Equal(DefaultPersonId, resume.PersonId);
+                Assert.Equal(Defaults.PersonId, resume.PersonId);
             });
             Assert.True(result.IsSuccess, result.GetErrorSafe());
         }
@@ -47,13 +47,13 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
             var sut = CreateSut();
 
             var result = await Send(sut,
-                async scope => await SeedContact(scope),
+                async scope => await scope.SeedContact(),
                 onAfterSend: scope =>
                 {
                     var resume = Assert.Single(scope.Resolve<AppDbContext>().PersonContact);
                     Assert.Equal(sut.Url, resume.Url);
                     Assert.Equal(sut.Value, resume.Value);
-                    Assert.Equal(DefaultPersonId, resume.PersonId);
+                    Assert.Equal(Defaults.PersonId, resume.PersonId);
                     Assert.Equal(sut.Name, resume.Name);
                     Assert.Equal(sut.Icon, resume.Icon);
                     Assert.Equal(sut.ContactId, resume.ContactId);                    
@@ -98,24 +98,6 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
                     var resume = Assert.Single(scope.Resolve<AppDbContext>().PersonContact);
                     Assert.Equal(expectedImg, resume.Icon);
                 });
-        }
-
-        private async Task SeedContact(ILifetimeScope scope)
-        {
-            var db = scope.Resolve<AppDbContext>();
-
-            var toAdd = new PersonContact()
-            {
-                ContactId = 1,
-                PersonId = DefaultPersonId,
-                Name = "Default",
-                Value = "Default",
-                Icon = "<svg></svg>",
-                Url = "http://test.me",
-                ModifiedDate = new System.DateTime(2020, 2, 3)
-            };
-            db.PersonContact.Add(toAdd);
-            await db.SaveChangesAsync();
         }
 
         protected override UpsertPersonContactCommand CreateSut()

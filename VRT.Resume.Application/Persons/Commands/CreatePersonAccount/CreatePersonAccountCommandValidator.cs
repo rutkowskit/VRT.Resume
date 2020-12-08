@@ -11,6 +11,7 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
                 .NotEmpty();
 
             RuleFor(v => v.FirstName)
+                .NotEmpty()
                 .MaximumLength(50);
 
             RuleFor(v => v.LastName)

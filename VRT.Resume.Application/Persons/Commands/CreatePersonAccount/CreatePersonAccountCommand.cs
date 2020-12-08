@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
@@ -15,13 +16,15 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
         public string FirstName { get; set; }
         public string LastName { get; set; }       
 
-        public sealed class CreatePersonAccountCommandHandler : IRequestHandler<CreatePersonAccountCommand, Result<int>>
+        internal sealed class CreatePersonAccountCommandHandler : IRequestHandler<CreatePersonAccountCommand, Result<int>>
         {
             private readonly AppDbContext _context;
+            private readonly IDateTimeService _dateTime;
 
-            public CreatePersonAccountCommandHandler(AppDbContext context)                
+            public CreatePersonAccountCommandHandler(AppDbContext context, IDateTimeService dateTime)                
             {
                 _context = context ?? throw new ArgumentNullException(nameof(context));
+                _dateTime = dateTime ?? throw new ArgumentNullException(nameof(_dateTime)); ;
             }
             
             public async Task<Result<int>> Handle(CreatePersonAccountCommand request, CancellationToken cancellationToken)
@@ -52,9 +55,9 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
                     : id;
             }
             
-            private static Result<UserPerson> InitiateAccout(CreatePersonAccountCommand request)
+            private Result<UserPerson> InitiateAccout(CreatePersonAccountCommand request)
             {
-                var curDate = DateTime.UtcNow;
+                var curDate = _dateTime.Now;
                 var result = new UserPerson()
                 {
                     UserId = request.Email,
