@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
@@ -73,13 +72,7 @@ namespace VRT.Resume.Application
                             new PersonExperienceDutySkill()
                             {
                                 Id = 1,
-                                Skill = new PersonSkill()
-                                {
-                                    SkillId = 1,
-                                    Level = "High",
-                                    PersonId = personId,
-                                    SkillTypeId = (int)SkillTypes.Technical                                    
-                                }                                
+                                Skill = SkillHelper.CreateSkill()                                                                
                             }
                         }
                     }
@@ -88,5 +81,33 @@ namespace VRT.Resume.Application
             db.PersonExperience.Add(toAdd);
             await db.SaveChangesAsync();
         }
-    }
+
+        internal static async Task SeedPersonResume(this ILifetimeScope scope,
+            int resumeId = 1,
+            int personId = Defaults.PersonId)
+        {
+            var db = scope.Resolve<AppDbContext>();
+
+            var toAdd = new PersonResume()
+            {
+                ResumeId = resumeId,
+                PersonId = personId,
+                Description = "Description",
+                Permission = "Permission granted",
+                ModifiedDate = Defaults.Today,
+                Summary = "Person experience summary",
+                ShowProfilePhoto = true,
+                ResumePersonSkill = new []
+                {
+                    new ResumePersonSkill()
+                    {                        
+                        Skill = SkillHelper.CreateSkill()
+                    }
+                }                
+            };
+            db.PersonResume.Add(toAdd);
+            await db.SaveChangesAsync();
+        }
+        
+    }    
 }

@@ -17,7 +17,7 @@ namespace VRT.Resume.Domain.Entities
         /// <summary>
         /// The flag indicates wheter the skill is significant for potencial employer
         /// </summary>
-        public bool IsRelevent { get; set; }
+        public bool IsRelevant { get; set; }
         /// <summary>
         /// The flag indicates wheter the skill should be hidden in profile skills section (main)
         /// </summary>

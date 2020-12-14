@@ -4,7 +4,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDutySkillLis
     public sealed class PersonExpDutySkillInListDto
     {
         public int SkillId { get; internal set; }
-        public bool IsRelevent { get; internal set; }        
+        public bool IsRelevant { get; internal set; }        
         public string Name { get; internal set; }
         public string Type { get; internal set; }
     }

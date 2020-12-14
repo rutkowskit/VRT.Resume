@@ -48,7 +48,7 @@
         public const string Name = "Name";
         public const string No = "No";        
         public const string Position = "Position";
-        public const string Relevent = "Relevent";        
+        public const string Relevant = "Relevant";        
         public const string ToDate = "ToDate";
         public const string Type = "Type";
         public const string SchoolName = "SchoolName";

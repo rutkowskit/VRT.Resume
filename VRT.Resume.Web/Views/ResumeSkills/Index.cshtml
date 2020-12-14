@@ -20,7 +20,7 @@
                 <tr>
                     <th scope="col">@Html.GetLabel(LabelNames.Name)</th>
                     <th scope="col">@Html.GetLabel(LabelNames.Type)</th>
-                    <th scope="col">@Html.GetLabel(LabelNames.Relevent)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.Relevant)</th>
                     <th scope="col">@Html.GetLabel(LabelNames.Hidden)</th>
                     <th scope="col">@Html.GetLabel(LabelNames.Position)</th>
                 </tr>
@@ -38,7 +38,7 @@
                         @skill.Type
                     </td>
                     <td>
-                        @Html.CheckBoxFor(m => skills.ResumeSkills[i].IsRelevent)
+                        @Html.CheckBoxFor(m => skills.ResumeSkills[i].IsRelevant)
                     </td>
                     <td>
                         @Html.CheckBoxFor(m => skills.ResumeSkills[i].IsHidden)

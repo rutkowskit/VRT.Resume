@@ -14,10 +14,10 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
     {
         public int DutyId { get; set; }
         public PersonExpDutySkillDto[] DutySkills { get; set; }
-        internal  sealed class MergeResumeSkillsCommandHandler : HandlerBase, 
+        internal  sealed class MergePersonDutySkillsCommandHandler : HandlerBase, 
             IRequestHandler<MergePersonDutySkillsCommand,Result>
         {
-            public MergeResumeSkillsCommandHandler(AppDbContext context, 
+            public MergePersonDutySkillsCommandHandler(AppDbContext context, 
                 ICurrentUserService userService) : base(context, userService)
             {                
             }
@@ -35,14 +35,14 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
                 var toAdd = from r in skills ?? System.Array.Empty<PersonExpDutySkillDto>()
                             join e in duty.PersonExperienceDutySkill on r.SkillId equals e.SkillId into ge
                             from e in ge.DefaultIfEmpty()
-                            where e == null || !r.IsRelevent
+                            where e == null || !r.IsRelevant
                             select (r, e);
 
                 foreach (var (skill, existing) in toAdd)
                 {
                     if (existing == null)
                     {
-                        if(skill.IsRelevent)
+                        if(skill.IsRelevant)
                             duty.PersonExperienceDutySkill.Add(new PersonExperienceDutySkill() { SkillId =skill.SkillId });
                     }                        
                     else
@@ -58,7 +58,7 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
                     .Include(i => i.PersonExperienceDutySkill)
                     .FirstOrDefault();
 
-                return result ?? Result.Failure<PersonExperienceDuty>(Errors.ResumeNotFound);                    
+                return result ?? Result.Failure<PersonExperienceDuty>(Errors.RecordNotFound);                    
             }
         }
     }

@@ -88,7 +88,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                             select new SkillDto()
                             {
                                 SkillId = pk.SkillId,
-                                IsRelevent = x.IsRelevent,
+                                IsRelevant = x.IsRelevant,
                                 IsHidden = x.IsHidden,
                                 Name = pk.Name,
                                 Level = pk.Level,

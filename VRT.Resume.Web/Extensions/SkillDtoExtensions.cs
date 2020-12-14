@@ -11,7 +11,7 @@ namespace VRT.Resume.Web
         {
             if (skill == null)
                 return string.Empty;
-            return skill.IsRelevent
+            return skill.IsRelevant
                 ? $"{className} {relevantCssClass}"
                 : className;
         }

@@ -25,7 +25,7 @@ namespace VRT.Resume.Persistence.Data
 
             entity.Property(e => e.IsHidden).HasComment("The flag indicates wheter the skill should be hidden in profile skills section (main)");
 
-            entity.Property(e => e.IsRelevent).HasComment("The flag indicates wheter the skill is significant for potencial employer");
+            entity.Property(e => e.IsRelevant).HasComment("The flag indicates wheter the skill is significant for potencial employer");
 
             entity.Property(e => e.Position)
                 .HasDefaultValueSql("((1))")

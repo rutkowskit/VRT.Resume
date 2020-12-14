@@ -46,7 +46,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDutySkillLis
                                 SkillId = rd.SkillId,
                                 Name = rd.Name,
                                 Type = rd.SkillType.Name,
-                                IsRelevent = rs!=null
+                                IsRelevant = rs!=null
                             };
 
                 return query.ToArray();

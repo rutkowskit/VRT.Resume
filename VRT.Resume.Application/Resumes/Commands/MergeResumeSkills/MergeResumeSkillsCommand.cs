@@ -41,7 +41,7 @@ namespace VRT.Resume.Application.Resumes.Commands.MergeResumeSkills
                 {
                     if (existing == null)
                     {
-                        if(skill.IsHidden || skill.IsRelevent || skill.Position>1)
+                        if(skill.IsHidden || skill.IsRelevant || skill.Position>1)
                             resume.ResumePersonSkill.Add(Update(new ResumePersonSkill(), skill));
                     }                        
                     else
@@ -51,7 +51,7 @@ namespace VRT.Resume.Application.Resumes.Commands.MergeResumeSkills
             private static ResumePersonSkill Update(ResumePersonSkill skill, ResumePersonSkillDto newValue)
             {
                 skill.IsHidden = newValue.IsHidden;
-                skill.IsRelevent = newValue.IsRelevent;                
+                skill.IsRelevant = newValue.IsRelevant;                
                 skill.SkillId = newValue.SkillId;
                 skill.Position = newValue.Position;
                 return skill;
