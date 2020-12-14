@@ -29,7 +29,7 @@ namespace VRT.Resume.Persistence.Data
 
             entity.Property(e => e.Position)
                 .HasDefaultValueSql("((1))")
-                .HasComment("Position on the skills list (skills with lower values goes first - they are more important)");
+                .HasComment("Position on the skills list (skills with higher values goes first - they are more important)");
 
             entity.HasOne(d => d.Resume)
                 .WithMany(p => p.ResumePersonSkill)

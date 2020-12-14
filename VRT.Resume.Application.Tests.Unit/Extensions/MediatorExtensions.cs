@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using MediatR;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using VRT.Resume.Application.Fakes;
+using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Application
@@ -28,11 +30,11 @@ namespace VRT.Resume.Application
 
         private static async Task SeedDbContext(AppDbContext context)
         {
-            context.UserPerson.Add(new Domain.Entities.UserPerson()
+            context.UserPerson.Add(new UserPerson()
             {
                 UserId = Defaults.UserId,
                 PersonId = Defaults.PersonId,
-                Person = new Domain.Entities.Person()
+                Person = new Person()
                 {
                     PersonId = Defaults.PersonId,
                     FirstName = "Tom",
@@ -40,6 +42,15 @@ namespace VRT.Resume.Application
                     ModifiedDate = new DateTime(2020, 11, 20)
                 }
             });
+
+            var skillTypes = Enum.GetNames(typeof(SkillTypes))
+                .Select(t => new SkillType()
+                {
+                    SkillTypeId = (byte)Enum.Parse<SkillTypes>(t),
+                    Name = t
+                }).ToArray();
+
+            context.SkillType.AddRange(skillTypes);
             await context.SaveChangesAsync();
         }
     }

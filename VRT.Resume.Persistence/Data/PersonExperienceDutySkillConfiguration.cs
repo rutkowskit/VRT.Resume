@@ -29,7 +29,6 @@ namespace VRT.Resume.Persistence.Data
             entity.HasOne(d => d.Skill)
                 .WithMany(p => p.PersonExperienceDutySkill)
                 .HasForeignKey(d => d.SkillId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PersonExperienceSkill_PersonSkill");
         }
     }
