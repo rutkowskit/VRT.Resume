@@ -27,7 +27,7 @@
 }
 
     .resume-container > * {
-        margin: 5px;
+        padding: 5px;        
     }
 
     .resume-container .resume-left-panel {
@@ -157,6 +157,12 @@
     min-width:100%;
 }
 
+@media only screen {
+    
+    .overflow-container {
+        overflow: auto;
+    }     
+}
 
 @media print {
     .resume {

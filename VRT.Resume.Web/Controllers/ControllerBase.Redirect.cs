@@ -19,7 +19,7 @@ namespace VRT.Resume.Web.Controllers
             return new RedirectResult(Request.UrlReferrer.AbsoluteUri);
         }
 
-        protected ActionResult ToReturnUrl()
+        protected virtual ActionResult ToReturnUrl()
         {
             var url = TempData[TempDataKeys.ReturnUrl]?.ToString();                
             return string.IsNullOrWhiteSpace(url)

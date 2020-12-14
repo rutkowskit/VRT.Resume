@@ -5,34 +5,36 @@
         ? Model.ToArray()
         : new ResumeInListVM[0];
 
-    @Html.Partial("_AddToolbar", new EditDeleteToolbarData("Resumes",0,LabelNames.PageResume))
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">@Html.GetLabel(LabelNames.Description)</th>
-                <th scope="col">@Html.GetLabel(LabelNames.Position)</th>
-                <th scope="col">@Html.GetLabel(LabelNames.LastModification)</th>
-                <th scope="col">@Html.GetLabel(LabelNames.Actions)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var resume in resumes)
-            {
+    @Html.Partial("_AddToolbar", new EditDeleteToolbarData("Resumes", 0, LabelNames.PageResume))
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        <a class="nav-link no-padding" href="@Url.Action("/", "Resumes", new { id = resume.ResumeId })">
-                            @resume.Description
-                        </a>                        
-                    </td>
-                    <td>@resume.Position</td>
-                    <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                    <td class="text-nowrap">                        
-                        @Html.Partial("_EditDeleteToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
-                    </td>
+                    <th scope="col">@Html.GetLabel(LabelNames.Description)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.Position)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.LastModification)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.Actions)</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var resume in resumes)
+                {
+                    <tr>
+                        <td>
+                            <a class="nav-link no-padding" href="@Url.Action("/", "Resumes", new { id = resume.ResumeId })">
+                                @resume.Description
+                            </a>
+                        </td>
+                        <td>@resume.Position</td>
+                        <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td class="text-nowrap">
+                            @Html.Partial("_EditDeleteToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 

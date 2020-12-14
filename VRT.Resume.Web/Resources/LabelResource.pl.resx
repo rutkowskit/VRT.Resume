@@ -225,6 +225,9 @@
   <data name="Name" xml:space="preserve">
     <value>Nazwa</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>Nie</value>
+  </data>
   <data name="PageAbout" xml:space="preserve">
     <value>O Stronie</value>
   </data>
@@ -305,5 +308,8 @@
   </data>
   <data name="WorkExpTab" xml:space="preserve">
     <value>Doświadczenie</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Tak</value>
   </data>
 </root>

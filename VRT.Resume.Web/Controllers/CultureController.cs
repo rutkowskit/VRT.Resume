@@ -2,8 +2,6 @@
 using MediatR;
 using VRT.Resume.Web.Models;
 using System.Collections.Generic;
-using System.Web;
-using System;
 using System.Linq;
 
 namespace VRT.Resume.Web.Controllers
@@ -30,7 +28,7 @@ namespace VRT.Resume.Web.Controllers
                 ? culture
                 : SupportedLangDic.Values.First();
             TempData[TempDataKeys.CultureKey] = vm.Key;
-            TempData[TempDataKeys.ReturnUrl] = Request.UrlReferrer?.AbsolutePath;
+            TempData[TempDataKeys.ReturnUrlFromCulture] = Request.UrlReferrer;
 
             return PartialView(vm);
         }
@@ -47,7 +45,15 @@ namespace VRT.Resume.Web.Controllers
             AddLanguageCookie(lang);
             return ToReturnUrl() ?? ToHome();
         }        
-        public ActionResult Cancel() => ToReturnUrl() ?? ToHome();        
-        
+        public ActionResult Cancel() => ToReturnUrl() ?? ToHome();
+
+        protected override ActionResult ToReturnUrl()
+        {
+            var url = TempData[TempDataKeys.ReturnUrlFromCulture]?.ToString();
+            return string.IsNullOrWhiteSpace(url)
+                ? null
+                : new RedirectResult(url);
+        }
+
     }
 }
