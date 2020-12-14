@@ -6,31 +6,31 @@ using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 using Xunit;
 
-namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
+namespace VRT.Resume.Application.Resumes.Commands.MergeResumeSkills
 {
-    public sealed class MergePersonDutySkillsCommandTests : ApplicationTestBase<MergePersonDutySkillsCommand>
+    public sealed class MergeResumeSkillsCommandTests : ApplicationTestBase<MergeResumeSkillsCommand>
     {
         [Fact()]
-        public async Task Send_CommandWithInvalidEntityId_ShouldThrowValidationError()
+        public async Task Send_CommandWithInvalidResumeId_ShouldThrowValidationError()
         {
             var sut = CreateSut();
-            sut.DutyId = 0;
+            sut.ResumeId = 0;
             await Assert.ThrowsAsync<ValidationException>(() => sut.Send());
         }
 
         [Fact()]
-        public async Task Send_CommandWithEntityIdThatIsNotInDb_ShouldFail()
+        public async Task Send_CommandWithResumeIdThatIsNotInDb_ShouldFail()
         {
             var sut = CreateSut();
-            sut.DutyId = 434343434;
+            sut.ResumeId = 434343434;
             await sut.Send().AssertFail();            
         }
 
         [Fact()]
-        public async Task Send_CommandWithNullDutySkillList_ShouldDoNoChanges()
+        public async Task Send_CommandWithNullResumeSkillList_ShouldDoNoChanges()
         {
             var sut = CreateSut();
-            sut.DutySkills = null;
+            sut.ResumeSkills = null;
             await sut.Send(
                 onBeforeSend: async scope =>
                 {
@@ -38,18 +38,18 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
                 },
                 onAfterSend: scope =>
                 {
-                    Assert.Single(scope.Resolve<AppDbContext>().Set<PersonExperienceDutySkill>());
+                    Assert.Single(scope.Resolve<AppDbContext>().Set<ResumePersonSkill>());
                 }).AssertSuccess();
         }
 
         [Fact()]
-        public async Task Send_CommandWithRelevantDutySkills_AddedPersonExpDutySkill()
+        public async Task Send_CommandWithRelevantDutySkills_AddedResumePersonSkill()
         {
             var sut = CreateSut();
             var expectedSkillId = 2;
-            sut.DutySkills = new[]
+            sut.ResumeSkills = new[]
             {
-                new PersonExpDutySkillDto()
+                new ResumePersonSkillDto()
                 {
                     IsRelevant = true,
                     SkillId = expectedSkillId //should be added 
@@ -60,10 +60,10 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
                 onAfterSend: scope =>
                 {
                     var skillSet = scope.Resolve<AppDbContext>()
-                        .Set<PersonExperienceDutySkill>().ToList();
+                        .Set<ResumePersonSkill>().ToList();
                     Assert.Equal(2, skillSet.Count); //one default + one added
                     var added = skillSet
-                        .FirstOrDefault(s => s.SkillId == expectedSkillId && s.DutyId == 1);
+                        .FirstOrDefault(s => s.SkillId == expectedSkillId && s.ResumeId == 1);
                     Assert.NotNull(added);
                 }).AssertSuccess();            
         }
@@ -73,9 +73,9 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
         {
             var sut = CreateSut();
             var expectedSkillId = 2;
-            sut.DutySkills = new[]
+            sut.ResumeSkills = new[]
             {
-                new PersonExpDutySkillDto()
+                new ResumePersonSkillDto()
                 {
                     IsRelevant = false,
                     SkillId = expectedSkillId //should be added 
@@ -85,19 +85,20 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
                 onBeforeSend: async scope => await PrepareSkillsInDb(scope, expectedSkillId),
                 onAfterSend: scope =>
                 {                  
-                    Assert.Single(scope.Resolve<AppDbContext>().Set<PersonExperienceDutySkill>());
+                    Assert.Single(scope.Resolve<AppDbContext>().Set<ResumePersonSkill>());
                 }).AssertSuccess();
         }
 
         [Fact()]
-        public async Task Send_CommandWithIrrelevantExistingDutySkills_RemovedDutySkill()
+        public async Task Send_CommandWithRelevantExistingResumePersonSkill_UpdatedResumePersonSkill()
         {
             var sut = CreateSut();
-            sut.DutySkills = new[]
+            sut.ResumeSkills = new[]
             {
-                new PersonExpDutySkillDto()
+                new ResumePersonSkillDto()
                 {
-                    IsRelevant = false,
+                    IsRelevant = true,
+                    IsHidden = true,
                     SkillId = 1 //this one exists after default seeding
                 }
             };
@@ -105,10 +106,12 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
                 onBeforeSend: async scope => await PrepareSkillsInDb(scope),
                 onAfterSend: scope =>
                 {
-                    var count = scope.Resolve<AppDbContext>()
-                        .Set<PersonExperienceDutySkill>()                        
-                        .Count();
-                    Assert.Equal(0, count);
+                    var rpSkill = scope.Resolve<AppDbContext>()
+                        .Set<ResumePersonSkill>()                        
+                        .FirstOrDefault(s=>s.SkillId==1);
+                    Assert.NotNull(rpSkill);
+                    Assert.True(rpSkill.IsRelevant);
+                    Assert.True(rpSkill.IsHidden);
                 }).AssertSuccess();
         }
 
@@ -116,13 +119,13 @@ namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
         {
             var skillSet = scope.Resolve<AppDbContext>().Set<PersonSkill>();
             skillSet.AddRange(expectedSkillIds.Select(s=>SkillHelper.CreateSkill(s)));
-            await scope.SeedExperience();
+            await scope.SeedPersonResume();
         }
-        protected override MergePersonDutySkillsCommand CreateSut()
+        protected override MergeResumeSkillsCommand CreateSut()
         {
-            return new MergePersonDutySkillsCommand()
+            return new MergeResumeSkillsCommand()
             {
-                DutyId = 1
+                ResumeId = 1
             };
         }
     }

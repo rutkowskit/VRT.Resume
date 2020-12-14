@@ -97,7 +97,7 @@ namespace VRT.Resume.Application
                 ModifiedDate = Defaults.Today,
                 Summary = "Person experience summary",
                 ShowProfilePhoto = true,
-                ResumePersonSkill = new []
+                ResumePersonSkill = new List<ResumePersonSkill>()
                 {
                     new ResumePersonSkill()
                     {                        
