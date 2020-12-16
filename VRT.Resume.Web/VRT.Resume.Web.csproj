@@ -462,6 +462,7 @@
     <Content Include="Views\Culture\Change.cshtml" />
     <Content Include="Views\Culture\Index.cshtml" />
     <Content Include="Views\ErrorHandler\Index.cshtml" />
+    <Content Include="Views\Account\_SignOutButton.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

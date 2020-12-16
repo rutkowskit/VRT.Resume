@@ -1,16 +1,6 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
-    <legend>@Html.GetMessage(MsgNames.UserSignedIn)</legend>
-    <div class="position-absolute">
-        @using (Html.BeginForm("SignOut", "Account", new { returnUrl = "~/" }))
-        {
-            @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-primary btn-block" id="sign-out-button" name="type"
-                    title="Sign out the user">
-                @Html.GetLabel(LabelNames.SignOut)
-            </button>
-        }
-    </div>
+    <legend>@Html.GetMessage(MsgNames.UserSignedIn)</legend>    
     <div class="no-padding">
         <section id="userInfo">
             @Html.Partial("_UserInfo")

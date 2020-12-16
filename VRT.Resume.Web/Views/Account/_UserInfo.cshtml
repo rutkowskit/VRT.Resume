@@ -1,21 +1,15 @@
-﻿@{ 
+﻿@{
     var userInfo = User.AsUserLoginViewModel();
-    if(userInfo==null)
+    if (userInfo == null)
     {
         return;
     }
-    <div class="mt-5 mb-5 d-flex justify-content-start">
-        <div class="card rounded">
-            <div class="d-block justify-content-center">                
-                <div class="area2 text-center px-3">
-                    <div class="image mr-3">
-                        <img src="@Url.Action("ProfileImage", "Images")" class="rounded-circle" width="100" />
-                        <h4 class="name mt-3">@string.Format("{0} {1}",userInfo.FirstName, userInfo.LastName)</h4>
-                        <p class="information mt-3 text-center">@userInfo.Email </p>                        
-                    </div>                    
-                </div>
-            </div>
+    <div class="card" style="width:300px">
+        <img class="card-img-top" src="@Url.Action("ProfileImage", "Images")" alt="Card image">
+        <div class="card-body">
+            <h4 class="card-title">@string.Format("{0} {1}", userInfo.FirstName, userInfo.LastName)</h4>
+            <p class="card-text">@userInfo.Email</p>
+            @{Html.RenderPartial("_SignOutButton");}
         </div>
     </div>
-
 }

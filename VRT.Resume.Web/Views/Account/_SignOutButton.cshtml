@@ -1,0 +1,9 @@
+﻿<div>
+    @using (Html.BeginForm("SignOut", "Account", new { returnUrl = "~/" }))
+    {
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-outline-primary btn-block" id="sign-out-button" name="type">
+            @Html.GetLabel(LabelNames.SignOut)
+        </button>
+    }
+</div>
