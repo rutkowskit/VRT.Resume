@@ -19,6 +19,7 @@
         // label names for buttons
         public const string ButtonSave = "ButtonSave";
         public const string ButtonCancel = "ButtonCancel";
+        public const string ButtonCloneData = "ButtonCloneData";
         public const string ButtonEditData = "ButtonEditData";
         public const string ButonChangeImg = "ButonChangeImg";
         public const string ButtonAddNewEdu = "ButtonAddNewEdu";
@@ -35,7 +36,8 @@
 
         // other labels
         public const string Actions = "Actions";
-        public const string BornOn = "BornOn";            
+        public const string BornOn = "BornOn";
+        public const string Clone = "Clone";
         public const string Degree = "Degree";
         public const string Error = "Error";
         public const string Field = "Field";        

@@ -463,6 +463,7 @@
     <Content Include="Views\Culture\Index.cshtml" />
     <Content Include="Views\ErrorHandler\Index.cshtml" />
     <Content Include="Views\Account\_SignOutButton.cshtml" />
+    <Content Include="Views\Shared\_CloneToolbar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

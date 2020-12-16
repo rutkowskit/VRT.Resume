@@ -3,6 +3,7 @@ using CSharpFunctionalExtensions;
 using MediatR;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using VRT.Resume.Application.Resumes.Commands.ClonePersonResume;
 using VRT.Resume.Application.Resumes.Commands.DeletePersonResume;
 using VRT.Resume.Application.Resumes.Commands.UpsertPersonResume;
 using VRT.Resume.Application.Resumes.Queries.GetResume;
@@ -49,6 +50,19 @@ namespace VRT.Resume.Web.Controllers
             var resume = await Mediator.Send(query)
                 .Map(m => _mapper.Map<PersonResumeViewModel>(m));
             return ToActionResult(resume);
+        }
+
+        [HttpPost]
+        [Route("Clone")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Clone(int entityId)            
+        {
+            var cmd = new ClonePersonResumeCommand()
+            {
+                ResumeId = entityId
+            };
+            await Send(cmd);
+            return ToReturnUrl() ?? ToHome();
         }
 
         [HttpPost]

@@ -153,6 +153,9 @@
   <data name="ButtonShow" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clone</value>
+  </data>
   <data name="CompanyName" xml:space="preserve">
     <value>Company</value>
   </data>

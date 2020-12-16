@@ -6,8 +6,8 @@ namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
     {
         public UpsertPersonResumeCommandValidator()
         {
-            RuleFor(v => v.Description).MinimumLength(1).NotEmpty();
-            RuleFor(v => v.Position).MinimumLength(1).NotEmpty();            
+            RuleFor(v => v.Description).NotEmpty().MinimumLength(1).MaximumLength(50);
+            RuleFor(v => v.Position).NotEmpty().MinimumLength(1).MaximumLength(100);            
         }
     }
 }

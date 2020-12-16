@@ -146,16 +146,21 @@ body {
     display:inline-block;    
     flex-wrap: nowrap;
 }
-.skill-toolbar:before {
-    content: "";    
-    margin-left:6px;
-}
-.skill-toolbar a {
-    border: 0;
-    display:inline-block;
-    /*border: 1px solid red;*/    
-    border-radius: 50%;
-}
+
+    .skill-toolbar a,
+    .skill-toolbar button {
+        border: 0;
+        display: inline-block;
+        /*border: 1px solid red;*/
+        border-radius: 50%;
+        background:none;
+    }
+        .skill-toolbar button:focus,
+        .skill-toolbar button:active {
+            outline: none;
+            border: none;
+            background:none;
+        }
 .skill-toolbar img {
     width: 24px;
     height: 24px;    

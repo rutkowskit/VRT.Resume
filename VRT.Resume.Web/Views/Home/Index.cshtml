@@ -30,6 +30,7 @@
                         <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
                         <td class="text-nowrap">
                             @Html.Partial("_EditDeleteToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
+                            @Html.Partial("_CloneToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
                         </td>
                     </tr>
                 }
