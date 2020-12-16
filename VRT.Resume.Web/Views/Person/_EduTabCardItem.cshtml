@@ -1,0 +1,14 @@
+﻿@model Tuple<string,string>
+
+@{
+    var m = Model;
+    if(m==null || string.IsNullOrWhiteSpace(m.Item1))
+    {
+        return;
+    }
+    <div class="edu-card-item">
+        <img class="" src="@Url.Content("~/Content/img/help.svg")" 
+             alt="?" title="@Html.GetLabel(m.Item2)" />
+        <span class="card-subtitle">@m.Item1</span>
+    </div>
+}

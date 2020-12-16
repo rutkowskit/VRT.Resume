@@ -380,6 +380,8 @@
     <Content Include="Content\img\btn-avatar.svg" />
     <Content Include="Content\img\btn-edit.svg" />
     <Content Include="Content\img\btn-delete.svg" />
+    <Content Include="Content\img\clone.svg" />
+    <Content Include="Content\img\help.svg" />
     <Content Include="Content\img\printer.svg" />
     <Content Include="Content\img\resume.png" />
     <Content Include="Content\img\skills.svg" />
@@ -464,6 +466,7 @@
     <Content Include="Views\ErrorHandler\Index.cshtml" />
     <Content Include="Views\Account\_SignOutButton.cshtml" />
     <Content Include="Views\Shared\_CloneToolbar.cshtml" />
+    <Content Include="Views\Person\_EduTabCardItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
