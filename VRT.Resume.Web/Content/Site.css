@@ -175,3 +175,9 @@ body {
     border-radius:50%;
     cursor: pointer;
 }
+
+.contact-images img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}

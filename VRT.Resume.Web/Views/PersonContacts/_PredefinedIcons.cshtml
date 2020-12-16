@@ -1,0 +1,35 @@
+﻿@{
+    const string imgPath = "~/Content/img/contact/";
+    var names = Directory.GetFiles(Server.MapPath(imgPath))
+         .Where(s => s.EndsWith(".svg") || s.EndsWith(".png"))
+         .Select(s => Path.GetFileName(s))
+         .ToArray();         
+    if (names == null || names.Length == 0)
+    {
+        return;
+    }
+
+    foreach (var img in names)
+    {
+        var title = @Path.GetFileNameWithoutExtension(img);
+        <img class="contact-img" src="@(Url.Content(imgPath) + img)"
+             alt="@title" title="@title">
+    }
+}
+
+<script>   
+    function onImageClicked(img) {
+        var icoElem = document.getElementById("Icon");
+        console.log(img)
+        icoElem.innerHTML = img;
+    }
+    (function () {
+        const imgs = document.querySelectorAll('.contact-img');
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].addEventListener("click", function () {
+                onImageClicked(imgs[i].outerHTML);
+            });
+        }
+    })();
+</script>
+

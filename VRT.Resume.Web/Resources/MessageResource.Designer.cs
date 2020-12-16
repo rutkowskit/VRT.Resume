@@ -61,6 +61,15 @@ namespace VRT.Resume.Web.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose predefined icon.
+        /// </summary>
+        internal static string ChoosePredefinedIcon {
+            get {
+                return ResourceManager.GetString("ChoosePredefinedIcon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data Successfully saved.
         /// </summary>
         internal static string DataSavedSuccess {

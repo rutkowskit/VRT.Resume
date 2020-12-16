@@ -7,17 +7,19 @@
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ContactId);
 
-        <fieldset class="border form-row">
-            <div class="form-group col-md-7">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })                
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })                
-            </div>
-            <div class="form-group col-md-5">
-                @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
-            </div>
+        <fieldset class="border">
+            <div class="form-row pl-3 pr-3">
+                <div class="form-group col-md-7">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-md-5">
+                    @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+                </div>
+            </div>            
         </fieldset>
 
         <fieldset class="border mt-2 mb-3">
@@ -30,7 +32,12 @@
                 @Html.LabelFor(model => model.Icon, htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => model.Icon, new { @class = "form-control", placeholder="<svg>, <img>" })
                 @Html.ValidationMessageFor(model => model.Icon, "", new { @class = "text-danger" })
-            </div>            
+            </div>    
+            
+            <div class="col-md-12 contact-images">
+                @(Html.GetMessage(MsgNames.ChoosePredefinedIcon)):
+                @Html.Partial("_PredefinedIcons")                
+            </div>
         </fieldset>
 
         @Html.Partial("_SaveCancelFieldset")

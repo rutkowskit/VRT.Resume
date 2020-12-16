@@ -381,6 +381,12 @@
     <Content Include="Content\img\btn-edit.svg" />
     <Content Include="Content\img\btn-delete.svg" />
     <Content Include="Content\img\clone.svg" />
+    <Content Include="Content\img\contact\email.svg" />
+    <Content Include="Content\img\contact\github.svg" />
+    <Content Include="Content\img\contact\linkedin.svg" />
+    <Content Include="Content\img\contact\location.svg" />
+    <Content Include="Content\img\contact\phone.svg" />
+    <Content Include="Content\img\contact\pluralsight.svg" />
     <Content Include="Content\img\help.svg" />
     <Content Include="Content\img\printer.svg" />
     <Content Include="Content\img\resume.png" />
@@ -467,6 +473,7 @@
     <Content Include="Views\Account\_SignOutButton.cshtml" />
     <Content Include="Views\Shared\_CloneToolbar.cshtml" />
     <Content Include="Views\Person\_EduTabCardItem.cshtml" />
+    <Content Include="Views\PersonContacts\_PredefinedIcons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
