@@ -52,6 +52,7 @@ namespace VRT.Resume.Web.Controllers
             {
                 var culture = new CultureInfo(language);
                 var cultureInfo = CultureInfo.CreateSpecificCulture(culture.Name);
+                cultureInfo.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;                
             }

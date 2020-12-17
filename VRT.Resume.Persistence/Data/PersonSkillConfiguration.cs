@@ -20,6 +20,10 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Table contains full list of person skills");
 
+            entity.HasIndex(e => e.PersonId);
+
+            entity.HasIndex(e => e.SkillTypeId);
+
             entity.Property(e => e.Level)
                 .IsRequired()
                 .HasMaxLength(50)

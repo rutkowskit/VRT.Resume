@@ -19,6 +19,8 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Person profile images");
 
+            entity.HasIndex(e => e.PersonId);
+
             entity.Property(e => e.ImageData).IsRequired();
 
             entity.Property(e => e.ImageType).HasMaxLength(30);

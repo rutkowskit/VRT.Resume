@@ -19,6 +19,8 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Contains information about person's work experience");
 
+            entity.HasIndex(e => e.PersonId);
+
             entity.Property(e => e.CompanyName)
                 .IsRequired()
                 .HasMaxLength(200);

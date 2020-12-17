@@ -19,6 +19,8 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Connects person with extelnal user identifiers (from different sources)");
 
+            entity.HasIndex(e => e.PersonId);
+
             entity.Property(e => e.UserId).HasMaxLength(50);
 
             entity.HasOne(d => d.Person)

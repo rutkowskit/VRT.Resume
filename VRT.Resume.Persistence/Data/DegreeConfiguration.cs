@@ -17,8 +17,6 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Dictionary table with available degrees");
 
-            entity.Property(e => e.DegreeId).ValueGeneratedNever();
-
             entity.Property(e => e.Abreviation).HasMaxLength(10);
 
             entity.Property(e => e.Name)

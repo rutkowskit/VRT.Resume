@@ -19,6 +19,8 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Person skill for resume");
 
+            entity.HasIndex(e => e.ResumeId);
+
             entity.Property(e => e.SkillId).HasComment("Skill id from Person Skills");
 
             entity.Property(e => e.ResumeId).HasComment("");

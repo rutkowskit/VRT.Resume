@@ -11,7 +11,7 @@ namespace VRT.Resume.Web.Controllers
             var controller = RouteData.Values["Controller"] as string;
             var action = RouteData.Values["Action"] as string;
 
-            var exceptionInfo = new System.Web.Mvc.HandleErrorInfo(
+            var exceptionInfo = new HandleErrorInfo(
                 filterContext.Exception, controller, action);
             
             TempData[TempDataKeys.ExceptionInfo] = exceptionInfo;

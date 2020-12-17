@@ -19,6 +19,14 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Persons education entries");
 
+            entity.HasIndex(e => e.DegreeId);
+
+            entity.HasIndex(e => e.EducationFieldId);
+
+            entity.HasIndex(e => e.PersonId);
+
+            entity.HasIndex(e => e.SchoolId);
+
             entity.Property(e => e.EducationId).ValueGeneratedOnAdd();
 
             entity.Property(e => e.FromDate).HasColumnType("date");

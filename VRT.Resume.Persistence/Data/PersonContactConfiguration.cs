@@ -20,6 +20,8 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Table of contacts connected with person");
 
+            entity.HasIndex(e => e.PersonId);
+
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
 
             entity.Property(e => e.Name)

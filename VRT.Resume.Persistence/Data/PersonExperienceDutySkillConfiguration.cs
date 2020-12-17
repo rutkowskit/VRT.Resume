@@ -17,6 +17,8 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Association between person's duty and skills used while performing on duty");
 
+            entity.HasIndex(e => e.SkillId);
+
             entity.HasIndex(e => new { e.DutyId, e.SkillId })
                 .HasName("UX_PersonExperienceSkill_DutyId_SkillId")
                 .IsUnique();

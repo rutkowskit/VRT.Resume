@@ -19,6 +19,8 @@ namespace VRT.Resume.Persistence.Data
 
             entity.HasComment("Person resume data");
 
+            entity.HasIndex(e => e.PersonId);
+
             entity.Property(e => e.Description)
                 .IsRequired()
                 .HasMaxLength(50)

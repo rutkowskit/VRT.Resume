@@ -62,9 +62,9 @@ namespace VRT.Resume.Web
                         category == DbLoggerCategory.Database.Command.Name
                         && level == LogLevel.Information);
                 });
-                var conString = ConfigurationManager.ConnectionStrings["AppDbContext:MSSQL"];
+                var conString = ConfigurationManager.AppSettings["App:ConnectionString:MSSQL"];
                 var opt = new DbContextOptionsBuilder<AppDbContext>()
-                    .UseSqlServer(conString.ConnectionString);
+                    .UseSqlServer(conString);
                 //.UseLoggerFactory(loggerFactory);
                 return opt.Options;
             }).SingleInstance();

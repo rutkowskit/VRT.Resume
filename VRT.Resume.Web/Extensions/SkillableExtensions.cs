@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Web;
 using VRT.Resume.Application.Resumes.Queries.GetResume;
@@ -14,13 +15,17 @@ namespace VRT.Resume.Web
             string prefix, string postfix, string separator, 
             Func<SkillDto, string> formatter)
         {
-            if (entity == null || entity.Skills==null || entity.Skills.Length==0)
+            var skills = entity?.Skills
+                ?.OrderByDescending(o => o.Position)
+                .ThenByDescending(o => o.Level)
+                .ToArray();
+            if (skills==null || skills.Length==0)
                 return null;
             
             if (formatter == null)
                 formatter = FormatSkill;
             var result = new StringBuilder();
-            foreach (var skill in entity.Skills)
+            foreach (var skill in skills)
             {
                 if (skill == null) continue;
                 if (result.Length > 0)
