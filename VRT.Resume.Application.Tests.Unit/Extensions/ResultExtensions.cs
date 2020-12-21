@@ -17,6 +17,19 @@ namespace VRT.Resume.Application
             return result;
         }
 
+
+        internal static async Task<Result> AssertSuccess<T>(this Task<Result<T>> result)
+        {
+            var r = await result;
+            return r.AssertSuccess();
+        }
+
+        internal static Result AssertSuccess<T>(this Result<T> result)
+        {
+            Assert.True(result.IsSuccess, GetErrorSafe(result));
+            return result;
+        }
+
         internal static async Task<Result> AssertSuccess(this Task<Result> result)
         {
             var r = await result;

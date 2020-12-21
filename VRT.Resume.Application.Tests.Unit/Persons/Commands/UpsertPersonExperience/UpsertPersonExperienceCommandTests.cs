@@ -8,7 +8,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonExperience
 {
-    public class UpsertPersonExperienceCommandTests : ApplicationTestBase<UpsertPersonExperienceCommand>
+    public class UpsertPersonExperienceCommandTests : CommandTestBase<UpsertPersonExperienceCommand>
     {
         [Fact()]
         public async Task Send_CommandWithTooShortCompanyName_ShouldThrowValidationError()

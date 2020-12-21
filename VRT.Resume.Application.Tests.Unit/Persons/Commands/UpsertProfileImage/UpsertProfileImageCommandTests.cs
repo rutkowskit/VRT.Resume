@@ -9,7 +9,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertProfileImage
 {
-    public class UpsertProfileImageCommandTests : ApplicationTestBase<UpsertProfileImageCommand>
+    public class UpsertProfileImageCommandTests : CommandTestBase<UpsertProfileImageCommand>
     {
         [Fact()]
         public async Task Send_CommandWithEmptyImageData_ShouldThrowValidationError()

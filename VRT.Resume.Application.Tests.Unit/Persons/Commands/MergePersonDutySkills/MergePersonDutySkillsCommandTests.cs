@@ -8,7 +8,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
 {
-    public sealed class MergePersonDutySkillsCommandTests : ApplicationTestBase<MergePersonDutySkillsCommand>
+    public sealed class MergePersonDutySkillsCommandTests : CommandTestBase<MergePersonDutySkillsCommand>
     {
         [Fact()]
         public async Task Send_CommandWithInvalidEntityId_ShouldThrowValidationError()

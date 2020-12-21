@@ -8,7 +8,7 @@ using VRT.Resume.Domain.Entities;
 
 namespace VRT.Resume.Application.Resumes.Commands.ClonePersonResume
 {
-    public class ClonePersonResumeCommandTests : ApplicationTestBase<ClonePersonResumeCommand>
+    public class ClonePersonResumeCommandTests : CommandTestBase<ClonePersonResumeCommand>
     {      
         [Fact()]
         public async Task Send_CommandWithoutResumeId_ShouldThrowValidationError()

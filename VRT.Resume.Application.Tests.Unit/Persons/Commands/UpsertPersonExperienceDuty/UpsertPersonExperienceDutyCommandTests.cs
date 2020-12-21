@@ -8,7 +8,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonExperienceDuty
 {
-    public class UpsertPersonExperienceDutyCommandTests : ApplicationTestBase<UpsertPersonExperienceDutyCommand>
+    public class UpsertPersonExperienceDutyCommandTests : CommandTestBase<UpsertPersonExperienceDutyCommand>
     {
         [Fact()]
         public async Task Send_CommandWithoutExperienceId_ShouldThrowValidationError()

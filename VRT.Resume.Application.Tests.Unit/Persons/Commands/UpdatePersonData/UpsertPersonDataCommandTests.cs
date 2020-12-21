@@ -6,7 +6,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpdatePersonData
 {
-    public class UpdatePersonDataCommandTests : ApplicationTestBase<UpdatePersonDataCommand>
+    public class UpdatePersonDataCommandTests : CommandTestBase<UpdatePersonDataCommand>
     {
         [Fact()]
         public async Task Send_CommandWithoutFirstName_ShouldThrowValidationError()

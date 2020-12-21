@@ -8,7 +8,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonSkill
 {
-    public class UpsertPersonSkillCommandTests : ApplicationTestBase<UpsertPersonSkillCommand>
+    public class UpsertPersonSkillCommandTests : CommandTestBase<UpsertPersonSkillCommand>
     {
         [Fact()]
         public async Task Send_CommandWithTooShortSkillName_ShouldThrowValidationError()

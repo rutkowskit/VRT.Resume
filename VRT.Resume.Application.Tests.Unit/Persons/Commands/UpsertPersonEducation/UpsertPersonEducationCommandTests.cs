@@ -8,7 +8,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonEducation
 {
-    public class UpsertPersonEducationCommandTests : ApplicationTestBase<UpsertPersonEducationCommand>
+    public class UpsertPersonEducationCommandTests : CommandTestBase<UpsertPersonEducationCommand>
     {
         [Fact()]
         public async Task Send_CommandWithTooShortDegree_ShouldThrowValidationError()

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace VRT.Resume.Application
 {
-    public abstract class DeleteCommandTestBase<TRequest,TDomainModel> : ApplicationTestBase<TRequest>
+    public abstract class DeleteCommandTestBase<TRequest,TDomainModel> : CommandTestBase<TRequest>
         where TRequest : IRequest<Result>
         where TDomainModel : class
     {        

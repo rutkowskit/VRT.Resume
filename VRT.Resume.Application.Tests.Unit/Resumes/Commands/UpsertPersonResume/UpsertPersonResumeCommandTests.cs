@@ -6,7 +6,7 @@ using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
 {
-    public class UpsertPersonResumeCommandTests : ApplicationTestBase<UpsertPersonResumeCommand>
+    public class UpsertPersonResumeCommandTests : CommandTestBase<UpsertPersonResumeCommand>
     {      
         [Fact()]
         public async Task Send_CommandWithoutDescription_ShouldThrowValidationError()

@@ -8,7 +8,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Resumes.Commands.MergeResumeSkills
 {
-    public sealed class MergeResumeSkillsCommandTests : ApplicationTestBase<MergeResumeSkillsCommand>
+    public sealed class MergeResumeSkillsCommandTests : CommandTestBase<MergeResumeSkillsCommand>
     {
         [Fact()]
         public async Task Send_CommandWithInvalidResumeId_ShouldThrowValidationError()

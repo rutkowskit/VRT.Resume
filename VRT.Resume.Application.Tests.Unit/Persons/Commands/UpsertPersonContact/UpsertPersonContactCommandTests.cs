@@ -6,7 +6,7 @@ using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
 {
-    public class UpsertPersonContactCommandTests : ApplicationTestBase<UpsertPersonContactCommand>
+    public class UpsertPersonContactCommandTests : CommandTestBase<UpsertPersonContactCommand>
     {
         [Fact()]
         public async Task Send_CommandWithoutName_ShouldThrowValidationError()
