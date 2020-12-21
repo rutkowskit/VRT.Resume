@@ -4,7 +4,7 @@ using VRT.Resume.Application.Persons.Queries.GetPersonData;
 using CSharpFunctionalExtensions;
 using VRT.Resume.Web.Models;
 using MediatR;
-using VRT.Resume.Application.Persons.Commands.UpsertPersonData;
+using VRT.Resume.Application.Persons.Commands.UpdatePersonData;
 
 namespace VRT.Resume.Web.Controllers
 {    
@@ -31,7 +31,7 @@ namespace VRT.Resume.Web.Controllers
             {
                 return View("Edit");
             }
-            var cmd = new UpsertPersonDataCommand()
+            var cmd = new UpdatePersonDataCommand()
             {
                 FirstName = data.FirstName,
                 LastName = data.LastName,

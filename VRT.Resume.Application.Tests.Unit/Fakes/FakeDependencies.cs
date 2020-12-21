@@ -14,13 +14,13 @@ namespace VRT.Resume.Application.Fakes
         internal static IContainer Register()
         {
             return new ContainerBuilder()
-                .RegisterDateTimeService()
+                .RegisterImplementadInterfaces()
                 .RegisterDbContext()                
                 .RegisterMediator()
                 .RegisterMediatorPipelineBehaviours()
                 .RegisterCurrentUserService()
-                .RegisterServiceFactory()
-                .RegisterImplementadInterfaces()
+                .RegisterServiceFactory()                
+                .RegisterDateTimeService()
                 .Build();                
         }
 

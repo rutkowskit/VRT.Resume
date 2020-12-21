@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 
-namespace VRT.Resume.Application.Persons.Commands.UpsertPersonData
+namespace VRT.Resume.Application.Persons.Commands.UpdatePersonData
 {
     public sealed class 
-        UpsertPersonDataCommandValidator : AbstractValidator<UpsertPersonDataCommand>
+        UpdatePersonDataCommandValidator : AbstractValidator<UpdatePersonDataCommand>
     {
-        public UpsertPersonDataCommandValidator()
+        public UpdatePersonDataCommandValidator()
         {
 
             RuleFor(v => v.FirstName)

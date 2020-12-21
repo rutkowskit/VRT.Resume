@@ -7,7 +7,7 @@ namespace VRT.Resume.Application.Fakes
     /// </summary>
     internal class FakeIocContainer
     {
-        private static FakeIocContainer _instance = new FakeIocContainer();
+        private static readonly FakeIocContainer _instance = new FakeIocContainer();
         public static FakeIocContainer Instance => _instance;
         private FakeIocContainer()
         {
