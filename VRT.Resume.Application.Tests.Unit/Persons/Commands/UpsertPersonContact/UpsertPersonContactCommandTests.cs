@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using FluentValidation;
 using System.Threading.Tasks;
-using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 using Xunit;
 

@@ -8,12 +8,12 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonEducation
         {
 
             RuleFor(v => v.Degree)
-                .MinimumLength(1)
-                .NotEmpty();
+                .NotEmpty()
+                .MinimumLength(1);
 
             RuleFor(v => v.SchoolName)
-                .MinimumLength(2)
-                .NotEmpty();
+                .NotEmpty()
+                .MinimumLength(2);
 
             RuleFor(v => v.FromDate)                
                 .NotEmpty();

@@ -39,9 +39,61 @@ namespace VRT.Resume.Application
             {
                 EducationId = educationId,
                 PersonId = personId,                
-                ModifiedDate = new DateTime(2020, 2, 3)
+                ModifiedDate = Defaults.Today,
+                School = new School()
+                {
+                    SchoolId = 1,
+                    Name = "School",
+                    ModifiedDate = Defaults.Today
+                }
             };
             db.PersonEducation.Add(toAdd);
+            await db.SaveChangesAsync();
+        }
+
+        internal static async Task SeedSchool(this ILifetimeScope scope,
+            int schoolId = 1,
+            string schoolName = "School")
+        {
+            var db = scope.Resolve<AppDbContext>();
+
+            var toAdd = new School()
+            {
+                SchoolId = schoolId,
+                Name = schoolName,
+                ModifiedDate = Defaults.Today
+            };
+            db.School.Add(toAdd);
+            await db.SaveChangesAsync();
+        }
+
+        internal static async Task SeedDegree(this ILifetimeScope scope,
+            int degreeId = 1,
+            string degreeName = "Master")
+        {
+            var db = scope.Resolve<AppDbContext>();
+
+            var toAdd = new Degree()
+            {
+                DegreeId = degreeId,
+                Name = degreeName                
+            };
+            db.Degree.Add(toAdd);
+            await db.SaveChangesAsync();
+        }
+
+        internal static async Task SeedEducationField(this ILifetimeScope scope,
+            int educationFieldId = 1,
+            string educationFieldName = "Science")
+        {
+            var db = scope.Resolve<AppDbContext>();
+
+            var toAdd = new EducationField()
+            {
+                EducationFieldId = educationFieldId,
+                Name = educationFieldName
+            };
+            db.EducationField.Add(toAdd);
             await db.SaveChangesAsync();
         }
 
