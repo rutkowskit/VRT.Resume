@@ -9,8 +9,8 @@ namespace VRT.Resume.Application
 {
     internal static class LifetimeScopeExtensions
     {
-        internal static async Task SeedContact(this ILifetimeScope scope, 
-            int contactId=1,
+        internal static async Task SeedContact(this ILifetimeScope scope,
+            int contactId = 1,
             int personId = Defaults.PersonId)
         {
             var db = scope.Resolve<AppDbContext>();
@@ -18,7 +18,7 @@ namespace VRT.Resume.Application
             var toAdd = new PersonContact()
             {
                 ContactId = contactId,
-                PersonId = personId ,
+                PersonId = personId,
                 Name = "Default",
                 Value = "Default",
                 Icon = "<svg></svg>",
@@ -26,6 +26,26 @@ namespace VRT.Resume.Application
                 ModifiedDate = new DateTime(2020, 2, 3)
             };
             db.PersonContact.Add(toAdd);
+            await db.SaveChangesAsync();
+        }
+        internal static async Task SeedSkill(this ILifetimeScope scope,
+            int skillId = 1,
+            int personId = Defaults.PersonId,
+            string name = "Skill",
+            string level = "10",
+            SkillTypes type = SkillTypes.Technical)
+        {
+            var db = scope.Resolve<AppDbContext>();
+
+            var toAdd = new PersonSkill()
+            {
+                SkillId = skillId,
+                SkillTypeId = (byte)type,
+                Level = level,
+                Name = name,
+                PersonId = personId                
+            };
+            db.PersonSkill.Add(toAdd);
             await db.SaveChangesAsync();
         }
 
@@ -38,7 +58,7 @@ namespace VRT.Resume.Application
             var toAdd = new PersonEducation()
             {
                 EducationId = educationId,
-                PersonId = personId,                
+                PersonId = personId,
                 ModifiedDate = Defaults.Today,
                 School = new School()
                 {
@@ -76,7 +96,7 @@ namespace VRT.Resume.Application
             var toAdd = new Degree()
             {
                 DegreeId = degreeId,
-                Name = degreeName                
+                Name = degreeName
             };
             db.Degree.Add(toAdd);
             await db.SaveChangesAsync();
@@ -99,13 +119,15 @@ namespace VRT.Resume.Application
 
         internal static async Task SeedExperience(this ILifetimeScope scope,
             int experienceId = 1,
-            int personId = Defaults.PersonId)
+            int personId = Defaults.PersonId,
+            bool seedDuty = true,
+            bool seedSkill = true)
         {
             var db = scope.Resolve<AppDbContext>();
 
             var toAdd = new PersonExperience()
             {
-                ExperienceId = experienceId,                
+                ExperienceId = experienceId,
                 PersonId = personId,
                 CompanyName = "CompanyName",
                 FromDate = Defaults.Today.AddDays(-10),
@@ -113,23 +135,30 @@ namespace VRT.Resume.Application
                 Location = "Location",
                 ModifyDate = Defaults.Today,
                 Position = "Position",
-                PersonExperienceDuty = new List<PersonExperienceDuty>()
-                {
-                    new PersonExperienceDuty()
-                    {
-                        DutyId = 1,
-                        Name = "DutyName",                        
-                        PersonExperienceDutySkill = new List<PersonExperienceDutySkill>()
-                        {
-                            new PersonExperienceDutySkill()
-                            {
-                                Id = 1,
-                                Skill = SkillHelper.CreateSkill()                                                                
-                            }
-                        }
-                    }
-                }
             };
+            if (seedDuty)
+            {
+                var duty = new PersonExperienceDuty()
+                {
+                    DutyId = 1,
+                    Name = "DutyName"
+                };
+                if (seedSkill)
+                {
+                    duty.PersonExperienceDutySkill = new List<PersonExperienceDutySkill>()
+                    {
+                        new PersonExperienceDutySkill()
+                        {
+                            Id = 1,
+                            Skill = SkillHelper.CreateSkill()
+                        }
+                    };
+                }
+                toAdd.PersonExperienceDuty = new List<PersonExperienceDuty>()
+                {
+                  duty
+                };
+            }
             db.PersonExperience.Add(toAdd);
             await db.SaveChangesAsync();
         }
@@ -152,14 +181,14 @@ namespace VRT.Resume.Application
                 ResumePersonSkill = new List<ResumePersonSkill>()
                 {
                     new ResumePersonSkill()
-                    {                        
+                    {
                         Skill = SkillHelper.CreateSkill()
                     }
-                }                
+                }
             };
             db.PersonResume.Add(toAdd);
             await db.SaveChangesAsync();
         }
-        
-    }    
+
+    }
 }

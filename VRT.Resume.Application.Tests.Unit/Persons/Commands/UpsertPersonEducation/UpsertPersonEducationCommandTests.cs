@@ -144,7 +144,7 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonEducation
                UpsertPersonEducationCommand sut)
         {
             Assert.NotNull(edu);
-            Assert.Equal(1, sut.EducationId);
+            Assert.Equal(1, edu.EducationId);
             Assert.Equal(sut.Degree, edu.Degree.Name);
             Assert.Equal(sut.Field, edu.EducationField.Name);
             Assert.Equal(sut.FromDate, edu.FromDate);

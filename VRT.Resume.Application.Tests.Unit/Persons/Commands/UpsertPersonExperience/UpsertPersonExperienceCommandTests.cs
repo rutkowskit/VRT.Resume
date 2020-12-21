@@ -94,7 +94,7 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonExperience
                UpsertPersonExperienceCommand sut)
         {
             Assert.NotNull(exp);
-            Assert.Equal(1, sut.ExperienceId);
+            Assert.Equal(1, exp.ExperienceId);
             Assert.Equal(sut.CompanyName, exp.CompanyName);
             Assert.Equal(sut.Location,exp.Location);
             Assert.Equal(sut.Position, exp.Position);
