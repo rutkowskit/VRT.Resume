@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using FluentValidation;
 using Autofac;
 using VRT.Resume.Persistence.Data;
-using VRT.Resume.Domain.Entities;
 
 namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
 {
@@ -48,7 +47,7 @@ namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
             var sut = CreateSut();
             
             var result = await Send(sut, 
-                async scope => await SeedResume(scope),
+                async scope => await scope.SeedPersonResume(),
                 onAfterSend: scope =>
             {
                 var resume = Assert.Single(scope.Resolve<AppDbContext>().PersonResume);
@@ -75,25 +74,6 @@ namespace VRT.Resume.Application.Resumes.Commands.UpsertPersonResume
                 ShowProfilePhoto = true,
                 Summary = "Summary"
             };
-        }
-
-        private async Task SeedResume(ILifetimeScope scope)
-        {
-            var db = scope.Resolve<AppDbContext>();
-            
-            var toAdd = new PersonResume()
-            {
-                ResumeId = 1,   
-                PersonId = Defaults.PersonId,
-                Description = "Default",
-                Permission = "Default",
-                ShowProfilePhoto = false,
-                Summary = "Default",
-                Position = "Default",
-                ModifiedDate = new System.DateTime(2020, 2, 3)
-            };
-            db.PersonResume.Add(toAdd);            
-            await db.SaveChangesAsync();
-        }
+        }        
     }
 }

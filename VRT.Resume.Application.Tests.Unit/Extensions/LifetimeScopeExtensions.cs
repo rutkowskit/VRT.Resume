@@ -190,5 +190,22 @@ namespace VRT.Resume.Application
             await db.SaveChangesAsync();
         }
 
+        internal static async Task SeedImage(this ILifetimeScope scope,
+            int imageId = 1,
+            int personId = Defaults.PersonId)
+        {
+            var db = scope.Resolve<AppDbContext>();
+
+            var toAdd = new PersonImage()
+            {
+                ImageId = imageId,
+                ImageType = "some/image",
+                ImageData = new byte[] {0x66, 0x55},
+                PersonId = personId
+            };
+            db.PersonImage.Add(toAdd);
+            await db.SaveChangesAsync();
+        }
+
     }
 }
