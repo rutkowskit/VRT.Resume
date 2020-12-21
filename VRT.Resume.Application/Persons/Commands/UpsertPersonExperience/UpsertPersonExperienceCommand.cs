@@ -35,7 +35,10 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonExperience
                 current.Location = request.Location;
                 current.Position = request.Position;
                 current.CompanyName = request.CompanyName;
-                current.ModifyDate = GetCurrentDate();
+                if(current.HasChanges(Context))
+                {
+                    current.ModifyDate = GetCurrentDate();
+                }                
                 return current;
             }
             protected override Result<PersonExperience> GetExistingData(UpsertPersonExperienceCommand request)
