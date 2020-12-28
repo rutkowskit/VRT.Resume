@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Simple resume generator by Tomasz Rutkowski" />
+    <meta content="IE=EDGE, chrome=1" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Generator 1.1</title>
+    <link rel="shortcut icon" href="~/Content/img/resume.png?v=3" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/Resume.css" />    
+</head>
+
+<body class="d-flex flex-column">
+    @await Html.PartialAsync("_MenuBar")
+    <div class="wrapper flex-grow-1">
+        <div class="container body-content">
+            @RenderBody()
+        </div>
+    </div>
+    @await Html.PartialAsync("_ActionResult")
+    <footer class="footer">
+        <p>&copy; Tomasz Rutkowski @(DateTime.Now.Year==2020 ? "":"2020-")@DateTime.Now.Year - My Resume generator</p>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    
+</body>
+</html>

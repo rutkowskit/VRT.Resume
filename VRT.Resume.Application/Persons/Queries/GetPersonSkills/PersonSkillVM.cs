@@ -1,4 +1,6 @@
-﻿namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
+﻿using VRT.Resume.Domain.Common;
+
+namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
 {
     public sealed class PersonSkillVM
     {

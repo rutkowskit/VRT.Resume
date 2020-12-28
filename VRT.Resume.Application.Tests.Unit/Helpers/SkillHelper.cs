@@ -1,4 +1,5 @@
-﻿using VRT.Resume.Domain.Entities;
+﻿using VRT.Resume.Domain.Common;
+using VRT.Resume.Domain.Entities;
 
 namespace VRT.Resume.Application
 {

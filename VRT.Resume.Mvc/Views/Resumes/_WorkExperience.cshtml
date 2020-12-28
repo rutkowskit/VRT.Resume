@@ -1,0 +1,30 @@
+﻿@model VRT.Resume.Application.Resumes.Queries.GetResume.WorkExperienceDto[]
+
+@if (Model == null)
+{
+    return;
+}
+
+<div class="resume-work-list">
+    @{
+        var query = Model
+                        .OrderByDescending(o => o.FromDate)
+                        .ThenByDescending(o => o.ToDate.GetValueOrDefault(DateTime.MaxValue))
+                        .ToArray();
+        foreach (var exp in query)
+        {
+            if (exp == null)
+            {
+                continue;
+            }
+            <div class="resume-work-item">                
+                <div class="resume-timeline-item-title">
+                    @(exp.AsTimeRange()) - @(exp.Position)
+                </div>
+                <div class="resume-timeline-item-title-1">@exp.CompanyName</div>
+                <div class="resume-timeline-item-title-2">@exp.Location</div>
+                @{ await Html.RenderPartialAsync("_WorkActivities", exp.WorkActivities); }
+            </div>
+        }
+    }
+</div>

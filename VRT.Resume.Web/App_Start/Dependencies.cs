@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using Autofac;
@@ -10,12 +8,12 @@ using MediatR;
 using MediatR.Pipeline;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using VRT.Resume.Application;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Application.Common.Behaviours;
 using VRT.Resume.Persistence.Data;
 using VRT.Resume.Web.MappingProfiles;
 using VRT.Resume.Web.Services;
+using VRT.Resume.Persistence;
 
 namespace VRT.Resume.Web
 {
@@ -77,7 +75,7 @@ namespace VRT.Resume.Web
         private static ContainerBuilder RegisterImplementadInterfaces(this ContainerBuilder builder)
         {
             builder
-                 .RegisterAssemblyTypes(typeof(SkillTypes).Assembly)
+                 .RegisterAssemblyTypes(typeof(IDateTimeService).Assembly)
                  .AsImplementedInterfaces();
             return builder;
         }
@@ -174,32 +172,8 @@ namespace VRT.Resume.Web
             {
                 var options = scope.Resolve<DbContextOptions<AppDbContext>>();
                 var ctx = new AppDbContext(options);
-                if (ctx.Database.EnsureCreated())
-                {
-                    ctx.SeedSkillTypes();
-                    ctx.SaveChanges();
-                }
+                ctx.InitDatabase();                
             }
-        }
-
-        private static AppDbContext SeedSkillTypes(this AppDbContext ctx)
-        {
-            ctx.SkillType.AddRange(Enum.GetNames(typeof(SkillTypes))
-                .Select(skillName => AsSkillType(skillName))
-                .Where(w => w != null)                
-            );
-            return ctx;
-        }
-
-        private static Domain.Entities.SkillType AsSkillType(string skillName)
-        {
-            return Enum.TryParse<SkillTypes>(skillName, out var skillType)
-                ? new Domain.Entities.SkillType()
-                {
-                    SkillTypeId = (byte)skillType,
-                    Name = skillName
-                }                          
-                : null;
-        }
+        }        
     }
 }

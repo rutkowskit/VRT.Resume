@@ -1,0 +1,21 @@
+﻿@model EditDeleteToolbarData
+@{
+    if(Model==null)
+    {
+        return;
+    }
+    var cloneButtonLabel = Html.GetLabel(LabelNames.Clone);
+    
+}
+
+<div class="skill-toolbar">
+    @using (Html.BeginForm("Clone", Model.Controller))
+    {        
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.EntityId)
+        <button class="btn-link" type="submit">
+            <img src="@Url.Content("~/img/clone.svg")"
+                 alt="@cloneButtonLabel" title="@cloneButtonLabel" />
+        </button>        
+    }
+</div>

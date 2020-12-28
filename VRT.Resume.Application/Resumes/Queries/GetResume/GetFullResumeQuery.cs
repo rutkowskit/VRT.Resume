@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using VRT.Resume.Application.Common.Abstractions;
+using VRT.Resume.Domain.Common;
 using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Application.Resumes.Queries.GetResume

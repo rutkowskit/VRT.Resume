@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using VRT.Resume.Domain.Common;
 using Xunit;
 
 namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills

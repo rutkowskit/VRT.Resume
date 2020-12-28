@@ -10,10 +10,10 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
     public class CreatePersonAccountCommandTests
     {
         [Fact()]
-        public async Task Send_CommandWithoutEmail_ShouldThrowValidationError()
+        public async Task Send_CommandWithoutUserId_ShouldThrowValidationError()
         {
             var sut = CreateSut();
-            sut.Email = null;
+            sut.UserId = null;
 
             await Assert.ThrowsAsync<ValidationException>(() => sut.Send());
         }
@@ -72,6 +72,7 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
         public async Task Send_WhenOtherUserExists_ShouldAddNewUser()
         {
             var sut = CreateSut();
+            sut.UserId = "some.different.user@test.me";
             sut.Email = "some.different.user@test.me";
             var result = await sut.Send(                
                 onAfterSend: scope =>
@@ -95,6 +96,7 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
         {
             return new CreatePersonAccountCommand()
             {
+                UserId = Defaults.UserId,
                 Email = Defaults.UserId,                
                 FirstName = "Tester",
                 LastName = "Testowski"

@@ -1,0 +1,20 @@
+﻿@model EditDeleteToolbarData
+
+<legend>@Html.GetLabel(LabelNames.DeleteEntry) @Html.GetLabel(Model.Label)</legend>
+<div class="profile-person-data">
+
+    @using (Html.BeginForm("Delete", Model.Controller))
+    {        
+        @Html.AntiForgeryToken()
+        @Html.Hidden("Method","Delete")
+
+        <fieldset>
+            <legend>@Html.GetMessage(MsgNames.DeleteConfirmMessage)</legend>
+            <div class="form-group">
+                @Html.HiddenFor(m => m.EntityId)
+            </div>
+        </fieldset>
+        @await Html.PartialAsync("_OkCancelFieldset");
+    }
+</div>
+

@@ -1,0 +1,16 @@
+﻿@model VRT.Resume.Application.Resumes.Queries.GetResume.ResumeFullVM
+
+<div>    
+    @if (Model.ShowProfilePhoto)
+    {
+        <div class="resume-image-container" data-control-name="identity_profile_photo">
+            <img class="resume-image card-img-top" width="64" src="@Url.Action("ProfileImage", "Images")" alt="Photo">
+        </div>
+    }    
+    <div class="card-text h2">
+        @(string.Format("{0} {1}", Model.FirstName, Model.LastName))
+    </div>
+</div>
+<p class="blockquote text-center">
+    @Model.Position
+</p>

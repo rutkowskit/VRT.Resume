@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using VRT.Resume.Domain.Common;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 

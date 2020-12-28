@@ -22,8 +22,8 @@ namespace VRT.Resume.Application
                 db.UserPerson.RemoveRange(db.UserPerson);
                 db.Person.RemoveRange(db.Person);
                 db.SaveChanges();
-            });                        
-            Assert.True(result.IsSuccess, nameof(result.IsFailure));
+            });                              
+            Assert.True(result.IsFailure, nameof(result.IsFailure));
             Assert.Equal(Errors.UserUnauthorized, result.Error);
         }                
     }

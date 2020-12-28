@@ -50,7 +50,7 @@ namespace VRT.Resume.Application.Fakes
         private static ContainerBuilder RegisterImplementadInterfaces(this ContainerBuilder builder)
         {
             builder
-                 .RegisterAssemblyTypes(typeof(SkillTypes).Assembly)
+                 .RegisterAssemblyTypes(typeof(IDateTimeService).Assembly)
                  .AsImplementedInterfaces();
             return builder;
         }

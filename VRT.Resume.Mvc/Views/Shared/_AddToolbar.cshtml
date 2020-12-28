@@ -1,0 +1,17 @@
+﻿@model EditDeleteToolbarData
+@{
+    if (Model == null)
+    {
+        return;
+    }
+    var addButtonLabel = Html.GetLabel(LabelNames.AddNewEntry);    
+}
+
+<div class="text-right mt-3 d-flex justify-content-between add-toolbar">
+    <span class="h4 text-muted">@Html.GetLabel(Model.Label)</span>
+    <a class="btn btn-light btn-outline-secondary"
+       title="@addButtonLabel"
+       href="@(Url.Action("Add", Model.Controller, new { id=Model.EntityId }))">
+        <span class="mr-auto">+</span>
+    </a>
+</div>

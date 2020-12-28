@@ -1,4 +1,4 @@
-﻿namespace VRT.Resume.Application
+﻿namespace VRT.Resume.Domain.Common
 {
     public enum SkillTypes
     {

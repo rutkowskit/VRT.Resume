@@ -12,6 +12,7 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
 {
     public sealed class CreatePersonAccountCommand : IRequest<Result<int>>
     {
+        public string UserId { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }       
@@ -30,7 +31,7 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
             public async Task<Result<int>> Handle(CreatePersonAccountCommand request, CancellationToken cancellationToken)
             {
                 await Task.Yield();
-                return GetExistingPersonId(request.Email)
+                return GetExistingPersonId(request.UserId)
                     .OnFailureCompensate(() =>
                     {
                         return InitiateAccout(request)
@@ -44,10 +45,10 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
                     
             }
 
-            private Result<int> GetExistingPersonId(string email)
+            private Result<int> GetExistingPersonId(string userId)
             {
                 var query = from p in _context.UserPerson
-                            where p.UserId == email
+                            where p.UserId == userId
                             select p.PersonId;
                 var id = query.FirstOrDefault();
                 return id <= 0
@@ -60,24 +61,27 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
                 var curDate = _dateTime.Now;
                 var result = new UserPerson()
                 {
-                    UserId = request.Email,
+                    UserId = request.Email ?? request.UserId,
                     Person = new Person()
                     {
                         FirstName = request.FirstName,
                         LastName = request.LastName,
-                        ModifiedDate = curDate,
-                        PersonContact = new[]
-                        {
-                            new PersonContact()
-                            {
-                                Name = "Email",
-                                Value = request.Email,
-                                Url = $"mailto:{request.Email}",                                
-                                ModifiedDate = curDate
-                            }
-                        }                        
+                        ModifiedDate = curDate,                                              
                     }
                 };
+                if(request.Email!=null)
+                {
+                    result.Person.PersonContact = new[]
+                    {
+                        new PersonContact()
+                        {
+                            Name = "Email",
+                            Value = request.Email,
+                            Url = $"mailto:{request.Email}",
+                            ModifiedDate = curDate
+                        }
+                    };
+                }
                 return result;
             }            
         }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using VRT.Resume.Application;
+using VRT.Resume.Domain.Common;
 
 namespace VRT.Resume.Web.Models
 {

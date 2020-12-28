@@ -1,0 +1,19 @@
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <legend>@Html.GetMessage(MsgNames.UserSignedIn)</legend>    
+    <div class="no-padding">
+        <section id="userInfo">
+            @await Html.PartialAsync("_UserInfo")
+        </section>       
+    </div>
+}
+else
+{
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+            @await Html.PartialAsync("_ExternalLoginsListPartial")
+        </section>
+    </div>
+}
+
+

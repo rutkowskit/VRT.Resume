@@ -1,0 +1,17 @@
+﻿@using VRT.Resume.Application.Resumes.Queries.GetResume
+@model IEnumerable<SkillDto>
+
+@if (Model == null)
+{
+    return;
+}
+
+<div class="resume-language-list">
+    @foreach (var lang in Model.GetLanguageSkills())
+    {
+    <div class="@lang.GetCssClass("resume-language")">
+        <b>@lang.Name</b>
+        <p>@lang.Level</p>
+    </div>
+    }
+</div>

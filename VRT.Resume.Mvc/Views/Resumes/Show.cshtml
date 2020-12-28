@@ -1,0 +1,90 @@
+﻿@model VRT.Resume.Application.Resumes.Queries.GetResume.ResumeFullVM
+
+@if (Model == null)
+{
+    <div class="jumbotron">
+        No resume data provided
+    </div>
+    return;    
+}
+@{ 
+        var navActionData = new
+        {
+            id = Model.ResumeId,
+            returnUrl = Html.ViewContext.HttpContext.Request.Path.Value
+        };
+}
+
+<div class="container">
+    <nav class="nav border rounded mt-3">
+        <a class="nav-link mr-3 nav-icon" href="#" onclick="window.print();return false;">
+            <img class="nav-icon" title="Print" src="@Url.Content("~/img/printer.svg")" alt="Print" />
+        </a>
+        <a class="nav-link" href="@(Url.Action("Edit", "Resumes", navActionData))">            
+            <span>@Html.GetLabel(LabelNames.EditEntry)</span>
+        </a>
+        <a class="nav-link" href="@(Url.Action("/", "ResumeSkills", navActionData))">            
+            <span>@Html.GetLabel(TabNames.Skills)</span>
+        </a>
+    </nav> 
+    <div class="overflow-container">
+        <div class="resume page-a4">
+            <div class="resume-container">
+                <div class="resume-left-panel">
+                    <div class="resume-profile card bg-white border-light">
+                        @{ await Html.RenderPartialAsync("_Profile", Model); }
+                    </div>
+                    <div class="card bg-white border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeContact)</h5>
+                            @{ await Html.RenderPartialAsync("_ContactList", Model.Contact); }
+                        </div>
+                    </div>
+                    <div class="card bg-white border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeTechSkills)</h5>
+                            @{ await Html.RenderPartialAsync("_TechnicalSkills", Model.Skills); }
+                        </div>
+                    </div>
+                    <div class="card bg-white border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeSoftSkills)</h5>
+                            @{ await Html.RenderPartialAsync("_SoftSkills", Model.Skills); }
+                        </div>
+                    </div>
+                    <div class="card bg-white border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeHumanLanguages)</h5>
+                            @{ await Html.RenderPartialAsync("_HumanLanguages", Model.Skills); }
+                        </div>
+                    </div>
+                </div>
+                <div class="resume-right-panel">
+                    <div class="card bg-white border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeProfile)</h5>
+                            <p class="card-text text-justify">
+                                @Model.Summary
+                            </p>
+                        </div>
+                    </div>
+                    <div class="resume-experience card bg-white border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeWorkExp)</h5>
+                            @{ await Html.RenderPartialAsync("_WorkExperience", Model.WorkExperience); }
+                        </div>
+                    </div>
+                    <div class="resume-education card bg-white border-light">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.GetLabel(LabelNames.ResumeEducation)</h5>
+                            @{ await Html.RenderPartialAsync("_Education", Model.Education); }
+                        </div>
+                    </div>
+                </div>
+                <div class="resume-rodo">
+                    @Model.Permission
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

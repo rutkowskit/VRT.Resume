@@ -2,6 +2,7 @@
 using MediatR;
 using System.Linq;
 using VRT.Resume.Application.Common.Abstractions;
+using VRT.Resume.Domain.Common;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 

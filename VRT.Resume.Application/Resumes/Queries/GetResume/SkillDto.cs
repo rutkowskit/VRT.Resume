@@ -1,4 +1,6 @@
-﻿namespace VRT.Resume.Application.Resumes.Queries.GetResume
+﻿using VRT.Resume.Domain.Common;
+
+namespace VRT.Resume.Application.Resumes.Queries.GetResume
 {
     public sealed class SkillDto
     {

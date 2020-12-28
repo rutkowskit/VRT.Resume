@@ -6,11 +6,13 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
     {
         public CreatePersonAccountCommandValidator()
         {
-            RuleFor(v => v.Email)
-                .EmailAddress()                
+            RuleFor(v => v.UserId)                
                 .NotEmpty();
 
-            RuleFor(v => v.FirstName)
+            RuleFor(v => v.Email)
+                .EmailAddress();
+
+            RuleFor(v => v.FirstName)                
                 .NotEmpty()
                 .MaximumLength(50);
 

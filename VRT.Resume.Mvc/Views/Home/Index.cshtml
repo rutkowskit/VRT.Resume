@@ -1,0 +1,41 @@
+﻿@using VRT.Resume.Application.Resumes.Queries.GetResumeList
+@model  IEnumerable<ResumeInListVM>
+@{
+    var resumes = Model != null
+        ? Model.ToArray()
+        : new ResumeInListVM[0];
+
+    @await Html.PartialAsync("_AddToolbar", new EditDeleteToolbarData("Resumes", 0, LabelNames.PageResume))
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">@Html.GetLabel(LabelNames.Description)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.Position)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.LastModification)</th>
+                    <th scope="col">@Html.GetLabel(LabelNames.Actions)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var resume in resumes)
+                {
+                    <tr>
+                        <td>
+                            <a class="nav-link no-padding" href="@Url.Action("Show", "Resumes", new { id = resume.ResumeId })">
+                                @resume.Description
+                            </a>
+                        </td>
+                        <td>@resume.Position</td>
+                        <td>@resume.ModifiedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td class="text-nowrap">
+                            @await Html.PartialAsync("_EditDeleteToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
+                            @await Html.PartialAsync("_CloneToolbar", new EditDeleteToolbarData("Resumes", resume.ResumeId))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
