@@ -89,12 +89,12 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                             select new SkillDto()
                             {
                                 SkillId = pk.SkillId,
-                                IsRelevant = x.IsRelevant,
-                                IsHidden = x.IsHidden,
+                                IsRelevant = x == null ? false : x.IsRelevant,
+                                IsHidden = x == null ? false : x.IsHidden,
                                 Name = pk.Name,
                                 Level = pk.Level,
                                 Type = (SkillTypes)pk.SkillTypeId,  
-                                Position = x.Position
+                                Position = x == null ? 0 : x.Position
                             };
                 return query;
             }

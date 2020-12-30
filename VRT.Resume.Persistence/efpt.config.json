@@ -13,77 +13,62 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
-         "HasPrimaryKey": true,
          "Name": "[Auth].[UserPerson]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[Degree]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[EducationField]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[Person]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonContact]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonEducation]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonExperience]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonExperienceDuty]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonExperienceDutySkill]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonImage]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[PersonSkill]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[School]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Persons].[SkillType]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Resumes].[PersonResume]",
          "ObjectType": 0
       },
       {
-         "HasPrimaryKey": true,
          "Name": "[Resumes].[ResumePersonSkill]",
          "ObjectType": 0
       }

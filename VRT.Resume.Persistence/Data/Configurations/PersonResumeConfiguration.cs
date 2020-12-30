@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 using VRT.Resume.Domain.Entities;
+using VRT.Resume.Persistence.Data;
 
 
 
-namespace VRT.Resume.Persistence.Data
+namespace VRT.Resume.Persistence.Data.Configurations
 {
     public class PersonResumeConfiguration : IEntityTypeConfiguration<PersonResume>
     {
@@ -24,7 +25,7 @@ namespace VRT.Resume.Persistence.Data
             entity.Property(e => e.Description)
                 .IsRequired()
                 .HasMaxLength(50)
-                .HasComment("Description of the resume (e.g. .net develper - company name)");
+                .HasComment("Description of the resume (e.g. .net develper to asseco)");
 
             entity.Property(e => e.ModifiedDate)
                 .HasColumnType("datetime")

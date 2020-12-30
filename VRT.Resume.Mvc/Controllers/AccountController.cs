@@ -34,21 +34,12 @@ namespace VRT.Resume.Mvc.Controllers
         {
             if (User.Identity.IsAuthenticated) return null;
 
-            if (type == "Google")
-            {
-                return Challenge(new AuthenticationProperties
+            return string.IsNullOrWhiteSpace(type)
+                ? null
+                : Challenge(new AuthenticationProperties
                 {
-                    RedirectUri = "account/signin-google"
-                }, type);
-            }
-            else if (type == "Github")
-            {
-                return Challenge(new AuthenticationProperties
-                {
-                    RedirectUri = "account/signin-github",                    
-                }, type);
-            }
-            return null;
+                    RedirectUri = Url.Action($"signin-{type.ToLower()}")
+                }, type);            
         }
 
         [ValidateAntiForgeryToken]
@@ -65,7 +56,7 @@ namespace VRT.Resume.Mvc.Controllers
 
         [AllowAnonymous]
         [Route("signin-google")]
-        [Route("signin-github")]
+        [Route("signin-github")]        
         public async Task<IActionResult> SignInCallback()
         {
             var claimsPrincipal = HttpContext.User.Identity as ClaimsIdentity;

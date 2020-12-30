@@ -342,3 +342,4 @@ healthchecksdb
 #Secrets file
 AppSettingsSecrets.config
 ConectionStringsSecrets.config
+*.sqlite

@@ -4,16 +4,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 using VRT.Resume.Domain.Entities;
+using VRT.Resume.Persistence.Data;
 
 
 
-namespace VRT.Resume.Persistence.Data
+namespace VRT.Resume.Persistence.Data.Configurations
 {
     public class PersonEducationConfiguration : IEntityTypeConfiguration<PersonEducation>
     {
         public void Configure(EntityTypeBuilder<PersonEducation> entity)
         {
-            entity.HasKey(e => new { e.EducationId, e.PersonId });
+            entity.HasKey(e => e.EducationId)
+                .HasName("PK_PersonEducation_1");
 
             entity.ToTable("PersonEducation", "Persons");
 
@@ -26,8 +28,6 @@ namespace VRT.Resume.Persistence.Data
             entity.HasIndex(e => e.PersonId);
 
             entity.HasIndex(e => e.SchoolId);
-
-            entity.Property(e => e.EducationId).ValueGeneratedOnAdd();
 
             entity.Property(e => e.FromDate).HasColumnType("date");
 

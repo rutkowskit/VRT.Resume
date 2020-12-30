@@ -1,0 +1,4 @@
+﻿@model PersonContactViewModel
+
+<legend>@Html.GetLabel(LabelNames.ResumeContact) - @Html.GetLabel(LabelNames.EditEntry) </legend>
+@await Html.PartialAsync("_ContactEditor")

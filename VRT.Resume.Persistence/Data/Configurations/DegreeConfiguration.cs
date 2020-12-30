@@ -4,18 +4,21 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 using VRT.Resume.Domain.Entities;
+using VRT.Resume.Persistence.Data;
 
 
 
-namespace VRT.Resume.Persistence.Data
+namespace VRT.Resume.Persistence.Data.Configurations
 {
-    public class EducationFieldConfiguration : IEntityTypeConfiguration<EducationField>
+    public class DegreeConfiguration : IEntityTypeConfiguration<Degree>
     {
-        public void Configure(EntityTypeBuilder<EducationField> entity)
+        public void Configure(EntityTypeBuilder<Degree> entity)
         {
-            entity.ToTable("EducationField", "Persons");
+            entity.ToTable("Degree", "Persons");
 
-            entity.HasComment("Education fields dictionary table");
+            entity.HasComment("Dictionary table with available degrees");
+
+            entity.Property(e => e.Abreviation).HasMaxLength(10);
 
             entity.Property(e => e.Name)
                 .IsRequired()

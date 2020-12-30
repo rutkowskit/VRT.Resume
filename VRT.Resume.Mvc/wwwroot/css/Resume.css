@@ -8,12 +8,10 @@
 }
 .chip {
     display: inline-block;
-    border: 1px solid black;
-    padding: 0 15px;
-    height: 50px;
-    font-size: 14px;
-    line-height: 50px;
-    border-radius: 25px;
+    border: 0.5px solid #808080;    
+    padding: 0.25rem 0.5rem;
+    font-size: 14px;    
+    border-radius: 99999px; 
     background-color: #fafafa;
     margin-bottom: 2px;
 }

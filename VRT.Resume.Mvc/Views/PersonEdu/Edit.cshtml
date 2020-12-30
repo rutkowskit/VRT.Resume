@@ -1,0 +1,4 @@
+﻿@model PersonEducationViewModel
+
+<legend>@Html.GetLabel(LabelNames.ResumeEducation) - @Html.GetLabel(LabelNames.EditEntry) </legend>
+@await Html.PartialAsync("_EduEditor")

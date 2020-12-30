@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 using VRT.Resume.Domain.Entities;
+using VRT.Resume.Persistence.Data;
 
 
 
-namespace VRT.Resume.Persistence.Data
+namespace VRT.Resume.Persistence.Data.Configurations
 {
     public class ResumePersonSkillConfiguration : IEntityTypeConfiguration<ResumePersonSkill>
     {

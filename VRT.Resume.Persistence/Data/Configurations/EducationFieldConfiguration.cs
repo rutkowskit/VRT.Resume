@@ -4,20 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore;
 using System;
 using VRT.Resume.Domain.Entities;
+using VRT.Resume.Persistence.Data;
 
 
 
-namespace VRT.Resume.Persistence.Data
+namespace VRT.Resume.Persistence.Data.Configurations
 {
-    public class SchoolConfiguration : IEntityTypeConfiguration<School>
+    public class EducationFieldConfiguration : IEntityTypeConfiguration<EducationField>
     {
-        public void Configure(EntityTypeBuilder<School> entity)
+        public void Configure(EntityTypeBuilder<EducationField> entity)
         {
-            entity.ToTable("School", "Persons");
+            entity.ToTable("EducationField", "Persons");
 
-            entity.HasComment("Available schools");
-
-            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.HasComment("Education fields dictionary table");
 
             entity.Property(e => e.Name)
                 .IsRequired()

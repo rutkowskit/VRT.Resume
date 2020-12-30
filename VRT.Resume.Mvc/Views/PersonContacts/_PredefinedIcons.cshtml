@@ -1,0 +1,27 @@
+﻿@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostingEnv
+@{    
+    var names = hostingEnv.GetImages("img/contact").ToArray();
+
+    foreach (var img in names)
+    {
+        <img class="contact-img" src="@(img.relativePath)"
+             alt="@img.caption" title="@img.caption">        
+    }  
+}
+
+<script>
+    function onImageClicked(img) {
+        var icoElem = document.getElementById("Icon");
+        console.log(img)
+        icoElem.innerHTML = img;
+    }
+    (function () {
+        const imgs = document.querySelectorAll('.contact-img');
+        for (let i = 0; i < imgs.length; i++) {
+            imgs[i].addEventListener("click", function () {
+                onImageClicked(imgs[i].outerHTML);
+            });
+        }
+    })();
+</script>
+

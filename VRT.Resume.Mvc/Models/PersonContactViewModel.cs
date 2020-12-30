@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc;
 
 namespace VRT.Resume.Mvc.Models
 {    
@@ -12,8 +11,7 @@ namespace VRT.Resume.Mvc.Models
         [Required]
         [Display(Name = LabelNames.Value, ResourceType = typeof(Resources.LabelResource))]
         public string Value { get; internal set; }
-
-        // [AllowHtml]        
+                
         [Display(Name = LabelNames.Icon, ResourceType = typeof(Resources.LabelResource))]        
         public string Icon { get; internal set; }        
         public string Url { get; internal set; }

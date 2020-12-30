@@ -29,7 +29,7 @@ namespace VRT.Resume.Mvc.Controllers
 
         private FileContentResult GetDefaultProfileImage()
         {
-            var path = Path.Combine(_hosting.WebRootPath, "img", "unknown.png");                
+            var path = _hosting.GetImageInfo("img/unknown.png");            
             var bytes = System.IO.File.Exists(path)
                 ? System.IO.File.ReadAllBytes(path)
                 : System.Array.Empty<byte>();

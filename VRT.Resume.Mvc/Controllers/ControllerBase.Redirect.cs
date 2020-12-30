@@ -9,33 +9,32 @@ namespace VRT.Resume.Mvc.Controllers
         protected ActionResult ToActionResult<T>(Result<T> result)
         {
             if (result.IsSuccess)
-                return View(result.Value);
+                return DoRedirection(View(result.Value));
             SetError(result.Error);
-            return View();
+            return DoRedirection(View());
         }
 
         protected ActionResult ToRequestReferer()
-        {
-            return new RedirectResult(Request.GetReferer().AbsoluteUri);
-        }
+            => DoRedirection(new RedirectResult(Request.GetReferer().AbsoluteUri));        
 
         protected virtual ActionResult ToReturnUrl()
         {
-            var url = TempData[TempDataKeys.ReturnUrl]?.ToString();
-            TempData[TempDataKeys.ReturnUrl] = null;
+            var url = TempData[TempDataKeys.ReturnUrl]?.ToString();            
             return string.IsNullOrWhiteSpace(url)
                 ? null
-                : new RedirectResult(url);
+                : DoRedirection(new RedirectResult(url));
         }
 
-        protected ActionResult ToHome()
-        {
-            return Redirect("~/");
-        }
+        protected ActionResult ToHome() => DoRedirection(Redirect("~/"));        
         protected ActionResult ToProfile(string selectedTab = TabNames.Profile)
-        {
+        {            
             TempData[TempDataKeys.TabName] = selectedTab;
-            return RedirectToActionPermanent("Index", "Person");
+            return DoRedirection(RedirectToActionPermanent("Index", "Person"));
+        }
+        private ActionResult DoRedirection(ActionResult result)
+        {            
+            TempData[TempDataKeys.ReturnUrl] = null;
+            return result;
         }
     }
 }

@@ -1,0 +1,26 @@
+﻿@model PersonExperienceDutyViewModel
+
+<div class="profile-person-data">
+
+    @using (Html.BeginForm("Save", null, FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ExperienceId)
+        @Html.HiddenFor(m => m.DutyId)
+
+        <div class="form-group col-md-8">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(f => f.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        @await Html.PartialAsync("_SaveCancelFieldset")
+
+        @Html.ValidationSummary()
+    }
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

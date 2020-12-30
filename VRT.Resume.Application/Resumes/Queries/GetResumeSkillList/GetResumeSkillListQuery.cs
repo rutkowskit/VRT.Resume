@@ -11,7 +11,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeSkillList
     public sealed class GetResumeSkillListQuery : IRequest<Result<ResumeSkillListVM>>
     {
         public int ResumeId { get; set; }
-        internal sealed class GetResumeSkillListQueryHandler : HandlerBase, 
+        internal sealed class GetResumeSkillListQueryHandler : HandlerBase,
             IRequestHandler<GetResumeSkillListQuery, Result<ResumeSkillListVM>>
         {
             public GetResumeSkillListQueryHandler(AppDbContext context, ICurrentUserService service)
@@ -22,7 +22,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeSkillList
             {
                 await Task.Yield();
                 return GetCurrentUserPersonId()
-                    .Bind(p=>GetResumes(p, request.ResumeId))
+                    .Bind(p => GetResumes(p, request.ResumeId))
                     .Map(p =>
                     {
                         return new ResumeSkillListVM()
@@ -37,18 +37,18 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeSkillList
             {
                 var query = from rd in Context.PersonSkill
                             join rs in Context.ResumePersonSkill
-                                .Where(r=>r.ResumeId==resumeId) on rd.SkillId equals rs.SkillId into grs
+                                .Where(r => r.ResumeId == resumeId) on rd.SkillId equals rs.SkillId into grs
                             from rs in grs.DefaultIfEmpty()
                             where rd.PersonId == personId
-                            orderby rd.SkillTypeId, rd.Name                            
+                            orderby rd.SkillTypeId, rd.Name
                             select new ResumeSkillInListDto()
                             {
                                 SkillId = rd.SkillId,
                                 Name = rd.Name,
                                 Type = rd.SkillType.Name,
-                                IsRelevant = rs.IsRelevant,
-                                IsHidden = rs.IsHidden,
-                                Position = rs.Position
+                                IsRelevant = rs == null ? false : rs.IsRelevant,
+                                IsHidden = rs == null ? false : rs.IsHidden,
+                                Position = rs == null ? 0 : rs.Position
                             };
 
                 return query.ToArray();
