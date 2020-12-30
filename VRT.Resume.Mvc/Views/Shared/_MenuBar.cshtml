@@ -44,7 +44,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                @*@{Html.RenderAction("Index", "Culture");}*@
+                @await Component.InvokeAsync("CultureLink")
             </li>
             @if (userInfo != null)
             {

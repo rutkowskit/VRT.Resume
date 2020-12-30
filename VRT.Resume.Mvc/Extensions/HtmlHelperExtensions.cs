@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Html;
 using System.Threading.Tasks;
 using VRT.Resume.Resources;
+using VRT.Resume.Application.Common.Queries.GetSupportedLanguages;
 
 namespace VRT.Resume.Mvc
 {
@@ -45,7 +46,7 @@ namespace VRT.Resume.Mvc
         }
 
         public static IHtmlContent CulturesDropdown(this IHtmlHelper html,
-            IEnumerable<CultureSettingsViewModel> model, string name)
+            IEnumerable<LanguageVM> model, string name)
         {            
             var cultures = model.Select(c => new SelectListItem()
             {

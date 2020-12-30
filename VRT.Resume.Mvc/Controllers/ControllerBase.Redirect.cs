@@ -21,7 +21,8 @@ namespace VRT.Resume.Mvc.Controllers
 
         protected virtual ActionResult ToReturnUrl()
         {
-            var url = TempData[TempDataKeys.ReturnUrl]?.ToString();                
+            var url = TempData[TempDataKeys.ReturnUrl]?.ToString();
+            TempData[TempDataKeys.ReturnUrl] = null;
             return string.IsNullOrWhiteSpace(url)
                 ? null
                 : new RedirectResult(url);

@@ -66,7 +66,7 @@ namespace VRT.Resume.Mvc.Controllers
         [AllowAnonymous]
         [Route("signin-google")]
         [Route("signin-github")]
-        public async Task<IActionResult> GoogleLoginCallback()
+        public async Task<IActionResult> SignInCallback()
         {
             var claimsPrincipal = HttpContext.User.Identity as ClaimsIdentity;
             var loginInfo = UserLoginViewModel.Create(claimsPrincipal);

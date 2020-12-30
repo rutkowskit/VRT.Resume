@@ -1,8 +1,8 @@
-﻿namespace VRT.Resume.Mvc.Models
+﻿namespace VRT.Resume.Application.Common.Queries.GetSupportedLanguages
 {
-    public class CultureSettingsViewModel
+    public class LanguageVM
     {
-        public CultureSettingsViewModel(string key, string caption)
+        public LanguageVM(string key, string caption)
         {
             Key = key;
             Caption = caption;

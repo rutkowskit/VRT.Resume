@@ -1,0 +1,13 @@
+﻿@model IEnumerable<string>
+
+@{
+    var skills = Model == null
+            ? new string[0]
+            : Model.ToArray();    
+    <span class="self small text-muted text-wrap flex-grow-1">
+        @if (skills.Length >0)
+        {
+            @(string.Format("({0})", string.Join(", ", skills)));
+        }        
+    </span>   
+}

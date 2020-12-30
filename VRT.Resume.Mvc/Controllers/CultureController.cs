@@ -1,50 +1,33 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using VRT.Resume.Mvc.Models;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using VRT.Resume.Application.Common.Queries.GetSupportedLanguages;
+using System.Threading.Tasks;
+using VRT.Resume.Application.Common.Commands.SetUserLanguage;
 
 namespace VRT.Resume.Mvc.Controllers
 {
     [AllowAnonymous]
     public class CultureController : ControllerBase
-    {
-        private static readonly Dictionary<string, CultureSettingsViewModel> SupportedLangDic
-            = new Dictionary<string, CultureSettingsViewModel>()
-            {
-                ["pl"] = new CultureSettingsViewModel("pl", "Polski"),
-                ["en"] = new CultureSettingsViewModel("en", "English")
-            };
+    {        
         public CultureController(IMediator mediator) : base(mediator)
         {
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public async Task<ActionResult> Change()
         {
-            var lang = GetCurrentLanguage();
-            var key = lang.Length >= 2 ? lang.Substring(0, 2) : "pl";
-            var vm = SupportedLangDic.TryGetValue(key, out var culture)
-                ? culture
-                : SupportedLangDic.Values.First();
-            TempData[TempDataKeys.CultureKey] = vm.Key;
-            TempData[TempDataKeys.ReturnUrlFromCulture] = Request.Headers["Referer"].ToString();
-
-            return PartialView(vm);
-        }
-
-        [HttpGet]
-        public ActionResult Change()
-        {
-            return View(SupportedLangDic.Values);
+            var query = new GetSupportedLanguagesQuery();
+            var result = await Send(query);
+            return ToActionResult(result);            
         }
 
         [HttpPost]
-        public ActionResult Change(string lang)
+        public async Task<ActionResult> Change(string lang)
         {
-            AddLanguageCookie(lang);
-            return ToReturnUrl() ?? ToHome();
+            var cmd = new SetUserCultureCommand(lang);
+            await Mediator.Send(cmd);
+            return Cancel();
         }        
         public ActionResult Cancel() => ToReturnUrl() ?? ToHome();
 

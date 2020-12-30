@@ -1,0 +1,14 @@
+﻿@using VRT.Resume.Application.Common.Queries.GetSupportedLanguages
+@model LanguageVM
+
+@{
+    if (Model == null)
+    {
+        return;
+    }
+}
+
+<a class="nav-link" href="@Url.Action("Change","Culture")"
+   title="@Html.GetLabel(LabelNames.Language)">
+    @Model.Caption
+</a>

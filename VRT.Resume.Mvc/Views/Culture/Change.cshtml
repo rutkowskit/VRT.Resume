@@ -1,0 +1,14 @@
+﻿@using VRT.Resume.Application.Common.Queries.GetSupportedLanguages
+@model IEnumerable<LanguageVM>
+
+<div class="profile-person-data">
+
+    @using (Html.BeginForm(null, null, FormMethod.Post))
+    {           
+        <div class="form-group">
+            @Html.Label("Lang", Html.GetLabel(LabelNames.Language).ToString(), htmlAttributes: new { @class = "control-label" })            
+            @Html.CulturesDropdown(Model, "Lang")            
+        </div>        
+        @await Html.PartialAsync("_SaveCancelFieldset")
+    }
+</div>

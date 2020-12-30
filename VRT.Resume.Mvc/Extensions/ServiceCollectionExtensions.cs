@@ -15,6 +15,7 @@ namespace VRT.Resume.Mvc
         {
             services.AddHttpContextAccessor();
             services.AddSingleton<IDateTimeService, DateTimeService>();
+            services.AddTransient<ICultureService, CultureService>();
             services.AddTransient<ICurrentUserService, CurrentUserService>();
 
             services.AddAutoMapper(typeof(Startup));

@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VRT.Resume.Persistence;
-using VRT.Resume.Persistence.Data;
-using MediatR;
+using VRT.Resume.Mvc.Filters;
 
 namespace VRT.Resume.Mvc
 {
@@ -38,7 +36,9 @@ namespace VRT.Resume.Mvc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            InitDatabase(app);
+            app.UseRequestCulture();
+            app.UseAppDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,16 +74,9 @@ namespace VRT.Resume.Mvc
             var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
+            
             options.Filters.Add(new AuthorizeFilter(policy));
-        }
-
-        private static void InitDatabase(IApplicationBuilder app)
-        {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
-                context.InitDatabase();
-            }
-        }
+            options.Filters.Add(new AllowPartialRenderingAttribute());            
+        }       
     }
 }

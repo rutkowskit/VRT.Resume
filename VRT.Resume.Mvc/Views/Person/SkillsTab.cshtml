@@ -1,0 +1,33 @@
+﻿@using VRT.Resume.Application.Persons.Queries.GetPersonSkills;
+@model PersonSkillInListVM[]
+
+@{
+    var skills = Model == null
+        ? new Dictionary<string, PersonSkillInListVM[]>()
+        : Model
+            .OrderBy(o => o.Type)
+            .GroupBy(g => g.Type)
+            .ToDictionary(k => k.Key, v => v.OrderBy(o => o.SkillId).ToArray());
+    var editButtonLabel = Html.GetLabel(LabelNames.ButtonEditData);
+    var deleteButtonLabel = Html.GetLabel(LabelNames.ButtonDelete);
+}
+
+@await Html.PartialAsync("_AddToolbar", new EditDeleteToolbarData("PersonSkills", 0, TabNames.Skills))
+
+@foreach (var g in skills)
+{
+    <fieldset class="border-bottom mb-1">
+        <legend>@Html.GetLabel(g.Key)</legend>
+    </fieldset>
+    <div class="d-flex flex-wrap">
+        @foreach (var m in g.Value)
+        {
+            <div class="card mr-2 mb-2 shadow">
+                <div class="card-body">
+                    <span class="h6">@m.Name (@(m.Level))</span>
+                    @await Html.PartialAsync("_EditDeleteToolbar", new EditDeleteToolbarData("PersonSkills", m.SkillId))
+                </div>
+            </div>
+        }
+    </div>
+}
