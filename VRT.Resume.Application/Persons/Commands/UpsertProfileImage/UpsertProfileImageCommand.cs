@@ -22,8 +22,17 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertProfileImage
             
             protected override Result<PersonImage> UpdateData(PersonImage current, UpsertProfileImageCommand request)
             {
-                current.ImageData = request.ImageData;
-                current.ImageType = request.ImageType;
+                var scaledImg = request.ImageData.ScaleImage(300);
+                if(request.ImageData != null && scaledImg.Length>0 && scaledImg.Length < request.ImageData.Length)
+                {
+                    current.ImageData = scaledImg;
+                    current.ImageType = "image/jpeg";
+                }
+                else
+                {
+                    current.ImageData = request.ImageData;
+                    current.ImageType = request.ImageType;
+                }                
                 return current;
             }
 

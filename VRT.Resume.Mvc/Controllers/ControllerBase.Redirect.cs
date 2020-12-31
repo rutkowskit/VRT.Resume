@@ -9,7 +9,7 @@ namespace VRT.Resume.Mvc.Controllers
         protected ActionResult ToActionResult<T>(Result<T> result)
         {
             if (result.IsSuccess)
-                return DoRedirection(View(result.Value));
+                return View(result.Value);
             SetError(result.Error);
             return DoRedirection(View());
         }

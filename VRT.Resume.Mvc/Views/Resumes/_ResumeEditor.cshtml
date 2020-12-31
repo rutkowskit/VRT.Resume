@@ -45,4 +45,7 @@
     }
 </div>
 
-@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

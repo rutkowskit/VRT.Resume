@@ -39,7 +39,7 @@ namespace VRT.Resume.Mvc.Controllers
         }
 
         [HttpGet]
-        public ActionResult Cancel(int id) => ToReturnUrl() ?? ToHome();
+        public ActionResult Cancel() => ToReturnUrl() ?? ToHome();
 
         private ActionResult ToResume(int resumeId)
             => RedirectToAction("Show", "Resumes", new { id = resumeId });        

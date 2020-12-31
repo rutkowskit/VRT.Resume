@@ -29,28 +29,30 @@
                 @for (int i = 0; i < skills.ResumeSkills.Length; i++)
                 {
                     var skill = skills.ResumeSkills[i];
-                <tr>
-                    <td>
-                        @Html.HiddenFor(m => skills.ResumeSkills[i].SkillId)
-                        @skill.Name
-                    </td>
-                    <td>
-                        @skill.Type
-                    </td>
-                    <td>
-                        @Html.CheckBoxFor(m => skills.ResumeSkills[i].IsRelevant)
-                    </td>
-                    <td>
-                        @Html.CheckBoxFor(m => skills.ResumeSkills[i].IsHidden)
-                    </td>
-                    <td>
-                        @Html.EditorFor(m => skills.ResumeSkills[i].Position, new { 
-                              htmlAttributes = new { @class = "form-control col-md-5", title = "More important skills shoud have higher values" } })
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.HiddenFor(m => skills.ResumeSkills[i].SkillId)
+                            @skill.Name
+                        </td>
+                        <td>
+                            @skill.Type
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => skills.ResumeSkills[i].IsRelevant)
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => skills.ResumeSkills[i].IsHidden)
+                        </td>
+                        <td>
+                            @Html.EditorFor(m => skills.ResumeSkills[i].Position, new
+                            {
+                                  htmlAttributes = new { @class = "form-control col-md-5", title = "More important skills shoud have higher values" }
+                            })
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
-    @await Html.PartialAsync("_SaveCancelFieldset")    
+    @await Html.PartialAsync("_SaveCancelFieldset")
 }

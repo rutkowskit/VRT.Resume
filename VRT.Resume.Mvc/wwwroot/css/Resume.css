@@ -1,5 +1,7 @@
 ﻿:root {
-    --resume-left-panel-width:300px;
+    --resume-left-panel-width: 300px;
+    --resume-left-panel-margin: 5px;
+    --resume-left-inner-panel: 285px;
 }
 
 .card-body {
@@ -50,18 +52,26 @@
 .resume-profile {
     margin: auto;
     text-align: center;
-    align-items: center;
+    align-items: center;        
 }
-
     .resume-profile .resume-image {
-        width: calc(--resume-left-panel-width-5);
-        height: calc(--resume-left-panel-width-5);
-        border: 0;
-        border-radius: 50%;
-        display: flex;
+        max-height: var(--resume-left-inner-panel);                        
+        /*width:auto;*/
+        border: 0;        
         /*-webkit-filter: grayscale(100%);*/ /* Safari 6.0 - 9.0 */
         /*filter: grayscale(100%);*/
     }
+
+.resume-image-container {
+    border-radius: 50%;
+    max-width: var(--resume-left-inner-panel);
+    height: var(--resume-left-inner-panel);
+    width: var(--resume-left-inner-panel);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .resume-contact-item {
     display: inline-block;

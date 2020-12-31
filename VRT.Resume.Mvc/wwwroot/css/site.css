@@ -1,4 +1,8 @@
-﻿* {
+﻿:root {
+    --default-img-width: 300px;
+}
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -146,17 +150,14 @@ body {
     }
 
 /* Skill styles*/
-
 .skill-toolbar {
     display:inline-block;    
     flex-wrap: nowrap;
 }
-
     .skill-toolbar a,
     .skill-toolbar button {
         border: 0;
-        display: inline-block;
-        /*border: 1px solid red;*/
+        display: inline-block;        
         border-radius: 50%;
         background:none;
     }
@@ -186,3 +187,17 @@ body {
     height: 24px;
     cursor: pointer;
 }
+
+/*common image styles*/
+.rounded-img-contaner {
+    width: var(--default-img-width);
+    height: var(--default-img-width);    
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;    
+    justify-content: center;
+    align-items: center;
+}
+    .rounded-img-contaner img {        
+        height: var(--default-img-width);
+    }

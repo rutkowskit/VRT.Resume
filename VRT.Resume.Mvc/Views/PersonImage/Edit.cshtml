@@ -2,7 +2,7 @@
 
 <div class="profile-person-image">
     <div class="profile-image-container">
-        <img class="profile-image" width="140" src="@Url.Action("ProfileImage", "Images")" alt="User photo">
+        <img id="profile_image" class="profile-image" width="140" src="@Url.Action("ProfileImage", "Images")" alt="User photo">
     </div>
     @using (Html.BeginForm("Save", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
@@ -10,9 +10,21 @@
         @Html.ValidationSummary(true)
         <fieldset class="border-bottom">
             <div class="upload-btn-wrapper">
-                <input type="file" name="file" accept="image/x-png,image/gif,image/jpeg" required />                
+                <input id="image_field" type="file" name="file" accept="image/x-png,image/gif,image/jpeg" required />
             </div>
         </fieldset>
         @await Html.PartialAsync("_SaveCancelFieldset");
     }
 </div>
+
+@section Scripts {
+    <script>
+        document.getElementById("image_field").onchange = function () {
+            var reader = new FileReader();
+            reader.onload = function (e) {                
+                document.getElementById("profile_image").src = e.target.result;
+            };            
+            reader.readAsDataURL(this.files[0]);
+        };
+    </script>
+} 
