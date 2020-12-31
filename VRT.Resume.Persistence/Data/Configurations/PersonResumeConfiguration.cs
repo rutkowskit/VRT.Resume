@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {
@@ -20,7 +20,7 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasComment("Person resume data");
 
-            entity.HasIndex(e => e.PersonId);
+            entity.HasIndex(e => e.PersonId, "IX_PersonResume_PersonId");
 
             entity.Property(e => e.Description)
                 .IsRequired()

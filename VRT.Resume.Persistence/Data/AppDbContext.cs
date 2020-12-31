@@ -5,6 +5,8 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data.Configurations;
 
+#nullable disable
+
 namespace VRT.Resume.Persistence.Data
 {
     public partial class AppDbContext : DbContext
@@ -36,6 +38,8 @@ namespace VRT.Resume.Persistence.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_100_CI_AI");
+
             modelBuilder.ApplyConfiguration(new DegreeConfiguration());
             modelBuilder.ApplyConfiguration(new EducationFieldConfiguration());
             modelBuilder.ApplyConfiguration(new PersonConfiguration());
@@ -51,7 +55,6 @@ namespace VRT.Resume.Persistence.Data
             modelBuilder.ApplyConfiguration(new SchoolConfiguration());
             modelBuilder.ApplyConfiguration(new SkillTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserPersonConfiguration());
-
             OnModelCreatingPartial(modelBuilder);
         }
 

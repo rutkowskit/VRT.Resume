@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {
@@ -21,13 +21,13 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasComment("Persons education entries");
 
-            entity.HasIndex(e => e.DegreeId);
+            entity.HasIndex(e => e.DegreeId, "IX_PersonEducation_DegreeId");
 
-            entity.HasIndex(e => e.EducationFieldId);
+            entity.HasIndex(e => e.EducationFieldId, "IX_PersonEducation_EducationFieldId");
 
-            entity.HasIndex(e => e.PersonId);
+            entity.HasIndex(e => e.PersonId, "IX_PersonEducation_PersonId");
 
-            entity.HasIndex(e => e.SchoolId);
+            entity.HasIndex(e => e.SchoolId, "IX_PersonEducation_SchoolId");
 
             entity.Property(e => e.FromDate).HasColumnType("date");
 

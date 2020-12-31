@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {

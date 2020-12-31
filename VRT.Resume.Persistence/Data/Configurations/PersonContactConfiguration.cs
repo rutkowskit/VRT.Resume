@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {
@@ -21,7 +21,7 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasComment("Table of contacts connected with person");
 
-            entity.HasIndex(e => e.PersonId);
+            entity.HasIndex(e => e.PersonId, "IX_PersonContact_PersonId");
 
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
 

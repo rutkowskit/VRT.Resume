@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {
@@ -20,7 +20,7 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasComment("Connects person with extelnal user identifiers (from different sources)");
 
-            entity.HasIndex(e => e.PersonId);
+            entity.HasIndex(e => e.PersonId, "IX_UserPerson_PersonId");
 
             entity.Property(e => e.UserId).HasMaxLength(50);
 

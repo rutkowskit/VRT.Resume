@@ -23,8 +23,7 @@ namespace VRT.Resume.Mvc.Controllers
         
         partial void SetupThreadCulture();
        
-        protected ControllerBase SetResult<TResult>(TResult result)
-            where TResult: IResult<string>
+        protected ControllerBase SetResult(Result result)            
         {
             return result.IsFailure
                 ? SetError(result.Error)

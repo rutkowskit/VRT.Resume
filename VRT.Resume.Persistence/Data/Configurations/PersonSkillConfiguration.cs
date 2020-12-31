@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {
@@ -21,9 +21,9 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasComment("Table contains full list of person skills");
 
-            entity.HasIndex(e => e.PersonId);
+            entity.HasIndex(e => e.PersonId, "IX_PersonSkill_PersonId");
 
-            entity.HasIndex(e => e.SkillTypeId);
+            entity.HasIndex(e => e.SkillTypeId, "IX_PersonSkill_SkillTypeId");
 
             entity.Property(e => e.Level)
                 .IsRequired()

@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {
@@ -18,10 +18,9 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasComment("Association between person's duty and skills used while performing on duty");
 
-            entity.HasIndex(e => e.SkillId);
+            entity.HasIndex(e => e.SkillId, "IX_PersonExperienceDutySkill_SkillId");
 
-            entity.HasIndex(e => new { e.DutyId, e.SkillId })
-                .HasName("UX_PersonExperienceSkill_DutyId_SkillId")
+            entity.HasIndex(e => new { e.DutyId, e.SkillId }, "UX_PersonExperienceSkill_DutyId_SkillId")
                 .IsUnique();
 
             entity.HasOne(d => d.Duty)

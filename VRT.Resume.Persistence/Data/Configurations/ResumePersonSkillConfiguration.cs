@@ -6,7 +6,7 @@ using System;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
 
-
+#nullable disable
 
 namespace VRT.Resume.Persistence.Data.Configurations
 {
@@ -20,7 +20,7 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasComment("Person skill for resume");
 
-            entity.HasIndex(e => e.ResumeId);
+            entity.HasIndex(e => e.ResumeId, "IX_ResumePersonSkill_ResumeId");
 
             entity.Property(e => e.SkillId).HasComment("Skill id from Person Skills");
 
