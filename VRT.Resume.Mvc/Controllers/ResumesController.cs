@@ -20,6 +20,11 @@ namespace VRT.Resume.Mvc.Controllers
         {
             _mapper = mapper;
         }
+        [Route("index")]
+        [HttpGet]
+        public async Task<ActionResult> Index()
+            => await Task.FromResult(ToHome());
+
         // GET: Resume
         [Route("{id}")]
         [Route("show/{id}")]
