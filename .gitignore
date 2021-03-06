@@ -343,3 +343,7 @@ healthchecksdb
 AppSettingsSecrets.config
 ConectionStringsSecrets.config
 *.sqlite
+
+#Cake Publish folders
+deploy/
+artifacts/
