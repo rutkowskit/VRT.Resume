@@ -8,7 +8,7 @@ using VRT.Resume.Application.Common.Queries.GetSupportedLanguages;
 
 namespace VRT.Resume.Mvc
 {
-    public static class HtmlHelperExtensions
+    public static partial class HtmlHelperExtensions
     {
         public static async Task<IHtmlContent> ProfileTabPane(this IHtmlHelper html,
            string tabName, string currentTabName)

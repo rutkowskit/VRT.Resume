@@ -8,29 +8,15 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-            </div>
-
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
-
-            @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
+        <fieldset class="border form-row">
+            <legend>@Html.GetLabel(LabelNames.PageProfile)</legend>
+            @Html.FormGroupWithFullEditorFor(mode => Model.FirstName, "col-md-10")
+            @Html.FormGroupWithFullEditorFor(mode => Model.LastName, "col-md-10")
+            @Html.FormGroupWithFullEditorFor(mode => Model.DateOfBirth, "col-md-10")
+        </fieldset>
         @await Html.PartialAsync("_SaveCancelFieldset");
     }
-</div>
+    </div>
 
 @section Scripts
 {

@@ -172,9 +172,6 @@ body {
     height: 24px;    
 }
 
-.edu-card-item {
-
-}
 .edu-card-item img {
     width: 24px;
     height: 24px;
@@ -201,3 +198,14 @@ body {
     .rounded-img-contaner img {        
         height: var(--default-img-width);
     }
+
+/* form elements bootstrap override */
+fieldset legend {
+    width: auto;
+    padding: 0 10px;
+    margin-left: 0.5rem;
+    border: 1px solid var(--gray);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+}

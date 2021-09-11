@@ -51,29 +51,6 @@ namespace VRT.Resume.Application
             int width = Convert.ToInt32(img.Width / resizeFactor);
             int height = Convert.ToInt32(img.Height / resizeFactor);
             return new Size(width, height);
-        }
-        //public static Bitmap ScaleImage(this Image oldImage, int maxSize)
-        //{
-        //    double resizeFactor = 1;
-
-        //    if (oldImage.Width > maxSize || oldImage.Height > maxSize)
-        //    {
-        //        double widthFactor = Convert.ToDouble(oldImage.Width) / maxSize;
-        //        double heightFactor = Convert.ToDouble(oldImage.Height) / maxSize;
-        //        resizeFactor = Math.Max(widthFactor, heightFactor);
-
-        //    }
-        //    int width = Convert.ToInt32(oldImage.Width / resizeFactor);
-        //    int height = Convert.ToInt32(oldImage.Height / resizeFactor);
-
-        //    Bitmap newImage = new Bitmap(width, height);
-        //    newImage.SetResolution(oldImage.VerticalResolution, oldImage.VerticalResolution);
-        //    using (var g = Graphics.FromImage(newImage))
-        //    {
-        //        g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-        //        g.DrawImage(oldImage, 0, 0, newImage.Width, newImage.Height);
-        //    }                           
-        //    return newImage;
-        //}
+        }       
     }
 }

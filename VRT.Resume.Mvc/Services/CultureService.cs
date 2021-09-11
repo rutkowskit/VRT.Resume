@@ -74,7 +74,9 @@ namespace VRT.Resume.Mvc.Services
             if (response == null) return;
             var opt = new CookieOptions()
             {
-                Expires = DateTime.Now.AddYears(1)
+                Expires = DateTime.Now.AddYears(1),
+                HttpOnly = true,
+                Secure = true
             };
             response.Cookies.Append(CultureCookieKey, language, opt);
         }

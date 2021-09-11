@@ -1,64 +1,31 @@
 ﻿@model PersonEducationViewModel
 
 <div class="profile-person-data">
-
     @using (Html.BeginForm("Save", null, FormMethod.Post))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.EducationId);
 
         <fieldset class="border form-row">
-            <div class="form-group col-md-7">
-                @Html.LabelFor(model => model.SchoolName, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.SchoolName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.SchoolName, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-5">
-                @Html.LabelFor(model => model.Field, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Field, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Field, "", new { @class = "text-danger" })
-            </div>
-
-            <div class="form-group col-md-3">
-                @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-3">
-                @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
-            </div>
+            <legend>@Html.GetLabel(LabelNames.MainInfo)</legend>
+            @Html.FormGroupWithFullEditorFor(model => model.SchoolName, "col-md-7")
+            @Html.FormGroupWithFullEditorFor(model => model.Field, "col-md-5")
+            @Html.FormGroupWithFullEditorFor(model => model.FromDate, "col-md-3")
+            @Html.FormGroupWithFullEditorFor(model => model.ToDate, "col-md-3")        
         </fieldset>
 
         <fieldset class="border form-row mt-2 mb-3">
-            <div class="form-group col-md-12">
-                @Html.LabelFor(model => model.Specialization, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Specialization, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Specialization, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-12">
-                @Html.LabelFor(model => model.ThesisTitle, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.ThesisTitle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ThesisTitle, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.Degree, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Degree, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Degree, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-4">
-                @Html.LabelFor(model => model.Grade, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Grade, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Grade, "", new { @class = "text-danger" })
-            </div>
+            <legend>@Html.GetLabel(LabelNames.Details)</legend>
+            @Html.FormGroupWithFullEditorFor(model => model.Specialization, "col-md-12")
+            @Html.FormGroupWithFullEditorFor(model => model.ThesisTitle, "col-md-12")
+            @Html.FormGroupWithFullEditorFor(model => model.Degree, "col-md-4")
+            @Html.FormGroupWithFullEditorFor(model => model.Grade, "col-md-4")        
         </fieldset>
 
         @await Html.PartialAsync("_SaveCancelFieldset")
         <section class="mt-3 text-danger">
             @Html.ValidationSummary()
         </section>
-
     }
 </div>
 

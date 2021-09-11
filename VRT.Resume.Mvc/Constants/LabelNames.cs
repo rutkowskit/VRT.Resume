@@ -39,6 +39,7 @@
         public const string BornOn = "BornOn";
         public const string Clone = "Clone";
         public const string Degree = "Degree";
+        public const string Details = "Details";
         public const string Error = "Error";
         public const string Field = "Field";        
         public const string FromDate = "FromDate";
@@ -47,6 +48,7 @@
         public const string Icon = "Icon";        
         public const string Language = "Language";
         public const string LastModification = "LastModification";
+        public const string MainInfo = "MainInfo";
         public const string Name = "Name";
         public const string No = "No";        
         public const string Position = "Position";

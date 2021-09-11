@@ -26,7 +26,7 @@ namespace VRT.Resume.Application.Persons.Commands.UpdatePersonData
                 ICurrentUserService userService, IDateTimeService dateTimeService)
                 : base(context, userService)
             {
-                _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(DateTime));
+                _dateTimeService = dateTimeService ?? throw new ArgumentNullException(nameof(dateTimeService));
             }
 
             public async Task<Result> Handle(UpdatePersonDataCommand request, CancellationToken cancellationToken)

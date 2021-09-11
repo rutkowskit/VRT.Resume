@@ -8,26 +8,17 @@
         @Html.HiddenFor(m => m.ContactId);
 
         <fieldset class="border">
+            <legend>@Html.GetLabel(LabelNames.MainInfo)</legend>
             <div class="form-row pl-3 pr-3">
-                <div class="form-group col-md-7">
-                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-                </div>
-                <div class="form-group col-md-5">
-                    @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
-                </div>
+                @Html.FormGroupWithFullEditorFor(model => model.Name, "col-md-7")
+                @Html.FormGroupWithFullEditorFor(model => model.Value, "col-md-5")                
             </div>
         </fieldset>
 
         <fieldset class="border mt-2 mb-3">
-            <div class="form-group col-md-12">
-                @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "control-label" })
-                @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
-            </div>
+            <legend>@Html.GetLabel(LabelNames.Details)</legend>
+
+            @Html.FormGroupWithFullEditorFor(model => model.Url, "col-md-12")
             <div class="form-group col-md-12">
                 @Html.LabelFor(model => model.Icon, htmlAttributes: new { @class = "control-label" })
                 @Html.TextAreaFor(model => model.Icon, new { @class = "form-control", placeholder = "<svg>, <img>" })
@@ -44,7 +35,6 @@
         <section class="mt-3 text-danger">
             @Html.ValidationSummary()
         </section>
-
     }
 </div>
 

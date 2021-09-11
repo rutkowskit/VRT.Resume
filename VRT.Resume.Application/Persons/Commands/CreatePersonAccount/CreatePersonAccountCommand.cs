@@ -25,7 +25,7 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount
             public CreatePersonAccountCommandHandler(AppDbContext context, IDateTimeService dateTime)                
             {
                 _context = context ?? throw new ArgumentNullException(nameof(context));
-                _dateTime = dateTime ?? throw new ArgumentNullException(nameof(_dateTime)); ;
+                _dateTime = dateTime ?? throw new ArgumentNullException(nameof(dateTime)); ;
             }
             
             public async Task<Result<int>> Handle(CreatePersonAccountCommand request, CancellationToken cancellationToken)

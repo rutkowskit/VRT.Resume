@@ -177,6 +177,9 @@
   <data name="Description" xml:space="preserve">
     <value>Description</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
   <data name="Duties" xml:space="preserve">
     <value>Duties</value>
   </data>
@@ -215,6 +218,9 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Location</value>
+  </data>
+  <data name="MainInfo" xml:space="preserve">
+    <value>Main informations</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>

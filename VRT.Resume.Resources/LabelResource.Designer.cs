@@ -241,6 +241,15 @@ namespace VRT.Resume.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Details.
+        /// </summary>
+        public static string Details {
+            get {
+                return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duties.
         /// </summary>
         public static string Duties {
@@ -354,6 +363,15 @@ namespace VRT.Resume.Resources {
         public static string Location {
             get {
                 return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main informations.
+        /// </summary>
+        public static string MainInfo {
+            get {
+                return ResourceManager.GetString("MainInfo", resourceCulture);
             }
         }
         

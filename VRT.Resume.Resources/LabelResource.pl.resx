@@ -180,6 +180,9 @@
   <data name="Description" xml:space="preserve">
     <value>Opis</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Szczegóły</value>
+  </data>
   <data name="Duties" xml:space="preserve">
     <value>Obowiązki</value>
   </data>
@@ -224,6 +227,9 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Lokalizacja</value>
+  </data>
+  <data name="MainInfo" xml:space="preserve">
+    <value>Podstawowe informacje</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nazwa</value>
