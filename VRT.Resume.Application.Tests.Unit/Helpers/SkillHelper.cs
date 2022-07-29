@@ -13,7 +13,8 @@ namespace VRT.Resume.Application
                 SkillId = skillId,
                 Level = "High",
                 PersonId = personId,
-                SkillTypeId = (byte)skillType
+                SkillTypeId = (byte)skillType,
+                Name = "Some nice skill"
             };
         }
     }

@@ -20,13 +20,24 @@ namespace VRT.Resume.Mvc.Middlewares
             var currentCulture = cultureService.GetCurrentCulture();
             if (!string.IsNullOrWhiteSpace(currentCulture))
             {                
-                var langCulture = new CultureInfo(currentCulture);
-                var culture = CultureInfo.CreateSpecificCulture(langCulture.Name);
+                var culture = GetCultureByNameOrDefault(currentCulture);
                 culture.DateTimeFormat.ShortDatePattern = "yyyy-MM-dd";
                 CultureInfo.CurrentCulture = culture;
                 CultureInfo.CurrentUICulture = culture;
             }            
             await _next(context);
+        }
+        private static CultureInfo GetCultureByNameOrDefault(string culture)
+        {
+            try
+            {
+                var langCulture = new CultureInfo(culture);
+                return CultureInfo.CreateSpecificCulture(langCulture.Name);
+            }
+            catch
+            {
+                return CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
+            }
         }
     }
     public static class RequestCultureMiddlewareExtensions

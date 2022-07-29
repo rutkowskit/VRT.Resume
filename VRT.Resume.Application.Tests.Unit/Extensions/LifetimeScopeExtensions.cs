@@ -151,7 +151,7 @@ namespace VRT.Resume.Application
                         new PersonExperienceDutySkill()
                         {
                             Id = 1,
-                            Skill = SkillHelper.CreateSkill()
+                            Skill = SkillHelper.CreateSkill()                            
                         }
                     };
                 }
@@ -179,11 +179,13 @@ namespace VRT.Resume.Application
                 ModifiedDate = Defaults.Today,
                 Summary = "Person experience summary",
                 ShowProfilePhoto = true,
+                Position = "Computer scientist",
                 ResumePersonSkill = new List<ResumePersonSkill>()
                 {
                     new ResumePersonSkill()
                     {
-                        Skill = SkillHelper.CreateSkill()
+                        Skill = SkillHelper.CreateSkill(),
+                        Position = 1
                     }
                 }
             };
