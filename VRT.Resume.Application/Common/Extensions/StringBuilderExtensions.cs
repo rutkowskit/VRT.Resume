@@ -1,15 +1,13 @@
 ﻿using System.Text;
 
-namespace VRT.Resume
+namespace VRT.Resume;
+public static class StringBuilderExtensions
 {
-    public static class StringBuilderExtensions
+    public static StringBuilder AppendNonEmpty(this StringBuilder builder,
+        string value )
     {
-        public static StringBuilder AppendNonEmpty(this StringBuilder builder,
-            string value )
-        {
-            if (builder==null || string.IsNullOrWhiteSpace(value)) 
-                return builder;
-            return builder.Append(value);
-        }
+        if (string.IsNullOrWhiteSpace(value)) 
+            return builder;
+        return builder.Append(value);
     }
 }

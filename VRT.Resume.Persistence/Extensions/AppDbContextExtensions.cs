@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using VRT.Resume.Domain.Common;
+﻿using VRT.Resume.Domain.Common;
 using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Persistence
@@ -18,13 +16,14 @@ namespace VRT.Resume.Persistence
         private static AppDbContext SeedSkillTypes(this AppDbContext ctx)
         {
             ctx.SkillType.AddRange(Enum.GetNames(typeof(SkillTypes))
-                .Select(skillName => AsSkillType(skillName))
+                .Select(AsSkillType)
                 .Where(w => w != null)
+                .Select(w => w!)
             );
             return ctx;
         }
 
-        private static Domain.Entities.SkillType AsSkillType(string skillName)
+        private static Domain.Entities.SkillType? AsSkillType(string skillName)
         {
             return Enum.TryParse<SkillTypes>(skillName, out var skillType)
                 ? new Domain.Entities.SkillType()

@@ -1,39 +1,38 @@
-﻿using Autofac;
+﻿using CSharpFunctionalExtensions;
+using FluentAssertions;
 using MediatR;
-using System.Threading.Tasks;
-using VRT.Resume.Persistence.Data;
-using System;
-using Xunit;
-using CSharpFunctionalExtensions;
+using VRT.Resume.Application.Fixtures;
 
-namespace VRT.Resume.Application
+namespace VRT.Resume.Application;
+
+[Collection(CollectionNames.Application)]
+public abstract class CommandTestBase<TRequest> : BaseRequestTest
+    where TRequest : IRequest<Result>
 {
-    public abstract class CommandTestBase<TRequest>
-        where TRequest : IRequest<Result>
-    {        
+    protected private CommandTestBase(ApplicationFixture fixture) : base(fixture)
+    {
+        _ = fixture.Services;
+        ResetState(fixture);
+    }
+    protected void ResetState(ApplicationFixture fixture)
+    {
+        fixture.ResetState().ConfigureAwait(false).GetAwaiter().GetResult();
+        GetDbContext().SeedDbContext();                
+    }
+    protected abstract TRequest CreateSut();
 
-        protected abstract TRequest CreateSut();
+    [Fact]
+    public async virtual Task Send_CommandWhenUserDoesNotExistsInDb_ShouldFailWithUnauthorizedMessage()
+    {
+        var db = GetDbContext();        
+        var sut = CreateSut();
+     
+        var users = db.UserPerson.ToArray();
+        db.UserPerson.RemoveRange(users);
+        db.SaveChanges();
 
-        [Fact]
-        public async virtual Task Send_CommandWhenUserDoesNotExistsInDb_ShouldFailWithUnauthorizedMessage()
-        {         
-            var sut = CreateSut();
-            var result = await Send(sut, onBeforeSend: scope =>
-            {
-                var db = scope.Resolve<AppDbContext>();
-                db.UserPerson.RemoveRange(db.UserPerson);
-                db.Person.RemoveRange(db.Person);
-                db.SaveChanges();
-            });            
-            Assert.True(result.IsFailure, nameof(result.IsFailure));
-            Assert.Equal(Errors.UserUnauthorized, result.Error);
-        }
-
-        protected async Task<TResponse> Send<TResponse>(IRequest<TResponse> request,
-            Action<ILifetimeScope> onBeforeSend = null,
-            Action <ILifetimeScope> onAfterSend=null)
-        {
-            return await request.Send(onBeforeSend, onAfterSend);            
-        }        
+        var result = await Send(sut);
+        result.AssertFailure();
+        result.Error.Should().Be(Errors.UserUnauthorized);
     }
 }

@@ -1,8 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-	<TargetFramework>net6.0</TargetFramework>
-    <Platforms>AnyCPU</Platforms>
-  </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="CSharpFunctionalExtensions" Version="2.37.0" />
+  </ItemGroup>
 </Project>

@@ -1,21 +1,18 @@
 ﻿using VRT.Resume.Domain.Common;
 using VRT.Resume.Domain.Entities;
 
-namespace VRT.Resume.Application
+namespace VRT.Resume.Application;
+
+internal static class SkillHelper
 {
-    internal static class SkillHelper
+    public static PersonSkill CreateSkill(this Person person, SkillTypes skillType = SkillTypes.Technical)
     {
-        public static PersonSkill CreateSkill(int skillId = 1,
-            int personId = Defaults.PersonId, SkillTypes skillType = SkillTypes.Technical)
-        {
-            return new PersonSkill()
-            {
-                SkillId = skillId,
-                Level = "High",
-                PersonId = personId,
-                SkillTypeId = (byte)skillType,
-                Name = "Some nice skill"
-            };
-        }
+        return new PersonSkill()
+        {                
+            Level = "High",
+            PersonId = person.PersonId,
+            SkillTypeId = (byte)skillType,
+            Name = "Some nice skill"
+        };
     }
 }

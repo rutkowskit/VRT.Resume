@@ -1,5 +1,5 @@
 ﻿{
-   "CodeGenerationMode": 2,
+   "CodeGenerationMode": 3,
    "ContextClassName": "AppDbContext",
    "ContextNamespace": "Persistence.Data",
    "DefaultDacpacSchema": null,
@@ -8,6 +8,7 @@
    "ModelNamespace": "Domain.Entities",
    "OutputContextPath": "Data",
    "OutputPath": "Domain",
+   "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "VRT.Resume",
    "Schemas": null,
    "SelectedHandlebarsLanguage": 0,
@@ -75,8 +76,10 @@
       }
    ],
    "UiHint": "MONSTER\\SQL2.ResumeData",
+   "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,
+   "UseDateOnlyTimeOnly": false,
    "UseDbContextSplitting": true,
    "UseFluentApiOnly": true,
    "UseHandleBars": false,
@@ -84,12 +87,11 @@
    "UseInflector": false,
    "UseLegacyPluralizer": false,
    "UseManyToManyEntity": false,
-   "UseNoConstructor": false,
    "UseNoDefaultConstructor": false,
-   "UseNoNavigations": false,
    "UseNoObjectFilter": false,
    "UseNodaTime": false,
    "UseNullableReferences": false,
    "UseSchemaFolders": false,
-   "UseSpatial": false
+   "UseSpatial": false,
+   "UseT4": false
 }

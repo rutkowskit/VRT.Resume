@@ -1,129 +1,146 @@
-﻿using Autofac;
+﻿using FluentAssertions;
 using FluentValidation;
-using System.Linq;
-using System.Threading.Tasks;
+using VRT.Resume.Application.Fixtures;
 using VRT.Resume.Domain.Entities;
-using VRT.Resume.Persistence.Data;
-using Xunit;
 
-namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
+namespace VRT.Resume.Application.Persons.Commands.MergePersonDutySkills;
+
+public sealed class MergePersonDutySkillsCommandTests : CommandTestBase<MergePersonDutySkillsCommand>
 {
-    public sealed class MergePersonDutySkillsCommandTests : CommandTestBase<MergePersonDutySkillsCommand>
+    public MergePersonDutySkillsCommandTests(ApplicationFixture fixture) : base(fixture)
     {
-        [Fact()]
-        public async Task Send_CommandWithInvalidEntityId_ShouldThrowValidationError()
-        {
-            var sut = CreateSut();
-            sut.DutyId = 0;
-            await Assert.ThrowsAsync<ValidationException>(() => sut.Send());
-        }
 
-        [Fact()]
-        public async Task Send_CommandWithEntityIdThatIsNotInDb_ShouldFail()
-        {
-            var sut = CreateSut();
-            sut.DutyId = 434343434;
-            await sut.Send().AssertFail();            
-        }
+    }
 
-        [Fact()]
-        public async Task Send_CommandWithNullDutySkillList_ShouldDoNoChanges()
-        {
-            var sut = CreateSut();
-            sut.DutySkills = null;
-            await sut.Send(
-                onBeforeSend: async scope =>
-                {
-                    await PrepareSkillsInDb(scope);
-                },
-                onAfterSend: scope =>
-                {
-                    Assert.Single(scope.Resolve<AppDbContext>().Set<PersonExperienceDutySkill>());
-                }).AssertSuccess();
-        }
+    [Fact()]
+    public async Task Send_CommandWithInvalidEntityId_ShouldThrowValidationError()
+    {
+        var sut = CreateSut();
+        sut.DutyId = 0;
+        await Assert.ThrowsAsync<ValidationException>(() => Send(sut));
+    }
 
-        [Fact()]
-        public async Task Send_CommandWithRelevantDutySkills_AddedPersonExpDutySkill()
+    [Fact()]
+    public async Task Send_CommandWithEntityIdThatIsNotInDb_ShouldFail()
+    {
+        var sut = CreateSut();
+        sut.DutyId = 434343434;
+        await Send(sut).AssertFail();
+    }
+
+    [Fact()]
+    public async Task Send_CommandWithNullDutySkillList_ShouldDoNoChanges()
+    {
+        var db = GetDbContext();
+        var exp = await db.SeedExperience();
+        var duty = exp.PersonExperienceDuty.First();
+
+        var sut = CreateSut();        
+        sut.DutyId = duty.DutyId;
+        sut.DutySkills = null!;
+
+        var result = await Send(sut);
+        result.AssertSuccess();
+        GetDbContext()
+            .Set<PersonExperienceDutySkill>()
+            .ToArray()
+            .Should().HaveCount(1);
+    }
+
+    [Fact()]
+    public async Task Send_CommandWithRelevantDutySkills_AddedPersonExpDutySkill()
+    {
+        var db = GetDbContext();
+        var exp = await db.SeedExperience();
+        var duty = exp.PersonExperienceDuty.First();
+        var newSkill = await db.SeedSkill();
+
+        var sut = CreateSut();
+        sut.DutyId = duty.DutyId;
+        
+        sut.DutySkills = new[]
         {
-            var sut = CreateSut();
-            var expectedSkillId = 2;
-            sut.DutySkills = new[]
+            new PersonExpDutySkillDto()
             {
-                new PersonExpDutySkillDto()
-                {
-                    IsRelevant = true,
-                    SkillId = expectedSkillId //should be added 
-                }
-            };
-            await sut.Send(
-                onBeforeSend: async scope=>await PrepareSkillsInDb(scope, expectedSkillId),
-                onAfterSend: scope =>
-                {
-                    var skillSet = scope.Resolve<AppDbContext>()
-                        .Set<PersonExperienceDutySkill>().ToList();
-                    Assert.Equal(2, skillSet.Count); //one default + one added
-                    var added = skillSet
-                        .FirstOrDefault(s => s.SkillId == expectedSkillId && s.DutyId == 1);
-                    Assert.NotNull(added);
-                }).AssertSuccess();            
-        }
+                IsRelevant = true,
+                SkillId = newSkill.SkillId //should be added 
+            }
+        };
+        
+        await Send(sut).AssertSuccess();
 
-        [Fact()]
-        public async Task Send_CommandWithIrrelevantDutySkills_UnchangedDutySkills()
-        {
-            var sut = CreateSut();
-            var expectedSkillId = 2;
-            sut.DutySkills = new[]
-            {
-                new PersonExpDutySkillDto()
-                {
-                    IsRelevant = false,
-                    SkillId = expectedSkillId //should be added 
-                }
-            };
-            await sut.Send(
-                onBeforeSend: async scope => await PrepareSkillsInDb(scope, expectedSkillId),
-                onAfterSend: scope =>
-                {                  
-                    Assert.Single(scope.Resolve<AppDbContext>().Set<PersonExperienceDutySkill>());
-                }).AssertSuccess();
-        }
+        db = GetDbContext();
+        var dutySkills = db.Set<PersonExperienceDutySkill>().ToList();
+        dutySkills.Should().HaveCount(2); //one default + one added
 
-        [Fact()]
-        public async Task Send_CommandWithIrrelevantExistingDutySkills_RemovedDutySkill()
-        {
-            var sut = CreateSut();
-            sut.DutySkills = new[]
-            {
-                new PersonExpDutySkillDto()
-                {
-                    IsRelevant = false,
-                    SkillId = 1 //this one exists after default seeding
-                }
-            };
-            await sut.Send(
-                onBeforeSend: async scope => await PrepareSkillsInDb(scope),
-                onAfterSend: scope =>
-                {
-                    var count = scope.Resolve<AppDbContext>()
-                        .Set<PersonExperienceDutySkill>()                        
-                        .Count();
-                    Assert.Equal(0, count);
-                }).AssertSuccess();
-        }
+        dutySkills
+            .FirstOrDefault(s => s.SkillId == newSkill.SkillId)
+            .Should()
+            .NotBeNull();
+    }
 
-        private async Task PrepareSkillsInDb(ILifetimeScope scope, params int[] expectedSkillIds)
+    [Fact()]
+    public async Task Send_CommandWithIrrelevantDutySkills_UnchangedDutySkills()
+    {
+        var db = GetDbContext();
+        var exp = await db.SeedExperience();
+        var newSkill = await db.SeedSkill();
+        var duty = exp.PersonExperienceDuty.First();
+
+        var sut = CreateSut();
+        sut.DutyId = duty.DutyId;
+        
+        sut.DutySkills = new[]
         {
-            var skillSet = scope.Resolve<AppDbContext>().Set<PersonSkill>();
-            skillSet.AddRange(expectedSkillIds.Select(s=>SkillHelper.CreateSkill(s)));
-            await scope.SeedExperience();
-        }
-        protected override MergePersonDutySkillsCommand CreateSut()
-        {
-            return new MergePersonDutySkillsCommand()
+            new PersonExpDutySkillDto()
             {
-                DutyId = 1
-            };
-        }
+                IsRelevant = false,
+                SkillId = newSkill.SkillId
+            }
+        };
+
+        var result = await Send(sut);
+        
+        result.AssertSuccess();
+
+        GetDbContext()
+            .Set<PersonExperienceDutySkill>()
+            .ToArray()
+            .Should().HaveCount(1);
+    }
+
+    [Fact()]
+    public async Task Send_CommandWithIrrelevantExistingDutySkills_RemovedDutySkill()
+    {
+        var db = GetDbContext();
+        var exp = await db.SeedExperience();
+        var duty = exp.PersonExperienceDuty.First();
+        var skill = duty.PersonExperienceDutySkill.First();
+        
+        var sut = CreateSut();
+        sut.DutyId = duty.DutyId;
+        sut.DutySkills = new[]
+        {
+            new PersonExpDutySkillDto()
+            {
+                IsRelevant = false,
+                SkillId = skill.SkillId
+            }
+        };
+        
+        var result = await Send(sut);
+
+        result.AssertSuccess();
+        GetDbContext().Set<PersonExperienceDutySkill>()
+            .ToArray()
+            .Should().HaveCount(0);
+    }
+    
+    protected override MergePersonDutySkillsCommand CreateSut()
+    {
+        return new MergePersonDutySkillsCommand()
+        {
+            DutyId = 444
+        };
     }
 }

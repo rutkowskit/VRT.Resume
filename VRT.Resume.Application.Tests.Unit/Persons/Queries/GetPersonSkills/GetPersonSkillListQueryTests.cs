@@ -1,18 +1,22 @@
-﻿using System.Threading.Tasks;
+﻿using VRT.Resume.Application.Fixtures;
 using VRT.Resume.Domain.Common;
-using Xunit;
 
 namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
 {
     public sealed class GetPersonSkillListQueryTests
         : QueryTestBase<GetPersonSkillListQuery, PersonSkillInListVM[]>
     {
+        public GetPersonSkillListQueryTests(ApplicationFixture fixture) : base(fixture)
+        {
+
+        }
+
         [Fact]
         public async Task Send_QueryWhenSkillsNotExists_ShouldReturnEmptyArray()
         {
             var sut = CreateSut();
 
-            var result = await sut.Send();
+            var result = await Send(sut);
 
             result.AssertSuccess();
             Assert.Empty(result.Value);
@@ -22,14 +26,15 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
         public async Task Send_QueryWhenSkillsExists_ShouldReturnSkillsList()
         {
             var sut = CreateSut();
+            var skillseed = await GetDbContext().SeedSkill();
 
-            var result = await sut.Send(async scope=> await scope.SeedSkill());
+            var result = await Send(sut);
 
             result.AssertSuccess();
             var skill = Assert.Single(result.Value);
-            Assert.Equal(1, skill.SkillId);
-            Assert.Equal("Skill", skill.Name);
-            Assert.Equal("10", skill.Level);
+            Assert.Equal(skillseed.SkillId, skill.SkillId);
+            Assert.Equal(skillseed.Name, skill.Name);
+            Assert.Equal(skillseed.Level, skill.Level);
             Assert.Equal(SkillTypes.Technical.ToString(), skill.Type);
         }
         protected override GetPersonSkillListQuery CreateSut()

@@ -1,9 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-	  <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
-
   <ItemGroup>
     <Compile Update="LabelResource.Designer.cs">
       <DesignTime>True</DesignTime>

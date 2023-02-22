@@ -6,6 +6,7 @@ using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Application.Common.Behaviours;
 using VRT.Resume.Application.Common.Services;
 using VRT.Resume.Mvc.Services;
+using VRT.Resume.Application;
 
 namespace VRT.Resume.Mvc
 {
@@ -17,12 +18,8 @@ namespace VRT.Resume.Mvc
             services.AddSingleton<IDateTimeService, DateTimeService>();
             services.AddTransient<ICultureService, CultureService>();
             services.AddTransient<ICurrentUserService, CurrentUserService>();
-
             services.AddAutoMapper(typeof(Startup));
-            services.AddMediatR(typeof(IDateTimeService));
-
-            services.AddValidatorsFromAssemblyContaining<IDateTimeService>();
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            services.AddApplication();            
             return services;
         }
     }

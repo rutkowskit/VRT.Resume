@@ -6,6 +6,17 @@ namespace VRT.Resume.Application
 {
     internal static class ResultExtensions
     {
+        public static async Task<Result> AssertFailure(this Task<Result> result)
+        {
+            var r = await result;
+            return r.AssertFailure();
+        }
+        public static Result AssertFailure(this Result result)
+        {
+            Assert.True(result.IsFailure, "Expected failure");
+            return result;
+        }
+
         internal static async Task<Result> AssertFail(this Task<Result> result)
         {
             var r = await result;

@@ -1,20 +1,29 @@
-﻿using Autofac;
-using System.Threading.Tasks;
+﻿using VRT.Resume.Application.Fixtures;
 using VRT.Resume.Domain.Entities;
 
 namespace VRT.Resume.Application.Persons.Commands.DeletePersonEducation
 {
-    public class DeletePersonEducationCommandTests 
-        : DeleteCommandTestBase<DeletePersonEducationCommand,PersonEducation>
+    public class DeletePersonEducationCommandTests
+        : DeleteCommandTestBase<DeletePersonEducationCommand, PersonEducation>
     {
+        public DeletePersonEducationCommandTests(ApplicationFixture fixture) : base(fixture)
+        {
+
+        }
+
         protected override DeletePersonEducationCommand CreateSut(int educationId)
         {
             return new DeletePersonEducationCommand(educationId);
         }
 
-        protected override Task SeedEntity(ILifetimeScope scope)
+        protected override DeletePersonEducationCommand CreateSut(PersonEducation entity)
         {
-            return scope.SeedEducation();
+            return CreateSut(entity.EducationId);
+        }
+
+        protected override Task<PersonEducation> SeedEntity()
+        {
+            return GetDbContext().SeedEducation();
         }
     }
 }

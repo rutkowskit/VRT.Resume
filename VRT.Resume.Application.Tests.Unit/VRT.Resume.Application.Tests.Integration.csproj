@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>    
+    <IsPackable>false</IsPackable>
+    <RootNamespace>VRT.Resume.Application</RootNamespace>    
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Respawn" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VRT.Resume.Application\VRT.Resume.Application.csproj" />
+    <ProjectReference Include="..\VRT.Resume.Domain\VRT.Resume.Domain.csproj" />
+    <ProjectReference Include="..\VRT.Resume.Persistence\VRT.Resume.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+  </ItemGroup>
+
+</Project>

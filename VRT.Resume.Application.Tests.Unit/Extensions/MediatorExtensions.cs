@@ -1,50 +1,24 @@
-﻿using Autofac;
-using MediatR;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using VRT.Resume.Application.Fakes;
-using VRT.Resume.Domain.Entities;
+﻿using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence;
 using VRT.Resume.Persistence.Data;
 
-namespace VRT.Resume.Application
-{
-    internal static class MediatorRequestExtensions
-    {
-        public static async Task<TResponse> Send<TResponse>(this IRequest<TResponse> request,
-            Action<ILifetimeScope> onBeforeSend = null,
-            Action<ILifetimeScope> onAfterSend = null,
-            bool seedDbWithDefaults=true)
-        {
-            using (var scope = FakeIocContainer.Instance.Container.BeginLifetimeScope())
-            {
-                var mediator = scope.Resolve<IMediator>();
-                if(seedDbWithDefaults)
-                    await SeedDbContext(scope.Resolve<AppDbContext>());
-                onBeforeSend?.Invoke(scope);
-                var result = await mediator.Send(request);
-                onAfterSend?.Invoke(scope);
-                return result;
-            }
-        }
+namespace VRT.Resume.Application;
 
-        private static async Task SeedDbContext(AppDbContext context)
+internal static class MediatorRequestExtensions
+{
+    internal static void SeedDbContext(this AppDbContext context)
+    {
+        context.InitDatabase();
+        context.UserPerson.Add(new UserPerson()
         {
-            context.UserPerson.Add(new UserPerson()
-            {
-                UserId = Defaults.UserId,
-                PersonId = Defaults.PersonId,
-                Person = new Person()
-                {
-                    PersonId = Defaults.PersonId,
-                    FirstName = "Tom",
-                    LastName = "Tester",
-                    ModifiedDate = new DateTime(2020, 11, 20)
-                }
-            });
-            await Task.Yield();
-            context.InitDatabase();            
-        }
+            UserId = Defaults.UserId,            
+            Person = new Person()
+            {                
+                FirstName = "Tom",
+                LastName = "Tester",
+                ModifiedDate = new DateTime(2020, 11, 20)
+            }
+        });
+        context.SaveChanges();
     }
 }

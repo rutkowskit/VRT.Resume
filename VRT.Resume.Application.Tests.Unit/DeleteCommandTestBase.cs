@@ -1,59 +1,53 @@
-﻿using MediatR;
-using CSharpFunctionalExtensions;
-using Xunit;
-using System.Threading.Tasks;
+﻿using CSharpFunctionalExtensions;
+using FluentAssertions;
 using FluentValidation;
-using Autofac;
-using VRT.Resume.Persistence.Data;
-using System.Linq;
+using MediatR;
+using VRT.Resume.Application.Fixtures;
 
-namespace VRT.Resume.Application
+namespace VRT.Resume.Application;
+
+public abstract class DeleteCommandTestBase<TRequest, TDomainModel> : CommandTestBase<TRequest>
+    where TRequest : IRequest<Result>
+    where TDomainModel : class
 {
-    public abstract class DeleteCommandTestBase<TRequest,TDomainModel> : CommandTestBase<TRequest>
-        where TRequest : IRequest<Result>
-        where TDomainModel : class
-    {        
-
-        [Fact()]
-        public async Task Send_CommandWithInvalidEntityId_ShouldThrowValidationError()
-        {
-            var sut = CreateSut(0);
-            await Assert.ThrowsAsync<ValidationException>(() => Send(sut));
-        }
-        [Fact()]
-        public async Task Send_CommandWithValidEntityId_ShouldDeleteEntity()
-        {
-            var sut = CreateSut();
-
-            var result = await sut.Send(
-                onBeforeSend: async scope =>
-                {
-                    await SeedEntity(scope);                    
-                    Assert.Single(scope.Resolve<AppDbContext>()
-                        .Set<TDomainModel>());
-                },
-                onAfterSend: scope =>
-                {
-                    var entities = scope.Resolve<AppDbContext>()
-                        .Set<TDomainModel>().Count();
-                    Assert.Equal(0, entities);
-                });
-            Assert.True(result.IsSuccess, result.GetErrorSafe());
-        }
-
-        [Fact()]
-        public async Task Send_CommandWithValidNonExistingEntityId_ShouldFailWithMessage()
-        {
-            var sut = CreateSut(646464);
-
-            var result = await sut.Send();
-
-            Assert.True(result.IsFailure, "It should fail");
-            Assert.Equal(Errors.RecordNotFound, result.Error);
-        }
-
-        protected override TRequest CreateSut() => CreateSut(1);
-        protected abstract TRequest CreateSut(int entityId);
-        protected abstract Task SeedEntity(ILifetimeScope scope);        
+    private protected DeleteCommandTestBase(ApplicationFixture fixture) : base(fixture)
+    {
     }
+
+    [Fact()]
+    public async Task Send_CommandWithInvalidEntityId_ShouldThrowValidationError()
+    {
+        var sut = CreateSut(0);
+        await Assert.ThrowsAsync<ValidationException>(() => Send(sut));
+    }
+    [Fact()]
+    public async Task Send_CommandWithValidEntityId_ShouldDeleteEntity()
+    {
+        var entity = await SeedEntity();
+        GetDbContext().Set<TDomainModel>().Count()
+            .Should().Be(1);
+
+        var sut = CreateSut(entity);
+
+        var result = await Send(sut);
+
+        Assert.True(result.IsSuccess, result.GetErrorSafe());
+        GetDbContext().Set<TDomainModel>().Count()
+            .Should().Be(0);
+    }
+
+    [Fact()]
+    public async Task Send_CommandWithValidNonExistingEntityId_ShouldFailWithMessage()
+    {
+        var sut = CreateSut();
+
+        var result = await Send(sut);
+
+        Assert.True(result.IsFailure, "It should fail");
+        Assert.Equal(Errors.RecordNotFound, result.Error);
+    }
+    sealed protected override TRequest CreateSut() => CreateSut(int.MaxValue); //invalid entity;
+    protected abstract TRequest CreateSut(int id);
+    protected abstract TRequest CreateSut(TDomainModel entity);
+    protected abstract Task<TDomainModel> SeedEntity();        
 }

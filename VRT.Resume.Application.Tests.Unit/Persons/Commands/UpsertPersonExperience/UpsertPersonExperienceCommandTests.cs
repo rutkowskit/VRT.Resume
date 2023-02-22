@@ -1,15 +1,17 @@
-﻿using Autofac;
+﻿using FluentAssertions;
 using FluentValidation;
-using System.Linq;
-using System.Threading.Tasks;
+using VRT.Resume.Application.Fixtures;
 using VRT.Resume.Domain.Entities;
-using VRT.Resume.Persistence.Data;
-using Xunit;
 
 namespace VRT.Resume.Application.Persons.Commands.UpsertPersonExperience
 {
     public class UpsertPersonExperienceCommandTests : CommandTestBase<UpsertPersonExperienceCommand>
     {
+        public UpsertPersonExperienceCommandTests(ApplicationFixture fixture) : base(fixture)
+        {
+
+        }
+
         [Fact()]
         public async Task Send_CommandWithTooShortCompanyName_ShouldThrowValidationError()
         {
@@ -54,60 +56,56 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonExperience
 
             await Assert.ThrowsAsync<ValidationException>(() => Send(sut));
         }
-        
+
         [Fact()]
-        public async Task Send_CommandWithWrongId_ShouldAddNewRecordToDbContext()
+        public async Task Send_WhenWrongExperienceId_ShouldAddNewRecordToDbContext()
         {
-            var sut = CreateSut();            
-            var result = await Send(sut,
-                onBeforeSend: scope =>
-                {
-                    var edu = scope.Resolve<AppDbContext>().PersonExperience.FirstOrDefault();
-                    Assert.Null(edu);
-                },
-                onAfterSend: scope =>
-            {
-                var edu = Assert.Single(scope.Resolve<AppDbContext>().PersonExperience);
-                AssertPersonExperience(edu, sut);                
-            });
-            
-            result.AssertSuccess();            
+            var sut = CreateSut();
+            sut.ExperienceId = int.MaxValue;
+
+            GetDbContext().PersonExperience.FirstOrDefault().Should().BeNull();
+
+            var result = await Send(sut);
+
+            result.AssertSuccess();
+
+            var edu = GetDbContext().PersonExperience.Single();
+            edu.Should().NotBeNull();
+            AssertPersonExperience(edu!, sut);
         }
 
         [Fact()]
         public async Task Send_CommandWithIdOfExistingEducation_ShouldUpdateExistingRecord()
         {
+            var expSeed = await GetDbContext().SeedExperience();
+
             var sut = CreateSut();
+            sut.ExperienceId = expSeed.ExperienceId;
 
-            var result = await Send(sut,
-                async scope => await scope.SeedExperience(),
-                onAfterSend: scope =>
-                {
-                    var exp = Assert.Single(scope.Resolve<AppDbContext>().PersonExperience);
-                    AssertPersonExperience(exp, sut);
-                });
+            var result = await Send(sut);
 
-            result.AssertSuccess();            
+            result.AssertSuccess();
+            var exp = GetDbContext().PersonExperience.ToArray();
+            exp.Should().HaveCount(1);
+            AssertPersonExperience(exp[0], sut);
         }
 
-        private void AssertPersonExperience(PersonExperience exp,
+        private static void AssertPersonExperience(
+            PersonExperience exp,
                UpsertPersonExperienceCommand sut)
         {
-            Assert.NotNull(exp);
-            Assert.Equal(1, exp.ExperienceId);
+            Assert.NotNull(exp);            
             Assert.Equal(sut.CompanyName, exp.CompanyName);
-            Assert.Equal(sut.Location,exp.Location);
+            Assert.Equal(sut.Location, exp.Location);
             Assert.Equal(sut.Position, exp.Position);
             Assert.Equal(sut.FromDate, exp.FromDate);
-            Assert.Equal(sut.ToDate, exp.ToDate);
-            Assert.Equal(Defaults.PersonId, exp.PersonId);
+            Assert.Equal(sut.ToDate, exp.ToDate);            
         }
 
         protected override UpsertPersonExperienceCommand CreateSut()
         {
             return new UpsertPersonExperienceCommand()
-            {
-                ExperienceId = 1,
+            {                
                 CompanyName = "Some nice company",
                 FromDate = Defaults.Today.AddYears(-10),
                 ToDate = Defaults.Today.AddMonths(-5),

@@ -1,25 +1,28 @@
-﻿using Xunit;
-using VRT.Resume.Application.Resumes.Commands.DeletePersonResume;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using VRT.Resume.Application.Fixtures;
 using VRT.Resume.Domain.Entities;
-using Autofac;
-using System.Threading.Tasks;
 
-namespace VRT.Resume.Application.Resumes.Commands.DeletePersonResume.Tests
-{
-    public class DeletePersonResumeCommandTests
+namespace VRT.Resume.Application.Resumes.Commands.DeletePersonResume.Tests;
+
+public class DeletePersonResumeCommandTests
     : DeleteCommandTestBase<DeletePersonResumeCommand, PersonResume>
+{
+    public DeletePersonResumeCommandTests(ApplicationFixture fixture) : base(fixture)
     {
-        protected override DeletePersonResumeCommand CreateSut(int entityId)
-        {
-            return new DeletePersonResumeCommand(entityId);
-        }
 
-        protected override Task SeedEntity(ILifetimeScope scope)
-        {
-            return scope.SeedPersonResume();
-        }
+    }
+
+    protected override DeletePersonResumeCommand CreateSut(int entityId)
+    {
+        return new DeletePersonResumeCommand(entityId);
+    }
+
+    protected override DeletePersonResumeCommand CreateSut(PersonResume entity)
+    {
+        return CreateSut(entity.ResumeId);
+    }
+
+    protected override Task<PersonResume> SeedEntity()
+    {
+        return GetDbContext().SeedPersonResume();
     }
 }

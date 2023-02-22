@@ -1,18 +1,26 @@
-﻿using System.Threading.Tasks;
-using Autofac;
+﻿using VRT.Resume.Application.Fixtures;
 using VRT.Resume.Domain.Entities;
 
-namespace VRT.Resume.Application.Persons.Commands.DeletePersonContact
+namespace VRT.Resume.Application.Persons.Commands.DeletePersonContact;
+
+public class DeletePersonContactCommandTests
+    : DeleteCommandTestBase<DeletePersonContactCommand, PersonContact>
 {
-    public class DeletePersonContactCommandTests 
-        : DeleteCommandTestBase<DeletePersonContactCommand, PersonContact>
-    {        
-        protected override Task SeedEntity(ILifetimeScope scope)
-            => scope.SeedContact();
-        
-        protected override DeletePersonContactCommand CreateSut(int contactId)
-        {
-            return new DeletePersonContactCommand(contactId);
-        }
+    public DeletePersonContactCommandTests(ApplicationFixture fixture) : base(fixture)
+    {
+
+    }
+
+    protected override Task<PersonContact> SeedEntity()
+        => GetDbContext().SeedContact();
+
+    protected override DeletePersonContactCommand CreateSut(int contactId)
+    {
+        return new DeletePersonContactCommand(contactId);
+    }
+
+    protected override DeletePersonContactCommand CreateSut(PersonContact entity)
+    {
+        return CreateSut(entity.ContactId);
     }
 }

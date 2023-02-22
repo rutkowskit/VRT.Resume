@@ -1,20 +1,28 @@
-﻿using VRT.Resume.Domain.Entities;
-using System.Threading.Tasks;
-using Autofac;
+﻿using VRT.Resume.Application.Fixtures;
+using VRT.Resume.Domain.Entities;
 
-namespace VRT.Resume.Application.Persons.Commands.DeletePersonExperience.Tests
+namespace VRT.Resume.Application.Persons.Commands.DeletePersonExperience.Tests;
+
+public class DeletePersonExperienceCommandTests
+    : DeleteCommandTestBase<DeletePersonExperienceCommand, PersonExperience>
 {
-    public class DeletePersonExperienceCommandTests
-        : DeleteCommandTestBase<DeletePersonExperienceCommand, PersonExperience>
+    public DeletePersonExperienceCommandTests(ApplicationFixture fixture) : base(fixture)
     {
-        protected override DeletePersonExperienceCommand CreateSut(int entityId)
-        {
-            return new DeletePersonExperienceCommand(entityId);
-        }
 
-        protected override Task SeedEntity(ILifetimeScope scope)
-        {
-            return scope.SeedExperience();
-        }
+    }
+
+    protected override DeletePersonExperienceCommand CreateSut(int entityId)
+    {
+        return new DeletePersonExperienceCommand(entityId);
+    }
+
+    protected override DeletePersonExperienceCommand CreateSut(PersonExperience entity)
+    {
+        return CreateSut(entity.ExperienceId);
+    }
+
+    protected override Task<PersonExperience> SeedEntity()
+    {
+        return GetDbContext().SeedExperience();
     }
 }
