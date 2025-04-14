@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.5.1" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.1" />
-    <PackageReference Include="MediatR" Version="12.0.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="MediatR" />
+    <PackageReference Include="SkiaSharp" />    	  
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using VRT.Resume.Application.Common.Abstractions;
+using VRT.Resume.Application.Common.Services;
 using VRT.Resume.Application.Fakes;
 using VRT.Resume.Persistence.Data;
 
@@ -13,9 +13,10 @@ internal static class DependencyInjection
         return services
             .AddLogging()
             .AddDbContext()
-            .AddDbContextFactory()    
+            .AddDbContextFactory()
             .AddScoped<IDateTimeService, FakeDateTimeService>()
-            .AddScoped<ICurrentUserService, FakeCurrentUserService>();
+            .AddScoped<ICurrentUserService, FakeCurrentUserService>()
+            .AddSingleton<IProfileImageService, ProfileImageService>();
     }
 
     internal static IServiceCollection AddDbContextFactory(this IServiceCollection services)

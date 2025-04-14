@@ -8,7 +8,7 @@ using VRT.Resume.Mvc.Models;
 
 namespace VRT.Resume.Mvc;
 
-internal static partial class ServiceCollectionExtensions
+internal static partial class DependencyInjection
 {
     public static AuthenticationBuilder AddCookieAuthentication(this IServiceCollection services)
     {
@@ -78,9 +78,12 @@ internal static partial class ServiceCollectionExtensions
                      var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
                      request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                      request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-                     var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
+                     var response = await context.Backchannel
+                        .SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted)
+                        .ConfigureAwait(false);
                      response.EnsureSuccessStatusCode();
-                     var json = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
+                     var jsonText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                     var json = JsonDocument.Parse(jsonText);
                      context.RunClaimActions(json.RootElement);
                  }
              };
