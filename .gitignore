@@ -347,3 +347,7 @@ ConectionStringsSecrets.config
 #Cake Publish folders
 deploy/
 artifacts/
+
+#Agents
+terminals/
+agent-tools/

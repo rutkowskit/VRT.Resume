@@ -37,6 +37,96 @@ Now you can Log in to the application using your Google credentials.
 ## Sign in with Github
 
 
+## Publishing to Azure
+
+The web application is hosted in **Azure App Service** (`VRT.Resume.Mvc`). Use the steps below to publish a new version.
+
+### 1. Create Azure resources
+
+1. Sign in to the [Azure Portal](https://portal.azure.com/).
+1. Create an **App Service** (Windows or Linux) with a runtime that supports **.NET 10**.
+1. *(Recommended for production)* Create an **Azure SQL Database** and note the connection string.
+1. *(Optional, for testing only)* Skip the database service and use **SQLite** with a file stored on the App Service file system.
+
+### 2. Configure OAuth redirect URIs
+
+Add the production callback URLs to your OAuth applications (the same providers described above):
+
+| Provider | Redirect URI |
+|----------|--------------|
+| Google   | `https://<your-app-name>.azurewebsites.net/signin-google` |
+| GitHub   | `https://<your-app-name>.azurewebsites.net/signin-github` |
+
+Replace `<your-app-name>` with your App Service host name.
+
+### 3. Configure App Service application settings
+
+In the Azure Portal, open **App Service → Settings → Environment variables** (or **Configuration → Application settings**) and add:
+
+| Setting | Example value | Notes |
+|---------|---------------|-------|
+| `ASPNETCORE_ENVIRONMENT` | `Production` | Required for production error handling |
+| `DbProvider` | `mssql` or `sqlite` | Must match the connection string you configure |
+| `ConnectionStrings__ResumeData__mssql` | `Server=tcp:...` | Use when `DbProvider` is `mssql` |
+| `ConnectionStrings__ResumeData__sqlite` | `Data Source=D:\home\site\data\resumedata.sqlite` | Use when `DbProvider` is `sqlite` |
+| `Auth__Providers__0__Name` | `Google` | First auth provider |
+| `Auth__Providers__0__ClientId` | `<client id>` | From Google Cloud Console |
+| `Auth__Providers__0__ClientSecret` | `<client secret>` | Store as a secret / Key Vault reference |
+| `Auth__Providers__0__CallbackPath` | `/signin-google` | Must match OAuth app settings |
+| `Auth__Providers__1__Name` | `Github` | Second auth provider (optional) |
+| `Auth__Providers__1__ClientId` | `<client id>` | From GitHub OAuth app |
+| `Auth__Providers__1__ClientSecret` | `<client secret>` | Store as a secret / Key Vault reference |
+| `Auth__Providers__1__CallbackPath` | `/signin-github` | Must match OAuth app settings |
+
+The application creates and seeds the database automatically on startup (`EnsureCreated`).
+
+### 4. Build and publish locally
+
+From the solution root, run tests and publish the MVC project:
+
+```powershell
+dotnet test --configuration Release
+dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj --configuration Release --output .\deploy\web
+```
+
+Alternatively, use the Cake build script (same output folder):
+
+```powershell
+dotnet tool restore
+dotnet cake --target=PublishWeb
+```
+
+The publish output is written to `./deploy/web`.
+
+### 5. Deploy to App Service
+
+Choose one deployment option:
+
+**Visual Studio**
+
+1. Right-click `VRT.Resume.Mvc` → **Publish**.
+1. Select **Azure** → **Azure App Service (Windows/Linux)**.
+1. Choose the target App Service and publish.
+
+**Azure CLI (zip deploy)**
+
+```powershell
+Compress-Archive -Path .\deploy\web\* -DestinationPath .\deploy\web.zip -Force
+az webapp deploy --resource-group <resource-group> --name <app-name> --src-path .\deploy\web.zip --type zip
+```
+
+**GitHub Actions / CI/CD**
+
+Add a deploy step after `dotnet publish` that uploads `./deploy/web` to the App Service (for example with `azure/webapps-deploy`).
+
+### 6. Verify the deployment
+
+1. Open `https://<your-app-name>.azurewebsites.net/`.
+1. Confirm that sign-in with Google and/or GitHub works.
+1. Create or edit a resume to verify database connectivity.
+1. Check **App Service → Log stream** or **Application Insights** if the app fails to start.
+
+
 ## Deployed versions
 
 ### DEV version on Azure 

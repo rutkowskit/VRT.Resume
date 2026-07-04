@@ -8,8 +8,8 @@ namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount;
 
 public sealed class CreatePersonAccountCommand : IRequest<Result<int>>
 {
-    public string UserId { get; set; }
-    public string Email { get; set; }
+    public string? UserId { get; set; }
+    public string? Email { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
