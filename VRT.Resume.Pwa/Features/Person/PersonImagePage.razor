@@ -1,0 +1,51 @@
+<PageTitle>Profile photo</PageTitle>
+
+<MudStack Spacing="4" Style="max-width: 480px;">
+    <MudText Typo="Typo.h4">Profile photo</MudText>
+    <MudText Typo="Typo.body2" Class="mud-text-secondary">
+        Upload a photo for the active profile. Images are stored per local profile.
+    </MudText>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else
+    {
+        <MudPaper Class="pa-4" Elevation="0" Outlined="true">
+            <MudStack AlignItems="AlignItems.Center" Spacing="3">
+                <MudAvatar Style="width: 160px; height: 160px;">
+                    <MudImage Src="@_displayUrl" Alt="Profile photo" ObjectFit="ObjectFit.Cover" />
+                </MudAvatar>
+
+                <InputFile id="profile-image-input"
+                           OnChange="OnFileSelectedAsync"
+                           accept="image/png,image/jpeg,image/gif,image/webp"
+                           hidden />
+
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.PhotoCamera"
+                           HtmlTag="label"
+                           For="profile-image-input">
+                    Choose image
+                </MudButton>
+
+                @if (!string.IsNullOrEmpty(_fileName))
+                {
+                    <MudText Typo="Typo.caption" Class="mud-text-secondary">Selected: @_fileName</MudText>
+                }
+            </MudStack>
+        </MudPaper>
+
+        <MudStack Row="true" Spacing="2">
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Disabled="@(_saving || _pendingImageData is null)"
+                       OnClick="SaveAsync">
+                @(_saving ? "Saving…" : "Save")
+            </MudButton>
+            <MudButton Variant="Variant.Text" Href="@Routes.Persons.Person">Cancel</MudButton>
+        </MudStack>
+    }
+</MudStack>

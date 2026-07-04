@@ -222,17 +222,17 @@ Status: Complete
 ---
 
 ## Phase 7: Profile image
-Status: Not started
+Status: Complete
 
-- [ ] `ProfileImageService` (SkiaSharp) — test WASM; fallback w Pwa jeśli potrzeba
-- [ ] `/person/image` — `UpsertProfileImageCommand`
-- [ ] Zdjęcie per `Person` — izolowane między profilami
+- [x] `ProfileImageService` (SkiaSharp) — test WASM; fallback w Pwa jeśli potrzeba
+- [x] `/person/image` — `UpsertProfileImageCommand`
+- [x] Zdjęcie per `Person` — izolowane między profilami
 
 ### Verification Plan
 - Różne zdjęcia dla profilu A i B
 
 ### Phase Summary
-_(write when phase completes)_
+`PersonImagePage` (`/person/image`) — upload via `InputFile` + `UpsertProfileImageCommand`; podgląd z `GetProfileImageQuery` (data URL). `ProfileImageUrl` helper; placeholder `wwwroot/img/unknown.png`. `PersonProfileTab` — miniatura + link „Change photo”. `ProfileImageService` (SkiaSharp) z DI Pwa; handler Application ma fallback na surowe bajty gdy resize się nie uda. Build Release Pwa OK.
 
 ---
 

@@ -15,6 +15,7 @@ internal static class Routes
     internal static class Persons
     {
         public const string Person = "/person";
+        public const string Image = "/person/image";
     }
 
     internal static class Resumes

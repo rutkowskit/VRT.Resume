@@ -9,6 +9,18 @@ else if (!string.IsNullOrEmpty(_loadError))
 else
 {
     <MudPaper Class="pa-4 mt-2" Elevation="0" Outlined="true">
+        <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="mb-4">
+            <MudAvatar Style="width: 96px; height: 96px;">
+                <MudImage Src="@_imageUrl" Alt="Profile photo" ObjectFit="ObjectFit.Cover" />
+            </MudAvatar>
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.PhotoCamera"
+                       Href="@Routes.Persons.Image">
+                Change photo
+            </MudButton>
+        </MudStack>
+
         <MudText Typo="Typo.subtitle1" GutterBottom="true">Basic data</MudText>
 
         <MudForm @ref="_form" @bind-IsValid="_isValid">

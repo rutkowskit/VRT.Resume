@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using VRT.Resume.Application.Persons.Commands.UpdatePersonData;
 using VRT.Resume.Application.Persons.Queries.GetPersonData;
+using VRT.Resume.Application.Persons.Queries.GetProfileImage;
 using VRT.Resume.Pwa.Features.Mediator;
+using ProfileImageUrl = VRT.Resume.Pwa.Features.Person.ProfileImageUrl;
 
 namespace VRT.Resume.Pwa.Features.Person.Tabs;
 
@@ -18,6 +20,7 @@ public partial class PersonProfileTab
     private string _lastName = string.Empty;
     private DateTime? _dateOfBirth;
     private string? _loadError;
+    private string _imageUrl = ProfileImageUrl.DefaultImagePath;
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
 
     protected override async Task OnInitializedAsync() => await LoadAsync();
@@ -41,6 +44,10 @@ public partial class PersonProfileTab
         _firstName = outcome.Result.Value.FirstName;
         _lastName = outcome.Result.Value.LastName;
         _dateOfBirth = outcome.Result.Value.DateOfBirth;
+
+        var image = await Mediator.SendQueryAsync(new GetProfileImageQuery());
+        _imageUrl = ProfileImageUrl.ToDataUrl(image) ?? ProfileImageUrl.DefaultImagePath;
+
         _loading = false;
     }
 
