@@ -34,12 +34,13 @@ public partial class ProfilesCreatePage : IProfileExemptPage
         _fieldErrors = new Dictionary<string, string[]>();
 
         var userId = $"local:{Guid.NewGuid():N}";
+        var email = string.IsNullOrWhiteSpace(_email) ? null : _email.Trim();
         var outcome = await Mediator.SendAsync(new CreatePersonAccountCommand
         {
             UserId = userId,
             FirstName = _firstName.Trim(),
             LastName = _lastName.Trim(),
-            Email = string.IsNullOrWhiteSpace(_email) ? null : _email.Trim(),
+            Email = email,
         });
 
         _fieldErrors = outcome.FieldErrors;
@@ -50,7 +51,8 @@ public partial class ProfilesCreatePage : IProfileExemptPage
             return;
         }
 
-        await ProfileContext.SetContextAsync(userId);
+        // CreatePersonAccount stores UserId as Email ?? UserId — active context must match.
+        await ProfileContext.SetContextAsync(email ?? userId);
         Navigation.NavigateTo(Routes.Home);
     }
 }

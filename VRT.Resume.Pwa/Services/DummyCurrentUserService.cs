@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application.Common.Abstractions;
+using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Pwa.Services;
 
@@ -17,6 +19,21 @@ public sealed class DummyCurrentUserService(IServiceScopeFactory scopeFactory)
         {
             UserId = await storage.GetActiveUserIdAsync(cancellationToken) ?? string.Empty;
         });
+
+        if (string.IsNullOrEmpty(UserId))
+            return;
+
+        await using var scope = scopeFactory.CreateAsyncScope();
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var exists = await context.UserPerson
+            .AsNoTracking()
+            .AnyAsync(u => u.UserId == UserId, cancellationToken);
+
+        if (!exists)
+        {
+            UserId = string.Empty;
+            await WithStorageAsync(storage => storage.SetActiveUserIdAsync(null, cancellationToken));
+        }
     }
 
     public async Task SetContextAsync(string userId, CancellationToken cancellationToken = default)
