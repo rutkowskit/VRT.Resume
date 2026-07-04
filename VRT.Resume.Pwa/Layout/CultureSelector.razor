@@ -1,0 +1,14 @@
+<MudSelect T="string"
+           Value="_selectedCulture"
+           ValueChanged="OnCultureChangedAsync"
+           Label="@LabelNames.Language.GetLabelText()"
+           Dense="true"
+           Variant="Variant.Outlined"
+           Margin="Margin.Dense"
+           Style="min-width: 120px;"
+           Class="culture-selector">
+    @foreach (var language in CultureService.GetSupportedLanguages())
+    {
+        <MudSelectItem Value="@language.Key">@language.Value.caption</MudSelectItem>
+    }
+</MudSelect>

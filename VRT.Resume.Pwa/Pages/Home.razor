@@ -1,18 +1,18 @@
-<PageTitle>Resumes</PageTitle>
+<PageTitle>@LabelNames.PageResume.GetLabelText()</PageTitle>
 
 <MudStack Spacing="4">
     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-        <MudText Typo="Typo.h4">Resumes</MudText>
+        <MudText Typo="Typo.h4">@LabelNames.PageResume.GetLabelText()</MudText>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.Add"
                    OnClick="AddAsync">
-            Add resume
+            @LabelNames.ButtonAddResume.GetLabelText()
         </MudButton>
     </MudStack>
 
     <MudText Typo="Typo.body1" Class="mud-text-secondary">
-        Manage resume variants for the active profile.
+        @LabelNames.ResumesPageDescription.GetLabelText()
     </MudText>
 
     @if (_loading)
@@ -22,52 +22,52 @@
     else if (_resumes.Count == 0)
     {
         <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
-            No resumes yet. Create your first resume variant.
+            @LabelNames.NoResumesYet.GetLabelText()
         </MudAlert>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.Add"
                    OnClick="AddAsync">
-            Add resume
+            @LabelNames.ButtonAddResume.GetLabelText()
         </MudButton>
     }
     else
     {
         <MudTable Items="_resumes" Hover="true" Dense="true" Breakpoint="Breakpoint.Sm">
             <HeaderContent>
-                <MudTh>Description</MudTh>
-                <MudTh>Position</MudTh>
-                <MudTh>Modified</MudTh>
-                <MudTh Style="width: 200px;">Actions</MudTh>
+                <MudTh>@LabelNames.Description.GetLabelText()</MudTh>
+                <MudTh>@LabelNames.Position.GetLabelText()</MudTh>
+                <MudTh>@LabelNames.LastModification.GetLabelText()</MudTh>
+                <MudTh Style="width: 200px;">@LabelNames.Actions.GetLabelText()</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Description">
+                <MudTd DataLabel="@LabelNames.Description.GetLabelText()">
                     <MudLink Href="@ResumeDisplayHelpers.ShowUrl(context.ResumeId)">@context.Description</MudLink>
                 </MudTd>
-                <MudTd DataLabel="Position">@context.Position</MudTd>
-                <MudTd DataLabel="Modified">@context.ModifiedDate.ToString("yyyy-MM-dd HH:mm")</MudTd>
-                <MudTd DataLabel="Actions">
+                <MudTd DataLabel="@LabelNames.Position.GetLabelText()">@context.Position</MudTd>
+                <MudTd DataLabel="@LabelNames.LastModification.GetLabelText()">@context.ModifiedDate.ToString("yyyy-MM-dd HH:mm")</MudTd>
+                <MudTd DataLabel="@LabelNames.Actions.GetLabelText()">
                     <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
                         <MudIconButton Icon="@Icons.Material.Filled.Visibility"
                                        Size="Size.Small"
-                                       Title="View"
+                                       Title="@LabelNames.ButtonShow.GetLabelText()"
                                        Href="@ResumeDisplayHelpers.ShowUrl(context.ResumeId)" />
                         <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                        Size="Size.Small"
-                                       Title="Edit"
+                                       Title="@LabelNames.ButtonEdit.GetLabelText()"
                                        OnClick="@(() => EditAsync(context.ResumeId))" />
                         <MudIconButton Icon="@Icons.Material.Filled.Workspaces"
                                        Size="Size.Small"
-                                       Title="Skills"
+                                       Title="@LabelNames.Skills.GetLabelText()"
                                        OnClick="@(() => EditSkillsAsync(context.ResumeId))" />
                         <MudIconButton Icon="@Icons.Material.Filled.ContentCopy"
                                        Size="Size.Small"
-                                       Title="Clone"
+                                       Title="@LabelNames.Clone.GetLabelText()"
                                        OnClick="@(() => CloneAsync(context.ResumeId, context.Description))" />
                         <MudIconButton Icon="@Icons.Material.Filled.Delete"
                                        Size="Size.Small"
                                        Color="Color.Error"
-                                       Title="Delete"
+                                       Title="@LabelNames.ButtonDelete.GetLabelText()"
                                        OnClick="@(() => DeleteAsync(context.ResumeId, context.Description))" />
                     </MudStack>
                 </MudTd>

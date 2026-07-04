@@ -6,7 +6,7 @@
         <MudText>@Message</MudText>
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="Confirm">Delete</MudButton>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="Confirm">@LabelNames.ButtonDelete.GetLabelText()</MudButton>
     </DialogActions>
 </MudDialog>

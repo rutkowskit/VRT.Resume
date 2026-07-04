@@ -6,6 +6,7 @@ using VRT.Resume.Application.Resumes.Queries.GetResumeList;
 using VRT.Resume.Pwa.Features.Mediator;
 using VRT.Resume.Pwa.Features.Person.Components;
 using VRT.Resume.Pwa.Features.Resumes.Editors;
+using VRT.Resume.Resources;
 
 namespace VRT.Resume.Pwa.Pages;
 
@@ -70,7 +71,7 @@ public partial class Home
             new MediatorSendOptions
             {
                 NotifyOnSuccess = true,
-                SuccessMessage = $"Cloned resume \"{description}\".",
+                SuccessMessage = MessageKeys.ResumeClonedSuccess.GetMessageText(description),
             });
 
         if (outcome.Result.IsSuccess)
@@ -81,9 +82,9 @@ public partial class Home
     {
         var parameters = new DialogParameters<ConfirmDeleteDialog>
         {
-            { x => x.Message, $"Delete resume \"{description}\"?" },
+            { x => x.Message, MessageKeys.DeleteResumeConfirm.GetMessageText(description) },
         };
-        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>(LabelNames.DeleteEntry.GetLabelText(), parameters);
         var result = await dialog.Result;
         if (result is null || result.Canceled)
             return;

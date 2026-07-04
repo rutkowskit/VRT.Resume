@@ -1,6 +1,6 @@
 <MudStack Spacing="3" Class="mt-2">
     <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddExperienceAsync">
-        Add work experience
+        @LabelNames.ButtonAddNewExp.GetLabelText()
     </MudButton>
 
     @if (_loading)
@@ -13,7 +13,7 @@
     }
     else if (_items.Length == 0)
     {
-        <MudText Typo="Typo.body2" Class="mud-text-secondary">No work experience yet.</MudText>
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">@LabelNames.NoWorkExpYet.GetLabelText()</MudText>
     }
     else
     {
@@ -33,16 +33,16 @@
 
                 <MudDivider Class="my-3" />
                 <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-                    <MudText Typo="Typo.subtitle2">Duties</MudText>
+                    <MudText Typo="Typo.subtitle2">@LabelNames.Duties.GetLabelText()</MudText>
                     <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add"
                                OnClick="@(() => AddDutyAsync(item.ExperienceId))">
-                        Add duty
+                        @LabelNames.ButtonAddDuty.GetLabelText()
                     </MudButton>
                 </MudStack>
 
                 @if (item.Duties is null || !item.Duties.Any())
                 {
-                    <MudText Typo="Typo.caption" Class="mud-text-secondary">No duties yet.</MudText>
+                    <MudText Typo="Typo.caption" Class="mud-text-secondary">@LabelNames.NoDutiesYet.GetLabelText()</MudText>
                 }
                 else
                 {
@@ -56,7 +56,7 @@
                                         <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
                                             <MudIconButton Icon="@Icons.Material.Filled.Workspaces"
                                                            Size="Size.Small"
-                                                           Title="Skills"
+                                                           Title="@LabelNames.Skills.GetLabelText()"
                                                            OnClick="@(() => EditDutySkillsAsync(duty.DutyId))" />
                                             <EditDeleteToolbar OnEdit="@(() => EditDutyAsync(item.ExperienceId, duty.DutyId))"
                                                                OnDelete="@(() => DeleteDutyAsync(duty.DutyId, duty.Name))" />

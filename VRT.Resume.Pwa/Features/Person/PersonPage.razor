@@ -1,25 +1,25 @@
-<PageTitle>Person</PageTitle>
+<PageTitle>@LabelNames.PagePerson.GetLabelText()</PageTitle>
 
 <MudStack Spacing="2">
-    <MudText Typo="Typo.h4">Person</MudText>
+    <MudText Typo="Typo.h4">@LabelNames.PagePerson.GetLabelText()</MudText>
     <MudText Typo="Typo.body2" Class="mud-text-secondary">
-        Manage profile data for the active local profile.
+        @LabelNames.PersonPageDescription.GetLabelText()
     </MudText>
 
     <MudTabs @bind-ActivePanelIndex="_activeTab" Class="mt-2">
-        <MudTabPanel Text="Profile">
+        <MudTabPanel Text="@LabelNames.ProfileTab.GetLabelText()">
             <PersonProfileTab />
         </MudTabPanel>
-        <MudTabPanel Text="Education">
+        <MudTabPanel Text="@LabelNames.EduTab.GetLabelText()">
             <PersonEducationTab />
         </MudTabPanel>
-        <MudTabPanel Text="Skills">
+        <MudTabPanel Text="@LabelNames.Skills.GetLabelText()">
             <PersonSkillsTab />
         </MudTabPanel>
-        <MudTabPanel Text="Work experience">
+        <MudTabPanel Text="@LabelNames.WorkExpTab.GetLabelText()">
             <PersonWorkExpTab />
         </MudTabPanel>
-        <MudTabPanel Text="Contacts">
+        <MudTabPanel Text="@LabelNames.ContactTab.GetLabelText()">
             <PersonContactsTab />
         </MudTabPanel>
     </MudTabs>

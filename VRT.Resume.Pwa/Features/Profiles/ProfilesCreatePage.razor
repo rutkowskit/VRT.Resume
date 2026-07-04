@@ -1,29 +1,29 @@
-<PageTitle>Create profile</PageTitle>
+<PageTitle>@LabelNames.PageCreateProfile.GetLabelText()</PageTitle>
 
 <MudStack Spacing="4" Class="mud-width-full" Style="max-width: 480px;">
-    <MudText Typo="Typo.h4">Create profile</MudText>
+    <MudText Typo="Typo.h4">@LabelNames.PageCreateProfile.GetLabelText()</MudText>
     <MudText Typo="Typo.body1" Class="mud-text-secondary">
-        Add a new local profile. You can switch between profiles at any time.
+        @LabelNames.CreateProfilePageDescription.GetLabelText()
     </MudText>
 
     <MudForm @ref="_form" @bind-IsValid="_isValid">
         <MudStack Spacing="3">
             <MudTextField @bind-Value="_firstName"
-                          Label="First name"
+                          Label="@LabelNames.FirstName.GetLabelText()"
                           Required="true"
-                          RequiredError="First name is required"
+                          RequiredError="@LabelNames.FirstNameRequired.GetLabelText()"
                           MaxLength="50"
                           Immediate="true"
                           Error="FieldErrors.HasFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.FirstName))"
                           ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.FirstName))" />
             <MudTextField @bind-Value="_lastName"
-                          Label="Last name"
+                          Label="@LabelNames.LastName.GetLabelText()"
                           MaxLength="100"
                           Immediate="true"
                           Error="FieldErrors.HasFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.LastName))"
                           ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.LastName))" />
             <MudTextField @bind-Value="_email"
-                          Label="Email (optional)"
+                          Label="@LabelNames.EmailOptional.GetLabelText()"
                           InputType="InputType.Email"
                           Immediate="true"
                           Error="FieldErrors.HasFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.Email))"
@@ -36,8 +36,8 @@
                    Color="Color.Primary"
                    Disabled="@(_submitting || !_isValid)"
                    OnClick="CreateProfileAsync">
-            @(_submitting ? "Creating…" : "Create profile")
+            @(_submitting ? LabelNames.StatusCreating.GetLabelText() : LabelNames.ButtonCreateProfile.GetLabelText())
         </MudButton>
-        <MudButton Variant="Variant.Text" Href="@Routes.Profiles.List">Cancel</MudButton>
+        <MudButton Variant="Variant.Text" Href="@Routes.Profiles.List">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
     </MudStack>
 </MudStack>

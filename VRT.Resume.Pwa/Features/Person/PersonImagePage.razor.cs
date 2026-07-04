@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using VRT.Resume.Application.Persons.Commands.UpsertProfileImage;
 using VRT.Resume.Application.Persons.Queries.GetProfileImage;
 using VRT.Resume.Pwa.Features.Mediator;
+using VRT.Resume.Resources;
 
 namespace VRT.Resume.Pwa.Features.Person;
 
@@ -41,7 +42,7 @@ public partial class PersonImagePage
         var file = args.File;
         if (file.Size > MaxFileSize)
         {
-            Notifications.ShowError("Image must be 5 MB or smaller.");
+            Notifications.ShowError(MessageKeys.ImageTooLarge.GetMessageText());
             return;
         }
 
@@ -58,7 +59,7 @@ public partial class PersonImagePage
         }
         catch (Exception)
         {
-            Notifications.ShowError("Could not read the selected image.");
+            Notifications.ShowError(MessageKeys.ImageReadFailed.GetMessageText());
         }
     }
 

@@ -6,7 +6,7 @@
                     @if (Model.ShowProfilePhoto)
                     {
                         <div class="resume-image-container">
-                            <img class="resume-image" src="@ProfileImageUrl" alt="Photo" />
+                            <img class="resume-image" src="@ProfileImageUrl" alt="@LabelNames.Photo.GetLabelText()" />
                         </div>
                     }
                     <div class="resume-card-title" style="font-size: 1.5rem;">
@@ -18,7 +18,7 @@
 
             <div class="resume-card">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">Contact</h5>
+                    <h5 class="resume-card-title">@LabelNames.ResumeContact.GetLabelText()</h5>
                     @foreach (var contact in Model.Contact ?? [])
                     {
                         <div class="resume-contact-item">
@@ -37,7 +37,7 @@
 
             <div class="resume-card">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">Technical skills</h5>
+                    <h5 class="resume-card-title">@LabelNames.ResumeTechSkills.GetLabelText()</h5>
                     @foreach (var skill in ResumeDisplayHelpers.GetTechnicalSkills(Model.Skills))
                     {
                         <span class="@ResumeDisplayHelpers.SkillCssClass(skill, "chip")">@skill.Name</span>
@@ -47,7 +47,7 @@
 
             <div class="resume-card">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">Soft skills</h5>
+                    <h5 class="resume-card-title">@LabelNames.ResumeSoftSkills.GetLabelText()</h5>
                     <ul class="resume-work-resp">
                         @foreach (var skill in ResumeDisplayHelpers.GetSoftSkills(Model.Skills))
                         {
@@ -59,7 +59,7 @@
 
             <div class="resume-card">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">Languages</h5>
+                    <h5 class="resume-card-title">@LabelNames.ResumeHumanLanguages.GetLabelText()</h5>
                     <div class="resume-language-list">
                         @foreach (var skill in ResumeDisplayHelpers.GetLanguageSkills(Model.Skills))
                         {
@@ -76,14 +76,14 @@
         <div class="resume-right-panel">
             <div class="resume-card">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">Profile</h5>
+                    <h5 class="resume-card-title">@LabelNames.ResumeProfile.GetLabelText()</h5>
                     <p style="text-align: justify; margin: 0; white-space: pre-wrap;">@Model.Summary</p>
                 </div>
             </div>
 
             <div class="resume-experience resume-card">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">Work experience</h5>
+                    <h5 class="resume-card-title">@LabelNames.ResumeWorkExp.GetLabelText()</h5>
                     <div class="resume-work-list">
                         @foreach (var exp in OrderedExperience)
                         {
@@ -119,7 +119,7 @@
 
             <div class="resume-education resume-card">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">Education</h5>
+                    <h5 class="resume-card-title">@LabelNames.ResumeEducation.GetLabelText()</h5>
                     <div class="resume-education-list">
                         @foreach (var edu in OrderedEducation)
                         {
@@ -129,19 +129,19 @@
                                 </div>
                                 <div class="resume-timeline-item-title-1">@edu.SchoolName</div>
                                 <div class="resume-timeline-item-title-2">
-                                    Degree: <span>@edu.Degree</span>
+                                    @LabelNames.Degree.GetLabelText(): <span>@edu.Degree</span>
                                 </div>
                                 @if (!string.IsNullOrWhiteSpace(edu.Specjalization))
                                 {
-                                    <div>Specialization: <span>@edu.Specjalization</span></div>
+                                    <div>@LabelNames.Specialization.GetLabelText(): <span>@edu.Specjalization</span></div>
                                 }
                                 @if (!string.IsNullOrWhiteSpace(edu.ThesisTitle))
                                 {
-                                    <div>Thesis: <span>@edu.ThesisTitle</span></div>
+                                    <div>@LabelNames.Thesis.GetLabelText(): <span>@edu.ThesisTitle</span></div>
                                 }
                                 @if (!string.IsNullOrWhiteSpace(edu.FinalGrade))
                                 {
-                                    <div>Grade: <span>@edu.FinalGrade</span></div>
+                                    <div>@LabelNames.Grade.GetLabelText(): <span>@edu.FinalGrade</span></div>
                                 }
                             </div>
                         }

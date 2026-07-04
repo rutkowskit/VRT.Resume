@@ -6,6 +6,7 @@ using VRT.Resume.Application.Persons.Queries.GetPersonExperience;
 using VRT.Resume.Pwa.Features.Mediator;
 using VRT.Resume.Pwa.Features.Person.Components;
 using VRT.Resume.Pwa.Features.Person.Editors;
+using VRT.Resume.Resources;
 
 namespace VRT.Resume.Pwa.Features.Person.Tabs;
 
@@ -64,9 +65,9 @@ public partial class PersonWorkExpTab
     {
         var parameters = new DialogParameters<ConfirmDeleteDialog>
         {
-            { x => x.Message, $"Delete work experience \"{name}\"?" },
+            { x => x.Message, MessageKeys.DeleteWorkExpConfirm.GetMessageText(name) },
         };
-        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>(LabelNames.DeleteEntry.GetLabelText(), parameters);
         var result = await dialog.Result;
         if (result is null || result.Canceled)
             return;
@@ -100,9 +101,9 @@ public partial class PersonWorkExpTab
     {
         var parameters = new DialogParameters<ConfirmDeleteDialog>
         {
-            { x => x.Message, $"Delete duty \"{name}\"?" },
+            { x => x.Message, MessageKeys.DeleteDutyConfirm.GetMessageText(name) },
         };
-        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>(LabelNames.DeleteEntry.GetLabelText(), parameters);
         var result = await dialog.Result;
         if (result is null || result.Canceled)
             return;

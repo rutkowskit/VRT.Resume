@@ -1,4 +1,4 @@
-<PageTitle>@_pageTitle</PageTitle>
+<PageTitle>@PageTitleText</PageTitle>
 
 @if (_loading)
 {
@@ -7,7 +7,7 @@
 else if (!string.IsNullOrEmpty(_loadError))
 {
     <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
-    <MudButton Variant="Variant.Text" Href="@Routes.Home" Class="mt-2">Back to resumes</MudButton>
+    <MudButton Variant="Variant.Text" Href="@Routes.Home" Class="mt-2">@LabelNames.BackToResumes.GetLabelText()</MudButton>
 }
 else if (_resume is not null)
 {
@@ -17,9 +17,9 @@ else if (_resume is not null)
                        Color="Color.Primary"
                        StartIcon="@Icons.Material.Filled.Print"
                        OnClick="PrintAsync">
-                Print
+                @LabelNames.ButtonPrint.GetLabelText()
             </MudButton>
-            <MudButton Variant="Variant.Text" Href="@Routes.Home">Back to resumes</MudButton>
+            <MudButton Variant="Variant.Text" Href="@Routes.Home">@LabelNames.BackToResumes.GetLabelText()</MudButton>
         </MudStack>
     </MudStack>
 

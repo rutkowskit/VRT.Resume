@@ -321,4 +321,187 @@
   <data name="Yes" xml:space="preserve">
     <value>Tak</value>
   </data>
+  <data name="AppTitle" xml:space="preserve">
+    <value>VRT Resume</value>
+  </data>
+  <data name="PageProfiles" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="PagePerson" xml:space="preserve">
+    <value>Osoba</value>
+  </data>
+  <data name="PageCreateProfile" xml:space="preserve">
+    <value>Utwórz profil</value>
+  </data>
+  <data name="PersonImagePageTitle" xml:space="preserve">
+    <value>Zdjęcie profilowe</value>
+  </data>
+  <data name="AddResumeTitle" xml:space="preserve">
+    <value>Dodaj życiorys</value>
+  </data>
+  <data name="EditResumeTitle" xml:space="preserve">
+    <value>Edytuj życiorys</value>
+  </data>
+  <data name="EditResumeSkillsTitle" xml:space="preserve">
+    <value>Umiejętności życiorysu</value>
+  </data>
+  <data name="NotFoundTitle" xml:space="preserve">
+    <value>Nie znaleziono</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>Przepraszamy, szukana treść nie istnieje.</value>
+  </data>
+  <data name="ActiveProfile" xml:space="preserve">
+    <value>Aktywny profil</value>
+  </data>
+  <data name="ChangeProfile" xml:space="preserve">
+    <value>Zmień profil</value>
+  </data>
+  <data name="ProfileSelected" xml:space="preserve">
+    <value>Wybrany</value>
+  </data>
+  <data name="ProfileActive" xml:space="preserve">
+    <value>Aktywny</value>
+  </data>
+  <data name="ButtonCreateProfile" xml:space="preserve">
+    <value>Utwórz profil</value>
+  </data>
+  <data name="ButtonSelectProfile" xml:space="preserve">
+    <value>Wybierz</value>
+  </data>
+  <data name="ButtonPrint" xml:space="preserve">
+    <value>Drukuj</value>
+  </data>
+  <data name="BackToResumes" xml:space="preserve">
+    <value>Powrót do życiorysów</value>
+  </data>
+  <data name="ButtonEdit" xml:space="preserve">
+    <value>Edytuj</value>
+  </data>
+  <data name="EmailOptional" xml:space="preserve">
+    <value>E-mail (opcjonalnie)</value>
+  </data>
+  <data name="StatusSaving" xml:space="preserve">
+    <value>Zapisywanie…</value>
+  </data>
+  <data name="StatusCreating" xml:space="preserve">
+    <value>Tworzenie…</value>
+  </data>
+  <data name="StatusLoading" xml:space="preserve">
+    <value>Ładowanie…</value>
+  </data>
+  <data name="UploadPhoto" xml:space="preserve">
+    <value>Prześlij zdjęcie</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>Wybierz plik</value>
+  </data>
+  <data name="ProfilesPageDescription" xml:space="preserve">
+    <value>Wybierz lokalny profil, aby pracować z danymi CV. Każdy profil ma własne dane osobowe i życiorysy.</value>
+  </data>
+  <data name="NoProfilesYet" xml:space="preserve">
+    <value>Brak profili. Utwórz pierwszy profil, aby rozpocząć.</value>
+  </data>
+  <data name="CreateFirstProfile" xml:space="preserve">
+    <value>Utwórz pierwszy profil</value>
+  </data>
+  <data name="ResumesPageDescription" xml:space="preserve">
+    <value>Zarządzaj wariantami życiorysu dla aktywnego profilu.</value>
+  </data>
+  <data name="NoResumesYet" xml:space="preserve">
+    <value>Brak życiorysów. Utwórz pierwszy wariant życiorysu.</value>
+  </data>
+  <data name="PersonPageDescription" xml:space="preserve">
+    <value>Zarządzaj danymi profilu dla aktywnego lokalnego profilu.</value>
+  </data>
+  <data name="CreateProfilePageDescription" xml:space="preserve">
+    <value>Dodaj nowy lokalny profil. Możesz przełączać się między profilami w dowolnym momencie.</value>
+  </data>
+  <data name="PersonImagePageDescription" xml:space="preserve">
+    <value>Prześlij zdjęcie dla aktywnego profilu. Obrazy są przechowywane per lokalny profil.</value>
+  </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>VRT Resume — offline generator CV (Blazor WASM PWA).</value>
+  </data>
+  <data name="NoEducationYet" xml:space="preserve">
+    <value>Brak wpisów o wykształceniu.</value>
+  </data>
+  <data name="NoSkillsYet" xml:space="preserve">
+    <value>Brak umiejętności.</value>
+  </data>
+  <data name="NoWorkExpYet" xml:space="preserve">
+    <value>Brak doświadczenia zawodowego.</value>
+  </data>
+  <data name="NoContactsYet" xml:space="preserve">
+    <value>Brak kontaktów.</value>
+  </data>
+  <data name="NoDutiesYet" xml:space="preserve">
+    <value>Brak obowiązków.</value>
+  </data>
+  <data name="AddContactTitle" xml:space="preserve">
+    <value>Dodaj kontakt</value>
+  </data>
+  <data name="EditContactTitle" xml:space="preserve">
+    <value>Edytuj kontakt</value>
+  </data>
+  <data name="AddEducationTitle" xml:space="preserve">
+    <value>Dodaj wykształcenie</value>
+  </data>
+  <data name="EditEducationTitle" xml:space="preserve">
+    <value>Edytuj wykształcenie</value>
+  </data>
+  <data name="AddSkillTitle" xml:space="preserve">
+    <value>Dodaj umiejętność</value>
+  </data>
+  <data name="EditSkillTitle" xml:space="preserve">
+    <value>Edytuj umiejętność</value>
+  </data>
+  <data name="AddWorkExpTitle" xml:space="preserve">
+    <value>Dodaj doświadczenie zawodowe</value>
+  </data>
+  <data name="EditWorkExpTitle" xml:space="preserve">
+    <value>Edytuj doświadczenie zawodowe</value>
+  </data>
+  <data name="AddDutyTitle" xml:space="preserve">
+    <value>Dodaj obowiązek</value>
+  </data>
+  <data name="EditDutyTitle" xml:space="preserve">
+    <value>Edytuj obowiązek</value>
+  </data>
+  <data name="DutySkillsTitle" xml:space="preserve">
+    <value>Umiejętności obowiązku</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="IconSvgHtml" xml:space="preserve">
+    <value>Ikona (SVG/HTML)</value>
+  </data>
+  <data name="ToDateOptional" xml:space="preserve">
+    <value>Do (opcjonalnie)</value>
+  </data>
+  <data name="SelectedFile" xml:space="preserve">
+    <value>Wybrano: {0}</value>
+  </data>
+  <data name="ButtonAddDuty" xml:space="preserve">
+    <value>Dodaj obowiązek</value>
+  </data>
+  <data name="ButtonAddContact" xml:space="preserve">
+    <value>Dodaj kontakt</value>
+  </data>
+  <data name="NoSkillsInProfile" xml:space="preserve">
+    <value>Brak umiejętności w profilu. Najpierw dodaj umiejętności w zakładce Umiejętności.</value>
+  </data>
+  <data name="NoSkillsInPersonTab" xml:space="preserve">
+    <value>Brak umiejętności w profilu. Najpierw dodaj umiejętności w zakładce Osoba.</value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>Imię jest wymagane</value>
+  </data>
+  <data name="Thesis" xml:space="preserve">
+    <value>Praca dyplomowa</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Zdjęcie</value>
+  </data>
 </root>

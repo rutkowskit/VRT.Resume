@@ -9,10 +9,15 @@ public partial class NavMenu : IDisposable
     [Inject] private IActiveProfileContext ActiveProfile { get; set; } = null!;
     [Inject] private ICurrentUserService CurrentUser { get; set; } = null!;
     [Inject] private LocalProfileService ProfileService { get; set; } = null!;
+    [Inject] private PwaCultureService CultureService { get; set; } = null!;
 
     private string? _activeProfileName;
 
-    protected override void OnInitialized() => ActiveProfile.ContextChanged += OnContextChanged;
+    protected override void OnInitialized()
+    {
+        ActiveProfile.ContextChanged += OnContextChanged;
+        CultureService.CultureChanged += OnCultureChanged;
+    }
 
     protected override async Task OnInitializedAsync() => await LoadActiveProfileNameAsync();
 
@@ -38,5 +43,11 @@ public partial class NavMenu : IDisposable
         _activeProfileName = profile?.DisplayName;
     }
 
-    public void Dispose() => ActiveProfile.ContextChanged -= OnContextChanged;
+    private void OnCultureChanged() => _ = InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        ActiveProfile.ContextChanged -= OnContextChanged;
+        CultureService.CultureChanged -= OnCultureChanged;
+    }
 }

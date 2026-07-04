@@ -11,36 +11,36 @@ else
     <MudPaper Class="pa-4 mt-2" Elevation="0" Outlined="true">
         <MudStack Row="true" Spacing="3" AlignItems="AlignItems.Center" Class="mb-4">
             <MudAvatar Style="width: 96px; height: 96px;">
-                <MudImage Src="@_imageUrl" Alt="Profile photo" ObjectFit="ObjectFit.Cover" />
+                <MudImage Src="@_imageUrl" Alt="@LabelNames.PersonImagePageTitle.GetLabelText()" ObjectFit="ObjectFit.Cover" />
             </MudAvatar>
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Primary"
                        StartIcon="@Icons.Material.Filled.PhotoCamera"
                        Href="@Routes.Persons.Image">
-                Change photo
+                @LabelNames.ButonChangeImg.GetLabelText()
             </MudButton>
         </MudStack>
 
-        <MudText Typo="Typo.subtitle1" GutterBottom="true">Basic data</MudText>
+        <MudText Typo="Typo.subtitle1" GutterBottom="true">@LabelNames.MainInfo.GetLabelText()</MudText>
 
         <MudForm @ref="_form" @bind-IsValid="_isValid">
             <MudStack Spacing="3">
                 <MudTextField @bind-Value="_firstName"
-                              Label="First name"
+                              Label="@LabelNames.FirstName.GetLabelText()"
                               Required="true"
-                              RequiredError="First name is required"
+                              RequiredError="@LabelNames.FirstNameRequired.GetLabelText()"
                               MaxLength="50"
                               Immediate="true"
                               Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.FirstName))"
                               ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.FirstName))" />
                 <MudTextField @bind-Value="_lastName"
-                              Label="Last name"
+                              Label="@LabelNames.LastName.GetLabelText()"
                               MaxLength="100"
                               Immediate="true"
                               Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.LastName))"
                               ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.LastName))" />
                 <MudDatePicker @bind-Date="_dateOfBirth"
-                               Label="Date of birth"
+                               Label="@LabelNames.DateOfBirth.GetLabelText()"
                                Clearable="true"
                                DateFormat="yyyy-MM-dd" />
             </MudStack>
@@ -51,7 +51,7 @@ else
                        Color="Color.Primary"
                        Disabled="@(_saving || !_isValid)"
                        OnClick="SaveAsync">
-                @(_saving ? "Saving…" : "Save")
+                @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
             </MudButton>
         </MudStack>
     </MudPaper>

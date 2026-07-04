@@ -2,36 +2,36 @@
     @if (ActiveProfile.HasActiveContext)
     {
         <MudText Typo="Typo.subtitle2" Class="px-4 py-2 mud-text-secondary">
-            Active profile
+            @LabelNames.ActiveProfile.GetLabelText()
         </MudText>
         <MudText Typo="Typo.body1" Class="px-4 pb-2">
             @(_activeProfileName ?? "…")
         </MudText>
         <MudNavLink Href="@Routes.Profiles.List" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SwapHoriz">
-            Change profile
+            @LabelNames.ChangeProfile.GetLabelText()
         </MudNavLink>
         <MudDivider Class="my-2" />
     }
 
     <MudNavLink Href="@Routes.Profiles.List" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Badge">
-        Profiles
+        @LabelNames.PageProfiles.GetLabelText()
     </MudNavLink>
 
     <MudNavLink Href="@Routes.Home"
                 Match="NavLinkMatch.All"
                 Icon="@Icons.Material.Filled.Description"
                 Disabled="@(!ActiveProfile.HasActiveContext)">
-        Resumes
+        @LabelNames.PageResume.GetLabelText()
     </MudNavLink>
 
     <MudNavLink Href="@Routes.Persons.Person"
                 Match="NavLinkMatch.Prefix"
                 Icon="@Icons.Material.Filled.Person"
                 Disabled="@(!ActiveProfile.HasActiveContext)">
-        Person
+        @LabelNames.PagePerson.GetLabelText()
     </MudNavLink>
 
     <MudNavLink Href="@Routes.About" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">
-        About
+        @LabelNames.PageAbout.GetLabelText()
     </MudNavLink>
 </MudNavMenu>

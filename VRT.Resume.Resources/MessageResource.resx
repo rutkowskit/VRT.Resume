@@ -138,4 +138,34 @@
   <data name="ValidationFailed" xml:space="preserve">
     <value>Validation failed</value>
   </data>
+  <data name="DeleteConfirmDefault" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+  </data>
+  <data name="ResumeClonedSuccess" xml:space="preserve">
+    <value>Cloned resume "{0}".</value>
+  </data>
+  <data name="DeleteResumeConfirm" xml:space="preserve">
+    <value>Delete resume "{0}"?</value>
+  </data>
+  <data name="DeleteContactConfirm" xml:space="preserve">
+    <value>Delete contact "{0}"?</value>
+  </data>
+  <data name="DeleteEducationConfirm" xml:space="preserve">
+    <value>Delete education entry "{0}"?</value>
+  </data>
+  <data name="DeleteWorkExpConfirm" xml:space="preserve">
+    <value>Delete work experience "{0}"?</value>
+  </data>
+  <data name="DeleteDutyConfirm" xml:space="preserve">
+    <value>Delete duty "{0}"?</value>
+  </data>
+  <data name="DeleteSkillConfirm" xml:space="preserve">
+    <value>Delete skill "{0}"?</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>Image must be 5 MB or smaller.</value>
+  </data>
+  <data name="ImageReadFailed" xml:space="preserve">
+    <value>Could not read the selected image.</value>
+  </data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System.Resources;
+﻿using System.Globalization;
+using System.Resources;
 
 namespace VRT.Resume.Resources
 {
@@ -12,7 +13,7 @@ namespace VRT.Resume.Resources
 
         private static string GetString(this ResourceManager resManager, string key, params object[] formatParams)
         {
-            var value = resManager.GetString(key) ?? "";
+            var value = resManager.GetString(key, CultureInfo.CurrentUICulture) ?? "";
             value = string.IsNullOrWhiteSpace(value)
                 ? key
                 : string.Format(value, formatParams);

@@ -1,6 +1,6 @@
 <MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true" MaxWidth="MaxWidth.Large" FullWidth="true">
     <TitleContent>
-        <MudText Typo="Typo.h6">Resume skills</MudText>
+        <MudText Typo="Typo.h6">@LabelNames.EditResumeSkillsTitle.GetLabelText()</MudText>
     </TitleContent>
     <DialogContent>
         @if (_loading)
@@ -9,29 +9,29 @@
         }
         else if (_skills.Count == 0)
         {
-            <MudText>No skills in profile. Add skills in the Person tab first.</MudText>
+            <MudText>@LabelNames.NoSkillsInPersonTab.GetLabelText()</MudText>
         }
         else
         {
             <div style="max-height: 60vh; overflow: auto;">
                 <MudTable Items="_skills" Dense="true" Hover="true">
                     <HeaderContent>
-                        <MudTh>Name</MudTh>
-                        <MudTh>Type</MudTh>
-                        <MudTh>Relevant</MudTh>
-                        <MudTh>Hidden</MudTh>
-                        <MudTh>Position</MudTh>
+                        <MudTh>@LabelNames.Name.GetLabelText()</MudTh>
+                        <MudTh>@LabelNames.Type.GetLabelText()</MudTh>
+                        <MudTh>@LabelNames.Relevant.GetLabelText()</MudTh>
+                        <MudTh>@LabelNames.Hidden.GetLabelText()</MudTh>
+                        <MudTh>@LabelNames.Position.GetLabelText()</MudTh>
                     </HeaderContent>
                     <RowTemplate>
-                        <MudTd DataLabel="Name">@context.Name</MudTd>
-                        <MudTd DataLabel="Type">@context.Type</MudTd>
-                        <MudTd DataLabel="Relevant">
+                        <MudTd DataLabel="@LabelNames.Name.GetLabelText()">@context.Name</MudTd>
+                        <MudTd DataLabel="@LabelNames.Type.GetLabelText()">@context.Type</MudTd>
+                        <MudTd DataLabel="@LabelNames.Relevant.GetLabelText()">
                             <MudCheckBox @bind-Value="context.IsRelevant" Color="Color.Primary" />
                         </MudTd>
-                        <MudTd DataLabel="Hidden">
+                        <MudTd DataLabel="@LabelNames.Hidden.GetLabelText()">
                             <MudCheckBox @bind-Value="context.IsHidden" Color="Color.Primary" />
                         </MudTd>
-                        <MudTd DataLabel="Position">
+                        <MudTd DataLabel="@LabelNames.Position.GetLabelText()">
                             <MudNumericField @bind-Value="context.Position" Min="0" Max="999" HideSpinButtons="true" Style="max-width: 80px;" />
                         </MudTd>
                     </RowTemplate>
@@ -40,9 +40,9 @@
         }
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || _skills.Count == 0)" OnClick="SaveAsync">
-            @(_saving ? "Saving…" : "Save")
+            @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
         </MudButton>
     </DialogActions>
 </MudDialog>

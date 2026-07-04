@@ -19,6 +19,8 @@ public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICult
 
     private string _currentCulture = DefaultLanguage;
 
+    public event Action? CultureChanged;
+
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
         await WithJsAsync(async js =>
@@ -34,6 +36,7 @@ public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICult
             }
 
             ApplyCulture(_currentCulture);
+            CultureChanged?.Invoke();
         });
     }
 
@@ -54,6 +57,7 @@ public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICult
         _currentCulture = NormalizeCulture(culture);
         ApplyCulture(_currentCulture);
         _ = PersistCultureAsync(_currentCulture);
+        CultureChanged?.Invoke();
     }
 
     private async Task PersistCultureAsync(string culture)

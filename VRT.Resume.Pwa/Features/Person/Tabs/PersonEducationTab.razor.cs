@@ -5,6 +5,7 @@ using VRT.Resume.Application.Persons.Queries.GetPersonEducation;
 using VRT.Resume.Pwa.Features.Mediator;
 using VRT.Resume.Pwa.Features.Person.Components;
 using VRT.Resume.Pwa.Features.Person.Editors;
+using VRT.Resume.Resources;
 
 namespace VRT.Resume.Pwa.Features.Person.Tabs;
 
@@ -64,9 +65,9 @@ public partial class PersonEducationTab
     {
         var parameters = new DialogParameters<ConfirmDeleteDialog>
         {
-            { x => x.Message, $"Delete education entry \"{name}\"?" },
+            { x => x.Message, MessageKeys.DeleteEducationConfirm.GetMessageText(name) },
         };
-        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>(LabelNames.DeleteEntry.GetLabelText(), parameters);
         var result = await dialog.Result;
         if (result is null || result.Canceled)
             return;

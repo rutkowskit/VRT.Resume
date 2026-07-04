@@ -6,8 +6,9 @@
                        Color="Color.Inherit"
                        Edge="Edge.Start"
                        OnClick="DrawerToggle" />
-        <MudText Typo="Typo.h6">VRT Resume</MudText>
+        <MudText Typo="Typo.h6">@LabelNames.AppTitle.GetLabelText()</MudText>
         <MudSpacer />
+        <CultureSelector />
     </MudAppBar>
 
     <MudDrawer @bind-Open="_drawerOpen"

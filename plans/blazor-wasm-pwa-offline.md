@@ -251,16 +251,21 @@ Status: Complete
 ---
 
 ## Phase 9: Localization (PL/EN)
-Status: Not started
+Status: Complete
 
-- [ ] `PwaCultureService`, Resources, przełącznik języka
-- [ ] Labelki na `/profiles` (PL: „Wybierz profil”, „Utwórz nowy profil”)
+- [x] `ResourceHelper` — `CultureInfo.CurrentUICulture` w `GetString`
+- [x] `PwaCultureService.CultureChanged` — event po `SetCurrentCulture` i `InitializeAsync`
+- [x] `LabelNames.cs` (Pwa) — mirror MVC + klucze PWA
+- [x] `LabelResource` / `MessageResource` — sync EN (Actions, Hidden, Language, No, Relevant, Yes) + ~50 kluczy PWA (PL + EN)
+- [x] `CultureSelector` — MudSelect pl/en w app bar (`MainLayout`)
+- [x] Lokalizacja wszystkich ekranów PWA (`LabelNames.*.GetLabelText()`, `MessageKeys.*.GetMessageText()`)
 
 ### Verification Plan
 - PL ↔ EN na ekranie profili i formularzach
+- `dotnet build VRT.Resume.Pwa\VRT.Resume.Pwa.csproj -c Release` — 0 errors ✅
 
 ### Phase Summary
-_(write when phase completes)_
+PL (domyślny) / EN przez `VRT.Resume.Resources`. `ResourceHelper` używa `CurrentUICulture`; `PwaCultureService` emituje `CultureChanged` po zmianie języka (localStorage). `CultureSelector` w app bar; `MainLayout`/`NavMenu` odświeżają UI po zmianie kultury. `LabelNames.cs` w Pwa (MVC + PWA keys). Zlokalizowano: Profiles, Home/Resumes, Person (zakładki, edytory, dialogi), Resume show/document, About, NotFound. Komunikaty CRUD (delete confirm, clone success, image errors) w `MessageResource`.
 
 ---
 

@@ -1,6 +1,6 @@
 <MudStack Spacing="3" Class="mt-2">
     <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddAsync">
-        Add skill
+        @LabelNames.ButtonAddSkill.GetLabelText()
     </MudButton>
 
     @if (_loading)
@@ -13,7 +13,7 @@
     }
     else if (_groups.Count == 0)
     {
-        <MudText Typo="Typo.body2" Class="mud-text-secondary">No skills yet.</MudText>
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">@LabelNames.NoSkillsYet.GetLabelText()</MudText>
     }
     else
     {

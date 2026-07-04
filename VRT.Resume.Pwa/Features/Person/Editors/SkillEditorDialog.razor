@@ -1,6 +1,6 @@
 <MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true">
     <TitleContent>
-        <MudText Typo="Typo.h6">@(_isNew ? "Add skill" : "Edit skill")</MudText>
+        <MudText Typo="Typo.h6">@(_isNew ? LabelNames.AddSkillTitle.GetLabelText() : LabelNames.EditSkillTitle.GetLabelText())</MudText>
     </TitleContent>
     <DialogContent>
         @if (_loading)
@@ -11,16 +11,16 @@
         {
             <MudForm @ref="_form" @bind-IsValid="_isValid">
                 <MudStack Spacing="3">
-                    <MudSelect @bind-Value="_skillType" Label="Type" Required="true">
+                    <MudSelect @bind-Value="_skillType" Label="@LabelNames.Type.GetLabelText()" Required="true">
                         @foreach (var type in Enum.GetValues<SkillTypes>())
                         {
                             <MudSelectItem Value="type">@type</MudSelectItem>
                         }
                     </MudSelect>
-                    <MudTextField @bind-Value="_skillName" Label="Name" Required="true" MaxLength="100" Immediate="true"
+                    <MudTextField @bind-Value="_skillName" Label="@LabelNames.Name.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillName))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillName))" />
-                    <MudTextField @bind-Value="_skillLevel" Label="Level" Required="true" MaxLength="50" Immediate="true"
+                    <MudTextField @bind-Value="_skillLevel" Label="@LabelNames.Level.GetLabelText()" Required="true" MaxLength="50" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillLevel))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillLevel))" />
                 </MudStack>
@@ -28,9 +28,9 @@
         }
     </DialogContent>
     <DialogActions>
-        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || !_isValid)" OnClick="SaveAsync">
-            @(_saving ? "Saving…" : "Save")
+            @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
         </MudButton>
     </DialogActions>
 </MudDialog>

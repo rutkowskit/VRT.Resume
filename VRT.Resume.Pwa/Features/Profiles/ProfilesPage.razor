@@ -1,18 +1,18 @@
-<PageTitle>Profiles</PageTitle>
+<PageTitle>@LabelNames.PageProfiles.GetLabelText()</PageTitle>
 
 <MudStack Spacing="4">
     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
-        <MudText Typo="Typo.h4">Profiles</MudText>
+        <MudText Typo="Typo.h4">@LabelNames.PageProfiles.GetLabelText()</MudText>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.PersonAdd"
                    Href="@Routes.Profiles.Create">
-            Create profile
+            @LabelNames.ButtonCreateProfile.GetLabelText()
         </MudButton>
     </MudStack>
 
     <MudText Typo="Typo.body1" Class="mud-text-secondary">
-        Select a local profile to work with your CV data. Each profile has its own person data and resumes.
+        @LabelNames.ProfilesPageDescription.GetLabelText()
     </MudText>
 
     @if (_loading)
@@ -22,13 +22,13 @@
     else if (_profiles.Count == 0)
     {
         <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
-            No profiles yet. Create your first profile to get started.
+            @LabelNames.NoProfilesYet.GetLabelText()
         </MudAlert>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.PersonAdd"
                    Href="@Routes.Profiles.Create">
-            Create first profile
+            @LabelNames.CreateFirstProfile.GetLabelText()
         </MudButton>
     }
     else
@@ -44,7 +44,7 @@
                             <MudText Typo="Typo.caption" Class="mud-text-secondary">@profile.UserId</MudText>
                             @if (isActive)
                             {
-                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Class="mt-2">Active</MudChip>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Class="mt-2">@LabelNames.ProfileActive.GetLabelText()</MudChip>
                             }
                         </MudCardContent>
                         <MudCardActions>
@@ -52,7 +52,7 @@
                                        Color="Color.Primary"
                                        Disabled="@isActive"
                                        OnClick="@(() => SelectProfileAsync(profile.UserId))">
-                                @(isActive ? "Selected" : "Select")
+                                @(isActive ? LabelNames.ProfileSelected.GetLabelText() : LabelNames.ButtonSelectProfile.GetLabelText())
                             </MudButton>
                         </MudCardActions>
                     </MudCard>

@@ -303,4 +303,205 @@
   <data name="WorkExpTab" xml:space="preserve">
     <value>Work Experience</value>
   </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Hidden" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Relevant" xml:space="preserve">
+    <value>Relevant</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="AppTitle" xml:space="preserve">
+    <value>VRT Resume</value>
+  </data>
+  <data name="PageProfiles" xml:space="preserve">
+    <value>Profiles</value>
+  </data>
+  <data name="PagePerson" xml:space="preserve">
+    <value>Person</value>
+  </data>
+  <data name="PageCreateProfile" xml:space="preserve">
+    <value>Create profile</value>
+  </data>
+  <data name="PersonImagePageTitle" xml:space="preserve">
+    <value>Profile photo</value>
+  </data>
+  <data name="AddResumeTitle" xml:space="preserve">
+    <value>Add resume</value>
+  </data>
+  <data name="EditResumeTitle" xml:space="preserve">
+    <value>Edit resume</value>
+  </data>
+  <data name="EditResumeSkillsTitle" xml:space="preserve">
+    <value>Resume skills</value>
+  </data>
+  <data name="NotFoundTitle" xml:space="preserve">
+    <value>Not Found</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>Sorry, the content you are looking for does not exist.</value>
+  </data>
+  <data name="ActiveProfile" xml:space="preserve">
+    <value>Active profile</value>
+  </data>
+  <data name="ChangeProfile" xml:space="preserve">
+    <value>Change profile</value>
+  </data>
+  <data name="ProfileSelected" xml:space="preserve">
+    <value>Selected</value>
+  </data>
+  <data name="ProfileActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="ButtonCreateProfile" xml:space="preserve">
+    <value>Create profile</value>
+  </data>
+  <data name="ButtonSelectProfile" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="ButtonPrint" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="BackToResumes" xml:space="preserve">
+    <value>Back to resumes</value>
+  </data>
+  <data name="ButtonEdit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EmailOptional" xml:space="preserve">
+    <value>Email (optional)</value>
+  </data>
+  <data name="StatusSaving" xml:space="preserve">
+    <value>Saving…</value>
+  </data>
+  <data name="StatusCreating" xml:space="preserve">
+    <value>Creating…</value>
+  </data>
+  <data name="StatusLoading" xml:space="preserve">
+    <value>Loading…</value>
+  </data>
+  <data name="UploadPhoto" xml:space="preserve">
+    <value>Upload photo</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>Choose image</value>
+  </data>
+  <data name="ProfilesPageDescription" xml:space="preserve">
+    <value>Select a local profile to work with your CV data. Each profile has its own person data and resumes.</value>
+  </data>
+  <data name="NoProfilesYet" xml:space="preserve">
+    <value>No profiles yet. Create your first profile to get started.</value>
+  </data>
+  <data name="CreateFirstProfile" xml:space="preserve">
+    <value>Create first profile</value>
+  </data>
+  <data name="ResumesPageDescription" xml:space="preserve">
+    <value>Manage resume variants for the active profile.</value>
+  </data>
+  <data name="NoResumesYet" xml:space="preserve">
+    <value>No resumes yet. Create your first resume variant.</value>
+  </data>
+  <data name="PersonPageDescription" xml:space="preserve">
+    <value>Manage profile data for the active local profile.</value>
+  </data>
+  <data name="CreateProfilePageDescription" xml:space="preserve">
+    <value>Add a new local profile. You can switch between profiles at any time.</value>
+  </data>
+  <data name="PersonImagePageDescription" xml:space="preserve">
+    <value>Upload a photo for the active profile. Images are stored per local profile.</value>
+  </data>
+  <data name="AboutDescription" xml:space="preserve">
+    <value>VRT Resume — offline CV generator (Blazor WASM PWA).</value>
+  </data>
+  <data name="NoEducationYet" xml:space="preserve">
+    <value>No education entries yet.</value>
+  </data>
+  <data name="NoSkillsYet" xml:space="preserve">
+    <value>No skills yet.</value>
+  </data>
+  <data name="NoWorkExpYet" xml:space="preserve">
+    <value>No work experience yet.</value>
+  </data>
+  <data name="NoContactsYet" xml:space="preserve">
+    <value>No contacts yet.</value>
+  </data>
+  <data name="NoDutiesYet" xml:space="preserve">
+    <value>No duties yet.</value>
+  </data>
+  <data name="AddContactTitle" xml:space="preserve">
+    <value>Add contact</value>
+  </data>
+  <data name="EditContactTitle" xml:space="preserve">
+    <value>Edit contact</value>
+  </data>
+  <data name="AddEducationTitle" xml:space="preserve">
+    <value>Add education</value>
+  </data>
+  <data name="EditEducationTitle" xml:space="preserve">
+    <value>Edit education</value>
+  </data>
+  <data name="AddSkillTitle" xml:space="preserve">
+    <value>Add skill</value>
+  </data>
+  <data name="EditSkillTitle" xml:space="preserve">
+    <value>Edit skill</value>
+  </data>
+  <data name="AddWorkExpTitle" xml:space="preserve">
+    <value>Add work experience</value>
+  </data>
+  <data name="EditWorkExpTitle" xml:space="preserve">
+    <value>Edit work experience</value>
+  </data>
+  <data name="AddDutyTitle" xml:space="preserve">
+    <value>Add duty</value>
+  </data>
+  <data name="EditDutyTitle" xml:space="preserve">
+    <value>Edit duty</value>
+  </data>
+  <data name="DutySkillsTitle" xml:space="preserve">
+    <value>Duty skills</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="IconSvgHtml" xml:space="preserve">
+    <value>Icon (SVG/HTML)</value>
+  </data>
+  <data name="ToDateOptional" xml:space="preserve">
+    <value>To (optional)</value>
+  </data>
+  <data name="SelectedFile" xml:space="preserve">
+    <value>Selected: {0}</value>
+  </data>
+  <data name="ButtonAddDuty" xml:space="preserve">
+    <value>Add duty</value>
+  </data>
+  <data name="ButtonAddContact" xml:space="preserve">
+    <value>Add contact</value>
+  </data>
+  <data name="NoSkillsInProfile" xml:space="preserve">
+    <value>No skills in profile. Add skills in the Skills tab first.</value>
+  </data>
+  <data name="NoSkillsInPersonTab" xml:space="preserve">
+    <value>No skills in profile. Add skills in the Person tab first.</value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>First name is required</value>
+  </data>
+  <data name="Thesis" xml:space="preserve">
+    <value>Thesis</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
 </root>
