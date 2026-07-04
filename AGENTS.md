@@ -131,6 +131,7 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 | `mudElementRef.getBoundingClientRect` undefined | Load `_content/MudBlazor/MudBlazor.min.js` **before** `blazor.webassembly.js`; use `MudDrawer` `Variant="DrawerVariant.Persistent"` + `Breakpoint="Breakpoint.Md"`. |
 | `sqlite3_config` varargs crash | SqliteWasmBlazor + `WasmBuildNative=true` (not SqliteWasmHelper9). |
 | `Missing required OPFS APIs` on published static host | Serve only on **`http://127.0.0.1`** (not LAN IP); use `VRT.Resume.Pwa/serve-published.ps1` (COOP/COEP headers). Close duplicate tabs. |
+| OPFS `createSyncAccessHandle` / database locked | SqliteWasmBlazor allows **one tab per origin**. Close other tabs; Chrome → Application → Clear site data for `localhost:5176`. Avoid Blazor hot reload after DB init — use **Ctrl+F5** full reload. `dotnet run` unregisters service workers via `wwwroot/js/pwa-service-worker.js`. |
 | `SkiaSharp` `libSkiaSharp` in WASM | Add `SkiaSharp.NativeAssets.WebAssembly` to `VRT.Resume.Pwa.csproj`. |
 
 ### index.html (MudBlazor)

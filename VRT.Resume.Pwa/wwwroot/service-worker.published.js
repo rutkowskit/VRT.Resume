@@ -36,8 +36,6 @@ async function onInstall(event) {
     if (failed > 0) {
         console.warn(`Service worker: ${failed} asset(s) failed to cache during install`);
     }
-
-    await self.skipWaiting();
 }
 
 async function onActivate(event) {
@@ -47,8 +45,6 @@ async function onActivate(event) {
     await Promise.all(cacheKeys
         .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
         .map(key => caches.delete(key)));
-
-    await self.clients.claim();
 }
 
 async function onFetch(event) {
