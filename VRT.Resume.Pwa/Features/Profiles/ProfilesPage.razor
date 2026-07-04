@@ -1,0 +1,101 @@
+@page "/profiles"
+@implements IProfileExemptPage
+@using VRT.Resume.Application.Common.Abstractions
+@inject LocalProfileService ProfileService
+@inject DummyCurrentUserService ProfileContext
+@inject ICurrentUserService CurrentUser
+@inject NavigationManager Navigation
+
+<PageTitle>Profiles</PageTitle>
+
+<MudStack Spacing="4">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+        <MudText Typo="Typo.h4">Profiles</MudText>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.PersonAdd"
+                   Href="profiles/create">
+            Create profile
+        </MudButton>
+    </MudStack>
+
+    <MudText Typo="Typo.body1" Class="mud-text-secondary">
+        Select a local profile to work with your CV data. Each profile has its own person data and resumes.
+    </MudText>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (_profiles.Count == 0)
+    {
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
+            No profiles yet. Create your first profile to get started.
+        </MudAlert>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.PersonAdd"
+                   Href="profiles/create">
+            Create first profile
+        </MudButton>
+    }
+    else
+    {
+        <MudGrid Spacing="3">
+            @foreach (var profile in _profiles)
+            {
+                var isActive = string.Equals(CurrentUser.UserId, profile.UserId, StringComparison.Ordinal);
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="@(isActive ? 4 : 1)" Class="@(isActive ? "border-solid border-2 mud-border-primary" : null)">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6">@profile.DisplayName</MudText>
+                            <MudText Typo="Typo.caption" Class="mud-text-secondary">@profile.UserId</MudText>
+                            @if (isActive)
+                            {
+                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Class="mt-2">Active</MudChip>
+                            }
+                        </MudCardContent>
+                        <MudCardActions>
+                            <MudButton Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       Disabled="@isActive"
+                                       OnClick="@(() => SelectProfileAsync(profile.UserId))">
+                                @(isActive ? "Selected" : "Select")
+                            </MudButton>
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+</MudStack>
+
+@code {
+    private readonly List<LocalProfileDto> _profiles = [];
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProfilesAsync();
+    }
+
+    private async Task LoadProfilesAsync()
+    {
+        _loading = true;
+        try
+        {
+            _profiles.Clear();
+            _profiles.AddRange(await ProfileService.GetAllAsync());
+        }
+        finally
+        {
+            _loading = false;
+        }
+    }
+
+    private async Task SelectProfileAsync(string userId)
+    {
+        await ProfileContext.SetContextAsync(userId);
+        Navigation.NavigateTo("/");
+    }
+}

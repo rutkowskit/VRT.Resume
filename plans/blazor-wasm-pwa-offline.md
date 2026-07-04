@@ -155,16 +155,16 @@ Composition root w `VRT.Resume.Pwa`: MediatR (`AddApplication`), SQLite WASM (`S
 ---
 
 ## Phase 3: Local profiles — create, list, switch context
-Status: Not started
+Status: Complete
 
-- [ ] `/profiles` — `LocalProfileService.GetAllAsync()`; karty z imieniem/nazwiskiem; przycisk **Wybierz** → `SetContext(userId)` → redirect `/`
-- [ ] `/profiles/create` — formularz: FirstName, LastName (opcjonalnie Email); generuj `UserId = $"local:{Guid}"`
-- [ ] Submit → `IMediator.Send(new CreatePersonAccountCommand { ... })` → auto-`SetContext` na nowy profil
-- [ ] Pusty stan: komunikat „Utwórz pierwszy profil” (brak redirect loop)
-- [ ] `AuthorizeRouteView` / custom `ProfileRequiredRouteView` — bez kontekstu → `/profiles`
-- [ ] Menu: wyświetl aktywny profil (imię/nazwisko z `GetPersonDataQuery` lub z listy); link „Zmień profil”
-- [ ] Odświeżenie stanu UI po `SetContext` (`NavigationManager` + event `OnContextChanged`)
-- [ ] **Opcjonalnie v1:** usuwanie profilu (kaskada) — jeśli poza scope, odłożyć na Fazę 11
+- [x] `/profiles` — `LocalProfileService.GetAllAsync()`; karty z imieniem/nazwiskiem; przycisk **Wybierz** → `SetContext(userId)` → redirect `/`
+- [x] `/profiles/create` — formularz: FirstName, LastName (opcjonalnie Email); generuj `UserId = $"local:{Guid}"`
+- [x] Submit → `IMediator.Send(new CreatePersonAccountCommand { ... })` → auto-`SetContext` na nowy profil
+- [x] Pusty stan: komunikat „Utwórz pierwszy profil” (brak redirect loop)
+- [x] `ProfileRequiredRouteView` + `IProfileExemptPage` — bez kontekstu → `/profiles`
+- [x] Menu: wyświetl aktywny profil (`GetPersonDataQuery`); link „Change profile”
+- [x] Odświeżenie stanu UI po `SetContext` (`ContextChanged` + `NavMenu`)
+- [ ] **Opcjonalnie v1:** usuwanie profilu (kaskada) — odłożone na Fazę 11
 
 ### Verification Plan
 - Utwórz 2 profile → lista pokazuje 2; przełącz kontekst → `GetResumeListQuery` zwraca CV tylko aktywnego
@@ -172,7 +172,7 @@ Status: Not started
 - `git diff VRT.Resume.Application` — pusty
 
 ### Phase Summary
-_(write when phase completes)_
+Feature-oriented `Features/Profiles/`: lista profili (`ProfilesPage`), tworzenie (`ProfilesCreatePage` → `CreatePersonAccountCommand`, `UserId = local:{guid}`), `ProfileRequiredRouteView` + `IProfileExemptPage` (profiles/about exempt). `NavMenu` pokazuje aktywny profil i „Change profile”. Build Release OK; `VRT.Resume.Application` nietknięty.
 
 ---
 

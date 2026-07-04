@@ -1,8 +1,24 @@
+@using VRT.Resume.Application.Persons.Queries.GetPersonData
 @using VRT.Resume.Pwa.Services
 @inject IActiveProfileContext ActiveProfile
+@inject IMediator Mediator
 @implements IDisposable
 
 <MudNavMenu>
+    @if (ActiveProfile.HasActiveContext)
+    {
+        <MudText Typo="Typo.subtitle2" Class="px-4 py-2 mud-text-secondary">
+            Active profile
+        </MudText>
+        <MudText Typo="Typo.body1" Class="px-4 pb-2">
+            @(_activeProfileName ?? "…")
+        </MudText>
+        <MudNavLink Href="profiles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SwapHoriz">
+            Change profile
+        </MudNavLink>
+        <MudDivider Class="my-2" />
+    }
+
     <MudNavLink Href="profiles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Badge">
         Profiles
     </MudNavLink>
@@ -27,12 +43,40 @@
 </MudNavMenu>
 
 @code {
+    private string? _activeProfileName;
+
     protected override void OnInitialized()
     {
         ActiveProfile.ContextChanged += OnContextChanged;
     }
 
-    private void OnContextChanged() => InvokeAsync(StateHasChanged);
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadActiveProfileNameAsync();
+    }
+
+    private void OnContextChanged()
+    {
+        _ = InvokeAsync(async () =>
+        {
+            await LoadActiveProfileNameAsync();
+            StateHasChanged();
+        });
+    }
+
+    private async Task LoadActiveProfileNameAsync()
+    {
+        if (!ActiveProfile.HasActiveContext)
+        {
+            _activeProfileName = null;
+            return;
+        }
+
+        var result = await Mediator.Send(new GetPersonDataQuery());
+        _activeProfileName = result.IsSuccess
+            ? $"{result.Value.FirstName} {result.Value.LastName}".Trim()
+            : null;
+    }
 
     public void Dispose()
     {

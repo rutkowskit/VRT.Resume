@@ -1,0 +1,104 @@
+@page "/profiles/create"
+@implements IProfileExemptPage
+@using FluentValidation
+@using VRT.Resume.Application.Persons.Commands.CreatePersonAccount
+@inject IMediator Mediator
+@inject DummyCurrentUserService ProfileContext
+@inject NavigationManager Navigation
+
+<PageTitle>Create profile</PageTitle>
+
+<MudStack Spacing="4" Class="mud-width-full" Style="max-width: 480px;">
+    <MudText Typo="Typo.h4">Create profile</MudText>
+    <MudText Typo="Typo.body1" Class="mud-text-secondary">
+        Add a new local profile. You can switch between profiles at any time.
+    </MudText>
+
+    <MudForm @ref="_form" @bind-IsValid="_isValid">
+        <MudStack Spacing="3">
+            <MudTextField @bind-Value="_firstName"
+                          Label="First name"
+                          Required="true"
+                          RequiredError="First name is required"
+                          MaxLength="50"
+                          Immediate="true" />
+            <MudTextField @bind-Value="_lastName"
+                          Label="Last name"
+                          MaxLength="100"
+                          Immediate="true" />
+            <MudTextField @bind-Value="_email"
+                          Label="Email (optional)"
+                          InputType="InputType.Email"
+                          Immediate="true" />
+        </MudStack>
+    </MudForm>
+
+    @if (!string.IsNullOrEmpty(_errorMessage))
+    {
+        <MudAlert Severity="MudBlazor.Severity.Error" Variant="Variant.Outlined">@_errorMessage</MudAlert>
+    }
+
+    <MudStack Row="true" Spacing="2">
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Disabled="@(_submitting || !_isValid)"
+                   OnClick="CreateProfileAsync">
+            @(_submitting ? "Creating…" : "Create profile")
+        </MudButton>
+        <MudButton Variant="Variant.Text" Href="profiles">Cancel</MudButton>
+    </MudStack>
+</MudStack>
+
+@code {
+    private MudForm? _form;
+    private bool _isValid;
+    private bool _submitting;
+    private string _firstName = string.Empty;
+    private string _lastName = string.Empty;
+    private string? _email;
+    private string? _errorMessage;
+
+    private async Task CreateProfileAsync()
+    {
+        if (_form is not null)
+        {
+            await _form.ValidateAsync();
+            if (!_form.IsValid)
+                return;
+        }
+
+        _submitting = true;
+        _errorMessage = null;
+
+        var userId = $"local:{Guid.NewGuid():N}";
+
+        try
+        {
+            var command = new CreatePersonAccountCommand
+            {
+                UserId = userId,
+                FirstName = _firstName.Trim(),
+                LastName = _lastName.Trim(),
+                Email = string.IsNullOrWhiteSpace(_email) ? null : _email.Trim(),
+            };
+
+            var result = await Mediator.Send(command);
+            if (result.IsFailure)
+            {
+                _errorMessage = result.Error;
+                return;
+            }
+
+            await ProfileContext.SetContextAsync(userId);
+            Navigation.NavigateTo("/");
+        }
+        catch (ValidationException ex)
+        {
+            _errorMessage = string.Join(" ", ex.Errors.Select(e => e.ErrorMessage));
+        }
+        finally
+        {
+            _submitting = false;
+        }
+    }
+}

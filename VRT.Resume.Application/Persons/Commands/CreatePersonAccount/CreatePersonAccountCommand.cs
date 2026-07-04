@@ -26,19 +26,18 @@ public sealed class CreatePersonAccountCommand : IRequest<Result<int>>
 
         public async Task<Result<int>> Handle(CreatePersonAccountCommand request, CancellationToken cancellationToken)
         {
-            await Task.Yield();
-            return GetExistingPersonId(request.UserId)
-                .OnFailureCompensate(() =>
-                {
-                    return InitiateAccout(request)
-                        .Tap(i => _context.Add(i))
-                        .Map(p =>
-                        {
-                            _context.SaveChanges();
-                            return p.PersonId;
-                        });
-                });
+            var existing = GetExistingPersonId(request.UserId!);
+            if (existing.IsSuccess)
+                return existing;
 
+            var createResult = InitiateAccout(request)
+                .Tap(i => _context.Add(i));
+
+            if (createResult.IsFailure)
+                return Result.Failure<int>(createResult.Error);
+
+            await _context.SaveChangesAsync(cancellationToken);
+            return createResult.Value.PersonId;
         }
 
         private Result<int> GetExistingPersonId(string userId)
