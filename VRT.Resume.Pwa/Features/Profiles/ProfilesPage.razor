@@ -1,11 +1,3 @@
-@page "/profiles"
-@implements IProfileExemptPage
-@using VRT.Resume.Application.Common.Abstractions
-@inject LocalProfileService ProfileService
-@inject DummyCurrentUserService ProfileContext
-@inject ICurrentUserService CurrentUser
-@inject NavigationManager Navigation
-
 <PageTitle>Profiles</PageTitle>
 
 <MudStack Spacing="4">
@@ -14,7 +6,7 @@
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.PersonAdd"
-                   Href="profiles/create">
+                   Href="@Routes.Profiles.Create">
             Create profile
         </MudButton>
     </MudStack>
@@ -35,7 +27,7 @@
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
                    StartIcon="@Icons.Material.Filled.PersonAdd"
-                   Href="profiles/create">
+                   Href="@Routes.Profiles.Create">
             Create first profile
         </MudButton>
     }
@@ -69,33 +61,3 @@
         </MudGrid>
     }
 </MudStack>
-
-@code {
-    private readonly List<LocalProfileDto> _profiles = [];
-    private bool _loading = true;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadProfilesAsync();
-    }
-
-    private async Task LoadProfilesAsync()
-    {
-        _loading = true;
-        try
-        {
-            _profiles.Clear();
-            _profiles.AddRange(await ProfileService.GetAllAsync());
-        }
-        finally
-        {
-            _loading = false;
-        }
-    }
-
-    private async Task SelectProfileAsync(string userId)
-    {
-        await ProfileContext.SetContextAsync(userId);
-        Navigation.NavigateTo("/");
-    }
-}

@@ -1,26 +1,4 @@
-@using VRT.Resume.Pwa.Features.Profiles
-@inject NavigationManager Navigation
-@inject IActiveProfileContext ActiveProfile
-
 @if (!RequiresProfile || ActiveProfile.HasActiveContext)
 {
     <RouteView RouteData="@RouteData" DefaultLayout="@DefaultLayout" />
-}
-
-@code {
-    [Parameter] public RouteData? RouteData { get; set; }
-
-    [Parameter] public Type? DefaultLayout { get; set; }
-
-    private bool RequiresProfile =>
-        RouteData?.PageType is { } pageType
-        && !typeof(IProfileExemptPage).IsAssignableFrom(pageType);
-
-    protected override void OnParametersSet()
-    {
-        if (RequiresProfile && !ActiveProfile.HasActiveContext)
-        {
-            Navigation.NavigateTo("/profiles", replace: true);
-        }
-    }
 }

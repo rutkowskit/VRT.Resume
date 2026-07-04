@@ -1,10 +1,3 @@
-@using VRT.Resume.Application.Persons.Queries.GetPersonData
-@using VRT.Resume.Pwa.Features.Mediator
-@using VRT.Resume.Pwa.Services
-@inject IActiveProfileContext ActiveProfile
-@inject MediatorSender Mediator
-@implements IDisposable
-
 <MudNavMenu>
     @if (ActiveProfile.HasActiveContext)
     {
@@ -14,76 +7,31 @@
         <MudText Typo="Typo.body1" Class="px-4 pb-2">
             @(_activeProfileName ?? "…")
         </MudText>
-        <MudNavLink Href="profiles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SwapHoriz">
+        <MudNavLink Href="@Routes.Profiles.List" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SwapHoriz">
             Change profile
         </MudNavLink>
         <MudDivider Class="my-2" />
     }
 
-    <MudNavLink Href="profiles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Badge">
+    <MudNavLink Href="@Routes.Profiles.List" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Badge">
         Profiles
     </MudNavLink>
 
-    <MudNavLink Href=""
+    <MudNavLink Href="@Routes.Home"
                 Match="NavLinkMatch.All"
                 Icon="@Icons.Material.Filled.Description"
                 Disabled="@(!ActiveProfile.HasActiveContext)">
         Resumes
     </MudNavLink>
 
-    <MudNavLink Href="person"
+    <MudNavLink Href="@Routes.Persons.Person"
                 Match="NavLinkMatch.Prefix"
                 Icon="@Icons.Material.Filled.Person"
                 Disabled="@(!ActiveProfile.HasActiveContext)">
         Person
     </MudNavLink>
 
-    <MudNavLink Href="about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">
+    <MudNavLink Href="@Routes.About" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">
         About
     </MudNavLink>
 </MudNavMenu>
-
-@code {
-    private string? _activeProfileName;
-
-    protected override void OnInitialized()
-    {
-        ActiveProfile.ContextChanged += OnContextChanged;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await LoadActiveProfileNameAsync();
-    }
-
-    private void OnContextChanged()
-    {
-        _ = InvokeAsync(async () =>
-        {
-            await LoadActiveProfileNameAsync();
-            StateHasChanged();
-        });
-    }
-
-    private async Task LoadActiveProfileNameAsync()
-    {
-        if (!ActiveProfile.HasActiveContext)
-        {
-            _activeProfileName = null;
-            return;
-        }
-
-        var outcome = await Mediator.SendAsync(
-            new GetPersonDataQuery(),
-            new MediatorSendOptions { NotifyOnFailure = false });
-
-        _activeProfileName = outcome.Result.IsSuccess
-            ? $"{outcome.Result.Value.FirstName} {outcome.Result.Value.LastName}".Trim()
-            : null;
-    }
-
-    public void Dispose()
-    {
-        ActiveProfile.ContextChanged -= OnContextChanged;
-    }
-}

@@ -1,10 +1,3 @@
-@page "/profiles/create"
-@implements IProfileExemptPage
-@using VRT.Resume.Application.Persons.Commands.CreatePersonAccount
-@inject MediatorSender Mediator
-@inject DummyCurrentUserService ProfileContext
-@inject NavigationManager Navigation
-
 <PageTitle>Create profile</PageTitle>
 
 <MudStack Spacing="4" Class="mud-width-full" Style="max-width: 480px;">
@@ -45,49 +38,6 @@
                    OnClick="CreateProfileAsync">
             @(_submitting ? "Creating…" : "Create profile")
         </MudButton>
-        <MudButton Variant="Variant.Text" Href="profiles">Cancel</MudButton>
+        <MudButton Variant="Variant.Text" Href="@Routes.Profiles.List">Cancel</MudButton>
     </MudStack>
 </MudStack>
-
-@code {
-    private MudForm? _form;
-    private bool _isValid;
-    private bool _submitting;
-    private string _firstName = string.Empty;
-    private string _lastName = string.Empty;
-    private string? _email;
-    private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
-
-    private async Task CreateProfileAsync()
-    {
-        if (_form is not null)
-        {
-            await _form.ValidateAsync();
-            if (!_form.IsValid)
-                return;
-        }
-
-        _submitting = true;
-        _fieldErrors = new Dictionary<string, string[]>();
-
-        var userId = $"local:{Guid.NewGuid():N}";
-        var outcome = await Mediator.SendAsync(new CreatePersonAccountCommand
-        {
-            UserId = userId,
-            FirstName = _firstName.Trim(),
-            LastName = _lastName.Trim(),
-            Email = string.IsNullOrWhiteSpace(_email) ? null : _email.Trim(),
-        });
-
-        _fieldErrors = outcome.FieldErrors;
-
-        if (outcome.Result.IsFailure)
-        {
-            _submitting = false;
-            return;
-        }
-
-        await ProfileContext.SetContextAsync(userId);
-        Navigation.NavigateTo("/");
-    }
-}

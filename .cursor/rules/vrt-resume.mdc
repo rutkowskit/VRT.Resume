@@ -43,6 +43,7 @@ alwaysApply: true
 
 ## VRT.Resume.Pwa
 
+- **Blazor components:** markup-only `*.razor` + `partial class` in `*.razor.cs`; no `@code` blocks. Routed pages: `[Route(Routes.*)]` in code-behind (not `@page`); route constants in `Routes.cs`.
 - **Feature-oriented layout** (vertical-slice style): `Features/{FeatureName}/` per feature; `Layout/` for shell; root for DI (`Program.cs`, `DependencyInjection*.cs`)
 - PWA-specific code stays in `VRT.Resume.Pwa`; reuse `VRT.Resume.Application` via adapters — do not change Application for offline-only flows
 - See `AGENTS.md` → **VRT.Resume.Pwa** for SqliteWasm, MudBlazor, EF 10.0.8 pin, and WASM pitfalls

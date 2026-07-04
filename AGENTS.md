@@ -102,6 +102,7 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 ### Architecture
 
 - **Feature-oriented layout** (vertical-slice style): group by feature under `Features/{FeatureName}/` (pages, feature services, components). Shared shell stays in `Layout/`; composition root stays at project root (`Program.cs`, `DependencyInjection*.cs`).
+- **Blazor UI convention:** `*.razor` = markup only (no `@code`). Logic in `*.razor.cs` (`partial class`). Routed pages: `[Route(Routes.*)]` in code-behind; constants in `Routes.cs` (no `@page`).
 - **Reuse Application unchanged** — wire PWA-specific adapters in `VRT.Resume.Pwa` (`DummyCurrentUserService`, `PwaCultureService`, `LocalProfileService`, etc.).
 - **Do not run long-lived processes** unless the user asks (`dotnet run` only on request).
 

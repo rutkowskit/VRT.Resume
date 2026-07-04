@@ -44,6 +44,7 @@ description: >
 
 ## VRT.Resume.Pwa
 
+- **Blazor:** markup-only `*.razor` + `*.razor.cs` partial class (no `@code`). Routes: `[Route(Routes.*)]` in code-behind; constants in `Routes.cs`.
 - **Feature-oriented / vertical-slice layout:** `Features/{FeatureName}/` (page + services + components per feature); shared shell in `Layout/`.
 - **Do not modify Application** for PWA-only flows — adapters live in `VRT.Resume.Pwa`.
 - **EF providers in hosts only:** Persistence → `Relational`; Pwa → SqliteWasm; Mvc/Tests → SqlServer.
