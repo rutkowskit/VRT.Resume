@@ -22,6 +22,7 @@ internal static partial class DependencyInjection
         services.AddScoped<UserNotificationService>();
         services.AddScoped<MediatorSender>();
         services.AddSingleton<DatabaseInitializer>();
+        services.AddSingleton<PwaStartupState>();
         services.AddApplication();
         return services;
     }

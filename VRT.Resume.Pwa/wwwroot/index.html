@@ -30,14 +30,26 @@
         <div class="loading-progress-text"></div>
     </div>
 
+    <section id="opfs-tab-blocked" class="opfs-tab-blocked" hidden>
+        <div class="opfs-tab-blocked__card">
+            <h1 id="opfs-tab-blocked-title"></h1>
+            <p id="opfs-tab-blocked-body"></p>
+            <button type="button" id="opfs-tab-blocked-retry" class="opfs-tab-blocked__button"></button>
+        </div>
+    </section>
+
     <div id="blazor-error-ui">
         An unhandled error has occurred.
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
-    <script src="js/pwa-service-worker.js"></script>
-    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
-    <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+
+    <template id="pwa-blazor-scripts">
+        <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+        <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+    </template>
+
+    <script src="js/pwa-boot.js"></script>
 </body>
 
 </html>

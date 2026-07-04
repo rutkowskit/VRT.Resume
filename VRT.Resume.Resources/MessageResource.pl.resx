@@ -168,4 +168,16 @@
   <data name="ImageReadFailed" xml:space="preserve">
     <value>Nie można odczytać wybranego obrazu.</value>
   </data>
+  <data name="OpfsAnotherTabTitle" xml:space="preserve">
+    <value>Aplikacja jest już otwarta</value>
+  </data>
+  <data name="OpfsAnotherTabBody" xml:space="preserve">
+    <value>VRT Resume działa tylko w jednej karcie przeglądarki. Zamknij inną kartę z tą aplikacją i odśwież tę stronę.</value>
+  </data>
+  <data name="OpfsStartupFailedTitle" xml:space="preserve">
+    <value>Nie udało się uruchomić aplikacji</value>
+  </data>
+  <data name="OpfsRetryButton" xml:space="preserve">
+    <value>Odśwież teraz</value>
+  </data>
 </root>

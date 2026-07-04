@@ -7,7 +7,10 @@
                     @if (Model.ShowProfilePhoto)
                     {
                         <div class="resume-image-container">
-                            <img class="resume-image" src="@ProfileImageUrl" alt="@LabelNames.Photo.GetLabelText()" />
+                            <MudImage Src="@ProfileImageUrl"
+                                      Class="resume-image"
+                                      Alt="@LabelNames.Photo.GetLabelText()"
+                                      ObjectFit="ObjectFit.Cover" />
                         </div>
                     }
                     <div class="resume-card-title" style="font-size: 1.5rem;">

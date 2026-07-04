@@ -168,4 +168,16 @@
   <data name="ImageReadFailed" xml:space="preserve">
     <value>Could not read the selected image.</value>
   </data>
+  <data name="OpfsAnotherTabTitle" xml:space="preserve">
+    <value>App already open</value>
+  </data>
+  <data name="OpfsAnotherTabBody" xml:space="preserve">
+    <value>VRT Resume can only run in one browser tab. Close the other tab with this app, then refresh this page.</value>
+  </data>
+  <data name="OpfsStartupFailedTitle" xml:space="preserve">
+    <value>Could not start the app</value>
+  </data>
+  <data name="OpfsRetryButton" xml:space="preserve">
+    <value>Refresh now</value>
+  </data>
 </root>

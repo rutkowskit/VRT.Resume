@@ -57,6 +57,10 @@ public partial class ResumeShowPage : IDisposable
             var image = await Mediator.SendQueryAsync(new GetProfileImageQuery());
             _profileImageUrl = ProfileImageUrl.ToDataUrl(image) ?? ProfileImageUrl.DefaultImagePath;
         }
+        else
+        {
+            _profileImageUrl = ProfileImageUrl.DefaultImagePath;
+        }
 
         _loading = false;
     }

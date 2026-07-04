@@ -16,4 +16,8 @@ internal static class MessageKeys
     public const string DeleteSkillConfirm = "DeleteSkillConfirm";
     public const string ImageTooLarge = "ImageTooLarge";
     public const string ImageReadFailed = "ImageReadFailed";
+    public const string OpfsAnotherTabTitle = "OpfsAnotherTabTitle";
+    public const string OpfsAnotherTabBody = "OpfsAnotherTabBody";
+    public const string OpfsStartupFailedTitle = "OpfsStartupFailedTitle";
+    public const string OpfsRetryButton = "OpfsRetryButton";
 }

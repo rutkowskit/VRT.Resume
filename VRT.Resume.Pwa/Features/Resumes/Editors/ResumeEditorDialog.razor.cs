@@ -23,7 +23,7 @@ public partial class ResumeEditorDialog
     private string _position = string.Empty;
     private string _summary = string.Empty;
     private string _dataProcessingPermission = string.Empty;
-    private bool _showProfilePhoto;
+    private bool _showProfilePhoto = true;
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
 
     protected override async Task OnInitializedAsync()

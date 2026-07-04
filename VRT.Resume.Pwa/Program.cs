@@ -18,12 +18,25 @@ builder.Services.AddPwaDependencies();
 builder.Services.AddPwaDbContext(builder.HostEnvironment.BaseAddress);
 
 var host = builder.Build();
+var startup = host.Services.GetRequiredService<PwaStartupState>();
 
-await host.Services.InitializeSqliteWasmAsync();
-await host.Services.GetRequiredService<DatabaseInitializer>().InitializeAsync();
-var cultureService = host.Services.GetRequiredService<PwaCultureService>();
-await cultureService.InitializeAsync();
-ResourceHelper.ResolveCulture = () => CultureInfo.GetCultureInfo(cultureService.GetCurrentCulture());
-await host.Services.GetRequiredService<DummyCurrentUserService>().InitializeAsync();
+try
+{
+    await host.Services.InitializeSqliteWasmAsync();
+    await host.Services.GetRequiredService<DatabaseInitializer>().InitializeAsync();
+    var cultureService = host.Services.GetRequiredService<PwaCultureService>();
+    await cultureService.InitializeAsync();
+    ResourceHelper.ResolveCulture = () => CultureInfo.GetCultureInfo(cultureService.GetCurrentCulture());
+    await host.Services.GetRequiredService<DummyCurrentUserService>().InitializeAsync();
+    startup.MarkReady();
+}
+catch (Exception ex)
+{
+    startup.SetFailure(ex);
+
+    var cultureService = host.Services.GetRequiredService<PwaCultureService>();
+    await cultureService.InitializeAsync();
+    ResourceHelper.ResolveCulture = () => CultureInfo.GetCultureInfo(cultureService.GetCurrentCulture());
+}
 
 await host.RunAsync();

@@ -33,7 +33,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                                 ResumeId = rd.ResumeId,
                                 Position = rd.Position,
                                 Summary = rd.Summary,
-                                ShowProfilePhoto = rd.ShowProfilePhoto ?? false,
+                                ShowProfilePhoto = rd.ShowProfilePhoto ?? true,
                                 DataProcessingPermission = rd.Permission,
                                 Description = rd.Description
                             };
