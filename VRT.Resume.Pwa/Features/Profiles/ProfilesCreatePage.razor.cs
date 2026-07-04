@@ -51,8 +51,17 @@ public partial class ProfilesCreatePage : IProfileExemptPage
             return;
         }
 
-        // CreatePersonAccount stores UserId as Email ?? UserId — active context must match.
-        await ProfileContext.SetContextAsync(email ?? userId);
+        try
+        {
+            // CreatePersonAccount stores UserId as Email ?? UserId — active context must match.
+            await ProfileContext.SetContextAsync(email ?? userId);
+        }
+        catch (InvalidOperationException)
+        {
+            _submitting = false;
+            return;
+        }
+
         Navigation.NavigateTo(Routes.Home);
     }
 }
