@@ -5,7 +5,7 @@ using VRT.Resume.Persistence.Data;
 namespace VRT.Resume.Pwa.Services;
 
 public sealed class DummyCurrentUserService(IServiceScopeFactory scopeFactory)
-    : ICurrentUserService, IActiveProfileContext, ICurrentPersonIdAccessor
+    : ICurrentUserService, IActiveProfileContext
 {
     public event Action? ContextChanged;
 
@@ -14,18 +14,6 @@ public sealed class DummyCurrentUserService(IServiceScopeFactory scopeFactory)
     public int? PersonId { get; private set; }
 
     public bool HasActiveContext => PersonId is int id && id > 0;
-
-    public bool TryGetPersonId(out int personId)
-    {
-        if (PersonId is int id && id > 0)
-        {
-            personId = id;
-            return true;
-        }
-
-        personId = 0;
-        return false;
-    }
 
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {

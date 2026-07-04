@@ -17,7 +17,6 @@ internal static partial class DependencyInjection
         services.AddSingleton<DummyCurrentUserService>();
         services.AddSingleton<ICurrentUserService>(sp => sp.GetRequiredService<DummyCurrentUserService>());
         services.AddSingleton<IActiveProfileContext>(sp => sp.GetRequiredService<DummyCurrentUserService>());
-        services.AddSingleton<ICurrentPersonIdAccessor>(sp => sp.GetRequiredService<DummyCurrentUserService>());
         services.AddScoped<ProfileContextStorage>();
         services.AddScoped<LocalProfileService>();
         services.AddScoped<UserNotificationService>();
