@@ -1,3 +1,4 @@
+@inherits CultureAwareComponentBase
 <MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true">
     <TitleContent>
         <MudText Typo="Typo.h6">@(_isNew ? LabelNames.AddSkillTitle.GetLabelText() : LabelNames.EditSkillTitle.GetLabelText())</MudText>
@@ -14,7 +15,7 @@
                     <MudSelect @bind-Value="_skillType" Label="@LabelNames.Type.GetLabelText()" Required="true">
                         @foreach (var type in Enum.GetValues<SkillTypes>())
                         {
-                            <MudSelectItem Value="type">@type</MudSelectItem>
+                            <MudSelectItem Value="type">@SkillTypeDisplay.GetLabel(type)</MudSelectItem>
                         }
                     </MudSelect>
                     <MudTextField @bind-Value="_skillName" Label="@LabelNames.Name.GetLabelText()" Required="true" MaxLength="100" Immediate="true"

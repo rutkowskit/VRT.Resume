@@ -147,4 +147,10 @@ public static class LabelNames
     public const string FirstNameRequired = "FirstNameRequired";
     public const string Thesis = "Thesis";
     public const string Photo = "Photo";
+
+    public const string SkillTypeOther = "SkillTypeOther";
+    public const string SkillTypeHumanLanguage = "SkillTypeHumanLanguage";
+    public const string SkillTypeTechnical = "SkillTypeTechnical";
+    public const string SkillTypeSoft = "SkillTypeSoft";
+    public const string SkillTypeTool = "SkillTypeTool";
 }

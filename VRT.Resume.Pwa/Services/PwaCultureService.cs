@@ -91,7 +91,9 @@ public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICult
 
     private static void ApplyCulture(string culture)
     {
-        var cultureInfo = new CultureInfo(culture);
+        var cultureInfo = CultureInfo.GetCultureInfo(culture);
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
         CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
     }

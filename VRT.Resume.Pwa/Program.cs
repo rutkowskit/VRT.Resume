@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using SqliteWasmBlazor;
+using System.Globalization;
 using VRT.Resume.Pwa;
 using VRT.Resume.Pwa.Services;
+using VRT.Resume.Resources;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -19,7 +21,9 @@ var host = builder.Build();
 
 await host.Services.InitializeSqliteWasmAsync();
 await host.Services.GetRequiredService<DatabaseInitializer>().InitializeAsync();
-await host.Services.GetRequiredService<PwaCultureService>().InitializeAsync();
+var cultureService = host.Services.GetRequiredService<PwaCultureService>();
+await cultureService.InitializeAsync();
+ResourceHelper.ResolveCulture = () => CultureInfo.GetCultureInfo(cultureService.GetCurrentCulture());
 await host.Services.GetRequiredService<DummyCurrentUserService>().InitializeAsync();
 
 await host.RunAsync();

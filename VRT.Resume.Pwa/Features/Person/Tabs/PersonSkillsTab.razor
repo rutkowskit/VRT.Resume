@@ -1,3 +1,4 @@
+@inherits CultureAwareComponentBase
 <MudStack Spacing="3" Class="mt-2">
     <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddAsync">
         @LabelNames.ButtonAddSkill.GetLabelText()
@@ -19,7 +20,7 @@
     {
         @foreach (var group in _groups)
         {
-            <MudText Typo="Typo.subtitle2" Class="mt-2">@group.Key</MudText>
+            <MudText Typo="Typo.subtitle2" Class="mt-2">@SkillTypeDisplay.GetLabel(group.Key)</MudText>
             <MudStack Row="true" Spacing="2" Wrap="Wrap.Wrap">
                 @foreach (var item in group.Value)
                 {

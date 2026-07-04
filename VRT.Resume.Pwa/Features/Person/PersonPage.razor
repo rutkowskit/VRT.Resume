@@ -1,3 +1,4 @@
+@inherits CultureAwareComponentBase
 <PageTitle>@LabelNames.PagePerson.GetLabelText()</PageTitle>
 
 <MudStack Spacing="2">
@@ -6,7 +7,7 @@
         @LabelNames.PersonPageDescription.GetLabelText()
     </MudText>
 
-    <MudTabs @bind-ActivePanelIndex="_activeTab" Class="mt-2">
+    <MudTabs @bind-ActivePanelIndex="_activeTab" Class="mt-2" @key="CultureService.GetCurrentCulture()">
         <MudTabPanel Text="@LabelNames.ProfileTab.GetLabelText()">
             <PersonProfileTab />
         </MudTabPanel>

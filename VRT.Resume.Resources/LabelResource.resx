@@ -504,4 +504,19 @@
   <data name="Photo" xml:space="preserve">
     <value>Photo</value>
   </data>
+  <data name="SkillTypeOther" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="SkillTypeHumanLanguage" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="SkillTypeTechnical" xml:space="preserve">
+    <value>Technical</value>
+  </data>
+  <data name="SkillTypeSoft" xml:space="preserve">
+    <value>Soft skills</value>
+  </data>
+  <data name="SkillTypeTool" xml:space="preserve">
+    <value>Tools</value>
+  </data>
 </root>
