@@ -362,3 +362,7 @@ For Grok, also copy `real-work` to `~/.grok/skills/` (or symlink from `~/.agents
 4. Run `dotnet build VRT.Resume.sln` before finishing; run `dotnet test` only when changes touch projects **other than** `VRT.Resume.Pwa`.
 5. Do not drive-by refactor unrelated code.
 6. Update this `AGENTS.md` if you discover new architectural facts worth persisting.
+
+### Git
+
+- **Never run `git push`** unless the user explicitly asks (e.g. “push”, “zrób push”). Commits are fine when requested; leave pushing to the user so they can review first.

@@ -33,6 +33,7 @@ description: >
 
 ## Critical rules
 
+- **Never `git push`** unless the user explicitly asks — commits OK when requested; user reviews before push.
 - **No repository layer** — handlers use `AppDbContext` directly.
 - **No EF migrations** — `EnsureCreated()` only; warn user on schema-breaking changes.
 - **Global auth** — `[AllowAnonymous]` required for public endpoints.

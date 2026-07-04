@@ -25,6 +25,10 @@ alwaysApply: true
 - Global MVC auth — mark public actions `[AllowAnonymous]`
 - Tests in `VRT.Resume.Application.Tests.Unit/` are **integration tests** (LocalDB + Respawn 7)
 
+## Git
+
+- **Never `git push`** unless the user explicitly asks — they review locally first
+
 ## Change discipline
 
 - Minimal diffs; no drive-by refactors
