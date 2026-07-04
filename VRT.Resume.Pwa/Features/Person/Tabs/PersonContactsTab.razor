@@ -1,0 +1,106 @@
+@using VRT.Resume.Application.Persons.Commands.DeletePersonContact
+@using VRT.Resume.Application.Persons.Queries.GetPersonContacts
+@using VRT.Resume.Pwa.Features.Person.Components
+@using VRT.Resume.Pwa.Features.Person.Editors
+@inject MediatorSender Mediator
+@inject IDialogService DialogService
+
+<MudStack Spacing="3" Class="mt-2">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddAsync">
+        Add contact
+    </MudButton>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!string.IsNullOrEmpty(_loadError))
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    }
+    else if (_items.Length == 0)
+    {
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">No contacts yet.</MudText>
+    }
+    else
+    {
+        <MudStack Row="true" Spacing="2" Wrap="Wrap.Wrap">
+            @foreach (var item in _items)
+            {
+                <MudPaper Class="pa-4" Elevation="0" Outlined="true" Style="min-width: 260px;">
+                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                        <MudText Typo="Typo.h6">@item.Name</MudText>
+                        <EditDeleteToolbar OnEdit="@(() => EditAsync(item.ContactId))"
+                                           OnDelete="@(() => DeleteAsync(item.ContactId, item.Name))" />
+                    </MudStack>
+                    <MudText Typo="Typo.body2">@item.Value</MudText>
+                </MudPaper>
+            }
+        </MudStack>
+    }
+</MudStack>
+
+@code {
+    private bool _loading = true;
+    private string? _loadError;
+    private PersonContactInListVM[] _items = [];
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        _loading = true;
+        _loadError = null;
+
+        var outcome = await Mediator.SendAsync(
+            new GetPersonContactListQuery(),
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            _loadError = outcome.Result.Error;
+            _items = [];
+        }
+        else
+        {
+            _items = outcome.Result.Value;
+        }
+
+        _loading = false;
+    }
+
+    private async Task AddAsync() => await ShowEditorAsync(0);
+
+    private async Task EditAsync(int id) => await ShowEditorAsync(id);
+
+    private async Task ShowEditorAsync(int contactId)
+    {
+        var parameters = new DialogParameters<ContactEditorDialog>
+        {
+            { x => x.ContactId, contactId },
+        };
+        var dialog = await DialogService.ShowAsync<ContactEditorDialog>(null, parameters);
+        var result = await dialog.Result;
+        if (result is not null && !result.Canceled)
+            await LoadAsync();
+    }
+
+    private async Task DeleteAsync(int id, string name)
+    {
+        var parameters = new DialogParameters<ConfirmDeleteDialog>
+        {
+            { x => x.Message, $"Delete contact \"{name}\"?" },
+        };
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (result is null || result.Canceled)
+            return;
+
+        var outcome = await Mediator.SendAsync(
+            new DeletePersonContactCommand(id),
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        if (outcome.Result.IsSuccess)
+            await LoadAsync();
+    }
+}

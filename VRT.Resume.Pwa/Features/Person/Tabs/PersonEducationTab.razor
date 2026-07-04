@@ -1,0 +1,119 @@
+@using VRT.Resume.Application.Persons.Commands.DeletePersonEducation
+@using VRT.Resume.Application.Persons.Queries.GetPersonEducation
+@using VRT.Resume.Pwa.Features.Person.Components
+@using VRT.Resume.Pwa.Features.Person.Editors
+@inject MediatorSender Mediator
+@inject IDialogService DialogService
+
+<MudStack Spacing="3" Class="mt-2">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddAsync">
+        Add education
+    </MudButton>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!string.IsNullOrEmpty(_loadError))
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    }
+    else if (_items.Length == 0)
+    {
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">No education entries yet.</MudText>
+    }
+    else
+    {
+        @foreach (var item in _items)
+        {
+            <MudPaper Class="pa-4" Elevation="0" Outlined="true">
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                    <MudText Typo="Typo.h6">@item.SchoolName</MudText>
+                    <EditDeleteToolbar OnEdit="@(() => EditAsync(item.EducationId))"
+                                       OnDelete="@(() => DeleteAsync(item.EducationId, item.SchoolName))" />
+                </MudStack>
+                <MudText Typo="Typo.caption" Class="mud-text-secondary">@TimeRangeDisplay.Format(item)</MudText>
+                @if (!string.IsNullOrWhiteSpace(item.Field))
+                {
+                    <MudText Typo="Typo.body2">@item.Field</MudText>
+                }
+                @if (!string.IsNullOrWhiteSpace(item.Degree))
+                {
+                    <MudText Typo="Typo.body2">@item.Degree</MudText>
+                }
+                @if (!string.IsNullOrWhiteSpace(item.Specialization))
+                {
+                    <MudText Typo="Typo.body2">@item.Specialization</MudText>
+                }
+            </MudPaper>
+        }
+    }
+</MudStack>
+
+@code {
+    private bool _loading = true;
+    private string? _loadError;
+    private PersonEducationInListVM[] _items = [];
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        _loading = true;
+        _loadError = null;
+
+        var outcome = await Mediator.SendAsync(
+            new GetPersonEducationListQuery(),
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            _loadError = outcome.Result.Error;
+            _items = [];
+        }
+        else
+        {
+            _items = outcome.Result.Value
+                .OrderByDescending(i => i.FromDate)
+                .ThenByDescending(i => i.ToDate)
+                .ToArray();
+        }
+
+        _loading = false;
+    }
+
+    private async Task AddAsync() => await ShowEditorAsync(0);
+
+    private async Task EditAsync(int id) => await ShowEditorAsync(id);
+
+    private async Task ShowEditorAsync(int educationId)
+    {
+        var parameters = new DialogParameters<EducationEditorDialog>
+        {
+            { x => x.EducationId, educationId },
+        };
+        var dialog = await DialogService.ShowAsync<EducationEditorDialog>(null, parameters);
+        var result = await dialog.Result;
+        if (result is not null && !result.Canceled)
+            await LoadAsync();
+    }
+
+    private async Task DeleteAsync(int id, string name)
+    {
+        var parameters = new DialogParameters<ConfirmDeleteDialog>
+        {
+            { x => x.Message, $"Delete education entry \"{name}\"?" },
+        };
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (result is null || result.Canceled)
+            return;
+
+        var outcome = await Mediator.SendAsync(
+            new DeletePersonEducationCommand(id),
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        if (outcome.Result.IsSuccess)
+            await LoadAsync();
+    }
+}

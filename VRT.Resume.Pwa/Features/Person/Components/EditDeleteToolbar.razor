@@ -1,0 +1,16 @@
+<MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
+    <MudIconButton Icon="@Icons.Material.Filled.Edit"
+                   Size="Size.Small"
+                   Title="Edit"
+                   OnClick="OnEdit" />
+    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                   Size="Size.Small"
+                   Color="Color.Error"
+                   Title="Delete"
+                   OnClick="OnDelete" />
+</MudStack>
+
+@code {
+    [Parameter] public EventCallback OnEdit { get; set; }
+    [Parameter] public EventCallback OnDelete { get; set; }
+}

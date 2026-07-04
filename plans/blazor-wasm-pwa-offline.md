@@ -193,17 +193,17 @@ Status: Complete
 ---
 
 ## Phase 5: Profile UI — Person tabs & CRUD
-Status: Not started
+Status: Complete
 
-- [ ] `/person` — zakładki: Profile, Edu, Skills, WorkExp, Contacts
-- [ ] CRUD przez MediatR (jak MVC): contacts, education, skills, experience, duties, `MergePersonDutySkills`
-- [ ] `EditDeleteToolbar`, `ConfirmDelete`
+- [x] `/person` — zakładki: Profile, Edu, Skills, WorkExp, Contacts
+- [x] CRUD przez MediatR (jak MVC): contacts, education, skills, experience, duties, `MergePersonDutySkills`
+- [x] `EditDeleteToolbar`, `ConfirmDelete`
 
 ### Verification Plan
 - Dane dodane w profilu A niewidoczne po przełączeniu na profil B
 
 ### Phase Summary
-_(write when phase completes)_
+`Features/Person/PersonPage.razor` — MudTabs shell (Profile, Education, Skills, Work experience, Contacts). Shared `EditDeleteToolbar`, `ConfirmDeleteDialog`, `TimeRangeDisplay`. Tab listy + MudDialog edytory dla każdej encji; WorkExp zagnieżdżone duties + `DutySkillsEditorDialog` (`MergePersonDutySkillsCommand`). Usunięto smoke `PersonDataPage` — profil w zakładce Profile. Build Release Pwa OK; Application nietknięty.
 
 ---
 

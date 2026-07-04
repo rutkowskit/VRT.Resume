@@ -1,0 +1,33 @@
+@page "/person"
+@using VRT.Resume.Pwa.Features.Person.Tabs
+
+<PageTitle>Person</PageTitle>
+
+<MudStack Spacing="2">
+    <MudText Typo="Typo.h4">Person</MudText>
+    <MudText Typo="Typo.body2" Class="mud-text-secondary">
+        Manage profile data for the active local profile.
+    </MudText>
+
+    <MudTabs @bind-ActivePanelIndex="_activeTab" Class="mt-2">
+        <MudTabPanel Text="Profile">
+            <PersonProfileTab />
+        </MudTabPanel>
+        <MudTabPanel Text="Education">
+            <PersonEducationTab />
+        </MudTabPanel>
+        <MudTabPanel Text="Skills">
+            <PersonSkillsTab />
+        </MudTabPanel>
+        <MudTabPanel Text="Work experience">
+            <PersonWorkExpTab />
+        </MudTabPanel>
+        <MudTabPanel Text="Contacts">
+            <PersonContactsTab />
+        </MudTabPanel>
+    </MudTabs>
+</MudStack>
+
+@code {
+    private int _activeTab;
+}

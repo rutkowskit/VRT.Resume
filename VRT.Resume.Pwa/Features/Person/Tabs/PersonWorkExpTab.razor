@@ -1,0 +1,205 @@
+@using VRT.Resume.Application.Persons.Commands.DeletePersonExperience
+@using VRT.Resume.Application.Persons.Commands.DeletePersonExperienceDuty
+@using VRT.Resume.Application.Persons.Queries.GetPersonExperience
+@using VRT.Resume.Pwa.Features.Person.Components
+@using VRT.Resume.Pwa.Features.Person.Editors
+@inject MediatorSender Mediator
+@inject IDialogService DialogService
+
+<MudStack Spacing="3" Class="mt-2">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddExperienceAsync">
+        Add work experience
+    </MudButton>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!string.IsNullOrEmpty(_loadError))
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    }
+    else if (_items.Length == 0)
+    {
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">No work experience yet.</MudText>
+    }
+    else
+    {
+        @foreach (var item in _items)
+        {
+            <MudPaper Class="pa-4" Elevation="0" Outlined="true">
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                    <div>
+                        <MudText Typo="Typo.h6">@item.Position</MudText>
+                        <MudText Typo="Typo.subtitle1">@item.CompanyName</MudText>
+                        <MudText Typo="Typo.body2">@item.Location</MudText>
+                        <MudText Typo="Typo.caption" Class="mud-text-secondary">@TimeRangeDisplay.Format(item)</MudText>
+                    </div>
+                    <EditDeleteToolbar OnEdit="@(() => EditExperienceAsync(item.ExperienceId))"
+                                       OnDelete="@(() => DeleteExperienceAsync(item.ExperienceId, item.Position))" />
+                </MudStack>
+
+                <MudDivider Class="my-3" />
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                    <MudText Typo="Typo.subtitle2">Duties</MudText>
+                    <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add"
+                               OnClick="@(() => AddDutyAsync(item.ExperienceId))">
+                        Add duty
+                    </MudButton>
+                </MudStack>
+
+                @if (item.Duties is null || !item.Duties.Any())
+                {
+                    <MudText Typo="Typo.caption" Class="mud-text-secondary">No duties yet.</MudText>
+                }
+                else
+                {
+                    <MudList T="string" Dense="true">
+                        @foreach (var duty in item.Duties)
+                        {
+                            <MudListItem>
+                                <MudStack Spacing="1">
+                                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                        <MudText Typo="Typo.body1">@duty.Name</MudText>
+                                        <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
+                                            <MudIconButton Icon="@Icons.Material.Filled.Workspaces"
+                                                           Size="Size.Small"
+                                                           Title="Skills"
+                                                           OnClick="@(() => EditDutySkillsAsync(duty.DutyId))" />
+                                            <EditDeleteToolbar OnEdit="@(() => EditDutyAsync(item.ExperienceId, duty.DutyId))"
+                                                               OnDelete="@(() => DeleteDutyAsync(duty.DutyId, duty.Name))" />
+                                        </MudStack>
+                                    </MudStack>
+                                    @if (duty.Skills is not null && duty.Skills.Any())
+                                    {
+                                        <MudStack Row="true" Spacing="1" Wrap="Wrap.Wrap">
+                                            @foreach (var skill in duty.Skills)
+                                            {
+                                                <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined">@skill</MudChip>
+                                            }
+                                        </MudStack>
+                                    }
+                                </MudStack>
+                            </MudListItem>
+                        }
+                    </MudList>
+                }
+            </MudPaper>
+        }
+    }
+</MudStack>
+
+@code {
+    private bool _loading = true;
+    private string? _loadError;
+    private PersonExperienceInListVM[] _items = [];
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        _loading = true;
+        _loadError = null;
+
+        var outcome = await Mediator.SendAsync(
+            new GetPersonExperienceListQuery(),
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            _loadError = outcome.Result.Error;
+            _items = [];
+        }
+        else
+        {
+            _items = outcome.Result.Value
+                .OrderByDescending(i => i.FromDate)
+                .ToArray();
+        }
+
+        _loading = false;
+    }
+
+    private async Task AddExperienceAsync() => await ShowExperienceEditorAsync(0);
+
+    private async Task EditExperienceAsync(int id) => await ShowExperienceEditorAsync(id);
+
+    private async Task ShowExperienceEditorAsync(int experienceId)
+    {
+        var parameters = new DialogParameters<ExperienceEditorDialog>
+        {
+            { x => x.ExperienceId, experienceId },
+        };
+        var dialog = await DialogService.ShowAsync<ExperienceEditorDialog>(null, parameters);
+        var result = await dialog.Result;
+        if (result is not null && !result.Canceled)
+            await LoadAsync();
+    }
+
+    private async Task DeleteExperienceAsync(int id, string name)
+    {
+        var parameters = new DialogParameters<ConfirmDeleteDialog>
+        {
+            { x => x.Message, $"Delete work experience \"{name}\"?" },
+        };
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (result is null || result.Canceled)
+            return;
+
+        var outcome = await Mediator.SendAsync(
+            new DeletePersonExperienceCommand(id),
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        if (outcome.Result.IsSuccess)
+            await LoadAsync();
+    }
+
+    private async Task AddDutyAsync(int experienceId) => await ShowDutyEditorAsync(experienceId, 0);
+
+    private async Task EditDutyAsync(int experienceId, int dutyId) => await ShowDutyEditorAsync(experienceId, dutyId);
+
+    private async Task ShowDutyEditorAsync(int experienceId, int dutyId)
+    {
+        var parameters = new DialogParameters<ExperienceDutyEditorDialog>
+        {
+            { x => x.ExperienceId, experienceId },
+            { x => x.DutyId, dutyId },
+        };
+        var dialog = await DialogService.ShowAsync<ExperienceDutyEditorDialog>(null, parameters);
+        var result = await dialog.Result;
+        if (result is not null && !result.Canceled)
+            await LoadAsync();
+    }
+
+    private async Task DeleteDutyAsync(int id, string name)
+    {
+        var parameters = new DialogParameters<ConfirmDeleteDialog>
+        {
+            { x => x.Message, $"Delete duty \"{name}\"?" },
+        };
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (result is null || result.Canceled)
+            return;
+
+        var outcome = await Mediator.SendAsync(
+            new DeletePersonExperienceDutyCommand(id),
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        if (outcome.Result.IsSuccess)
+            await LoadAsync();
+    }
+
+    private async Task EditDutySkillsAsync(int dutyId)
+    {
+        var parameters = new DialogParameters<DutySkillsEditorDialog>
+        {
+            { x => x.DutyId, dutyId },
+        };
+        var dialog = await DialogService.ShowAsync<DutySkillsEditorDialog>(null, parameters);
+        var result = await dialog.Result;
+        if (result is not null && !result.Canceled)
+            await LoadAsync();
+    }
+}

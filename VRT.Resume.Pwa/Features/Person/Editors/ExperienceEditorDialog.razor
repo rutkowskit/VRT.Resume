@@ -1,0 +1,119 @@
+@using VRT.Resume.Application.Persons.Commands.UpsertPersonExperience
+@using VRT.Resume.Application.Persons.Queries.GetPersonExperience
+@inject MediatorSender Mediator
+
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_isNew ? "Add work experience" : "Edit work experience")</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudForm @ref="_form" @bind-IsValid="_isValid">
+                <MudStack Spacing="3">
+                    <MudTextField @bind-Value="_position" Label="Position" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Position))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Position))" />
+                    <MudTextField @bind-Value="_companyName" Label="Company" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.CompanyName))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.CompanyName))" />
+                    <MudTextField @bind-Value="_location" Label="Location" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Location))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Location))" />
+                    <MudStack Row="true" Spacing="2">
+                        <MudDatePicker @bind-Date="_fromDate" Label="From" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                        <MudDatePicker @bind-Date="_toDate" Label="To (optional)" Clearable="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                    </MudStack>
+                </MudStack>
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || !_isValid)" OnClick="SaveAsync">
+            @(_saving ? "Saving…" : "Save")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public int ExperienceId { get; set; }
+
+    private MudForm? _form;
+    private bool _isValid;
+    private bool _loading = true;
+    private bool _saving;
+    private bool _isNew => ExperienceId == 0;
+
+    private string _position = string.Empty;
+    private string _companyName = string.Empty;
+    private string _location = string.Empty;
+    private DateTime? _fromDate = DateTime.Today;
+    private DateTime? _toDate;
+    private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_isNew)
+        {
+            _loading = false;
+            return;
+        }
+
+        var outcome = await Mediator.SendAsync(
+            new GetPersonExperienceQuery { ExperienceId = ExperienceId },
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            MudDialog.Cancel();
+            return;
+        }
+
+        var item = outcome.Result.Value;
+        _position = item.Position;
+        _companyName = item.CompanyName;
+        _location = item.Location;
+        _fromDate = item.FromDate;
+        _toDate = item.ToDate;
+        _loading = false;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task SaveAsync()
+    {
+        if (_form is not null)
+        {
+            await _form.ValidateAsync();
+            if (!_form.IsValid)
+                return;
+        }
+
+        _saving = true;
+        _fieldErrors = new Dictionary<string, string[]>();
+
+        var outcome = await Mediator.SendAsync(
+            new UpsertPersonExperienceCommand
+            {
+                ExperienceId = ExperienceId,
+                Position = _position.Trim(),
+                CompanyName = _companyName.Trim(),
+                Location = _location.Trim(),
+                FromDate = _fromDate ?? DateTime.Today,
+                ToDate = _toDate,
+            },
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        _fieldErrors = outcome.FieldErrors;
+        _saving = false;
+
+        if (outcome.Result.IsSuccess)
+            MudDialog.Close(DialogResult.Ok(true));
+    }
+}

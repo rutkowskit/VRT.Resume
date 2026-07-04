@@ -1,0 +1,108 @@
+@using VRT.Resume.Application.Persons.Commands.MergePersonDutySkills
+@using VRT.Resume.Application.Persons.Queries.GetPersonExperienceDutySkillList
+@inject MediatorSender Mediator
+
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Duty skills</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else if (_skills.Count == 0)
+        {
+            <MudText>No skills in profile. Add skills in the Skills tab first.</MudText>
+        }
+        else
+        {
+            <div style="max-height: 60vh; overflow: auto;">
+                <MudTable Items="_skills" Dense="true" Hover="true">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Type</MudTh>
+                        <MudTh>Relevant</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="Type">@context.Type</MudTd>
+                        <MudTd DataLabel="Relevant">
+                            <MudCheckBox @bind-Value="context.IsRelevant" Color="Color.Primary" />
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </div>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || _skills.Count == 0)" OnClick="SaveAsync">
+            @(_saving ? "Saving…" : "Save")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public int DutyId { get; set; }
+
+    private readonly List<DutySkillRow> _skills = [];
+    private bool _loading = true;
+    private bool _saving;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var outcome = await Mediator.SendAsync(
+            new GetPersonExperienceDutySkillListQuery { DutyId = DutyId },
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            MudDialog.Cancel();
+            return;
+        }
+
+        var list = outcome.Result.Value.DutySkills ?? [];
+        _skills.AddRange(list.Select(s => new DutySkillRow
+        {
+            SkillId = s.SkillId,
+            Name = s.Name,
+            Type = s.Type,
+            IsRelevant = s.IsRelevant,
+        }));
+        _loading = false;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task SaveAsync()
+    {
+        _saving = true;
+
+        var outcome = await Mediator.SendAsync(
+            new MergePersonDutySkillsCommand
+            {
+                DutyId = DutyId,
+                DutySkills = _skills.Select(s => new PersonExpDutySkillDto
+                {
+                    SkillId = s.SkillId,
+                    IsRelevant = s.IsRelevant,
+                }).ToArray(),
+            },
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        _saving = false;
+
+        if (outcome.Result.IsSuccess)
+            MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private sealed class DutySkillRow
+    {
+        public int SkillId { get; init; }
+        public string Name { get; init; } = string.Empty;
+        public string Type { get; init; } = string.Empty;
+        public bool IsRelevant { get; set; }
+    }
+}

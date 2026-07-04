@@ -1,0 +1,112 @@
+@using VRT.Resume.Application.Persons.Commands.DeletePersonsSkill
+@using VRT.Resume.Application.Persons.Queries.GetPersonSkills
+@using VRT.Resume.Pwa.Features.Person.Components
+@using VRT.Resume.Pwa.Features.Person.Editors
+@inject MediatorSender Mediator
+@inject IDialogService DialogService
+
+<MudStack Spacing="3" Class="mt-2">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddAsync">
+        Add skill
+    </MudButton>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!string.IsNullOrEmpty(_loadError))
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    }
+    else if (_groups.Count == 0)
+    {
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">No skills yet.</MudText>
+    }
+    else
+    {
+        @foreach (var group in _groups)
+        {
+            <MudText Typo="Typo.subtitle2" Class="mt-2">@group.Key</MudText>
+            <MudStack Row="true" Spacing="2" Wrap="Wrap.Wrap">
+                @foreach (var item in group.Value)
+                {
+                    <MudPaper Class="pa-3" Elevation="0" Outlined="true" Style="min-width: 200px;">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudText Typo="Typo.body1">@item.Name (@item.Level)</MudText>
+                            <EditDeleteToolbar OnEdit="@(() => EditAsync(item.SkillId))"
+                                               OnDelete="@(() => DeleteAsync(item.SkillId, item.Name))" />
+                        </MudStack>
+                    </MudPaper>
+                }
+            </MudStack>
+        }
+    }
+</MudStack>
+
+@code {
+    private bool _loading = true;
+    private string? _loadError;
+    private Dictionary<string, PersonSkillInListVM[]> _groups = [];
+
+    protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    private async Task LoadAsync()
+    {
+        _loading = true;
+        _loadError = null;
+
+        var outcome = await Mediator.SendAsync(
+            new GetPersonSkillListQuery(),
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            _loadError = outcome.Result.Error;
+            _groups = [];
+        }
+        else
+        {
+            _groups = outcome.Result.Value
+                .OrderBy(i => i.Type)
+                .GroupBy(i => i.Type)
+                .ToDictionary(g => g.Key, g => g.OrderBy(i => i.SkillId).ToArray());
+        }
+
+        _loading = false;
+    }
+
+    private async Task AddAsync() => await ShowEditorAsync(0);
+
+    private async Task EditAsync(int id) => await ShowEditorAsync(id);
+
+    private async Task ShowEditorAsync(int skillId)
+    {
+        var parameters = new DialogParameters<SkillEditorDialog>
+        {
+            { x => x.SkillId, skillId },
+        };
+        var dialog = await DialogService.ShowAsync<SkillEditorDialog>(null, parameters);
+        var result = await dialog.Result;
+        if (result is not null && !result.Canceled)
+            await LoadAsync();
+    }
+
+    private async Task DeleteAsync(int id, string name)
+    {
+        var parameters = new DialogParameters<ConfirmDeleteDialog>
+        {
+            { x => x.Message, $"Delete skill \"{name}\"?" },
+        };
+        var dialog = await DialogService.ShowAsync<ConfirmDeleteDialog>("Delete", parameters);
+        var result = await dialog.Result;
+        if (result is null || result.Canceled)
+            return;
+
+        var outcome = await Mediator.SendAsync(
+            new DeletePersonSkillCommand(id),
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        if (outcome.Result.IsSuccess)
+            await LoadAsync();
+    }
+}

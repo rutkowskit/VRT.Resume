@@ -1,0 +1,131 @@
+@using VRT.Resume.Application.Persons.Commands.UpsertPersonEducation
+@using VRT.Resume.Application.Persons.Queries.GetPersonEducation
+@inject MediatorSender Mediator
+
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_isNew ? "Add education" : "Edit education")</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudForm @ref="_form" @bind-IsValid="_isValid">
+                <MudStack Spacing="3">
+                    <MudTextField @bind-Value="_schoolName" Label="School" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.SchoolName))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.SchoolName))" />
+                    <MudTextField @bind-Value="_field" Label="Field" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Field))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Field))" />
+                    <MudStack Row="true" Spacing="2">
+                        <MudDatePicker @bind-Date="_fromDate" Label="From" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                        <MudDatePicker @bind-Date="_toDate" Label="To" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                    </MudStack>
+                    <MudTextField @bind-Value="_degree" Label="Degree" Required="true" MaxLength="100" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Degree))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Degree))" />
+                    <MudTextField @bind-Value="_specialization" Label="Specialization" MaxLength="200" Immediate="true" />
+                    <MudTextField @bind-Value="_thesisTitle" Label="Thesis title" MaxLength="300" Immediate="true" />
+                    <MudTextField @bind-Value="_grade" Label="Grade" MaxLength="50" Immediate="true" />
+                </MudStack>
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || !_isValid)" OnClick="SaveAsync">
+            @(_saving ? "Saving…" : "Save")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
+    [Parameter] public int EducationId { get; set; }
+
+    private MudForm? _form;
+    private bool _isValid;
+    private bool _loading = true;
+    private bool _saving;
+    private bool _isNew => EducationId == 0;
+
+    private string _schoolName = string.Empty;
+    private string _field = string.Empty;
+    private string _degree = string.Empty;
+    private string _specialization = string.Empty;
+    private string _thesisTitle = string.Empty;
+    private string _grade = string.Empty;
+    private DateTime? _fromDate = DateTime.Today;
+    private DateTime? _toDate = DateTime.Today;
+    private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (_isNew)
+        {
+            _loading = false;
+            return;
+        }
+
+        var outcome = await Mediator.SendAsync(
+            new GetPersonEducationQuery(EducationId),
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            MudDialog.Cancel();
+            return;
+        }
+
+        var item = outcome.Result.Value;
+        _schoolName = item.SchoolName;
+        _field = item.Field;
+        _degree = item.Degree;
+        _specialization = item.Specialization ?? string.Empty;
+        _thesisTitle = item.ThesisTitle ?? string.Empty;
+        _grade = item.Grade ?? string.Empty;
+        _fromDate = item.FromDate;
+        _toDate = item.ToDate ?? item.FromDate;
+        _loading = false;
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task SaveAsync()
+    {
+        if (_form is not null)
+        {
+            await _form.ValidateAsync();
+            if (!_form.IsValid)
+                return;
+        }
+
+        _saving = true;
+        _fieldErrors = new Dictionary<string, string[]>();
+
+        var outcome = await Mediator.SendAsync(
+            new UpsertPersonEducationCommand
+            {
+                EducationId = EducationId,
+                SchoolName = _schoolName.Trim(),
+                Field = _field.Trim(),
+                Degree = _degree.Trim(),
+                Specialization = _specialization.Trim(),
+                ThesisTitle = _thesisTitle.Trim(),
+                Grade = _grade.Trim(),
+                FromDate = _fromDate ?? DateTime.Today,
+                ToDate = _toDate ?? _fromDate ?? DateTime.Today,
+            },
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        _fieldErrors = outcome.FieldErrors;
+        _saving = false;
+
+        if (outcome.Result.IsSuccess)
+            MudDialog.Close(DialogResult.Ok(true));
+    }
+}
