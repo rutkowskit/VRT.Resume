@@ -18,7 +18,7 @@ internal abstract class HandlerBase
 
     protected async Task<Result<int>> GetCurrentUserPersonId()
     {
-        var accessor = Context.GetService<ICurrentPersonIdAccessor>();
+        var accessor = TryGetPersonIdAccessor();
         if (accessor is not null && accessor.TryGetPersonId(out var personId))
             return personId;
 
