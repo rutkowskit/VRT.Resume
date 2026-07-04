@@ -16,4 +16,9 @@ internal static class Routes
     {
         public const string Person = "/person";
     }
+
+    internal static class Resumes
+    {
+        public const string Show = "/resumes/show/{ResumeId:int}";
+    }
 }

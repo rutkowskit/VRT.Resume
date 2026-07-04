@@ -36,6 +36,11 @@ public sealed class MediatorSender(IMediator mediator, UserNotificationService n
             options,
             cancellationToken);
 
+    public Task<T> SendQueryAsync<T>(
+        IRequest<T> request,
+        CancellationToken cancellationToken = default) =>
+        mediator.Send(request, cancellationToken);
+
     private async Task<MediatorSendOutcome<T>> SendCoreAsync<T>(
         Func<Task<Result<T>>> send,
         MediatorSendOptions options,

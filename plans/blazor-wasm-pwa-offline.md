@@ -208,16 +208,16 @@ Status: Complete
 ---
 
 ## Phase 6: Resume management & skill merge
-Status: Not started
+Status: Complete
 
-- [ ] `/` — `GetResumeListQuery` + Add/Edit/Delete/Clone
-- [ ] `UpsertPersonResume`, `ClonePersonResume`, `MergeResumeSkills`
+- [x] `/` — `GetResumeListQuery` + Add/Edit/Delete/Clone
+- [x] `UpsertPersonResume`, `ClonePersonResume`, `MergeResumeSkills`
 
 ### Verification Plan
 - 2 profile, każdy z własnymi CV; clone działa w obrębie aktywnego kontekstu
 
 ### Phase Summary
-_(write when phase completes)_
+`Pages/Home` — lista CV (`GetResumeListQuery` via `MediatorSender.SendQueryAsync`). `Features/Resumes/Editors/`: `ResumeEditorDialog` (`UpsertPersonResume`), `ResumeSkillsEditorDialog` (`MergeResumeSkills`). Akcje: edit, skills, clone, delete (reuse `ConfirmDeleteDialog`). `Routes.Resumes.Show` zarezerwowany na Fazę 8. Build Release Pwa OK.
 
 ---
 

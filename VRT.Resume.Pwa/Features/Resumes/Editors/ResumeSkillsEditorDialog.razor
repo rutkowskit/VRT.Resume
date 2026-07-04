@@ -1,0 +1,48 @@
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true" MaxWidth="MaxWidth.Large" FullWidth="true">
+    <TitleContent>
+        <MudText Typo="Typo.h6">Resume skills</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else if (_skills.Count == 0)
+        {
+            <MudText>No skills in profile. Add skills in the Person tab first.</MudText>
+        }
+        else
+        {
+            <div style="max-height: 60vh; overflow: auto;">
+                <MudTable Items="_skills" Dense="true" Hover="true">
+                    <HeaderContent>
+                        <MudTh>Name</MudTh>
+                        <MudTh>Type</MudTh>
+                        <MudTh>Relevant</MudTh>
+                        <MudTh>Hidden</MudTh>
+                        <MudTh>Position</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Name">@context.Name</MudTd>
+                        <MudTd DataLabel="Type">@context.Type</MudTd>
+                        <MudTd DataLabel="Relevant">
+                            <MudCheckBox @bind-Value="context.IsRelevant" Color="Color.Primary" />
+                        </MudTd>
+                        <MudTd DataLabel="Hidden">
+                            <MudCheckBox @bind-Value="context.IsHidden" Color="Color.Primary" />
+                        </MudTd>
+                        <MudTd DataLabel="Position">
+                            <MudNumericField @bind-Value="context.Position" Min="0" Max="999" HideSpinButtons="true" Style="max-width: 80px;" />
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </div>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || _skills.Count == 0)" OnClick="SaveAsync">
+            @(_saving ? "Saving…" : "Save")
+        </MudButton>
+    </DialogActions>
+</MudDialog>

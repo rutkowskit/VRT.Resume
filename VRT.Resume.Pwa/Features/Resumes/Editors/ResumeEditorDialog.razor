@@ -1,0 +1,33 @@
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_isNew ? "Add resume" : "Edit resume")</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudForm @ref="_form" @bind-IsValid="_isValid">
+                <MudStack Spacing="3">
+                    <MudTextField @bind-Value="_description" Label="Description" Required="true" MaxLength="50" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Description))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Description))" />
+                    <MudTextField @bind-Value="_position" Label="Position" Required="true" MaxLength="100" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Position))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Position))" />
+                    <MudTextField @bind-Value="_summary" Label="Summary" Lines="4" MaxLength="4000" Immediate="true" />
+                    <MudTextField @bind-Value="_dataProcessingPermission" Label="Data processing permission" Lines="3" MaxLength="2000" Immediate="true" />
+                    <MudCheckBox @bind-Value="_showProfilePhoto" Label="Show profile photo" Color="Color.Primary" />
+                </MudStack>
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || !_isValid)" OnClick="SaveAsync">
+            @(_saving ? "Saving…" : "Save")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
