@@ -52,10 +52,10 @@ public sealed class UpsertPersonEducationCommand : IRequest<Result>
         }
 
 
-        private Result<PersonEducation> UpdateSchool(PersonEducation person,
+        private async Task<Result<PersonEducation>> UpdateSchool(PersonEducation person,
             UpsertPersonEducationCommand request)
         {
-            var school = Context.School.FirstOrDefault(s =>
+            var school = await Context.School.FirstOrDefaultAsync(s =>
                         (s.SchoolId == person.SchoolId && s.Name == request.SchoolName)
                         || s.Name == request.SchoolName);
 
@@ -74,10 +74,10 @@ public sealed class UpsertPersonEducationCommand : IRequest<Result>
             return person;
         }
 
-        private Result<PersonEducation> UpdateDegree(PersonEducation person,
+        private async Task<Result<PersonEducation>> UpdateDegree(PersonEducation person,
             UpsertPersonEducationCommand request)
         {
-            var degree = Context.Degree.FirstOrDefault(s =>
+            var degree = await Context.Degree.FirstOrDefaultAsync(s =>
                         (s.DegreeId == person.DegreeId && s.Name == request.Degree)
                         || s.Name == request.Degree);
 

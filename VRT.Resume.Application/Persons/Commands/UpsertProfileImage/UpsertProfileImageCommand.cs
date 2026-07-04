@@ -37,12 +37,12 @@ public sealed class UpsertProfileImageCommand : IRequest<Result>
         protected override Task<Result<PersonImage>> GetExistingData(UpsertProfileImageCommand request)
         {
             return GetCurrentUserPersonId()
-               .Bind(m =>
+               .Bind(async m =>
                {
                    var query = from img in Context.PersonImage
                                where img.PersonId == m
                                select img;
-                   var result = query.FirstOrDefault();
+                   var result = await query.FirstOrDefaultAsync();
                    return result ?? Result.Failure<PersonImage>(Errors.ImageNotFound);
                });
         }

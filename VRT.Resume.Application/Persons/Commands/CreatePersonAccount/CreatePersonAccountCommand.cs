@@ -1,17 +1,11 @@
-﻿using CSharpFunctionalExtensions;
-using MediatR;
-using VRT.Resume.Application.Common.Abstractions;
-using VRT.Resume.Domain.Entities;
-using VRT.Resume.Persistence.Data;
-
-namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount;
+﻿namespace VRT.Resume.Application.Persons.Commands.CreatePersonAccount;
 
 public sealed class CreatePersonAccountCommand : IRequest<Result<int>>
 {
     public string? UserId { get; set; }
     public string? Email { get; set; }
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
 
     internal sealed class CreatePersonAccountCommandHandler : IRequestHandler<CreatePersonAccountCommand, Result<int>>
     {
@@ -26,7 +20,7 @@ public sealed class CreatePersonAccountCommand : IRequest<Result<int>>
 
         public async Task<Result<int>> Handle(CreatePersonAccountCommand request, CancellationToken cancellationToken)
         {
-            var existing = GetExistingPersonId(request.UserId!);
+            var existing = await GetExistingPersonId(request.UserId!);
             if (existing.IsSuccess)
                 return existing;
 
@@ -40,12 +34,12 @@ public sealed class CreatePersonAccountCommand : IRequest<Result<int>>
             return createResult.Value.PersonId;
         }
 
-        private Result<int> GetExistingPersonId(string userId)
+        private async Task<Result<int>> GetExistingPersonId(string userId)
         {
             var query = from p in _context.UserPerson
                         where p.UserId == userId
                         select p.PersonId;
-            var id = query.FirstOrDefault();
+            var id = await query.FirstOrDefaultAsync();
             return id <= 0
                 ? Result.Failure<int>(Errors.PersonNotExists)
                 : id;
