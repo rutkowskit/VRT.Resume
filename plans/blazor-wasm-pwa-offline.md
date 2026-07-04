@@ -177,18 +177,18 @@ Feature-oriented `Features/Profiles/`: lista profili (`ProfilesPage`), tworzenie
 ---
 
 ## Phase 4: MediatR patterns & error handling
-Status: Not started
+Status: Complete
 
-- [ ] Helper `MediatorExtensions.SendAsync` — port obsługi `ValidationException` / `Result` z `ControllerBase`
-- [ ] Toast/Alert dla sukcesu i błędu
-- [ ] Smoke: `GetPersonDataQuery`, `UpdatePersonDataCommand` w kontekście profilu A vs B — izolacja danych
+- [x] `MediatorSender.SendAsync` — port obsługi `ValidationException` / `Result` z `ControllerBase`
+- [x] `UserNotificationService` (MudSnackbar) + field errors (`MediatorSendOutcome`)
+- [x] Smoke: `Features/Person/PersonDataPage` — `GetPersonDataQuery`, `UpdatePersonDataCommand`, izolacja per profil
 
 ### Verification Plan
 - Profil A ma inne imię niż profil B po `UpdatePersonData`
 - Walidacja pustego FirstName przy tworzeniu profilu → błąd w UI
 
 ### Phase Summary
-_(write when phase completes)_
+`Features/Mediator/`: `MediatorSender` (ValidationException → field errors + snackbar), `UserNotificationService`, `MediatorSendOutcome`. `ProfilesCreatePage` i `NavMenu` używają sendera. `PersonDataPage` — podstawowy edytor imienia/nazwiska pod smoke test izolacji profili.
 
 ---
 

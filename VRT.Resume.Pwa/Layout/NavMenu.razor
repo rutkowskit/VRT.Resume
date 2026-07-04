@@ -1,7 +1,8 @@
 @using VRT.Resume.Application.Persons.Queries.GetPersonData
+@using VRT.Resume.Pwa.Features.Mediator
 @using VRT.Resume.Pwa.Services
 @inject IActiveProfileContext ActiveProfile
-@inject IMediator Mediator
+@inject MediatorSender Mediator
 @implements IDisposable
 
 <MudNavMenu>
@@ -72,9 +73,12 @@
             return;
         }
 
-        var result = await Mediator.Send(new GetPersonDataQuery());
-        _activeProfileName = result.IsSuccess
-            ? $"{result.Value.FirstName} {result.Value.LastName}".Trim()
+        var outcome = await Mediator.SendAsync(
+            new GetPersonDataQuery(),
+            new MediatorSendOptions { NotifyOnFailure = false });
+
+        _activeProfileName = outcome.Result.IsSuccess
+            ? $"{outcome.Result.Value.FirstName} {outcome.Result.Value.LastName}".Trim()
             : null;
     }
 

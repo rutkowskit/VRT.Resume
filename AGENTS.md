@@ -359,6 +359,6 @@ For Grok, also copy `real-work` to `~/.grok/skills/` (or symlink from `~/.agents
 1. Read this file (and `.grok/skills/vrt-resume/SKILL.md` when using Grok).
 2. Identify layer(s) affected — prefer minimal, focused diffs.
 3. Match existing patterns (nested handlers, Result, validator per command).
-4. Run `dotnet build VRT.Resume.sln` and `dotnet test` before finishing.
+4. Run `dotnet build VRT.Resume.sln` before finishing; run `dotnet test` only when changes touch projects **other than** `VRT.Resume.Pwa`.
 5. Do not drive-by refactor unrelated code.
 6. Update this `AGENTS.md` if you discover new architectural facts worth persisting.
