@@ -28,6 +28,7 @@ alwaysApply: true
 ## Git
 
 - **Never `git push`** unless the user explicitly asks — they review locally first
+- **After each completed PWA phase:** propose commit message (title + body) for user review
 
 ## Change discipline
 

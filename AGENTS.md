@@ -367,3 +367,4 @@ For Grok, also copy `real-work` to `~/.grok/skills/` (or symlink from `~/.agents
 ### Git
 
 - **Never run `git push`** unless the user explicitly asks (e.g. “push”, “zrób push”). Commits are fine when requested; leave pushing to the user so they can review first.
+- **After each completed PWA plan phase:** propose a commit message (title + body) for the user to review before they commit or push.
