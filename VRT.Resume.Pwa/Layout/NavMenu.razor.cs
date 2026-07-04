@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
-using VRT.Resume.Application.Persons.Queries.GetPersonData;
-using VRT.Resume.Pwa.Features.Mediator;
+using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Pwa.Services;
 
 namespace VRT.Resume.Pwa.Layout;
@@ -8,7 +7,8 @@ namespace VRT.Resume.Pwa.Layout;
 public partial class NavMenu : IDisposable
 {
     [Inject] private IActiveProfileContext ActiveProfile { get; set; } = null!;
-    [Inject] private MediatorSender Mediator { get; set; } = null!;
+    [Inject] private ICurrentUserService CurrentUser { get; set; } = null!;
+    [Inject] private LocalProfileService ProfileService { get; set; } = null!;
 
     private string? _activeProfileName;
 
@@ -33,13 +33,9 @@ public partial class NavMenu : IDisposable
             return;
         }
 
-        var outcome = await Mediator.SendAsync(
-            new GetPersonDataQuery(),
-            new MediatorSendOptions { NotifyOnFailure = false });
-
-        _activeProfileName = outcome.Result.IsSuccess
-            ? $"{outcome.Result.Value.FirstName} {outcome.Result.Value.LastName}".Trim()
-            : null;
+        var profiles = await ProfileService.GetAllAsync();
+        var profile = profiles.FirstOrDefault(p => p.UserId == CurrentUser.UserId);
+        _activeProfileName = profile?.DisplayName;
     }
 
     public void Dispose() => ActiveProfile.ContextChanged -= OnContextChanged;
