@@ -3,6 +3,7 @@ using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Domain.Common;
 using VRT.Resume.Persistence.Data;
@@ -21,21 +22,25 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
             }
             public async Task<Result<ResumeFullVM>> Handle(GetFullResumeQuery request, CancellationToken cancellationToken)
             {
-                await Task.Yield();
-                return GetCurrentUserPersonId()
-                    .Bind(m => GetResume(request.ResumeId, m))                    
-                    .Tap(r =>
-                    {
-                        r.Education = GetEducationItems(r.PersonId).ToArray();
-                        r.Skills = GetSkills(r.ResumeId, r.PersonId).ToArray();
-                        r.Contact = GetContactItems(r.PersonId).ToArray();
-                        r.WorkExperience = GetWorkExperience(r.ResumeId, r.PersonId).ToArray();
-                    });                    
+                var personIdResult = await GetCurrentUserPersonIdAsync(cancellationToken);
+                if (personIdResult.IsFailure)
+                    return Result.Failure<ResumeFullVM>(personIdResult.Error);
+
+                var resumeResult = await GetResumeAsync(request.ResumeId, personIdResult.Value, cancellationToken);
+                if (resumeResult.IsFailure)
+                    return resumeResult;
+
+                var r = resumeResult.Value;
+                r.Education = await GetEducationItems(r.PersonId).ToArrayAsync(cancellationToken);
+                r.Skills = await GetSkills(r.ResumeId, r.PersonId).ToArrayAsync(cancellationToken);
+                r.Contact = await GetContactItems(r.PersonId).ToArrayAsync(cancellationToken);
+                r.WorkExperience = await GetWorkExperience(r.ResumeId, r.PersonId).ToArrayAsync(cancellationToken);
+                return r;
             }
 
-            private Result<ResumeFullVM> GetResume(int resumeId, int personId)
+            private async Task<Result<ResumeFullVM>> GetResumeAsync(int resumeId, int personId, CancellationToken cancellationToken)
             {
-                var query = from rd in Context.PersonResume
+                var query = from rd in Context.PersonResume.AsNoTracking()
                             where rd.PersonId == personId
                             where rd.ResumeId == resumeId
                             select new ResumeFullVM()
@@ -49,7 +54,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
                                 Summary = rd.Summary,
                                 ShowProfilePhoto = rd.ShowProfilePhoto ?? false
                             };
-                var result = query.FirstOrDefault();
+                var result = await query.FirstOrDefaultAsync(cancellationToken);
                 return result == null
                     ? Result.Failure<ResumeFullVM>(Errors.RecordNotFound)
                     : result;
@@ -59,7 +64,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
             {                
                 var skillsQuery = GetSkills(resumeId, personId);
 
-                return Context.PersonExperience
+                return Context.PersonExperience.AsNoTracking()
                     .Where(c => c.PersonId == personId)                    
                     .Select(s => new WorkExperienceDto()
                     {
@@ -81,8 +86,8 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
 
             private IQueryable<SkillDto> GetSkills(int resumeId, int personId)
             {
-                var query = from pk in Context.PersonSkill
-                            join rpk in Context.ResumePersonSkill.Where(x => x.ResumeId == resumeId)
+                var query = from pk in Context.PersonSkill.AsNoTracking()
+                            join rpk in Context.ResumePersonSkill.AsNoTracking().Where(x => x.ResumeId == resumeId)
                                      on pk.SkillId equals rpk.SkillId into grpk
                             from x in grpk.DefaultIfEmpty()
                             where pk.PersonId == personId
@@ -101,7 +106,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
 
             private IQueryable<EducationDto> GetEducationItems(int personId)
             {
-                return Context.PersonEducation
+                return Context.PersonEducation.AsNoTracking()
                     .Where(c => c.PersonId == personId)                    
                     .Select(s => new EducationDto()
                     {
@@ -118,7 +123,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
 
             private IQueryable<ContactItemDto> GetContactItems(int personId)
             {
-                return Context.PersonContact
+                return Context.PersonContact.AsNoTracking()
                     .Where(c => c.PersonId == personId)                    
                     .Select(s => new ContactItemDto()
                     {

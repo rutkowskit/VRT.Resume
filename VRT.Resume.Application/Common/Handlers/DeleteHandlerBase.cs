@@ -23,9 +23,14 @@ namespace VRT.Resume.Application
 
         public async Task<Result> Handle(TCommand request, CancellationToken cancellationToken)
         {
-            return await GetExistingData(request)                
-                .Map(d => Remove(d))
-                .Map(i => Context.SaveChangesAsync());
+            var result = GetExistingData(request)
+                .Map(d => Remove(d));
+
+            if (result.IsFailure)
+                return result;
+
+            await Context.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }        
         protected abstract Result<TDomainModel> GetExistingData(TCommand request);                
         protected virtual Result Remove(TDomainModel entity)

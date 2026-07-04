@@ -3,6 +3,7 @@ using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Persistence.Data;
 
@@ -20,23 +21,22 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDutySkillLis
             }
             public async Task<Result<PersonExpDutySkillListVM>> Handle(GetPersonExperienceDutySkillListQuery request, CancellationToken cancellationToken)
             {
-                await Task.Yield();
-                return GetCurrentUserPersonId()
-                    .Bind(p=> GetPersonDutySkills(p, request.DutyId))
-                    .Map(p =>
-                    {
-                        return new PersonExpDutySkillListVM()
-                        {
-                            DutyId = request.DutyId,
-                            DutySkills = p
-                        };
-                    });
+                var personIdResult = await GetCurrentUserPersonIdAsync(cancellationToken);
+                if (personIdResult.IsFailure)
+                    return Result.Failure<PersonExpDutySkillListVM>(personIdResult.Error);
+
+                var skills = await GetPersonDutySkillsAsync(personIdResult.Value, request.DutyId, cancellationToken);
+                return new PersonExpDutySkillListVM()
+                {
+                    DutyId = request.DutyId,
+                    DutySkills = skills
+                };
             }
 
-            private Result<PersonExpDutySkillInListDto[]> GetPersonDutySkills(int personId, int dutyId)
+            private async Task<PersonExpDutySkillInListDto[]> GetPersonDutySkillsAsync(int personId, int dutyId, CancellationToken cancellationToken)
             {
-                var query = from rd in Context.PersonSkill
-                            join rs in Context.PersonExperienceDutySkill
+                var query = from rd in Context.PersonSkill.AsNoTracking()
+                            join rs in Context.PersonExperienceDutySkill.AsNoTracking()
                                 .Where(r=>r.DutyId==dutyId) on rd.SkillId equals rs.SkillId into grs
                             from rs in grs.DefaultIfEmpty()
                             where rd.PersonId == personId
@@ -49,7 +49,7 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDutySkillLis
                                 IsRelevant = rs!=null
                             };
 
-                return query.ToArray();
+                return await query.ToArrayAsync(cancellationToken);
             }
         }
     }

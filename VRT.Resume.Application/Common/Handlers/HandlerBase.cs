@@ -1,6 +1,9 @@
 ﻿using CSharpFunctionalExtensions;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Persistence.Data;
@@ -32,6 +35,21 @@ namespace VRT.Resume.Application
             return result <= 0
                 ? Result.Failure<int>(Errors.UserUnauthorized)
                 : result;
+        }
+
+        protected async Task<Result<int>> GetCurrentUserPersonIdAsync(CancellationToken cancellationToken = default)
+        {
+            var accessor = Context.GetService<ICurrentPersonIdAccessor>();
+            if (accessor is not null && accessor.TryGetPersonId(out var personId))
+                return personId;
+
+            var id = await Context.UserPerson
+                .AsNoTracking()
+                .Where(u => u.UserId == _userService.UserId)
+                .Select(u => u.PersonId)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return id <= 0 ? Result.Failure<int>(Errors.UserUnauthorized) : id;
         }
     }
 }

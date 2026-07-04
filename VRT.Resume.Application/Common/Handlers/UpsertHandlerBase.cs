@@ -37,10 +37,15 @@ namespace VRT.Resume.Application
 
         public async Task<Result> Handle(TCommand request, CancellationToken cancellationToken)
         {
-            return await GetExistingData(request)
+            var result = GetExistingData(request)
                 .OnFailureCompensate(() => CreateNewData(request).Tap(i => Context.Add(i)))
-                .Bind(i => UpdateData(i, request))
-                .Map(i => Context.SaveChangesAsync());
+                .Bind(i => UpdateData(i, request));
+
+            if (result.IsFailure)
+                return result;
+
+            await Context.SaveChangesAsync(cancellationToken);
+            return Result.Success();
         }
 
         protected abstract Result<TDomainModel> UpdateData(TDomainModel current, TCommand request);
