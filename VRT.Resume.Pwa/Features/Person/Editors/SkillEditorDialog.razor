@@ -10,18 +10,18 @@
         }
         else
         {
-            <MudForm @ref="_form" @bind-IsValid="_isValid">
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
                 <MudStack Spacing="3">
-                    <MudSelect @bind-Value="_skillType" Label="@LabelNames.Type.GetLabelText()" Required="true">
+                    <MudSelect @bind-Value="_skillType" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Type.GetLabelText()" Required="true">
                         @foreach (var type in Enum.GetValues<SkillTypes>())
                         {
                             <MudSelectItem Value="type">@SkillTypeDisplay.GetLabel(type)</MudSelectItem>
                         }
                     </MudSelect>
-                    <MudTextField @bind-Value="_skillName" Label="@LabelNames.Name.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
+                    <MudTextField @bind-Value="_skillName" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Name.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillName))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillName))" />
-                    <MudTextField @bind-Value="_skillLevel" Label="@LabelNames.Level.GetLabelText()" Required="true" MaxLength="50" Immediate="true"
+                    <MudTextField @bind-Value="_skillLevel" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Level.GetLabelText()" Required="true" MaxLength="50" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillLevel))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonSkillCommand.SkillLevel))" />
                 </MudStack>

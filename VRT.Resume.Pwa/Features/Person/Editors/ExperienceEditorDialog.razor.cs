@@ -25,12 +25,22 @@ public partial class ExperienceEditorDialog
     private DateTime? _fromDate = DateTime.Today;
     private DateTime? _toDate;
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
+    private readonly FormValiditySync _formValidity = new();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        await _formValidity.OnAfterRenderAsync(_form, _loading);
+    }
+
+    private Task OnFieldChangedAsync() => _formValidity.OnFieldChangedAsync(_form);
 
     protected override async Task OnInitializedAsync()
     {
         if (_isNew)
         {
             _loading = false;
+            _formValidity.RequestSync();
             return;
         }
 
@@ -51,6 +61,7 @@ public partial class ExperienceEditorDialog
         _fromDate = item.FromDate;
         _toDate = item.ToDate;
         _loading = false;
+        _formValidity.RequestSync();
     }
 
     private void Cancel() => MudDialog.Cancel();

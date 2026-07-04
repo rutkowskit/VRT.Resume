@@ -22,8 +22,17 @@ public partial class PersonProfileTab
     private string? _loadError;
     private string _imageUrl = ProfileImageUrl.DefaultImagePath;
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
+    private readonly FormValiditySync _formValidity = new();
 
     protected override async Task OnInitializedAsync() => await LoadAsync();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        await _formValidity.OnAfterRenderAsync(_form, _loading);
+    }
+
+    private Task OnFieldChangedAsync() => _formValidity.OnFieldChangedAsync(_form);
 
     private async Task LoadAsync()
     {
@@ -49,6 +58,7 @@ public partial class PersonProfileTab
         _imageUrl = ProfileImageUrl.ToDataUrl(image) ?? ProfileImageUrl.DefaultImagePath;
 
         _loading = false;
+        _formValidity.RequestSync();
     }
 
     private async Task SaveAsync()

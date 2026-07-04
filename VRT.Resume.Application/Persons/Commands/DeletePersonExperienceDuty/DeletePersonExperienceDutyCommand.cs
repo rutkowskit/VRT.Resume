@@ -1,6 +1,5 @@
-﻿using CSharpFunctionalExtensions;
-using MediatR;
-using System.Linq;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence.Data;
@@ -16,23 +15,23 @@ namespace VRT.Resume.Application.Persons.Commands.DeletePersonExperienceDuty
             DutyId = dutyId;
         }
         internal sealed class DeletePersonExperienceDutyCommandHandler
-            : DeleteHandlerBase<DeletePersonExperienceDutyCommand, PersonExperienceDuty>            
+            : DeleteHandlerBase<DeletePersonExperienceDutyCommand, PersonExperienceDuty>
         {
             public DeletePersonExperienceDutyCommandHandler(AppDbContext context, ICurrentUserService userService)
                 : base(context, userService)
-            {                
+            {
             }
 
-            protected override Result<PersonExperienceDuty> GetExistingData(DeletePersonExperienceDutyCommand request)
+            protected override async Task<Result<PersonExperienceDuty>> GetExistingData(DeletePersonExperienceDutyCommand request)
             {
-                return GetCurrentUserPersonId()
-                    .Bind(m =>
+                return await GetCurrentUserPersonId()
+                    .Bind(async m =>
                     {
                         var query = from p in Context.PersonExperienceDuty
                                     where p.Experience.PersonId == m
                                     where p.DutyId == request.DutyId
                                     select p;
-                        var result = query.FirstOrDefault();
+                        var result = await query.FirstOrDefaultAsync();
                         return result ?? Result.Failure<PersonExperienceDuty>(Errors.RecordNotFound);
                     });
             }

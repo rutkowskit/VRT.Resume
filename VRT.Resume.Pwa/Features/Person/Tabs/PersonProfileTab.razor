@@ -24,9 +24,10 @@ else
 
         <MudText Typo="Typo.subtitle1" GutterBottom="true">@LabelNames.MainInfo.GetLabelText()</MudText>
 
-        <MudForm @ref="_form" @bind-IsValid="_isValid">
+        <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
             <MudStack Spacing="3">
                 <MudTextField @bind-Value="_firstName"
+                              @bind-Value:after="OnFieldChangedAsync"
                               Label="@LabelNames.FirstName.GetLabelText()"
                               Required="true"
                               RequiredError="@LabelNames.FirstNameRequired.GetLabelText()"
@@ -35,12 +36,15 @@ else
                               Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.FirstName))"
                               ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.FirstName))" />
                 <MudTextField @bind-Value="_lastName"
+                              @bind-Value:after="OnFieldChangedAsync"
                               Label="@LabelNames.LastName.GetLabelText()"
+                              Required="true"
                               MaxLength="100"
                               Immediate="true"
                               Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.LastName))"
                               ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpdatePersonDataCommand.LastName))" />
                 <MudDatePicker @bind-Date="_dateOfBirth"
+                               @bind-Date:after="OnFieldChangedAsync"
                                Label="@LabelNames.DateOfBirth.GetLabelText()"
                                Clearable="true"
                                DateFormat="yyyy-MM-dd" />

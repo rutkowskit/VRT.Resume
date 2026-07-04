@@ -1,11 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using MediatR;
-using System.Linq;
-using VRT.Resume.Application.Common.Abstractions;
-using VRT.Resume.Domain.Entities;
-using VRT.Resume.Persistence.Data;
-
-namespace VRT.Resume.Application.Persons.Commands.DeletePersonContact
+﻿namespace VRT.Resume.Application.Persons.Commands.DeletePersonContact
 {
     public sealed class DeletePersonContactCommand : IRequest<Result>
     {
@@ -13,25 +6,25 @@ namespace VRT.Resume.Application.Persons.Commands.DeletePersonContact
         {
             ContactId = contactId;
         }
-        public int ContactId { get;}
+        public int ContactId { get; }
         internal sealed class DeletePersonContactCommandHandler : DeleteHandlerBase<DeletePersonContactCommand, PersonContact>
-            
+
         {
             public DeletePersonContactCommandHandler(AppDbContext context, ICurrentUserService userService)
                 : base(context, userService)
-            {                
+            {
             }
 
-            protected override Result<PersonContact> GetExistingData(DeletePersonContactCommand request)
+            protected override Task<Result<PersonContact>> GetExistingData(DeletePersonContactCommand request)
             {
                 return GetCurrentUserPersonId()
-                    .Bind(m =>
+                    .Bind(async m =>
                     {
                         var query = from p in Context.PersonContact
                                     where p.PersonId == m
                                     where p.ContactId == request.ContactId
                                     select p;
-                        var result = query.FirstOrDefault();
+                        var result = await query.FirstOrDefaultAsync();
                         return result ?? Result.Failure<PersonContact>(Errors.RecordNotFound);
                     });
             }

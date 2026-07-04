@@ -1,55 +1,49 @@
-﻿using CSharpFunctionalExtensions;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Persistence.Data;
 
-namespace VRT.Resume.Application
+namespace VRT.Resume.Application;
+
+internal abstract class HandlerBase
 {
-    internal abstract class HandlerBase
+    private readonly ICurrentUserService _userService;
+
+    protected HandlerBase(AppDbContext context, ICurrentUserService userService)
     {
-        private readonly ICurrentUserService _userService;
+        Context = context ?? throw new ArgumentNullException(nameof(context));
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+    }
+    protected AppDbContext Context { get; }
 
-        protected HandlerBase(AppDbContext context, ICurrentUserService userService)
-        {
-            Context = context ?? throw new ArgumentNullException(nameof(context));
-            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-        }
-        protected AppDbContext Context { get; }
+    protected async Task<Result<int>> GetCurrentUserPersonId()
+    {
+        var accessor = Context.GetService<ICurrentPersonIdAccessor>();
+        if (accessor is not null && accessor.TryGetPersonId(out var personId))
+            return personId;
 
-        protected Result<int> GetCurrentUserPersonId()
-        {
-            var accessor = Context.GetService<ICurrentPersonIdAccessor>();
-            if (accessor is not null && accessor.TryGetPersonId(out var personId))
-                return personId;
+        var result = await Context.UserPerson
+            .Where(u => u.UserId == _userService.UserId)
+            .Select(u => u.PersonId)
+            .FirstOrDefaultAsync();
 
-            var result = Context.UserPerson
-                .Where(u => u.UserId == _userService.UserId)
-                .Select(u => u.PersonId)
-                .FirstOrDefault();
+        return result <= 0
+            ? Result.Failure<int>(Errors.UserUnauthorized)
+            : result;
+    }
 
-            return result <= 0
-                ? Result.Failure<int>(Errors.UserUnauthorized)
-                : result;
-        }
+    protected async Task<Result<int>> GetCurrentUserPersonIdAsync(CancellationToken cancellationToken = default)
+    {
+        var accessor = Context.GetService<ICurrentPersonIdAccessor>();
+        if (accessor is not null && accessor.TryGetPersonId(out var personId))
+            return personId;
 
-        protected async Task<Result<int>> GetCurrentUserPersonIdAsync(CancellationToken cancellationToken = default)
-        {
-            var accessor = Context.GetService<ICurrentPersonIdAccessor>();
-            if (accessor is not null && accessor.TryGetPersonId(out var personId))
-                return personId;
+        var id = await Context.UserPerson
+            .AsNoTracking()
+            .Where(u => u.UserId == _userService.UserId)
+            .Select(u => u.PersonId)
+            .FirstOrDefaultAsync(cancellationToken);
 
-            var id = await Context.UserPerson
-                .AsNoTracking()
-                .Where(u => u.UserId == _userService.UserId)
-                .Select(u => u.PersonId)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            return id <= 0 ? Result.Failure<int>(Errors.UserUnauthorized) : id;
-        }
+        return id <= 0 ? Result.Failure<int>(Errors.UserUnauthorized) : id;
     }
 }

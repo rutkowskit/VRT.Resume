@@ -10,24 +10,24 @@
         }
         else
         {
-            <MudForm @ref="_form" @bind-IsValid="_isValid">
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
                 <MudStack Spacing="3">
-                    <MudTextField @bind-Value="_schoolName" Label="@LabelNames.SchoolName.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
+                    <MudTextField @bind-Value="_schoolName" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.SchoolName.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.SchoolName))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.SchoolName))" />
-                    <MudTextField @bind-Value="_field" Label="@LabelNames.Field.GetLabelText()" MaxLength="200" Immediate="true"
+                    <MudTextField @bind-Value="_field" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Field.GetLabelText()" MaxLength="200" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Field))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Field))" />
                     <MudStack Row="true" Spacing="2">
-                        <MudDatePicker @bind-Date="_fromDate" Label="@LabelNames.FromDate.GetLabelText()" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
-                        <MudDatePicker @bind-Date="_toDate" Label="@LabelNames.ToDate.GetLabelText()" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                        <MudDatePicker @bind-Date="_fromDate" @bind-Date:after="OnFieldChangedAsync" Label="@LabelNames.FromDate.GetLabelText()" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                        <MudDatePicker @bind-Date="_toDate" @bind-Date:after="OnFieldChangedAsync" Label="@LabelNames.ToDate.GetLabelText()" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
                     </MudStack>
-                    <MudTextField @bind-Value="_degree" Label="@LabelNames.Degree.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
+                    <MudTextField @bind-Value="_degree" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Degree.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Degree))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonEducationCommand.Degree))" />
-                    <MudTextField @bind-Value="_specialization" Label="@LabelNames.Specialization.GetLabelText()" MaxLength="200" Immediate="true" />
-                    <MudTextField @bind-Value="_thesisTitle" Label="@LabelNames.ThesisTitle.GetLabelText()" MaxLength="300" Immediate="true" />
-                    <MudTextField @bind-Value="_grade" Label="@LabelNames.Grade.GetLabelText()" MaxLength="50" Immediate="true" />
+                    <MudTextField @bind-Value="_specialization" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Specialization.GetLabelText()" MaxLength="200" Immediate="true" />
+                    <MudTextField @bind-Value="_thesisTitle" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.ThesisTitle.GetLabelText()" MaxLength="300" Immediate="true" />
+                    <MudTextField @bind-Value="_grade" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Grade.GetLabelText()" MaxLength="50" Immediate="true" />
                 </MudStack>
             </MudForm>
         }

@@ -15,7 +15,7 @@ public interface IProfileImageService
     /// <param name="desiredHeight">Desired profile image height</param>
     /// <param name="desiredQuality">Desired profile image quality percentage (0-100)</param>
     /// <returns>Adjusted image bytes in webp format</returns>
-    Result<ProfileImage> CreateProfileImage(byte[] imageBytes,
+    Task<Result<ProfileImage>> CreateProfileImage(byte[] imageBytes,
         int desiredWidth = DefaultImageWidth,
         int desiredHeight = DefaultImageHeight,
         int desiredQuality = DefaultImageQuality);

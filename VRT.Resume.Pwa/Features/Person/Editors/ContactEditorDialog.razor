@@ -10,16 +10,16 @@
         }
         else
         {
-            <MudForm @ref="_form" @bind-IsValid="_isValid">
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
                 <MudStack Spacing="3">
-                    <MudTextField @bind-Value="_name" Label="@LabelNames.Name.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
+                    <MudTextField @bind-Value="_name" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Name.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Name))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Name))" />
-                    <MudTextField @bind-Value="_value" Label="@LabelNames.Value.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
+                    <MudTextField @bind-Value="_value" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Value.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Value))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Value))" />
-                    <MudTextField @bind-Value="_url" Label="@LabelNames.Url.GetLabelText()" MaxLength="500" Immediate="true" />
-                    <MudTextField @bind-Value="_icon" Label="@LabelNames.IconSvgHtml.GetLabelText()" Lines="3" MaxLength="5000" Immediate="true"
+                    <MudTextField @bind-Value="_url" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Url.GetLabelText()" MaxLength="500" Immediate="true" />
+                    <MudTextField @bind-Value="_icon" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.IconSvgHtml.GetLabelText()" Lines="3" MaxLength="5000" Immediate="true"
                                   Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Icon))"
                                   ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Icon))" />
                 </MudStack>

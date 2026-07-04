@@ -10,8 +10,8 @@
         }
         else
         {
-            <MudForm @ref="_form" @bind-IsValid="_isValid">
-                <MudTextField @bind-Value="_name" Label="@LabelNames.Duties.GetLabelText()" Required="true" MaxLength="500" Immediate="true"
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
+                <MudTextField @bind-Value="_name" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Duties.GetLabelText()" Required="true" MaxLength="500" Immediate="true"
                               Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceDutyCommand.Name))"
                               ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceDutyCommand.Name))" />
             </MudForm>
