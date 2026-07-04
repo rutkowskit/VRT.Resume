@@ -1,0 +1,37 @@
+---
+description: VRT.Resume codebase conventions and architecture — read AGENTS.md before editing this solution
+globs:
+  - "**/*.cs"
+  - "**/*.cshtml"
+  - "**/*.csproj"
+  - "**/Directory.*.props"
+  - "**/build.cake"
+  - "**/*.resx"
+alwaysApply: true
+---
+
+# VRT.Resume agent rules
+
+**Canonical doc:** `AGENTS.md` at repo root. Read it before making changes.
+
+## Non-negotiables
+
+- Solution file: `VRT.Resume.sln` (repo has `.sln` + `.slnx`)
+- Target: `net10.0`; package versions in `Directory.Packages.props` only
+- CQRS via MediatR; handlers nested inside command/query types
+- Errors via `Result` + `Errors.resx`; validation via FluentValidation pipeline
+- No repository layer; `AppDbContext` used directly in handlers
+- No EF migrations (`EnsureCreated` + seed on startup)
+- Global MVC auth — mark public actions `[AllowAnonymous]`
+- Tests in `VRT.Resume.Application.Tests.Unit/` are **integration tests** (LocalDB + Respawn 7)
+
+## Change discipline
+
+- Minimal diffs; no drive-by refactors
+- Reuse `UpsertHandlerBase`, `DeleteHandlerBase`, `HandlerBase`, `PersonEditControllerBase`
+- New UI strings → `VRT.Resume.Resources` (.resx + .pl.resx)
+- Verify: `dotnet build VRT.Resume.sln -c Release` && `dotnet test VRT.Resume.sln -c Release`
+
+## Project skill
+
+Grok skill: `.grok/skills/vrt-resume/SKILL.md` — invoke with `/vrt-resume` or mention VRT.Resume.
