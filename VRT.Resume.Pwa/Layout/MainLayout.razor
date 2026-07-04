@@ -11,12 +11,14 @@
     </MudAppBar>
 
     <MudDrawer @bind-Open="_drawerOpen"
+               Variant="DrawerVariant.Persistent"
                ClipMode="DrawerClipMode.Always"
+               Breakpoint="Breakpoint.Md"
                Elevation="2">
         <NavMenu />
     </MudDrawer>
 
-    <MudMainContent Class="pt-16">
+    <MudMainContent Class="pa-4">
         <MudContainer MaxWidth="MaxWidth.Large" Class="my-4">
             @Body
         </MudContainer>

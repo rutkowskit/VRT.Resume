@@ -17,7 +17,8 @@ Guide for AI agents working on this codebase. Read this before making changes.
 |-----------|----------------|
 | .NET | `net10.0` (`Directory.Build.props`) |
 | ASP.NET Core | `10.0.9` |
-| EF Core | `10.0.9` (SqlServer + Sqlite) |
+| EF Core | `10.0.8` (pinned for SqliteWasmBlazor; SqlServer + Sqlite) |
+| Blazor WASM PWA | `VRT.Resume.Pwa` — MudBlazor 9.6, SqliteWasmBlazor 0.9.1-pre |
 | MediatR | `12.5.0` |
 | FluentValidation | `12.1.1` |
 | CSharpFunctionalExtensions | `3.7.0` |
@@ -35,6 +36,7 @@ VRT.Resume.Persistence      ← EF Core AppDbContext, fluent configurations
 VRT.Resume.Domain           ← Entities (EF-generated + *.ex.cs partials)
 VRT.Resume.Resources        ← LabelResource / MessageResource (.resx, PL+EN)
 VRT.Resume.Application.Tests.Unit/   ← folder name; csproj: Tests.Integration
+VRT.Resume.Pwa                    ← Blazor WASM offline PWA (local profiles, browser SQLite)
 ```
 
 ### Reference graph
@@ -42,8 +44,14 @@ VRT.Resume.Application.Tests.Unit/   ← folder name; csproj: Tests.Integration
 ```
 Mvc → Application → Persistence → Domain
 Mvc → Resources
+Pwa → Application, Persistence, Resources
 Tests.Integration → Application, Persistence, Domain
 ```
+
+### Agent language
+
+- **Documentation, code comments, and commit messages:** English only.
+- **End-user UI strings:** Polish + English via `VRT.Resume.Resources` (.resx / .pl.resx).
 
 ## Architecture patterns
 
@@ -80,6 +88,55 @@ Custom handlers: `CreatePersonAccount`, `UpdatePersonData`, `ClonePersonResume`,
 ### Application → Persistence (no repository layer)
 
 Handlers use `AppDbContext` directly with LINQ. Do not introduce repositories unless explicitly requested.
+
+### EF provider placement
+
+- **`VRT.Resume.Persistence`** references `Microsoft.EntityFrameworkCore.Relational` only (no SqlServer/Sqlite).
+- **Hosts register the provider:** `VRT.Resume.Mvc` → SqlServer + Sqlite; `VRT.Resume.Pwa` → SqliteWasm; `Tests.Integration` → SqlServer.
+- Keeps SQL Server client assemblies out of the WASM bundle and avoids mixed EF provider versions at runtime.
+
+## VRT.Resume.Pwa (Blazor WASM offline)
+
+Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
+
+### Architecture
+
+- **Feature-oriented layout** (vertical-slice style): group by feature under `Features/{FeatureName}/` (pages, feature services, components). Shared shell stays in `Layout/`; composition root stays at project root (`Program.cs`, `DependencyInjection*.cs`).
+- **Reuse Application unchanged** — wire PWA-specific adapters in `VRT.Resume.Pwa` (`DummyCurrentUserService`, `PwaCultureService`, `LocalProfileService`, etc.).
+- **Do not run long-lived processes** unless the user asks (`dotnet run` only on request).
+
+### Composition root
+
+| File | Role |
+|------|------|
+| `Program.cs` | `InitializeSqliteWasmAsync` → `DatabaseInitializer` → `PwaCultureService` → `DummyCurrentUserService` |
+| `DependencyInjection.cs` | `AddApplication()`, PWA services |
+| `DependencyInjection.DbContext.cs` | `UseSqliteWasm`, `AddSqliteWasm`, `BaseHref` from `HostEnvironment.BaseAddress` |
+
+### csproj essentials
+
+```xml
+<WasmBuildNative>true</WasmBuildNative>
+<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+<NoWarn>$(NoWarn);WASM0001</NoWarn>  <!-- SqliteWasmBlazor e_sqlite3 stub -->
+```
+
+### Runtime pitfalls (verified)
+
+| Issue | Fix |
+|-------|-----|
+| `RelationalQueryCompilationContext..ctor` Method not found | Pin **all** EF Core packages to **10.0.8** in `Directory.Packages.props` (SqliteWasmBlazor 0.9.1-pre depends on EF Sqlite 10.0.8). Clean rebuild; hard-refresh browser. |
+| Culture change not supported at startup | `BlazorWebAssemblyLoadAllGlobalizationData=true` (`PwaCultureService` restores pl/en from `localStorage`). |
+| `mudElementRef.getBoundingClientRect` undefined | Load `_content/MudBlazor/MudBlazor.min.js` **before** `blazor.webassembly.js`; use `MudDrawer` `Variant="DrawerVariant.Persistent"` + `Breakpoint="Breakpoint.Md"`. |
+| `sqlite3_config` varargs crash | SqliteWasmBlazor + `WasmBuildNative=true` (not SqliteWasmHelper9). |
+
+### index.html (MudBlazor)
+
+```html
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+<script src="_framework/blazor.webassembly.js"></script>
+```
 
 ## Domain model
 
@@ -255,6 +312,8 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 8. **Respawn 7** — requires open `DbConnection`, not raw connection string.
 9. **Build solution file** — folder contains `.sln` and `.slnx`; use `VRT.Resume.sln` for CLI.
 10. **InternalsVisibleTo** — test project can access `internal` handlers via `Directory.Build.targets`.
+11. **PWA EF versions** — SqliteWasmBlazor requires EF Core 10.0.8; do not mix 10.0.9 relational/sqlite assemblies in the WASM bundle.
+12. **PWA providers** — SqlServer package must not flow into `VRT.Resume.Pwa` via Persistence; register providers in host projects only.
 
 ## Files to read first
 
@@ -267,6 +326,7 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 | New test | `Fixtures/ApplicationFixture.cs`, `CommandTestBase.cs` |
 | UI label | `VRT.Resume.Resources/LabelResource.resx` (+ `.pl.resx`) |
 | Deploy | `README.md`, `build.cake` |
+| PWA feature | `plans/blazor-wasm-pwa-offline.md`, `VRT.Resume.Pwa/Program.cs`, `AGENTS.md` → VRT.Resume.Pwa |
 
 ## Project skill (`.grok/skills/`)
 

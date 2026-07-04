@@ -47,7 +47,10 @@ public partial class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("Latin1_General_100_CI_AI");
+        if (!string.Equals(Database.ProviderName, "Microsoft.EntityFrameworkCore.Sqlite", StringComparison.Ordinal))
+        {
+            modelBuilder.UseCollation("Latin1_General_100_CI_AI");
+        }
 
             modelBuilder.ApplyConfiguration(new Configurations.DegreeConfiguration());
             modelBuilder.ApplyConfiguration(new Configurations.EducationFieldConfiguration());

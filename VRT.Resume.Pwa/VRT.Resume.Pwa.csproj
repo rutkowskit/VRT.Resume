@@ -5,16 +5,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
     <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+    <WasmBuildNative>true</WasmBuildNative>
+    <!-- PwaCultureService restores pl/en from localStorage during startup. -->
+    <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+    <!-- SqliteWasmBlazor ships an 8KB e_sqlite3 stub; WASM0001 on SQLitePCLRaw is expected at build time. -->
+    <NoWarn>$(NoWarn);WASM0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
     <PackageReference Include="MudBlazor" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+    <PackageReference Include="SqliteWasmBlazor" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VRT.Resume.Application\VRT.Resume.Application.csproj" />
+    <ProjectReference Include="..\VRT.Resume.Persistence\VRT.Resume.Persistence.csproj" />
     <ProjectReference Include="..\VRT.Resume.Resources\VRT.Resume.Resources.csproj" />
   </ItemGroup>
 

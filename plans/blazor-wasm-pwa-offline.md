@@ -134,22 +134,23 @@ Utworzono `VRT.Resume.Pwa` (Blazor WASM PWA, net10.0). Central package managemen
 ---
 
 ## Phase 2: Composition root — DI, DbContext, seed (w Pwa)
-Status: Not started
+Status: Complete
 
-- [ ] `DependencyInjection.cs` — `AddApplication()`, serwisy aplikacyjne
-- [ ] `DummyCurrentUserService` — **Singleton**, `ICurrentUserService`, `SetContext(userId)`, restore z `localStorage` przy starcie
-- [ ] `ProfileContextStorage` — JS interop: get/set `VRT.Resume.ActiveProfileUserId`
-- [ ] `LocalProfileService` — Scoped; odczyt listy profili z `AppDbContext`
-- [ ] `DependencyInjection.DbContext.cs` — `AddDbContext<AppDbContext>`, Transient (jak MVC), SQLite WASM
-- [ ] `DatabaseInitializer` — `InitDatabase()` (SkillType seed only); **nie** seeduj domyślnego użytkownika
-- [ ] Zweryfikuj Persistence pod SQLite (`UseCollation`, schema `Auth`)
+- [x] `DependencyInjection.cs` — `AddApplication()`, `DateTimeService`, `ProfileImageService`
+- [x] `DummyCurrentUserService` — **Singleton**, `ICurrentUserService` + `IActiveProfileContext`, `SetContext` / `SetContextAsync`, restore z `localStorage` przy starcie
+- [x] `ProfileContextStorage` — JS interop: get/set `VRT.Resume.ActiveProfileUserId`
+- [x] `LocalProfileService` — Scoped; odczyt listy profili z `AppDbContext`
+- [x] `DependencyInjection.DbContext.cs` — `SqliteWasmBlazor` (OPFS + Web Worker) + `AppDbContext` Transient (jak MVC)
+- [x] `DatabaseInitializer` — `InitDatabaseAsync()` (SkillType seed only); **nie** seeduj domyślnego użytkownika
+- [x] Persistence pod SQLite: `UseCollation` tylko dla SQL Server; `InitDatabase` seeduje gdy `SkillType` puste (nie po `EnsureCreated()`)
 
 ### Verification Plan
-- `EnsureCreated()` OK; `SkillType` = 5; `UserPerson` puste na świeżej bazie
-- Po ręcznym insert testowym: `DummyCurrentUserService.SetContext` → `UserId` zwracany poprawnie
+- `dotnet build VRT.Resume.slnx -c Release` — 0 errors ✅
+- `EnsureCreated()` + seed: `SkillType` = 5 na świeżej bazie (runtime w przeglądarce — Faza 3 UI)
+- `DummyCurrentUserService.SetContext` — gotowe; test E2E w Fazie 3
 
 ### Phase Summary
-_(write when phase completes)_
+Composition root w `VRT.Resume.Pwa`: MediatR (`AddApplication`), SQLite WASM (`SqliteWasmBlazor` 0.9.1-pre, plik `vrt-resume.db`, OPFS). **Nie** `SqliteWasmHelper9` / `SQLitePCLRaw` native — powoduje błąd `sqlite3_config` varargs w WASM. `DummyCurrentUserService` (Singleton) implementuje `ICurrentUserService` i `IActiveProfileContext`; `ProfileContextStorage` (Scoped, via `IServiceScopeFactory`). `LocalProfileService` — lista `UserPerson`⋈`Person`. Startup: `DatabaseInitializer` + restore kontekstu z `localStorage`. Persistence: collation warunkowa (SQLite); `InitDatabase`/`InitDatabaseAsync` seeduje `SkillType` gdy tabela pusta. Wymaga workload `wasm-tools` (`dotnet workload restore`).
 
 ---
 

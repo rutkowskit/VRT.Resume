@@ -1,5 +1,6 @@
 @using VRT.Resume.Pwa.Services
 @inject IActiveProfileContext ActiveProfile
+@implements IDisposable
 
 <MudNavMenu>
     <MudNavLink Href="profiles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Badge">
@@ -24,3 +25,17 @@
         About
     </MudNavLink>
 </MudNavMenu>
+
+@code {
+    protected override void OnInitialized()
+    {
+        ActiveProfile.ContextChanged += OnContextChanged;
+    }
+
+    private void OnContextChanged() => InvokeAsync(StateHasChanged);
+
+    public void Dispose()
+    {
+        ActiveProfile.ContextChanged -= OnContextChanged;
+    }
+}

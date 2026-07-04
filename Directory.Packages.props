@@ -12,13 +12,17 @@
     <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.9" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.9" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.9" />
+    <!-- Pin EF Core to 10.0.8: SqliteWasmBlazor 0.9.1-pre depends on EF Sqlite 10.0.8; mixed 10.0.8/10.0.9 breaks WASM query compilation. -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.8" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
     <PackageVersion Include="MudBlazor" Version="9.6.0" />
     <PackageVersion Include="Respawn" Version="7.0.0" />
     <PackageVersion Include="SkiaSharp" Version="4.148.0" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <PackageVersion Include="SqliteWasmBlazor" Version="0.9.1-pre" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
   </ItemGroup>

@@ -4,6 +4,7 @@
 		<RootNamespace>VRT.Resume.Application</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
 		<PackageReference Include="Respawn" />
 	</ItemGroup>
 
