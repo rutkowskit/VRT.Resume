@@ -1,0 +1,26 @@
+@using VRT.Resume.Pwa.Services
+@inject IActiveProfileContext ActiveProfile
+
+<MudNavMenu>
+    <MudNavLink Href="profiles" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Badge">
+        Profiles
+    </MudNavLink>
+
+    <MudNavLink Href=""
+                Match="NavLinkMatch.All"
+                Icon="@Icons.Material.Filled.Description"
+                Disabled="@(!ActiveProfile.HasActiveContext)">
+        Resumes
+    </MudNavLink>
+
+    <MudNavLink Href="person"
+                Match="NavLinkMatch.Prefix"
+                Icon="@Icons.Material.Filled.Person"
+                Disabled="@(!ActiveProfile.HasActiveContext)">
+        Person
+    </MudNavLink>
+
+    <MudNavLink Href="about" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Info">
+        About
+    </MudNavLink>
+</MudNavMenu>

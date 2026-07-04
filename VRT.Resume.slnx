@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/01.Client/">
     <Project Path="VRT.Resume.Mvc/VRT.Resume.Mvc.csproj" />
+    <Project Path="VRT.Resume.Pwa/VRT.Resume.Pwa.csproj" />
     <Project Path="VRT.Resume.Resources/VRT.Resume.Resources.csproj" />
   </Folder>
   <Folder Name="/02.Application/">
@@ -23,5 +24,7 @@
     <File Path="Directory.Packages.props" />
     <File Path="LICENSE" />
     <File Path="README.md" />
+    <File Path="AGENTS.md" />
+    <File Path="plans/blazor-wasm-pwa-offline.md" />
   </Folder>
 </Solution>

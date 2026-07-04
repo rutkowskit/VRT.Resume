@@ -16,7 +16,7 @@ Nowy projekt **Blazor WebAssembly PWA** z pełną funkcjonalnością obecnego ge
 | „Auth” w PWA | **Lokalne profile** — tworzenie + wybór kontekstu (zastępuje OAuth) |
 | Kontekst użytkownika | `DummyCurrentUserService` (**Singleton**) — mutowalny `UserId` + `localStorage` |
 | Tworzenie profilu | `CreatePersonAccountCommand` (MediatR) — bez zmian w Application |
-| UI | Bootstrap 5 + `Resume.css` z MVC |
+| UI | **MudBlazor 9.x** (PWA); MVC pozostaje Bootstrap + `Resume.css` |
 | Zakres v1 | Pełny parytet MVC + zarządzanie profilami (create, switch; delete opcjonalnie) |
 | .NET | `net10.0` |
 
@@ -113,22 +113,23 @@ VRT.Resume.Pwa/
 ---
 
 ## Phase 1: Solution scaffold & PWA shell
-Status: Not started
+Status: Complete
 
-- [ ] `dotnet new blazorwasm -n VRT.Resume.Pwa -o VRT.Resume.Pwa --pwa` (net10.0)
-- [ ] Dodaj do `VRT.Resume.sln` i `VRT.Resume.slnx` (folder `/01.Client/`)
-- [ ] Referencje: `VRT.Resume.Application`, `VRT.Resume.Resources`
-- [ ] Pakiety: `Microsoft.EntityFrameworkCore.Sqlite` + SQLite WASM (wybór w Fazie 2)
-- [ ] Usuń `Counter`, `FetchData`
-- [ ] Layout: **Profiles** (kontekst), Home, Person, About — Home/Person disabled bez kontekstu
-- [ ] `manifest.webmanifest` + service worker
+- [x] `dotnet new blazorwasm -n VRT.Resume.Pwa -o VRT.Resume.Pwa --pwa` (net10.0)
+- [x] Dodaj do `VRT.Resume.slnx` (folder `/01.Client/`)
+- [x] Referencje: `VRT.Resume.Application`, `VRT.Resume.Resources`
+- [x] Pakiety WASM w `Directory.Packages.props` (EF/SQLite WASM — Faza 2)
+- [x] Usuń `Counter`, `Weather`
+- [x] Layout: **Profiles**, Resumes (Home), Person, About — Resumes/Person disabled bez kontekstu (`StubActiveProfileContext`)
+- [x] **MudBlazor 9.6** — `AddMudServices()`, `MudLayout`/`MudNavMenu`, providers w `App.razor`; usunięto `wwwroot/lib/bootstrap`
+- [x] `manifest.webmanifest` (VRT Resume) + service worker (szablon PWA)
 
 ### Verification Plan
-- `dotnet build VRT.Resume.sln -c Release` — 0 errors
+- `dotnet build VRT.Resume.slnx -c Release` — 0 errors ✅
 - `dotnet run --project VRT.Resume.Pwa` — start OK
 
 ### Phase Summary
-_(write when phase completes)_
+Utworzono `VRT.Resume.Pwa` (Blazor WASM PWA, net10.0). Central package management: `Microsoft.AspNetCore.Components.WebAssembly` 10.0.9, `MudBlazor` 9.6.0. Solution: `VRT.Resume.slnx` (/01.Client/). Referencje do Application + Resources. UI: MudBlazor (`MudLayout`, drawer, `MudNavMenu`). Strony: `/profiles`, `/`, `/person`, `/about`. NavMenu z disabled Resumes/Person gdy brak kontekstu (`IActiveProfileContext` stub). Usunięto szablon Counter/Weather i Bootstrap z layoutu.
 
 ---
 
