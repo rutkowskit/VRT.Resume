@@ -1,0 +1,232 @@
+﻿:root {
+    --resume-left-panel-width: 300px;
+    --resume-left-panel-margin: 5px;
+    --resume-left-inner-panel: 285px;
+}
+
+.card-body {
+    margin-right:1px;
+    padding:0.5rem;
+}
+.chip {
+    display: inline-block;
+    border: 0.5px solid #808080;    
+    padding: 0.25rem 0.5rem;
+    font-size: 14px;    
+    border-radius: 99999px; 
+    background-color: #fafafa;
+    margin-bottom: 2px;
+}
+
+.resume-container {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    flex-wrap: wrap;
+    min-height: 97vh;
+}
+
+    .resume-container > * {
+        padding: 5px;        
+    }
+
+    .resume-container .resume-left-panel {
+        min-width: var(--resume-left-panel-width);
+        max-width: 10%;
+        flex: 1;
+    }
+
+        .resume-container .resume-left-panel > * {
+            margin-bottom: 5px;
+        }
+
+    .resume-container .resume-right-panel {
+        flex: 1;
+        max-width: 55em;
+    }
+
+        .resume-container .resume-right-panel > * {
+            margin-bottom: 1px;
+        }
+
+.resume-profile {
+    margin: auto;
+    text-align: center;
+    align-items: center;        
+}
+    .resume-profile .resume-image {
+        max-height: var(--resume-left-inner-panel);                        
+        /*width:auto;*/
+        border: 0;        
+        /*-webkit-filter: grayscale(100%);*/ /* Safari 6.0 - 9.0 */
+        /*filter: grayscale(100%);*/
+    }
+
+.resume-image-container {
+    border-radius: 50%;
+    max-width: var(--resume-left-inner-panel);
+    height: var(--resume-left-inner-panel);
+    width: var(--resume-left-inner-panel);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.resume-contact-item {
+    display: inline-block;
+    width:100%;
+}
+
+    .resume-contact-item svg,
+    .resume-contact-item img {
+        margin-right: 5px;
+        width: 1.5em;
+        height: 1.5em;
+    }
+
+    .resume-contact-item a,
+    .resume-contact-item span {
+        word-break: break-all;
+    }
+
+.resume-language-list {
+    padding: 0;
+    margin: 0;
+    line-height: 0.5em;
+}
+
+.resume-language {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0;
+}
+
+.resume-timeline-item-title {
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.resume-timeline-item-title-1 {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.resume-timeline-item-title-2 {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.resume-education-list,
+.resume-work-list {
+    margin-left: 20px;
+}
+
+.resume-edu-item,
+.resume-work-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.resume-education .resume-education-list .resume-edu-item:before,
+.resume-experience .resume-work-list .resume-work-item:before {
+    content: "";
+    position: absolute;
+    top: 0.7rem;
+    left: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid black;
+}
+
+.resume-education-list .resume-edu-item:after,
+.resume-work-list .resume-work-item:after {
+    content: "";
+    position: absolute;
+    top: 1.3rem;
+    left: -16px;
+    height: 88%;
+    border-left: 1.5px solid black;
+}
+
+.resume-work-resp {
+    margin-left: 1.3em;
+    margin-top: 0.5em;
+}
+
+    .resume-work-resp li {
+        margin-bottom: 0.3em;
+        list-style-type: disc;        
+    }        
+
+.resume-rodo {
+    font-size: 0.7rem;
+    text-align: justify;
+    justify-self: end;
+    position: relative;
+    min-width:100%;
+}
+
+@media only screen {
+    
+    .overflow-container {
+        overflow: auto;
+    }     
+}
+
+.page-a4 {
+    min-width: 210mm;
+    min-height: 297mm;
+    border: 0.5px solid #e9ecef;
+    border-radius: 5px;
+    margin-top: 10px;
+    background: #fff;
+}
+
+.font-weight-bolder {
+    font-weight: 700;
+}
+
+.resume-card {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    margin-bottom: 5px;
+}
+
+.resume-card-body {
+    padding: 0.5rem;
+}
+
+.resume-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+}
+
+@media print {
+    .resume-print-toolbar,
+    .mud-appbar,
+    .mud-drawer,
+    #blazor-error-ui {
+        display: none !important;
+    }
+
+    .resume {
+        margin: 0;
+        padding: 0;
+        min-width: 100%;
+        min-height: 100%;
+        border: 0;
+    }
+
+    .overflow-container {
+        overflow: visible !important;
+    }
+
+    .page-a4 {
+        border: 0;
+        margin: 0;
+        border-radius: 0;
+    }
+}

@@ -237,16 +237,16 @@ Status: Complete
 ---
 
 ## Phase 8: Resume view, print & CSS
-Status: Not started
+Status: Complete
 
-- [ ] `/resumes/show/{id}` — `GetFullResumeQuery` + A4 layout
-- [ ] `Resume.css`, `window.print()`
+- [x] `/resumes/show/{id}` — `GetFullResumeQuery` + A4 layout
+- [x] `Resume.css`, `window.print()`
 
 ### Verification Plan
 - Print preview OK
 
 ### Phase Summary
-_(write when phase completes)_
+`ResumeShowPage` (`/resumes/show/{id}`) — `GetFullResumeQuery` + profilowe zdjęcie z `GetProfileImageQuery`. `ResumeDocument` — layout A4 (parity z MVC `Show.cshtml`); `ResumeDisplayHelpers` (zakres dat, umiejętności, kontakty). `wwwroot/css/Resume.css` (MVC + `.page-a4`, reguły `@media print` — ukrycie toolbara, app bar, drawer). Przycisk Print → `window.print()`. `Home` — link opisu i ikona View do strony podglądu. Build Release Pwa OK.
 
 ---
 

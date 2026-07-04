@@ -1,0 +1,158 @@
+<div class="resume page-a4">
+    <div class="resume-container">
+        <div class="resume-left-panel">
+            <div class="resume-profile resume-card">
+                <div class="resume-card-body">
+                    @if (Model.ShowProfilePhoto)
+                    {
+                        <div class="resume-image-container">
+                            <img class="resume-image" src="@ProfileImageUrl" alt="Photo" />
+                        </div>
+                    }
+                    <div class="resume-card-title" style="font-size: 1.5rem;">
+                        @Model.FirstName @Model.LastName
+                    </div>
+                    <p style="text-align: center; margin: 0.5rem 0 0;">@Model.Position</p>
+                </div>
+            </div>
+
+            <div class="resume-card">
+                <div class="resume-card-body">
+                    <h5 class="resume-card-title">Contact</h5>
+                    @foreach (var contact in Model.Contact ?? [])
+                    {
+                        <div class="resume-contact-item">
+                            @{
+                                var icon = ResumeDisplayHelpers.ContactIcon(contact);
+                            }
+                            @if (icon is not null)
+                            {
+                                @icon
+                            }
+                            @ResumeDisplayHelpers.ContactValue(contact)
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="resume-card">
+                <div class="resume-card-body">
+                    <h5 class="resume-card-title">Technical skills</h5>
+                    @foreach (var skill in ResumeDisplayHelpers.GetTechnicalSkills(Model.Skills))
+                    {
+                        <span class="@ResumeDisplayHelpers.SkillCssClass(skill, "chip")">@skill.Name</span>
+                    }
+                </div>
+            </div>
+
+            <div class="resume-card">
+                <div class="resume-card-body">
+                    <h5 class="resume-card-title">Soft skills</h5>
+                    <ul class="resume-work-resp">
+                        @foreach (var skill in ResumeDisplayHelpers.GetSoftSkills(Model.Skills))
+                        {
+                            <li class="@ResumeDisplayHelpers.SkillCssClass(skill, string.Empty)">@skill.Name</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            <div class="resume-card">
+                <div class="resume-card-body">
+                    <h5 class="resume-card-title">Languages</h5>
+                    <div class="resume-language-list">
+                        @foreach (var skill in ResumeDisplayHelpers.GetLanguageSkills(Model.Skills))
+                        {
+                            <div class="@ResumeDisplayHelpers.SkillCssClass(skill, "resume-language")">
+                                <b>@skill.Name</b>
+                                <p>@skill.Level</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-right-panel">
+            <div class="resume-card">
+                <div class="resume-card-body">
+                    <h5 class="resume-card-title">Profile</h5>
+                    <p style="text-align: justify; margin: 0; white-space: pre-wrap;">@Model.Summary</p>
+                </div>
+            </div>
+
+            <div class="resume-experience resume-card">
+                <div class="resume-card-body">
+                    <h5 class="resume-card-title">Work experience</h5>
+                    <div class="resume-work-list">
+                        @foreach (var exp in OrderedExperience)
+                        {
+                            <div class="resume-work-item">
+                                <div class="resume-timeline-item-title">
+                                    @ResumeDisplayHelpers.FormatTimeRange(exp) - @exp.Position
+                                </div>
+                                <div class="resume-timeline-item-title-1">@exp.CompanyName</div>
+                                <div class="resume-timeline-item-title-2">@exp.Location</div>
+                                @if (exp.WorkActivities is { Length: > 0 })
+                                {
+                                    <ul class="resume-work-resp">
+                                        @foreach (var activity in exp.WorkActivities)
+                                        {
+                                            <li>
+                                                @activity.Description
+                                                @{
+                                                    var skills = ResumeDisplayHelpers.FormatActivitySkills(activity);
+                                                }
+                                                @if (skills is not null)
+                                                {
+                                                    @skills
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="resume-education resume-card">
+                <div class="resume-card-body">
+                    <h5 class="resume-card-title">Education</h5>
+                    <div class="resume-education-list">
+                        @foreach (var edu in OrderedEducation)
+                        {
+                            <div class="resume-edu-item">
+                                <div class="resume-timeline-item-title">
+                                    @ResumeDisplayHelpers.FormatTimeRange(edu, "yyyy") - @edu.Field
+                                </div>
+                                <div class="resume-timeline-item-title-1">@edu.SchoolName</div>
+                                <div class="resume-timeline-item-title-2">
+                                    Degree: <span>@edu.Degree</span>
+                                </div>
+                                @if (!string.IsNullOrWhiteSpace(edu.Specjalization))
+                                {
+                                    <div>Specialization: <span>@edu.Specjalization</span></div>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(edu.ThesisTitle))
+                                {
+                                    <div>Thesis: <span>@edu.ThesisTitle</span></div>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(edu.FinalGrade))
+                                {
+                                    <div>Grade: <span>@edu.FinalGrade</span></div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Permission))
+        {
+            <div class="resume-rodo">@Model.Permission</div>
+        }
+    </div>
+</div>

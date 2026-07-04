@@ -1,0 +1,29 @@
+<PageTitle>@_pageTitle</PageTitle>
+
+@if (_loading)
+{
+    <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+}
+else if (!string.IsNullOrEmpty(_loadError))
+{
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    <MudButton Variant="Variant.Text" Href="@Routes.Home" Class="mt-2">Back to resumes</MudButton>
+}
+else if (_resume is not null)
+{
+    <MudStack Spacing="3" Class="resume-print-toolbar">
+        <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center">
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Print"
+                       OnClick="PrintAsync">
+                Print
+            </MudButton>
+            <MudButton Variant="Variant.Text" Href="@Routes.Home">Back to resumes</MudButton>
+        </MudStack>
+    </MudStack>
+
+    <div class="overflow-container">
+        <ResumeDocument Model="_resume" ProfileImageUrl="_profileImageUrl" />
+    </div>
+}

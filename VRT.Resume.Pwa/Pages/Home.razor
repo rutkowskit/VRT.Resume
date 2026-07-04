@@ -41,11 +41,17 @@
                 <MudTh Style="width: 200px;">Actions</MudTh>
             </HeaderContent>
             <RowTemplate>
-                <MudTd DataLabel="Description">@context.Description</MudTd>
+                <MudTd DataLabel="Description">
+                    <MudLink Href="@ResumeDisplayHelpers.ShowUrl(context.ResumeId)">@context.Description</MudLink>
+                </MudTd>
                 <MudTd DataLabel="Position">@context.Position</MudTd>
                 <MudTd DataLabel="Modified">@context.ModifiedDate.ToString("yyyy-MM-dd HH:mm")</MudTd>
                 <MudTd DataLabel="Actions">
                     <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
+                        <MudIconButton Icon="@Icons.Material.Filled.Visibility"
+                                       Size="Size.Small"
+                                       Title="View"
+                                       Href="@ResumeDisplayHelpers.ShowUrl(context.ResumeId)" />
                         <MudIconButton Icon="@Icons.Material.Filled.Edit"
                                        Size="Size.Small"
                                        Title="Edit"
