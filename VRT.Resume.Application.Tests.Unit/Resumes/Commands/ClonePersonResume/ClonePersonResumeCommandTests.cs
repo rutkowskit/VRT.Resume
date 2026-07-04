@@ -5,13 +5,10 @@ using VRT.Resume.Domain.Entities;
 
 namespace VRT.Resume.Application.Resumes.Commands.ClonePersonResume;
 
-public class ClonePersonResumeCommandTests : CommandTestBase<ClonePersonResumeCommand>
+public class ClonePersonResumeCommandTests(ApplicationFixture fixture)
+    : CommandTestBase<ClonePersonResumeCommand>(fixture)
 {
-    public ClonePersonResumeCommandTests(ApplicationFixture fixture) : base(fixture)
-    {
-    }
-
-    [Fact()]
+    [Fact]
     public async Task Send_CommandWithoutResumeId_ShouldThrowValidationError()
     {
         var sut = CreateSut();
@@ -20,7 +17,7 @@ public class ClonePersonResumeCommandTests : CommandTestBase<ClonePersonResumeCo
         await Assert.ThrowsAsync<ValidationException>(() => Send(sut));
     }
 
-    [Fact()]
+    [Fact]
     public async Task Send_CommandWithResumeIdThatDoesNotExists_ShouldFail()
     {
         var sut = CreateSut();
@@ -32,11 +29,11 @@ public class ClonePersonResumeCommandTests : CommandTestBase<ClonePersonResumeCo
         Assert.Equal(Errors.RecordNotFound, result.Error);
     }
 
-    [Fact()]
+    [Fact]
     public async Task Send_CommandWithProvidedIdOfExistingResume_ShouldCloneResume()
     {
-        var sut = CreateSut();
-        await GetDbContext().SeedPersonResume();
+        var personResume = await GetDbContext().SeedPersonResume();
+        var sut = CreateSut(personResume);
 
         var result = await Send(sut);
 
@@ -71,6 +68,13 @@ public class ClonePersonResumeCommandTests : CommandTestBase<ClonePersonResumeCo
             Assert.Equal(s.IsRelevant, cSkill.IsRelevant);
             Assert.Equal(s.Position, cSkill.Position);
         }
+    }
+
+    protected ClonePersonResumeCommand CreateSut(PersonResume personResume)
+    {
+        var result = CreateSut();
+        result.ResumeId = personResume.ResumeId;
+        return result;
     }
 
     protected override ClonePersonResumeCommand CreateSut()

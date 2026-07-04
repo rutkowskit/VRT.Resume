@@ -72,7 +72,9 @@ public sealed class ProfileImageService(ILogger<ProfileImageService> logger) : I
 
         // Resize the image
         SKImageInfo resizedImageInfo = new(newWidth, newHeight);
-        SKBitmap resizedImage = originalImage.Resize(resizedImageInfo, SKFilterQuality.High);
+        SKSamplingOptions sampling = new(SKFilterMode.Linear, SKMipmapMode.Linear);
+
+        SKBitmap resizedImage = originalImage.Resize(resizedImageInfo, sampling);
 
         // Calculate the crop rectangle in the middle of the resized image
         int cropX = (resizedImage.Width - targetWidth) / 2;

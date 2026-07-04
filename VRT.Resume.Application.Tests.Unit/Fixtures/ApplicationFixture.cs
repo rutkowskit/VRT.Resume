@@ -1,7 +1,8 @@
 ﻿using CSharpFunctionalExtensions;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.SqlClient;
 using Respawn;
 using Respawn.Graph;
+using System.Data.Common;
 using VRT.Resume.Domain.Entities;
 using VRT.Resume.Persistence;
 using VRT.Resume.Persistence.Data;
@@ -18,19 +19,20 @@ public sealed class ApplicationFixture : BaseFixture
             .AddIntegrationTestInfrastructure();
     }
     protected override async Task OnServiceProviderBuid(IServiceProvider provider)
-    {        
-        await Result.Success(provider.GetRequiredService<AppDbContext>())            
+    {
+        await Result.Success(provider.GetRequiredService<AppDbContext>())
             .Ensure(a => a is not null, "Invalid db context")
-            .Tap(context => context.Database.EnsureDeleted())            
+            .Tap(context => context.Database.EnsureDeleted())
             .Tap(context => context.InitDatabase())
             .Map(_ => CreateCheckpoint())
             .Tap(checkpoint => _checkpoint = checkpoint);
-    } 
+    }
     public async Task ResetState()
     {
         if (_checkpoint != null)
         {
-            await _checkpoint.ResetAsync(Defaults.TestDbConnectionString);            
+            await using var connection = GetDbConnection();
+            await _checkpoint.ResetAsync(connection);
         }
     }
 
@@ -46,7 +48,18 @@ public sealed class ApplicationFixture : BaseFixture
                 //new Table(nameof(ProductType))
             }
         };
-        var result = await Respawner.CreateAsync(Defaults.TestDbConnectionString, options);
+        await using var connection = GetDbConnection();
+        var result = await Respawner.CreateAsync(connection, options);
         return result;
+    }
+
+    private static DbConnection GetDbConnection()
+    {
+        var connection = new SqlConnection
+        {
+            ConnectionString = Defaults.TestDbConnectionString
+        };
+        connection.Open();
+        return connection;
     }
 }
