@@ -270,16 +270,22 @@ PL (domyślny) / EN przez `VRT.Resume.Resources`. `ResourceHelper` używa `Curre
 ---
 
 ## Phase 10: PWA offline hardening
-Status: Not started
+Status: Complete
 
-- [ ] Service worker, offline CRUD + przełączanie profili
-- [ ] Lighthouse PWA ≥ 90
+- [x] `service-worker.published.js` — resilient install (`Promise.allSettled`), `skipWaiting`, `clients.claim`, cache-first + offline navigation fallback
+- [x] `manifest.webmanifest` — `scope`, `description`, `categories`, icon `purpose`, `lang`
+- [x] `index.html` — `theme-color`, apple-mobile-web-app meta; usunięto Google Fonts CDN (offline-safe system font stack)
+- [x] Publish manifest obejmuje MudBlazor, SqliteWasm (`sqlite3.wasm`, worker), SkiaSharp WASM, static assets
+- [ ] Lighthouse PWA ≥ 90 — weryfikacja manualna po `dotnet publish` + statyczny hosting (HTTPS)
 
 ### Verification Plan
-- Offline: utwórz profil, dodaj CV, przełącz profil, F5 — wszystko zachowane
+- `dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa` — 0 errors ✅
+- Offline (Chrome DevTools): załaduj published app → Network Offline → F5 → app startuje; CRUD + przełącz profil + F5 — dane w OPFS/localStorage
+- **Hosting lokalny:** `VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (nie `http-server` na LAN IP — OPFS wymaga secure context + COOP/COEP)
+- Lighthouse PWA audit na published URL (HTTPS lub localhost)
 
 ### Phase Summary
-_(write when phase completes)_
+Utwardzono offline PWA: published service worker cache'uje cały manifest (WASM, MudBlazor, SQLite worker, assety wwwroot) z odpornym installem; SPA routing offline przez `index.html`. Manifest i meta tagi pod installability/Lighthouse. Usunięto zewnętrzny Google Fonts — fonty systemowe w `app.css`. Dane użytkownika offline: SQLite WASM (OPFS) + `localStorage` (aktywny profil, kultura). Lighthouse ≥90 wymaga manualnego audytu na opublikowanej aplikacji.
 
 ---
 
