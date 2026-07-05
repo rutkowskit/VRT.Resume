@@ -1,13 +1,13 @@
 <Solution>
   <Folder Name="/01.Client/">
     <Project Path="VRT.Resume.Mvc/VRT.Resume.Mvc.csproj" />
+    <Project Path="VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj" />
     <Project Path="VRT.Resume.Pwa/VRT.Resume.Pwa.csproj" />
     <Project Path="VRT.Resume.Resources/VRT.Resume.Resources.csproj" />
   </Folder>
   <Folder Name="/02.Application/">
     <Project Path="VRT.Resume.Application.Tests.Unit/VRT.Resume.Application.Tests.Integration.csproj" />
     <Project Path="VRT.Resume.Application/VRT.Resume.Application.csproj" />
-    <Project Path="VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj" />
   </Folder>
   <Folder Name="/03.Persistance/">
     <Project Path="VRT.Resume.Persistence/VRT.Resume.Persistence.csproj" />
