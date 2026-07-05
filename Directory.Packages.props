@@ -27,6 +27,8 @@
     <PackageVersion Include="SkiaSharp.NativeAssets.WebAssembly" Version="4.148.0" />
     <PackageVersion Include="bunit" Version="1.38.5" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
+    <!-- Pin bundle 3.x: 2.1.11 pulls SQLitePCLRaw.lib.e_sqlite3 (CVE-2025-6965, no patched 2.x on nuget.org). -->
+    <PackageVersion Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
     <PackageVersion Include="SqliteWasmBlazor" Version="0.9.1-pre" />
     <PackageVersion Include="Verify.Xunit" Version="31.12.5" />
     <PackageVersion Include="xunit" Version="2.9.3" />
