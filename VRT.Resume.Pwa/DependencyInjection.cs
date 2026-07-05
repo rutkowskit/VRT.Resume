@@ -13,6 +13,7 @@ internal static partial class DependencyInjection
         services.AddSingleton<IDateTimeService, DateTimeService>();
         services.AddSingleton<IProfileImageService, ProfileImageService>();
         services.AddSingleton<PwaCultureService>();
+        services.AddSingleton<PwaThemeService>();
         services.AddSingleton<ICultureService>(sp => sp.GetRequiredService<PwaCultureService>());
         services.AddSingleton<DummyCurrentUserService>();
         services.AddSingleton<ICurrentUserService>(sp => sp.GetRequiredService<DummyCurrentUserService>());

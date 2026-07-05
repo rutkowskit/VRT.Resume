@@ -219,6 +219,12 @@
   <data name="Language" xml:space="preserve">
     <value>Język</value>
   </data>
+  <data name="ThemeSwitchToDark" xml:space="preserve">
+    <value>Włącz tryb ciemny</value>
+  </data>
+  <data name="ThemeSwitchToLight" xml:space="preserve">
+    <value>Włącz tryb jasny</value>
+  </data>
   <data name="LastModification" xml:space="preserve">
     <value>Ostatnia modyfikacja</value>
   </data>

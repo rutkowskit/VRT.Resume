@@ -201,6 +201,13 @@
 
     document.getElementById('opfs-tab-blocked-retry')?.addEventListener('click', () => location.reload());
 
+    window.__pwaSetThemeColor = function (color) {
+        const meta = document.querySelector('meta[name="theme-color"]');
+        if (meta && color) {
+            meta.setAttribute('content', color);
+        }
+    };
+
     window.__pwaConsumeUpdateFlag = function () {
         if (sessionStorage.getItem(updateStorageKey)) {
             sessionStorage.removeItem(updateStorageKey);

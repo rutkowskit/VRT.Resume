@@ -315,6 +315,12 @@
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="ThemeSwitchToDark" xml:space="preserve">
+    <value>Switch to dark mode</value>
+  </data>
+  <data name="ThemeSwitchToLight" xml:space="preserve">
+    <value>Switch to light mode</value>
+  </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>

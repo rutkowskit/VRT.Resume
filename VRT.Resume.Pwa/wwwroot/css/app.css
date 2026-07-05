@@ -8,6 +8,15 @@ html, body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.mud-theme-dark .app-bar.mud-appbar {
+    background: linear-gradient(120deg, #020617 0%, #0f172a 48%, #1e293b 100%) !important;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.mud-theme-dark .mud-drawer .mud-nav-link.active:not(.mud-nav-link-disabled) {
+    background-color: rgba(91, 155, 213, 0.16);
+}
+
 .mud-main-content {
     background-color: var(--mud-palette-background);
 }

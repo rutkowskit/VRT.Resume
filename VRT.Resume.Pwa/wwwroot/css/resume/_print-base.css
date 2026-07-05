@@ -16,8 +16,58 @@
     padding: 0 0.25rem;
 }
 
-.resume-print-toolbar {
+.resume-show-toolbar {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: flex-start;
     margin-top: 1rem;
+    width: 100%;
+}
+
+.resume-show-toolbar__actions {
+    flex: 0 1 auto;
+    justify-content: flex-start;
+}
+
+.resume-show-back.mud-icon-button {
+    flex-shrink: 0;
+}
+
+/* MudBlazor: a { color: var(--mud-palette-text-primary) } on :root.
+   In dark mode that is light gray — remap palette vars inside the CV preview only. */
+.resume-document-preview {
+    --mud-palette-text-primary: #0f172a;
+    --mud-palette-text-secondary: #475569;
+    --mud-palette-text-disabled: rgba(15, 23, 42, 0.38);
+    --mud-palette-primary: #1b4d72;
+    --mud-palette-action-default: #64748b;
+    --mud-palette-action-disabled: rgba(15, 23, 42, 0.26);
+}
+
+.resume-document-preview a:any-link,
+.resume-document-preview .resume-contact-link {
+    color: #1b4d72;
+    text-decoration: none;
+}
+
+.resume-document-preview a:hover,
+.resume-document-preview .resume-contact-link:hover {
+    color: #0e7490;
+    text-decoration: none;
+}
+
+.resume-document-preview .resume-contact-item,
+.resume-document-preview .resume-modern-contact-value,
+.resume-document-preview .resume-linear-contact-line {
+    color: var(--resume-color-text, #1a1a1a);
+}
+
+.resume-document-preview .resume-contact-item svg,
+.resume-document-preview .resume-linear-contact-line svg,
+.resume-document-preview .resume-modern-contact-value svg {
+    fill: currentColor;
 }
 
 @media only screen {
@@ -28,6 +78,25 @@
     .page-a4 {
         min-height: 297mm;
     }
+
+    /* Dark app shell, but the CV preview stays print-ready (light paper island). */
+    .mud-theme-dark .resume-document-preview {
+        background: #e8eef4;
+        border-radius: 10px;
+        color-scheme: light;
+        padding: 0.75rem;
+    }
+
+    .mud-theme-dark .resume-document-preview .page-a4 {
+        background: #fff;
+        border-color: #e2e8f0;
+        box-shadow: 0 2px 12px rgba(15, 23, 42, 0.12);
+        color: #0f172a;
+    }
+
+    .mud-theme-dark .resume-document-preview .resume {
+        color: var(--resume-color-text, #1a1a1a);
+    }
 }
 
 @media print {
@@ -37,14 +106,36 @@
     }
 
     html,
+    html.mud-theme-dark,
     body,
     #app {
         background: #fff !important;
+        color: #0f172a !important;
+        color-scheme: light only !important;
         height: auto !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
+    html.mud-theme-dark .mud-layout,
+    html.mud-theme-dark .mud-main-content,
+    html.mud-theme-dark .resume-show-layout__main,
+    html.mud-theme-dark .resume-show-page,
+    html.mud-theme-dark .overflow-container,
+    html.mud-theme-dark .page-a4,
+    html.mud-theme-dark .resume {
+        background: #fff !important;
+        color: inherit !important;
+    }
+
+    .resume-document-preview {
+        background: transparent !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    .resume-show-toolbar,
     .resume-print-toolbar,
     .mud-appbar,
     .mud-drawer,
@@ -81,5 +172,13 @@
     .resume {
         font-size: 10pt;
         line-height: 1.4;
+    }
+
+    .resume-document-preview a,
+    .resume-document-preview a:link,
+    .resume-document-preview a:visited,
+    .resume-document-preview .resume-contact-link {
+        color: #1b4d72 !important;
+        text-decoration: none !important;
     }
 }

@@ -18,5 +18,5 @@ public abstract class AppLayoutBase : LayoutComponentBase, IDisposable
 
     private void OnCultureChanged() => _ = InvokeAsync(StateHasChanged);
 
-    public void Dispose() => CultureService.CultureChanged -= OnCultureChanged;
+    public virtual void Dispose() => CultureService.CultureChanged -= OnCultureChanged;
 }

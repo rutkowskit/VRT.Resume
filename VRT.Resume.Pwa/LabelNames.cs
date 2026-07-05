@@ -48,6 +48,8 @@ public static class LabelNames
     public const string Icon = "Icon";
     public const string GitHubRepository = "GitHubRepository";
     public const string Language = "Language";
+    public const string ThemeSwitchToDark = "ThemeSwitchToDark";
+    public const string ThemeSwitchToLight = "ThemeSwitchToLight";
     public const string LastModification = "LastModification";
     public const string MainInfo = "MainInfo";
     public const string Name = "Name";

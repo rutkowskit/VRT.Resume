@@ -39,6 +39,7 @@ public class PwaTestContext : TestContext
         Services.AddSingleton<IDateTimeService, DateTimeService>();
         Services.AddSingleton<IProfileImageService, ProfileImageService>();
         Services.AddSingleton<PwaCultureService>();
+        Services.AddSingleton<PwaThemeService>();
         Services.AddSingleton<ICultureService>(sp => sp.GetRequiredService<PwaCultureService>());
         Services.AddSingleton<DummyCurrentUserService>();
         Services.AddSingleton<ICurrentUserService>(sp => sp.GetRequiredService<DummyCurrentUserService>());

@@ -47,7 +47,7 @@ internal static class ResumeDisplayHelpers
     private static string ContactValueHtml(ContactItemDto contact)
     {
         if (!string.IsNullOrWhiteSpace(contact.Url))
-            return $"<a href=\"{contact.Url}\" target=\"_blank\" rel=\"noopener noreferrer\">{contact.Value}</a>";
+            return $"<a class=\"resume-contact-link\" href=\"{contact.Url}\" target=\"_blank\" rel=\"noopener noreferrer\">{contact.Value}</a>";
 
         return $"<span>{contact.Value}</span>";
     }

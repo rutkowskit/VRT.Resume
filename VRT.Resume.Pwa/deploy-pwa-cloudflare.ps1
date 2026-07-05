@@ -7,7 +7,7 @@
 #
 # Usage (from repo root or this script's directory):
 #   pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1
-#   pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -Branch preview-test
+#   pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -Branch preview-test   # Preview only (--branch creates branch aliases)
 #   pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -ProjectName my-pwa -SkipPublish
 
 param(
@@ -42,7 +42,9 @@ if (-not [string]::IsNullOrWhiteSpace($Branch)) {
 
 Write-Host "Deploying $WebRoot to Cloudflare Pages project '$ProjectName' ..."
 if ($Branch) {
-    Write-Host "Preview branch: $Branch"
+    Write-Host "Preview deployment (branch alias): $Branch"
+} else {
+    Write-Host 'Production deployment (no --branch). Ensure Pages production_branch is master (Direct Upload: set via API).'
 }
 
 Push-Location $RepoRoot
