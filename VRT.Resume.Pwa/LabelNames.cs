@@ -98,6 +98,7 @@ public static class LabelNames
     public const string NotFoundTitle = "NotFoundTitle";
     public const string NotFoundMessage = "NotFoundMessage";
     public const string ActiveProfile = "ActiveProfile";
+    public const string ActiveProfileNone = "ActiveProfileNone";
     public const string ChangeProfile = "ChangeProfile";
     public const string ProfileSelected = "ProfileSelected";
     public const string ProfileActive = "ProfileActive";
@@ -123,6 +124,15 @@ public static class LabelNames
     public const string CreateProfilePageDescription = "CreateProfilePageDescription";
     public const string PersonImagePageDescription = "PersonImagePageDescription";
     public const string AboutDescription = "AboutDescription";
+    public const string AboutFeaturesTitle = "AboutFeaturesTitle";
+    public const string AboutFeatureOffline = "AboutFeatureOffline";
+    public const string AboutFeatureLocalProfiles = "AboutFeatureLocalProfiles";
+    public const string AboutFeaturePersonData = "AboutFeaturePersonData";
+    public const string AboutFeatureResumeVariants = "AboutFeatureResumeVariants";
+    public const string AboutFeatureBackup = "AboutFeatureBackup";
+    public const string AboutFeatureLanguages = "AboutFeatureLanguages";
+    public const string AboutFeatureOpenSource = "AboutFeatureOpenSource";
+    public const string AboutBackupWarning = "AboutBackupWarning";
     public const string NoEducationYet = "NoEducationYet";
     public const string NoSkillsYet = "NoSkillsYet";
     public const string NoWorkExpYet = "NoWorkExpYet";

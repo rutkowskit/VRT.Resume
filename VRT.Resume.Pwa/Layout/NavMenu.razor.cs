@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Pwa.Services;
+using VRT.Resume.Resources;
 
 namespace VRT.Resume.Pwa.Layout;
 
@@ -42,6 +43,16 @@ public partial class NavMenu : IDisposable
     }
 
     private void OnCultureChanged() => _ = InvokeAsync(StateHasChanged);
+
+    private string GetActiveProfileDisplayName()
+        => ActiveProfile.HasActiveContext
+            ? _activeProfileName ?? "…"
+            : LabelNames.ActiveProfileNone.GetLabelText();
+
+    private string GetActiveProfileNameClass()
+        => ActiveProfile.HasActiveContext
+            ? "px-4 pb-2"
+            : "px-4 pb-2 mud-text-secondary";
 
     public void Dispose()
     {

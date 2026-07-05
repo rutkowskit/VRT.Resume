@@ -48,6 +48,14 @@ html, body {
     font-weight: 600;
 }
 
+.about-features {
+    padding: 0;
+}
+
+.about-backup-warning__text {
+    font-weight: 700;
+}
+
 /* Resume add/edit dialog (DialogService + MaxWidth.Large + FullWidth) */
 .mud-dialog-width-lg.mud-dialog-width-full .mud-dialog {
     min-width: min(40rem, 95vw);

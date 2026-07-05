@@ -357,6 +357,9 @@
   <data name="ActiveProfile" xml:space="preserve">
     <value>Aktywny profil</value>
   </data>
+  <data name="ActiveProfileNone" xml:space="preserve">
+    <value>Brak</value>
+  </data>
   <data name="ChangeProfile" xml:space="preserve">
     <value>Zmień profil</value>
   </data>
@@ -430,7 +433,34 @@
     <value>Prześlij zdjęcie dla aktywnego profilu. Obrazy są przechowywane per lokalny profil.</value>
   </data>
   <data name="AboutDescription" xml:space="preserve">
-    <value>VRT Resume — offline generator CV (Blazor WASM PWA).</value>
+    <value>VRT Resume to open-source’owy generator CV działający offline. Aplikacja działa w całości w przeglądarce jako PWA — bez konta i bez synchronizacji w chmurze. Zbuduj profil osobowy raz, a potem twórz wiele wariantów życiorysu pod konkretne oferty pracy.</value>
+  </data>
+  <data name="AboutFeaturesTitle" xml:space="preserve">
+    <value>Główne funkcje</value>
+  </data>
+  <data name="AboutFeatureOffline" xml:space="preserve">
+    <value>Działanie offline po pierwszej wizycie (PWA); bez serwera</value>
+  </data>
+  <data name="AboutFeatureLocalProfiles" xml:space="preserve">
+    <value>Wiele lokalnych profili — oddzielne zestawy danych na jednym urządzeniu</value>
+  </data>
+  <data name="AboutFeaturePersonData" xml:space="preserve">
+    <value>Profil osobowy: kontakty, wykształcenie, doświadczenie, obowiązki, umiejętności i zdjęcie</value>
+  </data>
+  <data name="AboutFeatureResumeVariants" xml:space="preserve">
+    <value>Wiele wariantów CV na profil; wybór istotnych umiejętności i widoczności dla każdego życiorysu</value>
+  </data>
+  <data name="AboutFeatureBackup" xml:space="preserve">
+    <value>Eksport i import całej bazy danych — kopia zapasowa lub przeniesienie na inne urządzenie</value>
+  </data>
+  <data name="AboutFeatureLanguages" xml:space="preserve">
+    <value>Interfejs po polsku i po angielsku</value>
+  </data>
+  <data name="AboutFeatureOpenSource" xml:space="preserve">
+    <value>Open source — kod źródłowy i zgłaszanie problemów na GitHubie</value>
+  </data>
+  <data name="AboutBackupWarning" xml:space="preserve">
+    <value>Uwaga: Regularnie rób kopię zapasową danych (Profile → Eksportuj bazę). Dane w przeglądarce mogą zostać niechcący usunięte — przez Ciebie, przeglądarkę lub przy odinstalowaniu PWA.</value>
   </data>
   <data name="NoEducationYet" xml:space="preserve">
     <value>Brak wpisów o wykształceniu.</value>

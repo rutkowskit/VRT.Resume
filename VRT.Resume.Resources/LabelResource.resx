@@ -357,6 +357,9 @@
   <data name="ActiveProfile" xml:space="preserve">
     <value>Active profile</value>
   </data>
+  <data name="ActiveProfileNone" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="ChangeProfile" xml:space="preserve">
     <value>Change profile</value>
   </data>
@@ -430,7 +433,34 @@
     <value>Upload a photo for the active profile. Images are stored per local profile.</value>
   </data>
   <data name="AboutDescription" xml:space="preserve">
-    <value>VRT Resume — offline CV generator (Blazor WASM PWA).</value>
+    <value>VRT Resume is an open-source offline CV generator. It runs entirely in your browser as a Progressive Web App — no account and no cloud sync. Build a personal profile once and create multiple tailored resume variants for different job applications.</value>
+  </data>
+  <data name="AboutFeaturesTitle" xml:space="preserve">
+    <value>Main features</value>
+  </data>
+  <data name="AboutFeatureOffline" xml:space="preserve">
+    <value>Works offline after the first visit (PWA); no backend required</value>
+  </data>
+  <data name="AboutFeatureLocalProfiles" xml:space="preserve">
+    <value>Multiple local profiles — separate data sets on one device</value>
+  </data>
+  <data name="AboutFeaturePersonData" xml:space="preserve">
+    <value>Personal profile: contacts, education, work experience, duties, skills, and photo</value>
+  </data>
+  <data name="AboutFeatureResumeVariants" xml:space="preserve">
+    <value>Several resume variants per profile; choose relevant skills and visibility for each CV</value>
+  </data>
+  <data name="AboutFeatureBackup" xml:space="preserve">
+    <value>Export and import the full database for backup or migration between devices</value>
+  </data>
+  <data name="AboutFeatureLanguages" xml:space="preserve">
+    <value>Polish and English user interface</value>
+  </data>
+  <data name="AboutFeatureOpenSource" xml:space="preserve">
+    <value>Open source — source code and issue tracker on GitHub</value>
+  </data>
+  <data name="AboutBackupWarning" xml:space="preserve">
+    <value>Note: Back up your data regularly (Profiles → Export database). Browser storage can be cleared accidentally — by you, the browser, or when uninstalling the PWA.</value>
   </data>
   <data name="NoEducationYet" xml:space="preserve">
     <value>No education entries yet.</value>
