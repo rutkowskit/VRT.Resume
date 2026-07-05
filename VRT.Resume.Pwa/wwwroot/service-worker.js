@@ -16,11 +16,20 @@ const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
 const offlineAssetsInclude = [ /\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff2?$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/, /\.webmanifest$/ ];
 const offlineAssetsExclude = [ /^service-worker\.js$/ ];
-const shellUrls = ['./index.html', './js/pwa-boot.js', './manifest.webmanifest'];
+const shellUrls = ['./index.html', './js/pwa-boot.js', './js/pwa-db-backup.js', './manifest.webmanifest'];
 
 const base = "/";
 const baseUrl = new URL(base, self.location.origin);
-const manifestUrlList = self.assetsManifest.assets.map(asset => new URL(asset.url, baseUrl).href);
+
+function isAppNavigation(url) {
+    if (url.origin !== baseUrl.origin) {
+        return false;
+    }
+
+    const path = url.pathname;
+    return !path.startsWith('/_framework/')
+        && !path.startsWith('/_content/');
+}
 
 async function onInstall(event) {
     console.info('Service worker: Install');
@@ -29,18 +38,36 @@ async function onInstall(event) {
 
     await cacheShellAssets(cache);
 
-    const assetsRequests = self.assetsManifest.assets
+    const assets = self.assetsManifest.assets
         .filter(asset => offlineAssetsInclude.some(pattern => pattern.test(asset.url)))
-        .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)))
-        .map(asset => new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' }));
+        .filter(asset => !offlineAssetsExclude.some(pattern => pattern.test(asset.url)));
 
-    const results = await Promise.allSettled(assetsRequests.map(request => cache.add(request)));
+    const results = await Promise.allSettled(assets.map(asset => cacheAsset(cache, asset)));
     const failed = results.filter(r => r.status === 'rejected').length;
     if (failed > 0) {
         console.warn(`Service worker: ${failed} asset(s) failed to cache during install`);
     }
 
     self.skipWaiting();
+}
+
+async function cacheAsset(cache, asset) {
+    const request = new Request(asset.url, { integrity: asset.hash, cache: 'no-cache' });
+
+    try {
+        await cache.add(request);
+        return;
+    } catch (error) {
+        console.warn(`Service worker: integrity precache failed for ${asset.url}`, error);
+    }
+
+    const response = await fetch(asset.url, { cache: 'no-cache' });
+    if (!response.ok) {
+        throw new Error(`Failed to fetch ${asset.url}: ${response.status}`);
+    }
+
+    await cache.put(asset.url, response);
+    await cache.put(new URL(asset.url, baseUrl).href, response.clone());
 }
 
 async function cacheShellAssets(cache) {
@@ -52,7 +79,12 @@ async function cacheShellAssets(cache) {
             }
 
             await cache.put(url, response);
-            await cache.put(new URL(url, baseUrl).href, response.clone());
+            const absolute = new URL(url, baseUrl).href;
+            await cache.put(absolute, response.clone());
+
+            if (url === './index.html') {
+                await cache.put(baseUrl.href, response.clone());
+            }
         } catch (error) {
             console.warn(`Service worker: shell precache failed for ${url}`, error);
         }
@@ -80,18 +112,47 @@ async function onFetch(event) {
 
 async function handleNavigate(event) {
     const cache = await caches.open(cacheName);
-    const isSpaRoute = !manifestUrlList.some(url => url === event.request.url);
-    const cachedIndex = isSpaRoute ? await matchCache(cache, 'index.html') : undefined;
+    const requestUrl = new URL(event.request.url);
+    const isAppRoute = isAppNavigation(requestUrl);
+    const cachedIndex = isAppRoute ? await matchCache(cache, 'index.html') : undefined;
 
-    try {
-        return await fetch(event.request);
-    } catch {
-        if (cachedIndex) {
-            return cachedIndex;
+    // Cache-first for SPA routes: offline refresh must not hit the network.
+    if (isAppRoute && cachedIndex) {
+        if (navigator.onLine) {
+            revalidateNavigation(cache, event.request).catch(() => { });
         }
 
-        throw new Error('Offline and index.html is not cached.');
+        return cachedIndex;
     }
+
+    try {
+        const response = await fetch(event.request);
+        if (response.ok) {
+            return response;
+        }
+    } catch (error) {
+        console.warn('Service worker: navigation fetch failed', event.request.url, error);
+    }
+
+    const cached = await matchCache(cache, event.request);
+    if (cached) {
+        return cached;
+    }
+
+    console.warn('Service worker: navigation not available offline', event.request.url);
+    return Response.error();
+}
+
+async function revalidateNavigation(cache, request) {
+    const response = await fetch(request);
+    if (!response.ok) {
+        return;
+    }
+
+    await cache.put(request, response.clone());
+    await cache.put(baseUrl.href, response.clone());
+    await cache.put('./index.html', response.clone());
+    await cache.put(new URL('./index.html', baseUrl).href, response.clone());
 }
 
 async function handleAsset(event) {

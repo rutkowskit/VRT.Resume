@@ -6,9 +6,9 @@
 #   npx wrangler pages project create vrt-resume-pwa
 #
 # Usage (from repo root or this script's directory):
-#   ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1
-#   ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -Branch preview-test
-#   ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -ProjectName my-pwa -SkipPublish
+#   pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1
+#   pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -Branch preview-test
+#   pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -ProjectName my-pwa -SkipPublish
 
 param(
     [string]$ProjectName = 'vrt-resume-pwa',

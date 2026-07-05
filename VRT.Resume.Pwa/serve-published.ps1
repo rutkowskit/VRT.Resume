@@ -6,7 +6,7 @@
 #
 # Usage:
 #   dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
-#   ./VRT.Resume.Pwa/serve-published.ps1
+#   pwsh ./VRT.Resume.Pwa/serve-published.ps1
 #   Open http://127.0.0.1:8080/
 
 param(

@@ -2,8 +2,8 @@
 # Requires Node.js + Google Chrome or Microsoft Edge.
 #
 # Usage:
-#   ./VRT.Resume.Pwa/run-lighthouse.ps1
-#   ./VRT.Resume.Pwa/run-lighthouse.ps1 -SkipPublish
+#   pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1
+#   pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1 -SkipPublish
 
 param(
     [int]$Port = 8080,

@@ -3,5 +3,11 @@
   Cross-Origin-Embedder-Policy: require-corp
   Cross-Origin-Resource-Policy: same-origin
 
+/service-worker.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/service-worker-assets.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
 /_content/*
   Cross-Origin-Resource-Policy: same-origin

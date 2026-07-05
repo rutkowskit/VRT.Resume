@@ -139,13 +139,13 @@ dotnet run --project VRT.Resume.Pwa/VRT.Resume.Pwa.csproj
 
 Open the URL from the console (e.g. `http://localhost:5176`). Create a profile at `/profiles`, then use Resumes and Person tabs. On `/profiles` you can **export** or **import** the full SQLite database (all local profiles) as a `.db` file.
 
-**Offline:** the service worker caches the WASM shell after the first online visit. To test: load the app online → wait until it fully starts → DevTools → Network → Offline → refresh. Data stays in browser SQLite (OPFS). For OPFS, prefer `serve-published.ps1` on `http://127.0.0.1:8080` when testing a published build.
+**Offline:** the service worker caches the WASM shell after the first online visit. To test: load the app online → wait until it fully starts → DevTools → Network → Offline → refresh. Data stays in browser SQLite (OPFS). For OPFS, prefer `pwsh ./VRT.Resume.Pwa/serve-published.ps1` on `http://127.0.0.1:8080` when testing a published build.
 
 ### Publish and serve statically
 
 ```powershell
 dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
-./VRT.Resume.Pwa/serve-published.ps1
+pwsh ./VRT.Resume.Pwa/serve-published.ps1
 ```
 
 Use **`http://127.0.0.1:8080`** (script sets COOP/COEP for OPFS). One browser tab per origin.
@@ -153,10 +153,10 @@ Use **`http://127.0.0.1:8080`** (script sets COOP/COEP for OPFS). One browser ta
 ### Lighthouse PWA audit
 
 ```powershell
-./VRT.Resume.Pwa/run-lighthouse.ps1
+pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1
 ```
 
-Requires Node.js and Chrome or Edge. Target score: PWA ≥ 90. Alternatively: Chrome DevTools → Lighthouse on `http://127.0.0.1:8080` after `serve-published.ps1`.
+Requires Node.js and Chrome or Edge. Target score: PWA ≥ 90. Alternatively: Chrome DevTools → Lighthouse on `http://127.0.0.1:8080` after `pwsh ./VRT.Resume.Pwa/serve-published.ps1`.
 
 ### Tests
 

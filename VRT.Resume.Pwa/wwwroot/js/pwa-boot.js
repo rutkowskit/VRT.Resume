@@ -105,7 +105,7 @@
         }
 
         try {
-            const registration = await navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
+            const registration = await navigator.serviceWorker.register('/service-worker.js', { scope: '/', updateViaCache: 'none' });
             listenForServiceWorkerUpdates(registration);
             await navigator.serviceWorker.ready;
         } catch (error) {

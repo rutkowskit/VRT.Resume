@@ -32,7 +32,7 @@ User data remains in browser SQLite (OPFS). When online, `pwa-boot.js` checks fo
 
 ```powershell
 dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
-./VRT.Resume.Pwa/serve-published.ps1
+pwsh ./VRT.Resume.Pwa/serve-published.ps1
 ```
 
 Open **`http://127.0.0.1:8080`** (script sets COOP/COEP headers required by SqliteWasm). Use **one browser tab** per origin.
@@ -40,7 +40,7 @@ Open **`http://127.0.0.1:8080`** (script sets COOP/COEP headers required by Sqli
 ### Lighthouse PWA audit
 
 ```powershell
-./VRT.Resume.Pwa/run-lighthouse.ps1
+pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1
 ```
 
 Requires Node.js and Chrome or Edge. Target: PWA score ≥ 90.
@@ -97,13 +97,13 @@ npx wrangler pages project create vrt-resume-pwa
 **Publish + deploy** (script runs `dotnet publish` then `wrangler pages deploy`):
 
 ```powershell
-./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1
+pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1
 ```
 
 Preview deployment on a branch alias:
 
 ```powershell
-./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -Branch preview-test
+pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -Branch preview-test
 ```
 
 Manual equivalent:
@@ -154,8 +154,16 @@ Compress-Archive -Path "$root\*" -DestinationPath ./deploy/vrt-resume-pwa.zip -F
 | **Build command** | None — deploy pre-built `wwwroot` only (direct upload). |
 | **Build output directory** | N/A for ZIP upload. |
 | **Data** | Stays in each user’s browser; no server database. Users should use **Export database** on `/profiles`. |
-| **Updates** | Re-run `./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1` or publish + upload again. Online clients auto-reload when a new service worker is detected (`pwa-boot.js`). |
+| **Updates** | Re-run `pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1` or publish + upload again. Online clients auto-reload when a new service worker is detected (`pwa-boot.js`). |
 | **CI alternative** | Run `dotnet publish` in CI, then `wrangler pages deploy` with `CLOUDFLARE_API_TOKEN` (see [Cloudflare direct upload CI](https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/)). |
+
+### Offline on production (troubleshooting)
+
+1. **First visit must be online** — wait until the app fully loads once so the service worker can precache the WASM shell.
+2. **Do not use Hard Reload (Ctrl+F5)** while testing offline — it bypasses the service worker and shows the browser default offline page.
+3. DevTools → **Application** → **Service Workers** — confirm status is *activated* and *controls this page* before toggling **Offline**.
+4. `_headers` sets `Cache-Control: no-cache` for `service-worker.js` / `service-worker-assets.js` so Cloudflare does not serve a stale worker for hours.
+5. After deploy, close other tabs on the same origin (OPFS single-tab lock) and refresh once online before testing offline again.
 
 ## Limitations
 

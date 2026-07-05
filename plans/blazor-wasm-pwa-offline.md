@@ -23,7 +23,7 @@ Nowy projekt **Blazor WebAssembly PWA** z pełną funkcjonalnością obecnego ge
 **Open (non-blocking):**
 - ~~Usuwanie profilu (kaskada danych)~~ — zrobione (Faza 11+)
 - ~~Eksport/backup całej bazy SQLite~~ — zrobione (`PwaDatabaseBackupService`)
-- Lighthouse PWA ≥90 — skrypt `run-lighthouse.ps1`; wymaga Chrome/Edge lokalnie
+- Lighthouse PWA ≥90 — `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1`; wymaga Chrome/Edge lokalnie
 
 ## For Future Agents
 
@@ -277,16 +277,16 @@ Status: Complete
 - [x] `manifest.webmanifest` — `scope`, `description`, `categories`, icon `purpose`, `lang`
 - [x] `index.html` — `theme-color`, apple-mobile-web-app meta; usunięto Google Fonts CDN (offline-safe system font stack)
 - [x] Publish manifest obejmuje MudBlazor, SqliteWasm (`sqlite3.wasm`, worker), SkiaSharp WASM, static assets
-- [ ] Lighthouse PWA ≥ 90 — `./VRT.Resume.Pwa/run-lighthouse.ps1` (Chrome/Edge) lub DevTools na `http://127.0.0.1:8080`
+- [ ] Lighthouse PWA ≥ 90 — `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1` (Chrome/Edge) lub DevTools na `http://127.0.0.1:8080`
 
 ### Verification Plan
 - `dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa` — 0 errors ✅
 - Offline (Chrome DevTools): załaduj published app → Network Offline → F5 → app startuje; CRUD + przełącz profil + F5 — dane w OPFS/localStorage
-- **Hosting lokalny:** `VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (nie `http-server` na LAN IP — OPFS wymaga secure context + COOP/COEP)
+- **Hosting lokalny:** `pwsh ./VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (nie `http-server` na LAN IP — OPFS wymaga secure context + COOP/COEP)
 - Lighthouse PWA audit na published URL (HTTPS lub localhost)
 
 ### Phase Summary
-Utwardzono offline PWA: published service worker cache'uje cały manifest (WASM, MudBlazor, SQLite worker, assety wwwroot) z odpornym installem (`Promise.allSettled`), `skipWaiting` + `clients.claim`; SPA routing offline przez `index.html`. Manifest (maskable icons) i meta tagi pod installability/Lighthouse. Usunięto zewnętrzny Google Fonts — fonty systemowe w `app.css`. Dane użytkownika offline: SQLite WASM (OPFS) + `localStorage` (aktywny profil, kultura). Audyt: `run-lighthouse.ps1`.
+Utwardzono offline PWA: published service worker cache'uje cały manifest (WASM, MudBlazor, SQLite worker, assety wwwroot) z odpornym installem (`Promise.allSettled`), `skipWaiting` + `clients.claim`; SPA routing offline przez `index.html`. Manifest (maskable icons) i meta tagi pod installability/Lighthouse. Usunięto zewnętrzny Google Fonts — fonty systemowe w `app.css`. Dane użytkownika offline: SQLite WASM (OPFS) + `localStorage` (aktywny profil, kultura). Audyt: `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1`.
 
 ---
 
@@ -309,7 +309,7 @@ Dodano `VRT.Resume.Pwa.Tests` (bUnit 1.38, xUnit): `PwaTestContext` (in-memory S
 
 ## Final Recap
 
-Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA, delete profilu, export/import DB). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`, 13). **Gotowe do merge** `feature/blazor-wasm-pwa` → `main`. Pozostaje: Lighthouse ≥90 (lokalny audyt `run-lighthouse.ps1`).
+Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA, delete profilu, export/import DB). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`, 13). **Gotowe do merge** `feature/blazor-wasm-pwa` → `main`. Pozostaje: Lighthouse ≥90 (lokalny audyt `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1`).
 
 ---
 
@@ -320,7 +320,7 @@ Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokal
    dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Release
    dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
    ```
-2. **Serve locally (OPFS smoke test)** — `VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (COOP/COEP).
+2. **Serve locally (OPFS smoke test)** — `pwsh ./VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (COOP/COEP).
 3. **Static host** — upload `deploy/pwa/wwwroot` to any HTTPS static host (Azure Static Web Apps, GitHub Pages, nginx). Ensure SPA fallback to `index.html` for client routes.
 4. **Data** — all profiles live in browser SQLite WASM (OPFS); user can export/import `.db` on `/profiles`. One tab per origin.
 5. **MVC (Azure)** — unchanged: `dotnet publish VRT.Resume.Mvc` → App Service per `README.md`.

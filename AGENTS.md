@@ -130,15 +130,15 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 | Culture change not supported at startup | `BlazorWebAssemblyLoadAllGlobalizationData=true` (`PwaCultureService` restores pl/en from `localStorage`). |
 | `mudElementRef.getBoundingClientRect` undefined | Load `_content/MudBlazor/MudBlazor.min.js` **before** `blazor.webassembly.js`; use `MudDrawer` `Variant="DrawerVariant.Persistent"` + `Breakpoint="Breakpoint.Md"`. |
 | `sqlite3_config` varargs crash | SqliteWasmBlazor + `WasmBuildNative=true` (not SqliteWasmHelper9). |
-| `Missing required OPFS APIs` on published static host | Serve only on **`http://127.0.0.1`** (not LAN IP); use `VRT.Resume.Pwa/serve-published.ps1` (COOP/COEP headers). Close duplicate tabs. |
+| `Missing required OPFS APIs` on published static host | Serve only on **`http://127.0.0.1`** (not LAN IP); use `pwsh ./VRT.Resume.Pwa/serve-published.ps1` (COOP/COEP headers). Close duplicate tabs. |
 | OPFS `createSyncAccessHandle` / database locked | SqliteWasmBlazor allows **one tab per origin**. Second tab: `wwwroot/js/pwa-boot.js` (Navigator Locks) shows `#opfs-tab-blocked` before Blazor loads; C# fallback: `StartupErrorView` + `PwaStartupState`. Close other tabs or wait for auto-refresh when leader tab closes. |
 | `SkiaSharp` `libSkiaSharp` in WASM | Add `SkiaSharp.NativeAssets.WebAssembly` to `VRT.Resume.Pwa.csproj`. |
 | String component parameter renders as literal | Use `@` for C# expressions: `ProfileImageUrl="@_profileImageUrl"` (without `@`, Blazor passes the string `"_profileImageUrl"`). |
 | Photo missing on resume view | Per-resume flag `ShowProfilePhoto` (edit CV dialog). Profile tab always shows the uploaded photo. |
 | Backup / restore all profiles | `/profiles` → Export/Import via `PwaDatabaseBackupService` + `ISqliteWasmDatabaseService` (`vrt-resume.db`). Import replaces OPFS DB; clears active profile context; `forceLoad` reload. |
-| Lighthouse PWA audit | `./VRT.Resume.Pwa/run-lighthouse.ps1` after publish; or DevTools on `http://127.0.0.1:8080` via `serve-published.ps1`. Manifest includes maskable icons; published SW uses `skipWaiting` + `clients.claim`. |
+| Lighthouse PWA audit | `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1` after publish; or DevTools on `http://127.0.0.1:8080` via `pwsh ./VRT.Resume.Pwa/serve-published.ps1`. Manifest includes maskable icons; published SW uses `skipWaiting` + `clients.claim`. |
 | Offline refresh shows browser “no network” | SW must install on an **online** visit first. Blazor serves **`service-worker.js`** (not `service-worker.published.js`) — `Include` in csproj must be `wwwroot/service-worker.js`. `pwa-boot.js` awaits `serviceWorker.ready` before loading Blazor. |
-| Cloudflare Pages deploy | `deploy-pwa-cloudflare.ps1` (Wrangler direct upload) or ZIP via dashboard; `wwwroot/_headers` + `_redirects` ship on publish; see `VRT.Resume.Pwa/Readme.md`. |
+| Cloudflare Pages deploy | `pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1` (Wrangler direct upload) or ZIP via dashboard; `wwwroot/_headers` + `_redirects` ship on publish; see `VRT.Resume.Pwa/Readme.md`. |
 | Client update after redeploy | `pwa-boot.js` calls `registration.update()` when tab becomes visible / goes online / hourly; SW uses `skipWaiting` + `clients.claim`; `controllerchange` sets `sessionStorage` flag and reloads; `App.razor.cs` shows MudBlazor info snackbar on next load. |
 
 ### PWA tests (`VRT.Resume.Pwa.Tests`)
