@@ -387,6 +387,9 @@
   <data name="ResumeTemplateLinear" xml:space="preserve">
     <value>Liniowy</value>
   </data>
+  <data name="ResumeTemplateCompact" xml:space="preserve">
+    <value>Kompaktowy</value>
+  </data>
   <data name="BackToResumes" xml:space="preserve">
     <value>Powrót do życiorysów</value>
   </data>

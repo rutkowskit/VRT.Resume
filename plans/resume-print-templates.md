@@ -58,7 +58,7 @@ wwwroot/css/resume/
 |------|--------|-------------|-------|
 | `classic` | Two-column sidebar (current) | Optimized print CSS | Default |
 | `linear` | Single column | Plain sections, comma skills, no icons in print | HR + ATS |
-| `compact` | Single column, smaller type | Tighter margins, RODO inline footer | Long CVs → 2 pages |
+| `compact` | Single column, smaller type | Tighter margins, RODO inline footer | Long CVs → 2 pages — **implemented** |
 
 Future (not v1): `modern` (accent color), `europass`-like — only if demand.
 
@@ -132,11 +132,11 @@ Reverted DB persistence. Template choice is browser-local per resume ID; export/
 
 ## Phase 4: Compact template + polish (optional)
 
-Status: Not started
+Status: Complete
 
-- [ ] `ResumeDocumentCompact` + `compact.css`
-- [ ] Tune page breaks (`break-inside` on experience items only, not whole sections)
-- [ ] Home list: optional icon/badge for non-default template (low priority)
+- [x] `ResumeDocumentCompact` + `compact.css`
+- [x] Tune page breaks (`break-inside` on experience items only, not whole sections)
+- [ ] Home list: optional icon/badge for non-default template (low priority) — deferred
 
 ### Verification Plan
 
@@ -144,7 +144,7 @@ Status: Not started
 
 ### Phase Summary
 
-_(write when phase completes)_
+`ResumeDocumentCompact` — dense single-column layout (combined skills block, inline RODO). `compact.css` with smaller type/spacing; `break-inside: avoid` on work/education items only. Registered in `ResumeTemplateRegistry`; bUnit Verify snapshot. Home list badge deferred (localStorage-only template metadata).
 
 ---
 
@@ -167,8 +167,8 @@ _(write when phase completes)_
 
 ## Final Recap
 
-_(write when all phases complete)_
+Three print templates (`classic`, `linear`, `compact`) on PWA resume show page with `MudSelect`, `DynamicComponent`, and per-template CSS. Template choice stored in **`localStorage` only** (no DB schema change). Shared section components for contact, experience, education. bUnit + Verify snapshots for linear and compact.
 
 ## Deployment Plan
 
-_(write when all phases complete: no special deploy beyond normal PWA publish; mention hard-refresh after CSS changes)_
+Normal PWA publish (`deploy-pwa-cloudflare.ps1` or local publish). After CSS changes, hard-refresh or wait for service-worker update (`pwa-boot.js`). No backend or database migration steps.

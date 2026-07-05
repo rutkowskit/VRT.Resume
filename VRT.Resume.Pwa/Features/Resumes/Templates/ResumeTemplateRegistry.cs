@@ -16,6 +16,11 @@ public static class ResumeTemplateRegistry
             typeof(ResumeDocumentLinear),
             LabelNames.ResumeTemplateLinear,
             "css/resume/linear.css"),
+        new(
+            ResumeTemplateIds.Compact,
+            typeof(ResumeDocumentCompact),
+            LabelNames.ResumeTemplateCompact,
+            "css/resume/compact.css"),
     ];
 
     private static readonly IReadOnlyDictionary<string, ResumeTemplateDescriptor> ById =
