@@ -23,10 +23,6 @@ public partial class ResumeShowPage : IDisposable
     private string? _loadError;
     private bool _loading = true;
 
-    private string PageTitleText => string.IsNullOrWhiteSpace(_resume?.Position)
-        ? LabelNames.PageResume.GetLabelText()
-        : _resume.Position;
-
     protected override void OnInitialized() => CultureService.CultureChanged += OnCultureChanged;
 
     protected override async Task OnParametersSetAsync() => await LoadAsync();
