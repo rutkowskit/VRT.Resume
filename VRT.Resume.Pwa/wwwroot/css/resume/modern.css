@@ -1,0 +1,344 @@
+.resume-template-modern {
+    --resume-modern-sidebar-width: 34%;
+    --resume-modern-accent: #2c2c2c;
+    --resume-modern-sidebar-bg: #f3f3f3;
+    --resume-color-text: #1a1a1a;
+    --resume-color-muted: #555;
+    --resume-color-border: #bdbdbd;
+    --resume-color-section: #2c2c2c;
+    --resume-font-body: 0.9375rem;
+    --resume-font-section: 0.8125rem;
+    --resume-modern-photo-size: 140px;
+}
+
+.resume-template-modern.resume {
+    color: var(--resume-color-text);
+    font-size: var(--resume-font-body);
+    line-height: 1.45;
+}
+
+.resume-template-modern .resume-modern-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    min-height: 100%;
+}
+
+.resume-template-modern .resume-modern-sidebar {
+    background: var(--resume-modern-sidebar-bg);
+    border-right: 2px solid var(--resume-modern-accent);
+    flex: 0 0 var(--resume-modern-sidebar-width);
+    max-width: var(--resume-modern-sidebar-width);
+    min-width: var(--resume-modern-sidebar-width);
+    padding: 1.25rem 1rem 1rem;
+}
+
+.resume-template-modern .resume-modern-main {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 1.25rem 1.35rem 1rem;
+}
+
+.resume-template-modern .resume-modern-photo {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.resume-template-modern .resume-image-container {
+    align-items: center;
+    border-radius: 50%;
+    display: flex;
+    height: var(--resume-modern-photo-size);
+    justify-content: center;
+    margin: 0 auto;
+    overflow: hidden;
+    width: var(--resume-modern-photo-size);
+}
+
+.resume-template-modern .resume-image {
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
+}
+
+.resume-template-modern .resume-card {
+    background: transparent;
+    border: 0;
+    margin-bottom: 0;
+}
+
+.resume-template-modern .resume-card-body {
+    padding: 0 0 0.75rem;
+}
+
+.resume-template-modern .resume-section-title {
+    border-bottom: 2px solid var(--resume-modern-accent);
+    color: var(--resume-color-section);
+    font-size: var(--resume-font-section);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    margin: 0 0 0.45rem;
+    padding-bottom: 0.2rem;
+    text-transform: uppercase;
+}
+
+.resume-template-modern .resume-summary {
+    margin: 0;
+    text-align: left;
+    white-space: pre-wrap;
+}
+
+.resume-template-modern .resume-modern-skills-list {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.resume-template-modern .resume-modern-skills-list li {
+    list-style-type: disc;
+    margin-bottom: 0.2em;
+}
+
+.resume-template-modern .resume-language-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.resume-template-modern .resume-language {
+    line-height: 1.4;
+}
+
+.resume-template-modern .resume-language-name {
+    font-weight: 600;
+}
+
+.resume-template-modern .resume-language-level {
+    color: var(--resume-color-muted);
+}
+
+.resume-template-modern .resume-language-level::before {
+    color: var(--resume-color-muted);
+    content: " — ";
+    font-weight: 400;
+}
+
+.resume-template-modern .resume-modern-header {
+    border-bottom: 1px solid var(--resume-color-border);
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.65rem;
+}
+
+.resume-template-modern .resume-modern-name {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.resume-template-modern .resume-modern-position {
+    color: var(--resume-color-muted);
+    font-size: 1rem;
+    margin: 0.35rem 0 0.65rem;
+}
+
+.resume-template-modern .resume-modern-contact-grid {
+    display: grid;
+    gap: 0.5rem 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.resume-template-modern .resume-modern-contact-cell {
+    min-width: 0;
+}
+
+.resume-template-modern .resume-modern-contact-label {
+    color: var(--resume-color-muted);
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.15rem;
+    text-transform: uppercase;
+}
+
+.resume-template-modern .resume-modern-contact-value {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+}
+
+.resume-template-modern .resume-modern-contact-value svg,
+.resume-template-modern .resume-modern-contact-value img {
+    display: none;
+}
+
+.resume-template-modern .resume-work-list,
+.resume-template-modern .resume-education-list {
+    margin: 0;
+}
+
+.resume-template-modern .resume-work-item,
+.resume-template-modern .resume-edu-item {
+    break-inside: avoid;
+    margin-bottom: 0.9rem;
+    page-break-inside: avoid;
+}
+
+.resume-template-modern .resume-modern-item-header {
+    align-items: baseline;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: space-between;
+    margin-bottom: 0.15rem;
+}
+
+.resume-template-modern .resume-modern-item-title {
+    flex: 1 1 auto;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    min-width: 0;
+}
+
+.resume-template-modern .resume-modern-item-dates {
+    color: var(--resume-color-muted);
+    flex: 0 0 auto;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.resume-template-modern .resume-modern-item-subtitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.resume-template-modern .resume-modern-item-meta,
+.resume-template-modern .resume-modern-item-detail {
+    color: var(--resume-color-muted);
+    font-size: 0.875rem;
+    line-height: 1.35;
+}
+
+.resume-template-modern .resume-work-resp {
+    margin: 0.35em 0 0 1.2em;
+    padding: 0;
+}
+
+.resume-template-modern .resume-work-resp li {
+    list-style-type: disc;
+    margin-bottom: 0.2em;
+}
+
+.resume-template-modern .font-weight-bolder {
+    font-weight: 700;
+}
+
+.resume-template-modern .resume-rodo {
+    color: var(--resume-color-muted);
+    font-size: 0.65rem;
+    line-height: 1.35;
+    margin-top: 0.5rem;
+    text-align: justify;
+}
+
+@media only screen {
+    .resume-template-modern .resume-modern-container {
+        min-height: 97vh;
+    }
+}
+
+@media print {
+    .resume-template-modern {
+        --resume-modern-sidebar-width: 32%;
+        --resume-modern-photo-size: 72px;
+    }
+
+    .resume-template-modern .resume-modern-container {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        min-height: 0 !important;
+    }
+
+    .resume-template-modern .resume-modern-sidebar {
+        flex: 0 0 var(--resume-modern-sidebar-width) !important;
+        max-width: var(--resume-modern-sidebar-width) !important;
+        min-width: 0 !important;
+        padding: 0.35rem 0.5rem 0.25rem;
+    }
+
+    .resume-template-modern .resume-modern-main {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        padding: 0.35rem 0.5rem 0.25rem;
+    }
+
+    .resume-template-modern .resume-modern-name {
+        font-size: 14pt;
+    }
+
+    .resume-template-modern .resume-modern-position {
+        font-size: 10pt;
+    }
+
+    .resume-template-modern .resume-section-title {
+        border-bottom-width: 1px;
+        font-size: 9pt;
+        margin-bottom: 0.3rem;
+    }
+
+    .resume-template-modern .resume-modern-contact-grid {
+        gap: 0.25rem 0.5rem;
+    }
+
+    .resume-template-modern .resume-modern-contact-label {
+        font-size: 7pt;
+    }
+
+    .resume-template-modern .resume-modern-contact-value {
+        font-size: 8.5pt;
+    }
+
+    .resume-template-modern .resume-modern-item-title {
+        font-size: 10.5pt;
+    }
+
+    .resume-template-modern .resume-modern-item-dates {
+        font-size: 9pt;
+    }
+
+    .resume-template-modern .resume-modern-item-subtitle {
+        font-size: 10pt;
+    }
+
+    .resume-template-modern .resume-modern-item-meta,
+    .resume-template-modern .resume-modern-item-detail {
+        font-size: 9pt;
+    }
+
+    .resume-template-modern .resume-work-item,
+    .resume-template-modern .resume-edu-item {
+        margin-bottom: 0.55rem;
+    }
+
+    .resume-template-modern .resume-work-resp li,
+    .resume-template-modern .resume-modern-skills-list li,
+    .resume-template-modern .resume-summary {
+        font-size: 9.5pt;
+    }
+
+    .resume-template-modern .resume-language {
+        font-size: 9pt;
+    }
+
+    .resume-template-modern .resume-rodo {
+        font-size: 6.5pt;
+        line-height: 1.3;
+        page-break-before: avoid;
+    }
+}

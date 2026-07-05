@@ -6,6 +6,8 @@ Solution overview: [`../README.md`](../README.md). Legacy MVC host: [`../VRT.Res
 
 Architecture and pitfalls: [`../AGENTS.md`](../AGENTS.md) (section **VRT.Resume.Pwa**). Plan: [`../plans/blazor-wasm-pwa-offline.md`](../plans/blazor-wasm-pwa-offline.md).
 
+**Resume print templates** (classic / linear / compact): feature plan and **step-by-step guide for adding new templates** — [`../plans/resume-print-templates.md`](../plans/resume-print-templates.md#adding-a-new-print-template-step-by-step).
+
 Vibecoded with **Grok (xAI)**.
 
 ## Prerequisites

@@ -1,0 +1,15 @@
+﻿<div class="resume page-a4 resume-template-modern"><div class="resume-modern-container"><aside class="resume-modern-sidebar"><section class="resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Profil</h2>
+                        <p class="resume-summary">Experienced .NET developer.</p></div></section><section class="resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Umiejętności techniczne</h2>
+                        <ul class="resume-modern-skills-list"><li class="font-weight-bolder">C#</li></ul></div></section><section class="resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Języki</h2>
+                        <div class="resume-language-list"><div class="resume-language"><span class="resume-language-name">English</span><span class="resume-language-level">C1</span></div></div></div></section></aside>
+
+        <main class="resume-modern-main"><header class="resume-modern-header"><h1 class="resume-modern-name">Jan Kowalski</h1>
+                <p class="resume-modern-position">Senior Developer</p><div class="resume-modern-contact-grid"><div class="resume-modern-contact-cell"><span class="resume-modern-contact-label">Email</span>
+                                <span class="resume-modern-contact-value"><span>jan@example.com</span></span></div></div></header><section class="resume-experience resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Doświadczenie zawodowe</h2>
+                        <div class="resume-work-list"><div class="resume-work-item"><div class="resume-modern-item-header"><span class="resume-modern-item-title">Developer</span>
+                                        <span class="resume-modern-item-dates">01-2020 - 06-2024</span></div>
+                                    <div class="resume-modern-item-subtitle">Acme Corp</div><div class="resume-modern-item-meta">Warsaw</div><ul class="resume-work-resp"><li>Built web APIs</li></ul></div></div></div></section><section class="resume-education resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Wykształcenie</h2>
+                        <div class="resume-education-list"><div class="resume-edu-item"><div class="resume-modern-item-header"><span class="resume-modern-item-title">Computer Science</span>
+                                        <span class="resume-modern-item-dates">2015 - 2020</span></div>
+                                    <div class="resume-modern-item-subtitle">Warsaw University</div>
+                                    <div class="resume-modern-item-meta">Tytuł: <span>MSc</span></div></div></div></div></section></main></div></div>

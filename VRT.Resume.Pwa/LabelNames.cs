@@ -111,6 +111,7 @@ public static class LabelNames
     public const string ResumeTemplateClassic = "ResumeTemplateClassic";
     public const string ResumeTemplateLinear = "ResumeTemplateLinear";
     public const string ResumeTemplateCompact = "ResumeTemplateCompact";
+    public const string ResumeTemplateModern = "ResumeTemplateModern";
     public const string BackToResumes = "BackToResumes";
     public const string ButtonEdit = "ButtonEdit";
     public const string EmailOptional = "EmailOptional";

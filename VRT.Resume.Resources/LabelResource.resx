@@ -390,6 +390,9 @@
   <data name="ResumeTemplateCompact" xml:space="preserve">
     <value>Compact</value>
   </data>
+  <data name="ResumeTemplateModern" xml:space="preserve">
+    <value>Modern</value>
+  </data>
   <data name="BackToResumes" xml:space="preserve">
     <value>Back to resumes</value>
   </data>

@@ -379,6 +379,7 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 | Deploy (PWA) | `VRT.Resume.Pwa/Readme.md` |
 | Deploy (MVC, legacy) | `VRT.Resume.Mvc/Readme.md`, `build.cake` |
 | PWA feature | `plans/blazor-wasm-pwa-offline.md`, `VRT.Resume.Pwa/Program.cs`, `AGENTS.md` → VRT.Resume.Pwa |
+| New resume print template | `plans/resume-print-templates.md` → **Adding a new print template (step by step)**; `ResumeTemplateRegistry.cs`, `Features/Resumes/Components/` |
 | PWA tests | `VRT.Resume.Pwa.Tests/Fixtures/PwaTestContext.cs` |
 
 ## Project skill (`.grok/skills/`)

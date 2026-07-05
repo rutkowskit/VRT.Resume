@@ -390,6 +390,9 @@
   <data name="ResumeTemplateCompact" xml:space="preserve">
     <value>Kompaktowy</value>
   </data>
+  <data name="ResumeTemplateModern" xml:space="preserve">
+    <value>Nowoczesny</value>
+  </data>
   <data name="BackToResumes" xml:space="preserve">
     <value>Powrót do życiorysów</value>
   </data>
