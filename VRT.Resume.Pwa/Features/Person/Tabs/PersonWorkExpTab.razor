@@ -1,6 +1,6 @@
 @inherits CultureAwareComponentBase
 <MudStack Spacing="3" Class="mt-2">
-    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="AddExperienceAsync">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.Add" OnClick="AddExperienceAsync">
         @LabelNames.ButtonAddNewExp.GetLabelText()
     </MudButton>
 
@@ -35,7 +35,7 @@
                 <MudDivider Class="my-3" />
                 <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                     <MudText Typo="Typo.subtitle2">@LabelNames.Duties.GetLabelText()</MudText>
-                    <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Add"
+                    <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Add"
                                OnClick="@(() => AddDutyAsync(item.ExperienceId))">
                         @LabelNames.ButtonAddDuty.GetLabelText()
                     </MudButton>
@@ -55,7 +55,7 @@
                                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                                         <MudText Typo="Typo.body1">@duty.Name</MudText>
                                         <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
-                                            <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Workspaces"
+                                            <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Workspaces"
                                                                       Size="Size.Small"
                                                                       Title="@LabelNames.Skills.GetLabelText()"
                                                                       OnClick="@(() => EditDutySkillsAsync(duty.DutyId))" />

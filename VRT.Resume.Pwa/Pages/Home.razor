@@ -6,7 +6,7 @@
         <MudText Typo="Typo.h4">@LabelNames.PageResume.GetLabelText()</MudText>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.Add"
+                   StartIcon="@Icons.Material.Outlined.Add"
                    OnClick="AddAsync">
             @LabelNames.ButtonAddResume.GetLabelText()
         </MudButton>
@@ -27,7 +27,7 @@
         </MudAlert>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.Add"
+                   StartIcon="@Icons.Material.Outlined.Add"
                    OnClick="AddAsync">
             @LabelNames.ButtonAddResume.GetLabelText()
         </MudButton>
@@ -49,23 +49,23 @@
                 <MudTd DataLabel="@LabelNames.LastModification.GetLabelText()">@context.ModifiedDate.ToString("yyyy-MM-dd HH:mm")</MudTd>
                 <MudTd DataLabel="@LabelNames.Actions.GetLabelText()">
                     <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
-                        <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Visibility"
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Visibility"
                                                 Size="Size.Small"
                                                 Title="@LabelNames.ButtonShow.GetLabelText()"
                                                 Href="@ResumeDisplayHelpers.ShowUrl(context.ResumeId)" />
-                        <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Edit"
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Edit"
                                                 Size="Size.Small"
                                                 Title="@LabelNames.ButtonEdit.GetLabelText()"
                                                 OnClick="@(() => EditAsync(context.ResumeId))" />
-                        <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Workspaces"
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Workspaces"
                                                 Size="Size.Small"
                                                 Title="@LabelNames.Skills.GetLabelText()"
                                                 OnClick="@(() => EditSkillsAsync(context.ResumeId))" />
-                        <MudIconButtonWithTitle Icon="@Icons.Material.Filled.ContentCopy"
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.ContentCopy"
                                                 Size="Size.Small"
                                                 Title="@LabelNames.Clone.GetLabelText()"
                                                 OnClick="@(() => CloneAsync(context.ResumeId, context.Description))" />
-                        <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Delete"
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Delete"
                                                 Size="Size.Small"
                                                 Color="Color.Error"
                                                 Title="@LabelNames.ButtonDelete.GetLabelText()"

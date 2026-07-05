@@ -1,10 +1,10 @@
-<MudThemeProvider />
+<MudThemeProvider Theme="AppMudTheme.Theme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudContainer MaxWidth="MaxWidth.Small" Class="d-flex flex-column align-center justify-center" Style="min-height: 80vh; text-align: center;">
-    <MudIcon Icon="@Icons.Material.Filled.TabUnselected" Color="Color.Warning" Style="font-size: 4rem;" Class="mb-4" />
+    <MudIcon Icon="@Icons.Material.Outlined.TabUnselected" Color="Color.Warning" Style="font-size: 4rem;" Class="mb-4" />
     <MudText Typo="Typo.h5" Class="mb-2">@_title</MudText>
     <MudText Typo="Typo.body1" Class="mb-4">@_body</MudText>
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ReloadAsync">@_retry</MudButton>

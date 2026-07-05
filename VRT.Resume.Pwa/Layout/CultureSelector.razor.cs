@@ -46,7 +46,7 @@ public partial class CultureSelector : IDisposable
 
     private string? GetListIcon(string cultureKey)
         => string.Equals(_selectedCulture, cultureKey, StringComparison.OrdinalIgnoreCase)
-            ? Icons.Material.Filled.Check
+            ? Icons.Material.Outlined.Check
             : null;
 
     private string? GetListItemClass(string cultureKey)

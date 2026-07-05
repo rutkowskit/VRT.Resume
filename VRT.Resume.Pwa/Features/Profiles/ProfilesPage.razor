@@ -6,7 +6,7 @@
         <MudText Typo="Typo.h4">@LabelNames.PageProfiles.GetLabelText()</MudText>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.PersonAdd"
+                   StartIcon="@Icons.Material.Outlined.PersonAdd"
                    Href="@Routes.Profiles.Create">
             @LabelNames.ButtonCreateProfile.GetLabelText()
         </MudButton>
@@ -19,14 +19,14 @@
     <MudStack Row="true" Spacing="2" Wrap="Wrap.Wrap">
         <MudButton Variant="Variant.Outlined"
                    Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.Download"
+                   StartIcon="@Icons.Material.Outlined.Download"
                    Disabled="@_backupBusy"
                    OnClick="ExportDatabaseAsync">
             @LabelNames.ButtonExportDatabase.GetLabelText()
         </MudButton>
         <MudButton Variant="Variant.Outlined"
                    Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.Upload"
+                   StartIcon="@Icons.Material.Outlined.Upload"
                    Disabled="@_backupBusy"
                    OnClick="TriggerImportPickerAsync">
             @LabelNames.ButtonImportDatabase.GetLabelText()
@@ -49,7 +49,7 @@
         </MudAlert>
         <MudButton Variant="Variant.Filled"
                    Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.PersonAdd"
+                   StartIcon="@Icons.Material.Outlined.PersonAdd"
                    Href="@Routes.Profiles.Create">
             @LabelNames.CreateFirstProfile.GetLabelText()
         </MudButton>
@@ -77,7 +77,7 @@
                                        OnClick="@(() => SelectProfileAsync(profile.UserId))">
                                 @(isActive ? LabelNames.ProfileSelected.GetLabelText() : LabelNames.ButtonSelectProfile.GetLabelText())
                             </MudButton>
-                            <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Delete"
+                            <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Delete"
                                                     Color="Color.Error"
                                                     Title="@LabelNames.ButtonDelete.GetLabelText()"
                                                     OnClick="@(() => DeleteProfileAsync(profile))" />

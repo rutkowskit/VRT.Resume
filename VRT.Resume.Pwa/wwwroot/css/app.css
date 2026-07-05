@@ -2,6 +2,41 @@ html, body {
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* App shell — document-studio branding */
+.app-bar.mud-appbar {
+    background: linear-gradient(120deg, #0f2d46 0%, #143a5c 42%, #1b4d72 100%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mud-main-content {
+    background-color: var(--mud-palette-background);
+}
+
+.mud-drawer.mud-drawer-open-responsive-md-left,
+.mud-drawer.mud-drawer-open-persistent {
+    border-right: 1px solid var(--mud-palette-lines-default);
+}
+
+.mud-drawer .mud-nav-link.active:not(.mud-nav-link-disabled) {
+    background-color: rgba(27, 77, 114, 0.1);
+    color: var(--mud-palette-primary);
+    font-weight: 600;
+}
+
+.mud-drawer .mud-nav-link.active:not(.mud-nav-link-disabled) .mud-nav-link-icon {
+    color: var(--mud-palette-primary);
+}
+
+.mud-card {
+    border: 1px solid var(--mud-palette-lines-default);
+    box-shadow: 0 1px 3px rgba(15, 45, 70, 0.06) !important;
+}
+
+.mud-table .mud-table-container {
+    border: 1px solid var(--mud-palette-lines-default);
+    border-radius: var(--mud-default-borderradius);
+}
+
 /* Side nav — active profile header */
 .nav-menu-profile {
     align-items: flex-start;
@@ -116,7 +151,7 @@ html, body {
 }
 
 .opfs-tab-blocked__button {
-    background: #03173d;
+    background: #143a5c;
     border: 0;
     border-radius: 4px;
     color: #fff;
@@ -126,7 +161,7 @@ html, body {
 }
 
 .opfs-tab-blocked__button:hover {
-    background: #05245f;
+    background: #1b4d72;
 }
 
 h1:focus {
@@ -194,7 +229,7 @@ h1:focus {
     }
 
         .loading-progress circle:last-child {
-            stroke: #594ae2;
+            stroke: #1b4d72;
             stroke-dasharray: calc(3.141 * var(--blazor-load-percentage, 0%) * 0.8), 500%;
             transition: stroke-dasharray 0.05s ease-in-out;
         }
