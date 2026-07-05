@@ -2,7 +2,8 @@
 
 Open-source CV generator (.NET 10). Maintain a personal profile (contacts, education, experience, skills, photo) and create multiple tailored resume variants.
 
-**Repository:** [github.com/rutkowskit/VRT.Resume](https://github.com/rutkowskit/VRT.Resume)
+**Repository:** [github.com/rutkowskit/VRT.Resume](https://github.com/rutkowskit/VRT.Resume)  
+**Live (PWA):** [cv.rutus.work](https://cv.rutus.work)
 
 ## Active UI — Blazor WASM PWA (offline)
 
@@ -16,9 +17,9 @@ Quick start:
 dotnet run --project VRT.Resume.Pwa/VRT.Resume.Pwa.csproj
 ```
 
-## Legacy UI — ASP.NET Core MVC
+## Deprecated UI — ASP.NET Core MVC
 
-**`VRT.Resume.Mvc`** is the original web app (OAuth Google/GitHub, SQL Server or SQLite, Azure App Service). It is **legacy** — maintained for existing deployments only; new features go to the PWA.
+**`VRT.Resume.Mvc`** is **deprecated** and will **not** receive further development. It remains in the repository for existing deployments (OAuth Google/GitHub, SQL Server or SQLite, Azure App Service) and may get critical bugfixes or security patches only. All new features and UX work go to **`VRT.Resume.Pwa`**.
 
 **Documentation:** [`VRT.Resume.Mvc/Readme.md`](VRT.Resume.Mvc/Readme.md) — auth setup, Azure publish, DEV environment.
 
@@ -27,7 +28,7 @@ dotnet run --project VRT.Resume.Pwa/VRT.Resume.Pwa.csproj
 | Project | Role |
 |---------|------|
 | `VRT.Resume.Pwa` | Blazor WASM PWA (active UI) |
-| `VRT.Resume.Mvc` | ASP.NET Core MVC (legacy UI) |
+| `VRT.Resume.Mvc` | ASP.NET Core MVC (**deprecated**, no new features) |
 | `VRT.Resume.Application` | CQRS handlers (MediatR), shared by both hosts |
 | `VRT.Resume.Persistence` / `Domain` | EF Core data model |
 | `VRT.Resume.Resources` | UI strings (PL + EN) |

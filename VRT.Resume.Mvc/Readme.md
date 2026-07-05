@@ -2,7 +2,7 @@
 
 Legacy ASP.NET Core MVC host for the CV generator. Users sign in via OAuth (Google / GitHub), store data in SQL Server or SQLite, and edit resumes in the browser.
 
-> **Status:** maintenance-only. The active UI is [`VRT.Resume.Pwa`](../VRT.Resume.Pwa/Readme.md). Change MVC only when required (bugfix, security, shared-layer dependency).
+> **Status: deprecated.** This host is no longer developed. The active UI is [`VRT.Resume.Pwa`](../VRT.Resume.Pwa/Readme.md). Touch MVC only for critical bugfixes, security, or shared-layer dependencies required by the PWA.
 
 Solution overview: [`../README.md`](../README.md). Architecture: [`../AGENTS.md`](../AGENTS.md).
 
