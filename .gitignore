@@ -351,3 +351,7 @@ artifacts/
 #Agents
 terminals/
 agent-tools/
+
+#Wrangler
+wrangler/
+.wrangler/

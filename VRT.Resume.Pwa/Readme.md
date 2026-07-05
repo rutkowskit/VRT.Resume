@@ -51,9 +51,9 @@ Requires Node.js and Chrome or Edge. Target: PWA score ≥ 90.
 dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug
 ```
 
-## Deploy to Cloudflare Pages (static, ZIP upload)
+## Deploy to Cloudflare Pages (static, direct upload)
 
-Cloudflare serves the published **`wwwroot`** folder as a static site. Upload a ZIP whose **root contains `index.html`** (not the parent `deploy/pwa` folder).
+Cloudflare serves the published **`wwwroot`** folder as a static site. There is **no build step on Cloudflare** — publish locally, then upload the folder (Wrangler) or a ZIP (dashboard).
 
 ### Checklist
 
@@ -85,7 +85,41 @@ Re-run the publish server against the folder that includes `_headers` / `_redire
 - [ ] Offline refresh works after one online visit (service worker + cache).
 - [ ] Only **one tab** open per site (OPFS single-writer lock).
 
-#### 4. Create the ZIP
+#### 4. Deploy with Wrangler (recommended)
+
+**One-time setup:** [Node.js](https://nodejs.org/), then log in and create a Pages project:
+
+```powershell
+npx wrangler login
+npx wrangler pages project create vrt-resume-pwa
+```
+
+**Publish + deploy** (script runs `dotnet publish` then `wrangler pages deploy`):
+
+```powershell
+./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1
+```
+
+Preview deployment on a branch alias:
+
+```powershell
+./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1 -Branch preview-test
+```
+
+Manual equivalent:
+
+```powershell
+dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
+npx wrangler pages deploy ./deploy/pwa/wwwroot --project-name=vrt-resume-pwa
+```
+
+Production URL: `https://<project-name>.pages.dev`. Wrangler uploads a **folder** (not a ZIP); limit ~20 000 files per deployment.
+
+Useful commands: `npx wrangler pages project list`, `npx wrangler pages deployment list --project-name=vrt-resume-pwa`.
+
+**Note:** Direct Upload projects cannot be switched to Git integration later — create a new project if you need CI from the Cloudflare dashboard.
+
+#### 5. Alternative: ZIP upload (dashboard)
 
 The archive root must be the contents of `wwwroot`, not the `wwwroot` directory itself.
 
@@ -99,8 +133,6 @@ Compress-Archive -Path "$root\*" -DestinationPath ./deploy/vrt-resume-pwa.zip -F
 ```
 
 **Manually:** open `deploy/pwa/wwwroot`, select all files and folders inside, compress to `vrt-resume-pwa.zip`. After unzip, `index.html` must be at the top level.
-
-#### 5. Cloudflare dashboard
 
 1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Upload assets**.
 2. Project name (e.g. `vrt-resume-pwa`).
@@ -122,8 +154,8 @@ Compress-Archive -Path "$root\*" -DestinationPath ./deploy/vrt-resume-pwa.zip -F
 | **Build command** | None — deploy pre-built `wwwroot` only (direct upload). |
 | **Build output directory** | N/A for ZIP upload. |
 | **Data** | Stays in each user’s browser; no server database. Users should use **Export database** on `/profiles`. |
-| **Updates** | Re-run publish, create a new ZIP, upload a new deployment. Online clients auto-reload when a new service worker is detected (`pwa-boot.js`). |
-| **CI alternative** | Same `wwwroot` artifact can be produced in GitHub Actions and connected via Cloudflare Pages Git integration instead of ZIP. |
+| **Updates** | Re-run `./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1` or publish + upload again. Online clients auto-reload when a new service worker is detected (`pwa-boot.js`). |
+| **CI alternative** | Run `dotnet publish` in CI, then `wrangler pages deploy` with `CLOUDFLARE_API_TOKEN` (see [Cloudflare direct upload CI](https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/)). |
 
 ## Limitations
 
