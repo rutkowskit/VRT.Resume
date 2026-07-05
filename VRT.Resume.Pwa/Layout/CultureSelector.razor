@@ -1,14 +1,32 @@
-<MudSelect T="string"
-           Value="_selectedCulture"
-           ValueChanged="OnCultureChangedAsync"
-           Label="@LabelNames.Language.GetLabelText()"
-           Dense="true"
-           Variant="Variant.Outlined"
-           Margin="Margin.Dense"
-           Style="min-width: 120px;"
-           Class="culture-selector">
-    @foreach (var language in CultureService.GetSupportedLanguages())
-    {
-        <MudSelectItem Value="@language.Key">@language.Value.caption</MudSelectItem>
-    }
-</MudSelect>
+<nav class="culture-selector" aria-label="@LabelNames.Language.GetLabelText()">
+    <MudMenu @bind-Open="_menuOpen"
+             AnchorOrigin="Origin.BottomRight"
+             TransformOrigin="Origin.TopRight"
+             StartIcon="@Icons.Material.Outlined.Translate"
+             Label="@_selectedCulture.ToUpperInvariant()"
+             Color="Color.Inherit"
+             Variant="Variant.Text"
+             Dense="true"
+             Class="culture-selector__menu"
+             PopoverClass="culture-selector__popover"
+             AriaLabel="@GetActivatorLabel()">
+        <ChildContent>
+            <MudListSubheader Class="culture-selector__title">
+                @LabelNames.Language.GetLabelText()
+            </MudListSubheader>
+            <MudDivider Class="culture-selector__divider" />
+            @foreach (var language in CultureService.GetSupportedLanguages())
+            {
+                <MudMenuItem OnClick="@(() => SelectCulture(language.Key))"
+                             Icon="@GetListIcon(language.Key)"
+                             IconColor="Color.Inherit"
+                             Class="@GetListItemClass(language.Key)">
+                    <div class="culture-selector__option">
+                        <span class="culture-selector__option-caption">@language.Value.caption</span>
+                        <span class="culture-selector__option-code">@language.Key.ToUpperInvariant()</span>
+                    </div>
+                </MudMenuItem>
+            }
+        </ChildContent>
+    </MudMenu>
+</nav>

@@ -309,6 +309,9 @@
   <data name="Hidden" xml:space="preserve">
     <value>Hidden</value>
   </data>
+  <data name="GitHubRepository" xml:space="preserve">
+    <value>Source code on GitHub</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>

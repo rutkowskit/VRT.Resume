@@ -41,6 +41,7 @@ description: >
 - **Central packages** — versions in `Directory.Packages.props` only.
 - **Tests are integration tests** despite `Tests.Unit` folder name.
 - **Language:** documentation, code comments, and commit messages in **English**; UI strings via Resources (PL + EN).
+- **Adding a language:** sync `SupportedLangDic` / `SupportedLanguages` in both `CultureService` (Mvc) and `PwaCultureService` (Pwa), add `LabelResource.{xx}.resx` + `MessageResource.{xx}.resx`; PWA `CultureSelector` auto-scales — see `AGENTS.md` → **Adding a new language**.
 
 ## VRT.Resume.Pwa
 

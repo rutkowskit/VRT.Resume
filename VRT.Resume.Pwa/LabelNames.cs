@@ -46,6 +46,7 @@ public static class LabelNames
     public const string Grade = "Grade";
     public const string Hidden = "Hidden";
     public const string Icon = "Icon";
+    public const string GitHubRepository = "GitHubRepository";
     public const string Language = "Language";
     public const string LastModification = "LastModification";
     public const string MainInfo = "MainInfo";

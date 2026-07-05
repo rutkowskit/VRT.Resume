@@ -156,6 +156,14 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 <script src="_framework/blazor.webassembly.js"></script>
 ```
 
+### PWA language switcher (`CultureSelector`)
+
+- **UI:** `Layout/CultureSelector.razor` — `MudMenu` with translate icon + current ISO code (e.g. `PL` / `EN`) in the app bar; dropdown is a `MudList` (native caption + code + checkmark on the active language). Pattern matches MudBlazor docs (icon button opens a list panel).
+- **Data:** `PwaCultureService.SupportedLanguages`; persisted in `localStorage` key `VRT.Resume.Culture`.
+- **Scales automatically:** add a dictionary entry only — `CultureSelector` iterates `GetSupportedLanguages()`; no markup changes per language.
+- **UX:** ISO codes in the app bar, not country flags (flags represent countries, not languages — e.g. `en`).
+- **MudMenu 9.x activator:** custom `ActivatorContent` must call `context.ToggleAsync` on click — otherwise the menu never opens. Prefer built-in `StartIcon` + `Label` (wired automatically) when possible.
+
 ## Domain model
 
 ### Core entities (16)
@@ -264,8 +272,31 @@ Config keys (Azure uses `__` nesting):
 
 - Resources: `VRT.Resume.Resources` — `LabelResource`, `MessageResource` (+ `.pl.resx`).
 - Access: `LabelNames.*.GetLabelText()`, `MsgNames.*.GetMessageText()`.
-- Cultures: `pl` (default), `en`; cookie `VRT.Resume.Culture`.
+- Cultures: `pl` (default), `en`; cookie `VRT.Resume.Culture` (MVC), `localStorage` `VRT.Resume.Culture` (PWA).
 - Date format forced to `yyyy-MM-dd` in `RequestCultureMiddleware`.
+- **Registry (both hosts):** `CultureService.SupportedLangDic` (Mvc) and `PwaCultureService.SupportedLanguages` (Pwa) — keep in sync; `ICultureService.GetSupportedLanguages()` feeds `GetSupportedLanguagesQuery`, MVC `CultureLink`, and PWA `CultureSelector`.
+
+### Adding a new language
+
+Checklist when extending beyond `pl` / `en` (example: `de`):
+
+1. **Registry** — add `["de"] = ("de", "Deutsch")` to **both**:
+   - `VRT.Resume.Mvc/Services/CultureService.cs` → `SupportedLangDic`
+   - `VRT.Resume.Pwa/Services/PwaCultureService.cs` → `SupportedLanguages`  
+   Key = two-letter ISO code; `caption` = language name **in that language** (shown in PWA list and MVC `/Culture/Change` dropdown).
+
+2. **Resources** — add satellite files in `VRT.Resume.Resources`:
+   - `LabelResource.de.resx`
+   - `MessageResource.de.resx`  
+   Copy all keys from neutral `LabelResource.resx` / `MessageResource.resx` (English fallback). Polish overrides live in `.pl.resx` today.
+
+3. **Application errors (optional)** — `Errors.de.resx` in `VRT.Resume.Application` if localized handler errors are needed.
+
+4. **MVC** — no extra wiring: `CultureLink` view component and `CultureController` use `ICultureService`; `RequestCultureMiddleware` applies the culture cookie.
+
+5. **PWA** — no `CultureSelector` changes; `BlazorWebAssemblyLoadAllGlobalizationData=true` must stay enabled (csproj). `Program.cs` sets `ResourceHelper.ResolveCulture` from `PwaCultureService`.
+
+6. **Validators** — `SetUserCultureCommandValidator` only requires `MinimumLength(2)`; no whitelist update needed.
 
 ## Testing conventions
 
@@ -343,6 +374,7 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 | DB change | `Persistence/Data/AppDbContext.cs`, `AppDbContextExtensions.cs` |
 | New test | `Fixtures/ApplicationFixture.cs`, `CommandTestBase.cs` |
 | UI label | `VRT.Resume.Resources/LabelResource.resx` (+ `.pl.resx`) |
+| New language | `CultureService.cs`, `PwaCultureService.cs`, `VRT.Resume.Resources/*.resx`, `Layout/CultureSelector.razor` (reference only — auto-scales) |
 | Deploy | `README.md`, `build.cake` |
 | PWA feature | `plans/blazor-wasm-pwa-offline.md`, `VRT.Resume.Pwa/Program.cs`, `AGENTS.md` → VRT.Resume.Pwa |
 | PWA tests | `VRT.Resume.Pwa.Tests/Fixtures/PwaTestContext.cs` |

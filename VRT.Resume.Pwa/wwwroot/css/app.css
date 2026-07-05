@@ -2,6 +2,52 @@ html, body {
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* App bar language switcher — icon + code + list menu */
+.culture-selector {
+    flex-shrink: 0;
+}
+
+.culture-selector__menu .mud-menu-button-activator.mud-button-root {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    min-width: 0;
+    padding: 0.25rem 0.5rem;
+    text-transform: uppercase;
+}
+
+.culture-selector__option {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    line-height: 1.2;
+}
+
+.culture-selector__option-code {
+    color: var(--mud-palette-text-secondary);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+}
+
+.culture-selector__popover.mud-popover-paper {
+    min-width: 12rem;
+    overflow: hidden;
+    padding: 0;
+}
+
+.culture-selector__title {
+    font-weight: 600;
+    padding: 0.75rem 1rem 0.5rem;
+}
+
+.culture-selector__divider {
+    margin: 0;
+}
+
+.culture-selector__item--active {
+    font-weight: 600;
+}
+
 /* Resume add/edit dialog (DialogService + MaxWidth.Large + FullWidth) */
 .mud-dialog-width-lg.mud-dialog-width-full .mud-dialog {
     min-width: min(40rem, 95vw);

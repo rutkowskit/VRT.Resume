@@ -10,7 +10,15 @@
                        OnClick="DrawerToggle" />
         <MudText Typo="Typo.h6">@LabelNames.AppTitle.GetLabelText()</MudText>
         <MudSpacer />
-        <CultureSelector />
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="0" Class="app-bar-actions">
+            <MudIconButtonWithTitle Icon="@Icons.Custom.Brands.GitHub"
+                                    Color="Color.Inherit"
+                                    Href="@GitHubRepositoryUrl"
+                                    Target="_blank"
+                                    Rel="noopener noreferrer"
+                                    Title="@LabelNames.GitHubRepository.GetLabelText()" />
+            <CultureSelector />
+        </MudStack>
     </MudAppBar>
 
     <MudDrawer @bind-Open="_drawerOpen"

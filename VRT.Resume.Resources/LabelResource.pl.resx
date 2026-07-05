@@ -213,6 +213,9 @@
   <data name="Icon" xml:space="preserve">
     <value>Ikona</value>
   </data>
+  <data name="GitHubRepository" xml:space="preserve">
+    <value>Kod źródłowy na GitHubie</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Język</value>
   </data>

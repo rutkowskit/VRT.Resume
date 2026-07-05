@@ -5,6 +5,8 @@ namespace VRT.Resume.Pwa.Layout;
 
 public partial class MainLayout : IDisposable
 {
+    public const string GitHubRepositoryUrl = "https://github.com/rutkowskit/VRT.Resume";
+
     [Inject] private PwaCultureService CultureService { get; set; } = null!;
 
     private bool _drawerOpen = true;
