@@ -148,6 +148,14 @@ dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
 
 Use **`http://127.0.0.1:8080`** (script sets COOP/COEP for OPFS). One browser tab per origin.
 
+### Lighthouse PWA audit
+
+```powershell
+./VRT.Resume.Pwa/run-lighthouse.ps1
+```
+
+Requires Node.js and Chrome or Edge. Target score: PWA ≥ 90. Alternatively: Chrome DevTools → Lighthouse on `http://127.0.0.1:8080` after `serve-published.ps1`.
+
 ### Tests
 
 ```powershell

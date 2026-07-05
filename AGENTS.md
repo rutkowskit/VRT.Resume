@@ -136,6 +136,7 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 | String component parameter renders as literal | Use `@` for C# expressions: `ProfileImageUrl="@_profileImageUrl"` (without `@`, Blazor passes the string `"_profileImageUrl"`). |
 | Photo missing on resume view | Per-resume flag `ShowProfilePhoto` (edit CV dialog). Profile tab always shows the uploaded photo. |
 | Backup / restore all profiles | `/profiles` → Export/Import via `PwaDatabaseBackupService` + `ISqliteWasmDatabaseService` (`vrt-resume.db`). Import replaces OPFS DB; clears active profile context; `forceLoad` reload. |
+| Lighthouse PWA audit | `./VRT.Resume.Pwa/run-lighthouse.ps1` after publish; or DevTools on `http://127.0.0.1:8080` via `serve-published.ps1`. Manifest includes maskable icons; published SW uses `skipWaiting` + `clients.claim`. |
 
 ### PWA tests (`VRT.Resume.Pwa.Tests`)
 

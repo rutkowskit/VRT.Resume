@@ -21,8 +21,9 @@ Nowy projekt **Blazor WebAssembly PWA** z pełną funkcjonalnością obecnego ge
 | .NET | `net10.0` |
 
 **Open (non-blocking):**
-- Usuwanie profilu (kaskada danych) — v1 czy później?
-- Eksport/backup całej bazy SQLite (wszystkie profile)?
+- ~~Usuwanie profilu (kaskada danych)~~ — zrobione (Faza 11+)
+- ~~Eksport/backup całej bazy SQLite~~ — zrobione (`PwaDatabaseBackupService`)
+- Lighthouse PWA ≥90 — skrypt `run-lighthouse.ps1`; wymaga Chrome/Edge lokalnie
 
 ## For Future Agents
 
@@ -164,7 +165,7 @@ Status: Complete
 - [x] `ProfileRequiredRouteView` + `IProfileExemptPage` — bez kontekstu → `/profiles`
 - [x] Menu: wyświetl aktywny profil (`GetPersonDataQuery`); link „Change profile”
 - [x] Odświeżenie stanu UI po `SetContext` (`ContextChanged` + `NavMenu`)
-- [ ] **Opcjonalnie v1:** usuwanie profilu (kaskada) — odłożone na Fazę 11
+- [x] **Opcjonalnie v1:** usuwanie profilu (kaskada) — `LocalProfileService.DeleteAsync`, Faza 11+
 
 ### Verification Plan
 - Utwórz 2 profile → lista pokazuje 2; przełącz kontekst → `GetResumeListQuery` zwraca CV tylko aktywnego
@@ -276,7 +277,7 @@ Status: Complete
 - [x] `manifest.webmanifest` — `scope`, `description`, `categories`, icon `purpose`, `lang`
 - [x] `index.html` — `theme-color`, apple-mobile-web-app meta; usunięto Google Fonts CDN (offline-safe system font stack)
 - [x] Publish manifest obejmuje MudBlazor, SqliteWasm (`sqlite3.wasm`, worker), SkiaSharp WASM, static assets
-- [ ] Lighthouse PWA ≥ 90 — weryfikacja manualna po `dotnet publish` + statyczny hosting (HTTPS)
+- [ ] Lighthouse PWA ≥ 90 — `./VRT.Resume.Pwa/run-lighthouse.ps1` (Chrome/Edge) lub DevTools na `http://127.0.0.1:8080`
 
 ### Verification Plan
 - `dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa` — 0 errors ✅
@@ -285,30 +286,30 @@ Status: Complete
 - Lighthouse PWA audit na published URL (HTTPS lub localhost)
 
 ### Phase Summary
-Utwardzono offline PWA: published service worker cache'uje cały manifest (WASM, MudBlazor, SQLite worker, assety wwwroot) z odpornym installem; SPA routing offline przez `index.html`. Manifest i meta tagi pod installability/Lighthouse. Usunięto zewnętrzny Google Fonts — fonty systemowe w `app.css`. Dane użytkownika offline: SQLite WASM (OPFS) + `localStorage` (aktywny profil, kultura). Lighthouse ≥90 wymaga manualnego audytu na opublikowanej aplikacji.
+Utwardzono offline PWA: published service worker cache'uje cały manifest (WASM, MudBlazor, SQLite worker, assety wwwroot) z odpornym installem (`Promise.allSettled`), `skipWaiting` + `clients.claim`; SPA routing offline przez `index.html`. Manifest (maskable icons) i meta tagi pod installability/Lighthouse. Usunięto zewnętrzny Google Fonts — fonty systemowe w `app.css`. Dane użytkownika offline: SQLite WASM (OPFS) + `localStorage` (aktywny profil, kultura). Audyt: `run-lighthouse.ps1`.
 
 ---
 
 ## Phase 11: Tests, docs & optional features
 Status: Complete
 
-- [x] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych (`VRT.Resume.Pwa.Tests`, 8 testów)
+- [x] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych (`VRT.Resume.Pwa.Tests`, 13 testów)
 - [x] Zaktualizuj `AGENTS.md` + `README.md`
 - [x] **Opcjonalnie:** usuwanie profilu (kaskada EF) — `LocalProfileService.DeleteAsync`, UI na `/profiles`
 - [x] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile) — `PwaDatabaseBackupService`, UI na `/profiles`
 
 ### Verification Plan
-- `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug` — 8/8 ✅
+- `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug` — 13/13 ✅
 - `dotnet build VRT.Resume.slnx -c Release` — 0 errors ✅
 
 ### Phase Summary
-Dodano `VRT.Resume.Pwa.Tests` (bUnit 1.38, xUnit): `PwaTestContext` (in-memory SQLite, Mud providers), testy izolacji profili (`DummyCurrentUserService`, `GetPersonDataQuery`, `GetResumeListQuery`), `ProfilesPage` (lista + wybór), `ProfileRequiredRouteView` (redirect `/profiles`). Zaktualizowano `AGENTS.md` (pitfalls PWA, sekcja testów) i `README.md` (run, publish, testy). Opcjonalne: delete profilu i export DB — na później.
+Dodano `VRT.Resume.Pwa.Tests` (bUnit 1.38, xUnit): `PwaTestContext` (in-memory SQLite, Mud providers), testy izolacji profili, `ProfilesPage` (lista, wybór, delete), `ProfileRequiredRouteView`, `LocalProfileService.DeleteAsync`, `PwaDatabaseBackupService.IsValidSqliteFile`. Zaktualizowano `AGENTS.md` i `README.md`. Opcjonalne: delete profilu + export/import SQLite — ukończone po Fazie 11.
 
 ---
 
 ## Final Recap
 
-Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`). Opcjonalnie na backlog: Lighthouse ≥90 na published URL.
+Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA, delete profilu, export/import DB). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`, 13). **Gotowe do merge** `feature/blazor-wasm-pwa` → `main`. Pozostaje: Lighthouse ≥90 (lokalny audyt `run-lighthouse.ps1`).
 
 ---
 
@@ -321,7 +322,7 @@ Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokal
    ```
 2. **Serve locally (OPFS smoke test)** — `VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (COOP/COEP).
 3. **Static host** — upload `deploy/pwa/wwwroot` to any HTTPS static host (Azure Static Web Apps, GitHub Pages, nginx). Ensure SPA fallback to `index.html` for client routes.
-4. **Data** — all profiles live in browser SQLite WASM (OPFS); no server backup unless user exports (future). One tab per origin.
+4. **Data** — all profiles live in browser SQLite WASM (OPFS); user can export/import `.db` on `/profiles`. One tab per origin.
 5. **MVC (Azure)** — unchanged: `dotnet publish VRT.Resume.Mvc` → App Service per `README.md`.
 
 ---
@@ -333,7 +334,7 @@ Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokal
 | `CreatePersonAccount` ustawia `UserPerson.UserId = Email ?? UserId` | Przy braku email używaj unikalnego `local:{guid}` jako `UserId` |
 | Singleton `DummyCurrentUserService` + Transient `DbContext` | Wzorzec jak MVC; kontekst tylko w Singleton, DB per operation |
 | Brak kontekstu → 401 w handlerach | Route guard + zawsze `SetContext` przed wejściem w app |
-| Usuwanie profilu — kaskada | Odłożyć lub transakcja DELETE Person + powiązania (Pwa service, nie Application) |
+| Usuwanie profilu — kaskada | `LocalProfileService.DeleteAsync` (transakcja w Pwa) |
 | `localStorage` wyczyszczone — utrata „ostatniego profilu” | Redirect `/profiles`; dane w SQLite zostają |
 | Persistence / SQLite collation | Minimal fix w Persistence only |
 
