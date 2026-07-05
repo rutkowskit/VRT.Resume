@@ -1,9 +1,8 @@
-// PWA bootstrap: service worker (dev vs published), single-tab OPFS lock, deferred Blazor load.
+// PWA bootstrap: service worker, single-tab OPFS lock, deferred Blazor load.
 (function () {
     const cultureStorageKey = 'VRT.Resume.Culture';
     const tabLockName = 'vrt-resume-opfs';
     const tabChannelName = 'vrt-resume-opfs-tab';
-    const devPorts = new Set(['5176', '7086']);
 
     const messages = {
         pl: {
@@ -72,17 +71,12 @@
             return;
         }
 
-        const isDotnetDevServer =
-            (location.hostname === 'localhost' || location.hostname === '127.0.0.1') &&
-            devPorts.has(location.port);
-
-        if (isDotnetDevServer) {
-            const registrations = await navigator.serviceWorker.getRegistrations();
-            await Promise.all(registrations.map((registration) => registration.unregister()));
-            return;
+        try {
+            await navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
+            await navigator.serviceWorker.ready;
+        } catch (error) {
+            console.warn('Service worker registration failed:', error);
         }
-
-        await navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
     }
 
     function listenForLeaderRelease() {
@@ -108,11 +102,16 @@
         channel.close();
     }
 
-    function tryAcquireTabLock() {
-        if (!navigator.locks?.request) {
-            return Promise.resolve(true);
-        }
+    function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
+    function isPageReload() {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        return navigation?.type === 'reload';
+    }
+
+    function tryAcquireTabLockOnce() {
         return new Promise((resolve) => {
             navigator.locks.request(
                 tabLockName,
@@ -130,6 +129,27 @@
                     return new Promise(() => { });
                 });
         });
+    }
+
+    async function tryAcquireTabLock() {
+        if (!navigator.locks?.request) {
+            return true;
+        }
+
+        if (isPageReload()) {
+            await delay(400);
+        }
+
+        const maxAttempts = isPageReload() ? 20 : 6;
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+            if (await tryAcquireTabLockOnce()) {
+                return true;
+            }
+
+            await delay(250);
+        }
+
+        return false;
     }
 
     async function boot() {

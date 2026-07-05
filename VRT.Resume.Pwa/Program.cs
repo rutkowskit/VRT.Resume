@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
-using SqliteWasmBlazor;
 using System.Globalization;
 using VRT.Resume.Pwa;
 using VRT.Resume.Pwa.Services;
@@ -22,7 +21,7 @@ var startup = host.Services.GetRequiredService<PwaStartupState>();
 
 try
 {
-    await host.Services.InitializeSqliteWasmAsync();
+    await PwaSqliteStartup.InitializeAsync(host.Services);
     await host.Services.GetRequiredService<DatabaseInitializer>().InitializeAsync();
     var cultureService = host.Services.GetRequiredService<PwaCultureService>();
     await cultureService.InitializeAsync();

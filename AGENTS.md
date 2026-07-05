@@ -137,6 +137,7 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 | Photo missing on resume view | Per-resume flag `ShowProfilePhoto` (edit CV dialog). Profile tab always shows the uploaded photo. |
 | Backup / restore all profiles | `/profiles` → Export/Import via `PwaDatabaseBackupService` + `ISqliteWasmDatabaseService` (`vrt-resume.db`). Import replaces OPFS DB; clears active profile context; `forceLoad` reload. |
 | Lighthouse PWA audit | `./VRT.Resume.Pwa/run-lighthouse.ps1` after publish; or DevTools on `http://127.0.0.1:8080` via `serve-published.ps1`. Manifest includes maskable icons; published SW uses `skipWaiting` + `clients.claim`. |
+| Offline refresh shows browser “no network” | SW must install on an **online** visit first. Blazor serves **`service-worker.js`** (not `service-worker.published.js`) — `Include` in csproj must be `wwwroot/service-worker.js`. `pwa-boot.js` awaits `serviceWorker.ready` before loading Blazor. |
 
 ### PWA tests (`VRT.Resume.Pwa.Tests`)
 
