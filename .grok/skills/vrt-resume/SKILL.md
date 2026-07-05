@@ -48,6 +48,7 @@ description: >
 - **Blazor:** markup-only `*.razor` + `*.razor.cs` partial class (no `@code`). Routes: `[Route(Routes.*)]` in code-behind; constants in `Routes.cs`.
 - **Feature-oriented / vertical-slice layout:** `Features/{FeatureName}/` (page + services + components per feature); shared shell in `Layout/`.
 - **Do not modify Application** for PWA-only flows — adapters live in `VRT.Resume.Pwa`.
+- **MVC is legacy** (planned retirement) — touch only when necessary; new UI work goes to PWA.
 - **EF providers in hosts only:** Persistence → `Relational`; Pwa → SqliteWasm; Mvc/Tests → SqlServer.
 - **EF Core 10.0.8** pinned for SqliteWasmBlazor 0.9.1-pre compatibility.
 - **WASM startup:** `BlazorWebAssemblyLoadAllGlobalizationData=true`; `MudBlazor.min.js` before Blazor script; `MudDrawer` → `Persistent` + `Breakpoint.Md`.

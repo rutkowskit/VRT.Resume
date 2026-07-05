@@ -10,6 +10,7 @@ Guide for AI agents working on this codebase. Read this before making changes.
 - **Solutions:** `VRT.Resume.sln` (classic), `VRT.Resume.slnx` (folder-organized)
 - **Live DEV:** https://vrt-cv.azurewebsites.net/ (may change; testing only)
 - **Owner context:** Polish-first UI; Azure App Service deployment documented in `README.md`
+- **Product direction:** **PWA** (`VRT.Resume.Pwa`) is the active UI; **MVC** (`VRT.Resume.Mvc`) is legacy — planned for gradual retirement. **Do not extend or polish MVC** unless a change is strictly required (bugfix, security, shared-layer dependency). Prefer PWA for new UX and open-source touches (e.g. GitHub link in app bar).
 
 ## Tech stack
 
@@ -375,7 +376,8 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 | New test | `Fixtures/ApplicationFixture.cs`, `CommandTestBase.cs` |
 | UI label | `VRT.Resume.Resources/LabelResource.resx` (+ `.pl.resx`) |
 | New language | `CultureService.cs`, `PwaCultureService.cs`, `VRT.Resume.Resources/*.resx`, `Layout/CultureSelector.razor` (reference only — auto-scales) |
-| Deploy | `README.md`, `build.cake` |
+| Deploy (PWA) | `VRT.Resume.Pwa/Readme.md` |
+| Deploy (MVC, legacy) | `VRT.Resume.Mvc/Readme.md`, `build.cake` |
 | PWA feature | `plans/blazor-wasm-pwa-offline.md`, `VRT.Resume.Pwa/Program.cs`, `AGENTS.md` → VRT.Resume.Pwa |
 | PWA tests | `VRT.Resume.Pwa.Tests/Fixtures/PwaTestContext.cs` |
 

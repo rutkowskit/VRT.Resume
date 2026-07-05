@@ -2,7 +2,9 @@
 
 Offline Blazor WebAssembly PWA for generating CVs from local profiles. No OAuth, no backend — all data lives in the browser (SQLite WASM / OPFS). UI: MudBlazor, languages: PL (default) and EN.
 
-Architecture and pitfalls: [`../AGENTS.md`](../AGENTS.md) (section **VRT.Resume.Pwa**), plan: [`../plans/blazor-wasm-pwa-offline.md`](../plans/blazor-wasm-pwa-offline.md).
+Solution overview: [`../README.md`](../README.md). Legacy MVC host: [`../VRT.Resume.Mvc/Readme.md`](../VRT.Resume.Mvc/Readme.md).
+
+Architecture and pitfalls: [`../AGENTS.md`](../AGENTS.md) (section **VRT.Resume.Pwa**). Plan: [`../plans/blazor-wasm-pwa-offline.md`](../plans/blazor-wasm-pwa-offline.md).
 
 ## Prerequisites
 
