@@ -12,6 +12,7 @@
     <NoWarn>$(NoWarn);WASM0001</NoWarn>
     <!-- Cloudflare Pages compresses responses on the fly; skip publish-time .br/.gz sidecars. -->
     <CompressionEnabled>false</CompressionEnabled>
+    <UserSecretsId>be4a9ee9-e38d-4e9f-86a7-a6b56d46b04e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

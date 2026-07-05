@@ -6,6 +6,8 @@ Solution overview: [`../README.md`](../README.md). Legacy MVC host: [`../VRT.Res
 
 Architecture and pitfalls: [`../AGENTS.md`](../AGENTS.md) (section **VRT.Resume.Pwa**). Plan: [`../plans/blazor-wasm-pwa-offline.md`](../plans/blazor-wasm-pwa-offline.md).
 
+Vibecoded with **Grok (xAI)**.
+
 ## Prerequisites
 
 - .NET 10 SDK
