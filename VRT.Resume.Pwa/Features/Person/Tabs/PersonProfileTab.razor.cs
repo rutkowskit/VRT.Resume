@@ -24,6 +24,17 @@ public partial class PersonProfileTab
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
     private readonly FormValiditySync _formValidity = new();
 
+    private string _originalFirstName = string.Empty;
+    private string _originalLastName = string.Empty;
+    private DateTime? _originalDateOfBirth;
+
+    private bool CanSave => FormSaveGate.CanSave(_isValid, _loading, _saving, isNew: false, IsDirty);
+
+    private bool IsDirty =>
+        _firstName.Trim() != _originalFirstName
+        || _lastName.Trim() != _originalLastName
+        || !FormSaveGate.DatesEqual(_dateOfBirth, _originalDateOfBirth);
+
     protected override async Task OnInitializedAsync() => await LoadAsync();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -57,8 +68,16 @@ public partial class PersonProfileTab
         var image = await Mediator.SendQueryAsync(new GetProfileImageQuery());
         _imageUrl = ProfileImageUrl.ToDataUrl(image) ?? ProfileImageUrl.DefaultImagePath;
 
+        CaptureSnapshot();
         _loading = false;
         _formValidity.RequestSync();
+    }
+
+    private void CaptureSnapshot()
+    {
+        _originalFirstName = _firstName.Trim();
+        _originalLastName = _lastName.Trim();
+        _originalDateOfBirth = _dateOfBirth;
     }
 
     private async Task SaveAsync()
@@ -84,5 +103,8 @@ public partial class PersonProfileTab
 
         _fieldErrors = outcome.FieldErrors;
         _saving = false;
+
+        if (outcome.Result.IsSuccess)
+            CaptureSnapshot();
     }
 }

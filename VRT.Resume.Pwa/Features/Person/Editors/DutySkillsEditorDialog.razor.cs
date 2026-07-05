@@ -16,6 +16,14 @@ public partial class DutySkillsEditorDialog
     private readonly List<DutySkillRow> _skills = [];
     private bool _loading = true;
     private bool _saving;
+    private Dictionary<int, bool> _originalRelevance = [];
+
+    private bool CanSave => !_loading && !_saving && _skills.Count > 0 && IsDirty;
+
+    private bool IsDirty =>
+        _skills.Any(skill =>
+            !_originalRelevance.TryGetValue(skill.SkillId, out var original)
+            || skill.IsRelevant != original);
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,8 +45,12 @@ public partial class DutySkillsEditorDialog
             Type = s.Type,
             IsRelevant = s.IsRelevant,
         }));
+        CaptureSnapshot();
         _loading = false;
     }
+
+    private void CaptureSnapshot() =>
+        _originalRelevance = _skills.ToDictionary(skill => skill.SkillId, skill => skill.IsRelevant);
 
     private void Cancel() => MudDialog.Cancel();
 

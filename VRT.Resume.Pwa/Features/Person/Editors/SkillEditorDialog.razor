@@ -30,7 +30,7 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(_saving || _loading || !_isValid)" OnClick="SaveAsync">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!CanSave)" OnClick="SaveAsync">
             @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
         </MudButton>
     </DialogActions>

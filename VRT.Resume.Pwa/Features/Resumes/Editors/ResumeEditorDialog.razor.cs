@@ -3,6 +3,7 @@ using MudBlazor;
 using VRT.Resume.Application.Resumes.Commands.UpsertPersonResume;
 using VRT.Resume.Application.Resumes.Queries.GetResume;
 using VRT.Resume.Pwa.Features.Mediator;
+using VRT.Resume.Pwa.Features.Person;
 
 namespace VRT.Resume.Pwa.Features.Resumes.Editors;
 
@@ -25,12 +26,30 @@ public partial class ResumeEditorDialog
     private string _dataProcessingPermission = string.Empty;
     private bool _showProfilePhoto = true;
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
+    private readonly FormValiditySync _formValidity = new();
+
+    private string _originalDescription = string.Empty;
+    private string _originalPosition = string.Empty;
+    private string _originalSummary = string.Empty;
+    private string _originalDataProcessingPermission = string.Empty;
+    private bool _originalShowProfilePhoto = true;
+
+    private bool CanSave => FormSaveGate.CanSave(_isValid, _loading, _saving, _isNew, IsDirty);
+
+    private bool IsDirty =>
+        _description.Trim() != _originalDescription
+        || _position.Trim() != _originalPosition
+        || _summary.Trim() != _originalSummary
+        || _dataProcessingPermission.Trim() != _originalDataProcessingPermission
+        || _showProfilePhoto != _originalShowProfilePhoto;
 
     protected override async Task OnInitializedAsync()
     {
         if (_isNew)
         {
             _loading = false;
+            CaptureSnapshot();
+            _formValidity.RequestSync();
             return;
         }
 
@@ -50,7 +69,26 @@ public partial class ResumeEditorDialog
         _summary = item.Summary ?? string.Empty;
         _dataProcessingPermission = item.DataProcessingPermission ?? string.Empty;
         _showProfilePhoto = item.ShowProfilePhoto;
+        CaptureSnapshot();
         _loading = false;
+        _formValidity.RequestSync();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        await _formValidity.OnAfterRenderAsync(_form, _loading);
+    }
+
+    private Task OnFieldChangedAsync() => _formValidity.OnFieldChangedAsync(_form);
+
+    private void CaptureSnapshot()
+    {
+        _originalDescription = _description.Trim();
+        _originalPosition = _position.Trim();
+        _originalSummary = _summary.Trim();
+        _originalDataProcessingPermission = _dataProcessingPermission.Trim();
+        _originalShowProfilePhoto = _showProfilePhoto;
     }
 
     private void Cancel() => MudDialog.Cancel();

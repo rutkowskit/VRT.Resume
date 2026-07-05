@@ -51,8 +51,8 @@ public partial class NavMenu : IDisposable
 
     private string GetActiveProfileNameClass()
         => ActiveProfile.HasActiveContext
-            ? "px-4 pb-2"
-            : "px-4 pb-2 mud-text-secondary";
+            ? "nav-menu-profile__name"
+            : "nav-menu-profile__name mud-text-secondary";
 
     public void Dispose()
     {

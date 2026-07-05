@@ -7,9 +7,10 @@
         @LabelNames.CreateProfilePageDescription.GetLabelText()
     </MudText>
 
-    <MudForm @ref="_form" @bind-IsValid="_isValid">
+    <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
         <MudStack Spacing="3">
             <MudTextField @bind-Value="_firstName"
+                          @bind-Value:after="OnFieldChangedAsync"
                           Label="@LabelNames.FirstName.GetLabelText()"
                           Required="true"
                           RequiredError="@LabelNames.FirstNameRequired.GetLabelText()"
@@ -18,12 +19,14 @@
                           Error="FieldErrors.HasFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.FirstName))"
                           ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.FirstName))" />
             <MudTextField @bind-Value="_lastName"
+                          @bind-Value:after="OnFieldChangedAsync"
                           Label="@LabelNames.LastName.GetLabelText()"
                           MaxLength="100"
                           Immediate="true"
                           Error="FieldErrors.HasFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.LastName))"
                           ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(CreatePersonAccountCommand.LastName))" />
             <MudTextField @bind-Value="_email"
+                          @bind-Value:after="OnFieldChangedAsync"
                           Label="@LabelNames.EmailOptional.GetLabelText()"
                           InputType="InputType.Email"
                           Immediate="true"

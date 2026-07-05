@@ -26,6 +26,19 @@ public partial class ContactEditorDialog
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
     private readonly FormValiditySync _formValidity = new();
 
+    private string _originalName = string.Empty;
+    private string _originalValue = string.Empty;
+    private string _originalUrl = string.Empty;
+    private string _originalIcon = string.Empty;
+
+    private bool CanSave => FormSaveGate.CanSave(_isValid, _loading, _saving, _isNew, IsDirty);
+
+    private bool IsDirty =>
+        _name.Trim() != _originalName
+        || _value.Trim() != _originalValue
+        || _url.Trim() != _originalUrl
+        || _icon.Trim() != _originalIcon;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -38,6 +51,7 @@ public partial class ContactEditorDialog
     {
         if (_isNew)
         {
+            CaptureSnapshot();
             _loading = false;
             _formValidity.RequestSync();
             return;
@@ -58,8 +72,17 @@ public partial class ContactEditorDialog
         _value = item.Value;
         _url = item.Url ?? string.Empty;
         _icon = item.Icon ?? string.Empty;
+        CaptureSnapshot();
         _loading = false;
         _formValidity.RequestSync();
+    }
+
+    private void CaptureSnapshot()
+    {
+        _originalName = _name.Trim();
+        _originalValue = _value.Trim();
+        _originalUrl = _url.Trim();
+        _originalIcon = _icon.Trim();
     }
 
     private void Cancel() => MudDialog.Cancel();

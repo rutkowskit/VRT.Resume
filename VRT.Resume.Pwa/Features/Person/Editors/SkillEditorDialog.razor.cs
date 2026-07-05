@@ -26,6 +26,17 @@ public partial class SkillEditorDialog
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
     private readonly FormValiditySync _formValidity = new();
 
+    private SkillTypes _originalSkillType = SkillTypes.Technical;
+    private string _originalSkillName = string.Empty;
+    private string _originalSkillLevel = string.Empty;
+
+    private bool CanSave => FormSaveGate.CanSave(_isValid, _loading, _saving, _isNew, IsDirty);
+
+    private bool IsDirty =>
+        _skillType != _originalSkillType
+        || _skillName.Trim() != _originalSkillName
+        || _skillLevel.Trim() != _originalSkillLevel;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -38,6 +49,7 @@ public partial class SkillEditorDialog
     {
         if (_isNew)
         {
+            CaptureSnapshot();
             _loading = false;
             _formValidity.RequestSync();
             return;
@@ -57,8 +69,16 @@ public partial class SkillEditorDialog
         _skillType = item.Type;
         _skillName = item.Name;
         _skillLevel = item.Level ?? string.Empty;
+        CaptureSnapshot();
         _loading = false;
         _formValidity.RequestSync();
+    }
+
+    private void CaptureSnapshot()
+    {
+        _originalSkillType = _skillType;
+        _originalSkillName = _skillName.Trim();
+        _originalSkillLevel = _skillLevel.Trim();
     }
 
     private void Cancel() => MudDialog.Cancel();

@@ -3,6 +3,7 @@ using MudBlazor;
 using VRT.Resume.Application.Resumes.Commands.MergeResumeSkills;
 using VRT.Resume.Application.Resumes.Queries.GetResumeSkillList;
 using VRT.Resume.Pwa.Features.Mediator;
+using VRT.Resume.Pwa.Features.Person;
 
 namespace VRT.Resume.Pwa.Features.Resumes.Editors;
 
@@ -16,6 +17,16 @@ public partial class ResumeSkillsEditorDialog
     private readonly List<ResumeSkillRow> _skills = [];
     private bool _loading = true;
     private bool _saving;
+    private Dictionary<int, SkillSnapshot> _originalSkills = [];
+
+    private bool CanSave => !_loading && !_saving && _skills.Count > 0 && IsDirty;
+
+    private bool IsDirty =>
+        _skills.Any(skill =>
+            !_originalSkills.TryGetValue(skill.SkillId, out var original)
+            || skill.IsRelevant != original.IsRelevant
+            || skill.IsHidden != original.IsHidden
+            || skill.Position != original.Position);
 
     protected override async Task OnInitializedAsync()
     {
@@ -39,8 +50,14 @@ public partial class ResumeSkillsEditorDialog
             IsHidden = s.IsHidden,
             Position = s.Position,
         }));
+        CaptureSnapshot();
         _loading = false;
     }
+
+    private void CaptureSnapshot() =>
+        _originalSkills = _skills.ToDictionary(
+            skill => skill.SkillId,
+            skill => new SkillSnapshot(skill.IsRelevant, skill.IsHidden, skill.Position));
 
     private void Cancel() => MudDialog.Cancel();
 
@@ -77,4 +94,6 @@ public partial class ResumeSkillsEditorDialog
         public bool IsHidden { get; set; }
         public int Position { get; set; }
     }
+
+    private readonly record struct SkillSnapshot(bool IsRelevant, bool IsHidden, int Position);
 }

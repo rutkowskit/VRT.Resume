@@ -2,6 +2,28 @@ html, body {
     font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* Side nav — active profile header */
+.nav-menu-profile {
+    align-items: flex-start;
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem 0.25rem;
+}
+
+.nav-menu-profile__icon {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+}
+
+.nav-menu-profile__text {
+    line-height: 1.3;
+    min-width: 0;
+}
+
+.nav-menu-profile__name {
+    word-break: break-word;
+}
+
 /* App bar language switcher — icon + code + list menu */
 .culture-selector {
     flex-shrink: 0;

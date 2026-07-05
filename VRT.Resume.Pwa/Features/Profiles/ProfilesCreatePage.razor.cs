@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using VRT.Resume.Application.Persons.Commands.CreatePersonAccount;
 using VRT.Resume.Pwa.Features.Mediator;
+using VRT.Resume.Pwa.Features.Person;
 using VRT.Resume.Pwa.Services;
 
 namespace VRT.Resume.Pwa.Features.Profiles;
@@ -20,6 +21,17 @@ public partial class ProfilesCreatePage : IProfileExemptPage
     private string _lastName = string.Empty;
     private string? _email;
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
+    private readonly FormValiditySync _formValidity = new();
+
+    protected override void OnInitialized() => _formValidity.RequestSync();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        await _formValidity.OnAfterRenderAsync(_form, loading: false);
+    }
+
+    private Task OnFieldChangedAsync() => _formValidity.OnFieldChangedAsync(_form);
 
     private async Task CreateProfileAsync()
     {

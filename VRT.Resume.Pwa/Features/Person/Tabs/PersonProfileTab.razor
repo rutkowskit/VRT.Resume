@@ -54,7 +54,7 @@ else
         <MudStack Row="true" Spacing="2" Class="mt-4">
             <MudButton Variant="Variant.Filled"
                        Color="Color.Primary"
-                       Disabled="@(_saving || !_isValid)"
+                       Disabled="@(!CanSave)"
                        OnClick="SaveAsync">
                 @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
             </MudButton>

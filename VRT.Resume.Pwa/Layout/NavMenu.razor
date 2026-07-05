@@ -1,11 +1,18 @@
-<MudNavMenu>
-    <MudText Typo="Typo.subtitle2" Class="px-4 pt-2 mud-text-secondary">
-        @LabelNames.ActiveProfile.GetLabelText()
-    </MudText>
-    <MudText Typo="Typo.body1" Class="@GetActiveProfileNameClass()">
-        @GetActiveProfileDisplayName()
-    </MudText>
-    <MudDivider Class="my-2" />
+<MudNavMenu Class="nav-menu">
+    <div class="nav-menu-profile">
+        <MudIcon Icon="@Icons.Material.Filled.Badge"
+                 Size="Size.Small"
+                 Class="nav-menu-profile__icon mud-text-secondary" />
+        <div class="nav-menu-profile__text">
+            <MudText Typo="Typo.caption" Class="mud-text-secondary">
+                @LabelNames.ActiveProfile.GetLabelText()
+            </MudText>
+            <MudText Typo="Typo.body2" Class="@GetActiveProfileNameClass()">
+                @GetActiveProfileDisplayName()
+            </MudText>
+        </div>
+    </div>
+    <MudDivider Class="my-2 nav-menu-profile-divider" />
 
     <MudNavLink Href="@Routes.Profiles.List" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Badge">
         @LabelNames.PageProfiles.GetLabelText()

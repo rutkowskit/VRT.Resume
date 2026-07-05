@@ -24,3 +24,20 @@ internal sealed class FormValiditySync
     public Task OnFieldChangedAsync(MudForm? form) =>
         form is null ? Task.CompletedTask : form.ValidateAsync();
 }
+
+internal static class FormSaveGate
+{
+    public static bool CanSave(bool isValid, bool loading, bool saving, bool isNew, bool isDirty) =>
+        isValid && !loading && !saving && (isNew || isDirty);
+
+    public static bool DatesEqual(DateTime? left, DateTime? right)
+    {
+        if (left is null && right is null)
+            return true;
+
+        if (left is null || right is null)
+            return false;
+
+        return left.Value.Date == right.Value.Date;
+    }
+}

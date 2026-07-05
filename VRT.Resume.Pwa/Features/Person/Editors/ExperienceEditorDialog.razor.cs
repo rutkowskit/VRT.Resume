@@ -27,6 +27,21 @@ public partial class ExperienceEditorDialog
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
     private readonly FormValiditySync _formValidity = new();
 
+    private string _originalPosition = string.Empty;
+    private string _originalCompanyName = string.Empty;
+    private string _originalLocation = string.Empty;
+    private DateTime? _originalFromDate = DateTime.Today;
+    private DateTime? _originalToDate;
+
+    private bool CanSave => FormSaveGate.CanSave(_isValid, _loading, _saving, _isNew, IsDirty);
+
+    private bool IsDirty =>
+        _position.Trim() != _originalPosition
+        || _companyName.Trim() != _originalCompanyName
+        || _location.Trim() != _originalLocation
+        || !FormSaveGate.DatesEqual(_fromDate, _originalFromDate)
+        || !FormSaveGate.DatesEqual(_toDate, _originalToDate);
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -39,6 +54,7 @@ public partial class ExperienceEditorDialog
     {
         if (_isNew)
         {
+            CaptureSnapshot();
             _loading = false;
             _formValidity.RequestSync();
             return;
@@ -60,8 +76,18 @@ public partial class ExperienceEditorDialog
         _location = item.Location ?? string.Empty;
         _fromDate = item.FromDate;
         _toDate = item.ToDate;
+        CaptureSnapshot();
         _loading = false;
         _formValidity.RequestSync();
+    }
+
+    private void CaptureSnapshot()
+    {
+        _originalPosition = _position.Trim();
+        _originalCompanyName = _companyName.Trim();
+        _originalLocation = _location.Trim();
+        _originalFromDate = _fromDate;
+        _originalToDate = _toDate;
     }
 
     private void Cancel() => MudDialog.Cancel();

@@ -24,6 +24,12 @@ public partial class ExperienceDutyEditorDialog
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
     private readonly FormValiditySync _formValidity = new();
 
+    private string _originalName = string.Empty;
+
+    private bool CanSave => FormSaveGate.CanSave(_isValid, _loading, _saving, _isNew, IsDirty);
+
+    private bool IsDirty => _name.Trim() != _originalName;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -36,6 +42,7 @@ public partial class ExperienceDutyEditorDialog
     {
         if (_isNew)
         {
+            CaptureSnapshot();
             _loading = false;
             _formValidity.RequestSync();
             return;
@@ -54,9 +61,12 @@ public partial class ExperienceDutyEditorDialog
         var item = outcome.Result.Value;
         _name = item.Name;
         ExperienceId = item.ExperienceId;
+        CaptureSnapshot();
         _loading = false;
         _formValidity.RequestSync();
     }
+
+    private void CaptureSnapshot() => _originalName = _name.Trim();
 
     private void Cancel() => MudDialog.Cancel();
 
