@@ -4,12 +4,14 @@ using VRT.Resume.Application.Persons.Queries.GetProfileImage;
 using VRT.Resume.Application.Resumes.Queries.GetResume;
 using VRT.Resume.Pwa.Features.Mediator;
 using VRT.Resume.Pwa.Features.Person;
+using VRT.Resume.Pwa.Layout;
 using VRT.Resume.Pwa.Services;
 using VRT.Resume.Resources;
 
 namespace VRT.Resume.Pwa.Features.Resumes;
 
 [Route(Routes.Resumes.Show)]
+[Layout(typeof(ResumeShowLayout))]
 public partial class ResumeShowPage : IDisposable
 {
     [Parameter] public int ResumeId { get; set; }

@@ -35,12 +35,21 @@ internal static class ResumeDisplayHelpers
     public static MarkupString? ContactIcon(ContactItemDto? contact) =>
         string.IsNullOrWhiteSpace(contact?.Icon) ? null : new MarkupString(contact.Icon);
 
-    public static MarkupString ContactValue(ContactItemDto contact)
+    public static MarkupString ContactLine(ContactItemDto contact)
+    {
+        var icon = string.IsNullOrWhiteSpace(contact.Icon) ? string.Empty : contact.Icon;
+        return new MarkupString($"{icon}{ContactValueHtml(contact)}");
+    }
+
+    public static MarkupString ContactValue(ContactItemDto contact) =>
+        new MarkupString(ContactValueHtml(contact));
+
+    private static string ContactValueHtml(ContactItemDto contact)
     {
         if (!string.IsNullOrWhiteSpace(contact.Url))
-            return new MarkupString($"<a href=\"{contact.Url}\" target=\"_blank\" rel=\"noopener noreferrer\">{contact.Value}</a>");
+            return $"<a href=\"{contact.Url}\" target=\"_blank\" rel=\"noopener noreferrer\">{contact.Value}</a>";
 
-        return new MarkupString($"<span>{contact.Value}</span>");
+        return $"<span>{contact.Value}</span>";
     }
 
     public static MarkupString? FormatActivitySkills(WorkActivityDto? activity)

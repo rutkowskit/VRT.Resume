@@ -11,6 +11,7 @@ else if (!string.IsNullOrEmpty(_loadError))
 }
 else if (_resume is not null)
 {
+    <div class="resume-show-page">
     <MudStack Spacing="3" Class="resume-print-toolbar">
         <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center">
             <MudButton Variant="Variant.Outlined"
@@ -25,5 +26,6 @@ else if (_resume is not null)
 
     <div class="overflow-container">
         <ResumeDocument Model="@_resume" ProfileImageUrl="@_profileImageUrl" />
+    </div>
     </div>
 }
