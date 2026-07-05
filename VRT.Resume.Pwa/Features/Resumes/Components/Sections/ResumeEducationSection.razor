@@ -1,0 +1,32 @@
+@inherits CultureAwareComponentBase
+<section class="resume-education resume-card resume-section">
+    <div class="resume-card-body">
+        <h2 class="resume-section-title">@LabelNames.ResumeEducation.GetLabelText()</h2>
+        <div class="resume-education-list">
+            @foreach (var edu in Education)
+            {
+                <div class="resume-edu-item">
+                    <div class="resume-timeline-item-title">
+                        @ResumeDisplayHelpers.FormatTimeRange(edu, "yyyy") — @edu.Field
+                    </div>
+                    <div class="resume-timeline-item-title-1">@edu.SchoolName</div>
+                    <div class="resume-timeline-item-title-2">
+                        @LabelNames.Degree.GetLabelText(): <span>@edu.Degree</span>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(edu.Specjalization))
+                    {
+                        <div>@LabelNames.Specialization.GetLabelText(): <span>@edu.Specjalization</span></div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(edu.ThesisTitle))
+                    {
+                        <div>@LabelNames.Thesis.GetLabelText(): <span>@edu.ThesisTitle</span></div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(edu.FinalGrade))
+                    {
+                        <div>@LabelNames.Grade.GetLabelText(): <span>@edu.FinalGrade</span></div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>

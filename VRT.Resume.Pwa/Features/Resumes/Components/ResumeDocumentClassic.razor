@@ -1,4 +1,4 @@
-@inherits CultureAwareComponentBase
+@inherits ResumeDocumentBase
 <div class="resume page-a4 resume-template-classic">
     <div class="resume-container">
         <div class="resume-left-panel">
@@ -18,15 +18,7 @@
                 </div>
             </div>
 
-            <section class="resume-card resume-section">
-                <div class="resume-card-body">
-                    <h2 class="resume-section-title">@LabelNames.ResumeContact.GetLabelText()</h2>
-                    @foreach (var contact in Model.Contact ?? [])
-                    {
-                        <div class="resume-contact-item">@ResumeDisplayHelpers.ContactLine(contact)</div>
-                    }
-                </div>
-            </section>
+            <ResumeContactSection Contacts="@Model.Contact" />
 
             <section class="resume-card resume-section">
                 <div class="resume-card-body">
@@ -75,73 +67,8 @@
                 </div>
             </section>
 
-            <section class="resume-experience resume-card resume-section">
-                <div class="resume-card-body">
-                    <h2 class="resume-section-title">@LabelNames.ResumeWorkExp.GetLabelText()</h2>
-                    <div class="resume-work-list">
-                        @foreach (var exp in OrderedExperience)
-                        {
-                            <div class="resume-work-item">
-                                <div class="resume-timeline-item-title">
-                                    @ResumeDisplayHelpers.FormatTimeRange(exp) — @exp.Position
-                                </div>
-                                <div class="resume-timeline-item-title-1">@exp.CompanyName</div>
-                                <div class="resume-timeline-item-title-2">@exp.Location</div>
-                                @if (exp.WorkActivities is { Length: > 0 })
-                                {
-                                    <ul class="resume-work-resp">
-                                        @foreach (var activity in exp.WorkActivities)
-                                        {
-                                            <li>
-                                                @activity.Description
-                                                @{
-                                                    var skills = ResumeDisplayHelpers.FormatActivitySkills(activity);
-                                                }
-                                                @if (skills is not null)
-                                                {
-                                                    @skills
-                                                }
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-            </section>
-
-            <section class="resume-education resume-card resume-section">
-                <div class="resume-card-body">
-                    <h2 class="resume-section-title">@LabelNames.ResumeEducation.GetLabelText()</h2>
-                    <div class="resume-education-list">
-                        @foreach (var edu in OrderedEducation)
-                        {
-                            <div class="resume-edu-item">
-                                <div class="resume-timeline-item-title">
-                                    @ResumeDisplayHelpers.FormatTimeRange(edu, "yyyy") — @edu.Field
-                                </div>
-                                <div class="resume-timeline-item-title-1">@edu.SchoolName</div>
-                                <div class="resume-timeline-item-title-2">
-                                    @LabelNames.Degree.GetLabelText(): <span>@edu.Degree</span>
-                                </div>
-                                @if (!string.IsNullOrWhiteSpace(edu.Specjalization))
-                                {
-                                    <div>@LabelNames.Specialization.GetLabelText(): <span>@edu.Specjalization</span></div>
-                                }
-                                @if (!string.IsNullOrWhiteSpace(edu.ThesisTitle))
-                                {
-                                    <div>@LabelNames.Thesis.GetLabelText(): <span>@edu.ThesisTitle</span></div>
-                                }
-                                @if (!string.IsNullOrWhiteSpace(edu.FinalGrade))
-                                {
-                                    <div>@LabelNames.Grade.GetLabelText(): <span>@edu.FinalGrade</span></div>
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-            </section>
+            <ResumeExperienceSection Experience="@OrderedExperience" />
+            <ResumeEducationSection Education="@OrderedEducation" />
         </div>
 
         @if (!string.IsNullOrWhiteSpace(Model.Permission))

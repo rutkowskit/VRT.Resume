@@ -104,13 +104,13 @@ Registry + `ResumeDocumentClassic` + split CSS (`_print-base.css`, `classic.css`
 
 ## Phase 2: Linear template + shared sections
 
-Status: Not started
+Status: Complete
 
-- [ ] Implement `ResumeDocumentLinear.razor` — order: header (name, position, contact line) → summary → experience → education → skills (text lists) → languages → RODO
-- [ ] Add `linear.css` — screen + `@media print`; no timeline `::before/::after`; skills as comma-separated text (reuse print rules from classic)
-- [ ] Extract 2–3 shared section components used by classic + linear (contact, experience list minimum)
-- [ ] Add `LabelResource` / `LabelResource.pl.resx` keys: `ResumeTemplateClassic`, `ResumeTemplateLinear`, `ResumeTemplateLabel`
-- [ ] bUnit: `ResumeDocumentLinear` renders with seeded `ResumeFullVM` fixture
+- [x] Implement `ResumeDocumentLinear.razor` — order: header (name, position, contact line) → summary → experience → education → skills (text lists) → languages → RODO
+- [x] Add `linear.css` — screen + `@media print`; no timeline `::before/::after`; skills as comma-separated text (reuse print rules from classic)
+- [x] Extract 2–3 shared section components used by classic + linear (contact, experience list minimum)
+- [x] Add `LabelResource` / `LabelResource.pl.resx` keys: `ResumeTemplateClassic`, `ResumeTemplateLinear`, `ResumeTemplateLabel`
+- [x] bUnit: `ResumeDocumentLinear` renders with seeded `ResumeFullVM` fixture
 
 ### Verification Plan
 
@@ -119,7 +119,7 @@ Status: Not started
 
 ### Phase Summary
 
-_(write when phase completes)_
+`ResumeDocumentLinear` (single-column ATS layout) + `linear.css`. Shared sections: `ResumeContactSection`, `ResumeExperienceSection`, `ResumeEducationSection`, `ResumeInlineContactLine`; `ResumeDocumentBase` holds ordering logic. Classic refactored to use sections. Registry registers `linear`. bUnit smoke test in `ResumeDocumentLinearTests`.
 
 ---
 

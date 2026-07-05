@@ -1,0 +1,7 @@
+@inherits CultureAwareComponentBase
+<div class="resume-linear-contact-line">
+    @foreach (var contact in Contacts ?? [])
+    {
+        <span class="resume-contact-item">@ResumeDisplayHelpers.ContactValue(contact)</span>
+    }
+</div>
