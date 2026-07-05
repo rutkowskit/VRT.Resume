@@ -4,6 +4,8 @@ using VRT.Resume.Application.Resumes.Commands.UpsertPersonResume;
 using VRT.Resume.Application.Resumes.Queries.GetResume;
 using VRT.Resume.Pwa.Features.Mediator;
 using VRT.Resume.Pwa.Features.Person;
+using VRT.Resume.Pwa.Features.Resumes.Templates;
+using VRT.Resume.Pwa.Services;
 
 namespace VRT.Resume.Pwa.Features.Resumes.Editors;
 
@@ -11,6 +13,7 @@ public partial class ResumeEditorDialog
 {
     [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
     [Inject] private MediatorSender Mediator { get; set; } = null!;
+    [Inject] private ResumePrintTemplateStorage TemplateStorage { get; set; } = null!;
 
     [Parameter] public int ResumeId { get; set; }
 
@@ -25,14 +28,17 @@ public partial class ResumeEditorDialog
     private string _summary = string.Empty;
     private string _dataProcessingPermission = string.Empty;
     private bool _showProfilePhoto = true;
+    private string _printTemplate = ResumeTemplateIds.Classic;
     private IReadOnlyDictionary<string, string[]> _fieldErrors = new Dictionary<string, string[]>();
     private readonly FormValiditySync _formValidity = new();
+    private readonly IReadOnlyList<ResumeTemplateDescriptor> _templates = ResumeTemplateRegistry.All;
 
     private string _originalDescription = string.Empty;
     private string _originalPosition = string.Empty;
     private string _originalSummary = string.Empty;
     private string _originalDataProcessingPermission = string.Empty;
     private bool _originalShowProfilePhoto = true;
+    private string _originalPrintTemplate = ResumeTemplateIds.Classic;
 
     private bool CanSave => FormSaveGate.CanSave(_isValid, _loading, _saving, _isNew, IsDirty);
 
@@ -41,7 +47,8 @@ public partial class ResumeEditorDialog
         || _position.Trim() != _originalPosition
         || _summary.Trim() != _originalSummary
         || _dataProcessingPermission.Trim() != _originalDataProcessingPermission
-        || _showProfilePhoto != _originalShowProfilePhoto;
+        || _showProfilePhoto != _originalShowProfilePhoto
+        || (!_isNew && _printTemplate != _originalPrintTemplate);
 
     protected override async Task OnInitializedAsync()
     {
@@ -69,6 +76,10 @@ public partial class ResumeEditorDialog
         _summary = item.Summary ?? string.Empty;
         _dataProcessingPermission = item.DataProcessingPermission ?? string.Empty;
         _showProfilePhoto = item.ShowProfilePhoto;
+
+        var storedTemplate = await TemplateStorage.GetAsync(ResumeId);
+        _printTemplate = ResumeTemplateRegistry.Normalize(storedTemplate);
+
         CaptureSnapshot();
         _loading = false;
         _formValidity.RequestSync();
@@ -89,6 +100,7 @@ public partial class ResumeEditorDialog
         _originalSummary = _summary.Trim();
         _originalDataProcessingPermission = _dataProcessingPermission.Trim();
         _originalShowProfilePhoto = _showProfilePhoto;
+        _originalPrintTemplate = _printTemplate;
     }
 
     private void Cancel() => MudDialog.Cancel();
@@ -121,6 +133,11 @@ public partial class ResumeEditorDialog
         _saving = false;
 
         if (outcome.Result.IsSuccess)
+        {
+            if (!_isNew)
+                await TemplateStorage.SetAsync(ResumeId, ResumeTemplateRegistry.Normalize(_printTemplate));
+
             MudDialog.Close(DialogResult.Ok(true));
+        }
     }
 }

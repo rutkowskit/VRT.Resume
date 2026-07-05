@@ -20,8 +20,8 @@ Add multiple CV **print/preview styles** per resume variant in `VRT.Resume.Pwa`,
 | Topic | Decision |
 |-------|----------|
 | Export path | Browser **Print** / Save as PDF (existing `PrintAsync`) |
-| Template storage (phase 1) | **Per-resume** in DB column `PrintTemplate` (string slug, default `classic`) |
-| Template storage (fallback) | `localStorage` key `VRT.Resume.PrintTemplate.{resumeId}` until DB column ships |
+| Template storage | **`localStorage`** key `VRT.Resume.PrintTemplate.{resumeId}` (per resume, per browser) |
+| DB column | **Not used** — avoids `EnsureCreated` schema drift; not required for offline PWA |
 | Default template | `classic` — current `ResumeDocument` layout |
 | Second template (MVP) | `linear` — single column, ATS-friendly, no timeline graphics |
 | Third template (optional) | `compact` — dense typography, 1-page oriented |
@@ -50,16 +50,7 @@ wwwroot/css/resume/
 
 **Shared markup (optional refactor, phase 2):** extract section fragments under `Features/Resumes/Components/Sections/` (`ResumeContactSection`, `ResumeExperienceSection`, …) to avoid copy-paste across templates.
 
-**Data model (phase 2):**
-
-```csharp
-// PersonResume — new column
-public string PrintTemplate { get; set; } = "classic";
-```
-
-Wire through `UpsertPersonResumeCommand`, `GetResumeQuery`, `GetFullResumeQuery`, `ResumeEditorDialog` (dropdown).
-
-**Validation:** `PrintTemplate` must be in `ResumeTemplateRegistry` known slugs; invalid → `classic`.
+**Persistence:** `ResumePrintTemplateStorage` in PWA only (`localStorage`). Editor and show page read/write the same key. Invalid slug → `classic` via `ResumeTemplateRegistry.Normalize`.
 
 ## Template catalog (target)
 
@@ -125,24 +116,17 @@ Status: Complete
 
 ## Phase 3: Persist template per resume (DB + editor)
 
-Status: Not started
+Status: Cancelled — **localStorage only** (no DB column)
 
-- [ ] Add `PrintTemplate` column to `PersonResume` (EF config, default `classic`, max length 32)
-- [ ] Update `UpsertPersonResumeCommand` + validator + handler; `GetResume` / `GetFullResume` DTOs
-- [ ] `ResumeEditorDialog`: `MudSelect` print template (saved with resume)
-- [ ] `ResumeShowPage`: load template from resume; picker changes call `UpsertPersonResume` or dedicated `SetResumePrintTemplateCommand` (prefer extend upsert to avoid extra handler)
-- [ ] Remove or sync `localStorage` fallback when DB value present
-- [ ] Integration test: upsert resume with `PrintTemplate=linear`, get full resume asserts value
-- [ ] Document SQLite schema drift: existing OPFS DBs need re-import or one-time column patch note in `VRT.Resume.Pwa/Readme.md` (EnsureCreated limitation)
+Decision: per-resume print template stays in `localStorage` only. No `PersonResume.PrintTemplate`, no schema changes, no migrations / `EnsureCreated` drift.
 
-### Verification Plan
-
-- `dotnet test VRT.Resume.sln -c Release` (Application integration + Pwa.Tests)
-- Manual: set linear on CV A, classic on CV B — each remembers after reload
+- [x] `ResumeShowPage` + `ResumeEditorDialog`: template via `ResumePrintTemplateStorage` (`localStorage` per `ResumeId`)
+- [x] Editor template picker when editing existing resume (`ResumeId > 0`); new resume → default on show page
+- [ ] ~~DB column / upsert / integration test~~ — intentionally not implemented
 
 ### Phase Summary
 
-_(write when phase completes)_
+Reverted DB persistence. Template choice is browser-local per resume ID; export/import of `.db` does not include template preference (acceptable for PWA).
 
 ---
 
