@@ -33,12 +33,26 @@ description: >
 
 ## Critical rules
 
+- **Never `git push`** unless the user explicitly asks — commits OK when requested; user reviews before push.
 - **No repository layer** — handlers use `AppDbContext` directly.
 - **No EF migrations** — `EnsureCreated()` only; warn user on schema-breaking changes.
 - **Global auth** — `[AllowAnonymous]` required for public endpoints.
 - **Transient DbContext** — do not change lifetime without explicit request.
 - **Central packages** — versions in `Directory.Packages.props` only.
 - **Tests are integration tests** despite `Tests.Unit` folder name.
+- **Language:** documentation, code comments, and commit messages in **English**; UI strings via Resources (PL + EN).
+- **Adding a language:** sync `SupportedLangDic` / `SupportedLanguages` in both `CultureService` (Mvc) and `PwaCultureService` (Pwa), add `LabelResource.{xx}.resx` + `MessageResource.{xx}.resx`; PWA `CultureSelector` auto-scales — see `AGENTS.md` → **Adding a new language**.
+
+## VRT.Resume.Pwa
+
+- **Blazor:** markup-only `*.razor` + `*.razor.cs` partial class (no `@code`). Routes: `[Route(Routes.*)]` in code-behind; constants in `Routes.cs`.
+- **Feature-oriented / vertical-slice layout:** `Features/{FeatureName}/` (page + services + components per feature); shared shell in `Layout/`.
+- **Do not modify Application** for PWA-only flows — adapters live in `VRT.Resume.Pwa`.
+- **MVC is legacy** (planned retirement) — touch only when necessary; new UI work goes to PWA.
+- **EF providers in hosts only:** Persistence → `Relational`; Pwa → SqliteWasm; Mvc/Tests → SqlServer.
+- **EF Core 10.0.8** pinned for SqliteWasmBlazor 0.9.1-pre compatibility.
+- **WASM startup:** `BlazorWebAssemblyLoadAllGlobalizationData=true`; `MudBlazor.min.js` before Blazor script; `MudDrawer` → `Persistent` + `Breakpoint.Md`.
+- Details: `AGENTS.md` → section **VRT.Resume.Pwa**.
 
 ## Common pitfalls
 

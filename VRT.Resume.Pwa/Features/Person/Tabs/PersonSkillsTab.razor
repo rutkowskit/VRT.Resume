@@ -1,0 +1,38 @@
+@inherits CultureAwareComponentBase
+<MudStack Spacing="3" Class="mt-2">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.Add" OnClick="AddAsync">
+        @LabelNames.ButtonAddSkill.GetLabelText()
+    </MudButton>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!string.IsNullOrEmpty(_loadError))
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    }
+    else if (_groups.Count == 0)
+    {
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">@LabelNames.NoSkillsYet.GetLabelText()</MudText>
+    }
+    else
+    {
+        @foreach (var group in _groups)
+        {
+            <MudText Typo="Typo.subtitle2" Class="mt-2">@SkillTypeDisplay.GetLabel(group.Key)</MudText>
+            <MudStack Row="true" Spacing="2" Wrap="Wrap.Wrap">
+                @foreach (var item in group.Value)
+                {
+                    <MudPaper Class="pa-3" Elevation="0" Outlined="true" Style="min-width: 200px;">
+                        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                            <MudText Typo="Typo.body1">@item.Name (@item.Level)</MudText>
+                            <EditDeleteToolbar OnEdit="@(() => EditAsync(item.SkillId))"
+                                               OnDelete="@(() => DeleteAsync(item.SkillId, item.Name))" />
+                        </MudStack>
+                    </MudPaper>
+                }
+            </MudStack>
+        }
+    }
+</MudStack>

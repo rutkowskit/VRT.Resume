@@ -25,12 +25,29 @@ alwaysApply: true
 - Global MVC auth — mark public actions `[AllowAnonymous]`
 - Tests in `VRT.Resume.Application.Tests.Unit/` are **integration tests** (LocalDB + Respawn 7)
 
+## Git
+
+- **Never `git push`** unless the user explicitly asks — they review locally first
+- **After each completed PWA phase:** propose commit message (title + body) for user review
+
 ## Change discipline
 
 - Minimal diffs; no drive-by refactors
 - Reuse `UpsertHandlerBase`, `DeleteHandlerBase`, `HandlerBase`, `PersonEditControllerBase`
 - New UI strings → `VRT.Resume.Resources` (.resx + .pl.resx)
 - Verify: `dotnet build VRT.Resume.sln -c Release` && `dotnet test VRT.Resume.sln -c Release`
+
+## Language
+
+- Documentation, code comments, and commit messages: **English only**
+- End-user UI: Polish + English via resource files
+
+## VRT.Resume.Pwa
+
+- **Blazor components:** markup-only `*.razor` + `partial class` in `*.razor.cs`; no `@code` blocks. Routed pages: `[Route(Routes.*)]` in code-behind (not `@page`); route constants in `Routes.cs`.
+- **Feature-oriented layout** (vertical-slice style): `Features/{FeatureName}/` per feature; `Layout/` for shell; root for DI (`Program.cs`, `DependencyInjection*.cs`)
+- PWA-specific code stays in `VRT.Resume.Pwa`; reuse `VRT.Resume.Application` via adapters — do not change Application for offline-only flows
+- See `AGENTS.md` → **VRT.Resume.Pwa** for SqliteWasm, MudBlazor, EF 10.0.8 pin, and WASM pitfalls
 
 ## Project skill
 

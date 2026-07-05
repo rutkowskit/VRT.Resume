@@ -30,7 +30,7 @@ namespace VRT.Resume.Mvc.Controllers
                 : SetSuccess();            
         }
 
-        protected ControllerBase SetSuccess(string message = null)
+        protected ControllerBase SetSuccess(string? message = null)
         {
             TempData[TempDataKeys.SuccessMsg] = message ?? MsgNames.DataSavedSuccess.GetMessageText();                
             TempData.Remove(TempDataKeys.ErrorMsg);

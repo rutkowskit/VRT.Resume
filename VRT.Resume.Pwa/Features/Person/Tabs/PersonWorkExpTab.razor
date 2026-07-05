@@ -1,0 +1,83 @@
+@inherits CultureAwareComponentBase
+<MudStack Spacing="3" Class="mt-2">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.Add" OnClick="AddExperienceAsync">
+        @LabelNames.ButtonAddNewExp.GetLabelText()
+    </MudButton>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!string.IsNullOrEmpty(_loadError))
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    }
+    else if (_items.Length == 0)
+    {
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">@LabelNames.NoWorkExpYet.GetLabelText()</MudText>
+    }
+    else
+    {
+        @foreach (var item in _items)
+        {
+            <MudPaper Class="pa-4" Elevation="0" Outlined="true">
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                    <div>
+                        <MudText Typo="Typo.h6">@item.Position</MudText>
+                        <MudText Typo="Typo.subtitle1">@item.CompanyName</MudText>
+                        <MudText Typo="Typo.body2">@item.Location</MudText>
+                        <MudText Typo="Typo.caption" Class="mud-text-secondary">@TimeRangeDisplay.Format(item)</MudText>
+                    </div>
+                    <EditDeleteToolbar OnEdit="@(() => EditExperienceAsync(item.ExperienceId))"
+                                       OnDelete="@(() => DeleteExperienceAsync(item.ExperienceId, item.Position))" />
+                </MudStack>
+
+                <MudDivider Class="my-3" />
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                    <MudText Typo="Typo.subtitle2">@LabelNames.Duties.GetLabelText()</MudText>
+                    <MudButton Size="Size.Small" Variant="Variant.Text" StartIcon="@Icons.Material.Outlined.Add"
+                               OnClick="@(() => AddDutyAsync(item.ExperienceId))">
+                        @LabelNames.ButtonAddDuty.GetLabelText()
+                    </MudButton>
+                </MudStack>
+
+                @if (item.Duties is null || !item.Duties.Any())
+                {
+                    <MudText Typo="Typo.caption" Class="mud-text-secondary">@LabelNames.NoDutiesYet.GetLabelText()</MudText>
+                }
+                else
+                {
+                    <MudList T="string" Dense="true">
+                        @foreach (var duty in item.Duties)
+                        {
+                            <MudListItem>
+                                <MudStack Spacing="1">
+                                    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+                                        <MudText Typo="Typo.body1">@duty.Name</MudText>
+                                        <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
+                                            <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Workspaces"
+                                                                      Size="Size.Small"
+                                                                      Title="@LabelNames.Skills.GetLabelText()"
+                                                                      OnClick="@(() => EditDutySkillsAsync(duty.DutyId))" />
+                                            <EditDeleteToolbar OnEdit="@(() => EditDutyAsync(item.ExperienceId, duty.DutyId))"
+                                                               OnDelete="@(() => DeleteDutyAsync(duty.DutyId, duty.Name))" />
+                                        </MudStack>
+                                    </MudStack>
+                                    @if (duty.Skills is not null && duty.Skills.Any())
+                                    {
+                                        <MudStack Row="true" Spacing="1" Wrap="Wrap.Wrap">
+                                            @foreach (var skill in duty.Skills)
+                                            {
+                                                <MudChip T="string" Size="Size.Small" Variant="Variant.Outlined">@skill</MudChip>
+                                            }
+                                        </MudStack>
+                                    }
+                                </MudStack>
+                            </MudListItem>
+                        }
+                    </MudList>
+                }
+            </MudPaper>
+        }
+    }
+</MudStack>

@@ -1,0 +1,33 @@
+@inherits CultureAwareComponentBase
+
+<MudText Typo="Typo.h4" GutterBottom="true">@LabelNames.PageAbout.GetLabelText()</MudText>
+<MudPaper Class="pa-4" Elevation="0" Outlined="true">
+    <MudStack Spacing="3">
+        <MudText Typo="Typo.body1">
+            @LabelNames.AboutDescription.GetLabelText()
+        </MudText>
+
+        <MudText Typo="Typo.h6">@LabelNames.AboutFeaturesTitle.GetLabelText()</MudText>
+
+        <MudList T="string" Dense="true" Class="about-features">
+            @foreach (var featureKey in _featureKeys)
+            {
+                <MudListItem T="string"
+                             Icon="@Icons.Material.Outlined.Check"
+                             IconColor="Color.Primary"
+                             Text="@featureKey.GetLabelText()" />
+            }
+        </MudList>
+
+        <MudAlert Severity="Severity.Warning" Variant="Variant.Outlined" Dense="true" Class="about-backup-warning">
+            <span class="about-backup-warning__text">@LabelNames.AboutBackupWarning.GetLabelText()</span>
+        </MudAlert>
+
+        <MudLink Href="@MainLayout.GitHubRepositoryUrl"
+                 Target="_blank"
+                 Typo="Typo.body2"
+                 Underline="Underline.Always">
+            @LabelNames.GitHubRepository.GetLabelText()
+        </MudLink>
+    </MudStack>
+</MudPaper>

@@ -16,5 +16,5 @@ public partial class Degree
 
     public string Abreviation { get; set; }
 
-    public virtual ICollection<PersonEducation> PersonEducation { get; } = new List<PersonEducation>();
+    public virtual ICollection<PersonEducation> PersonEducation { get; set; } = new List<PersonEducation>();
 }

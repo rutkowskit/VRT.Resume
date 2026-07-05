@@ -1,0 +1,45 @@
+@inherits CultureAwareComponentBase
+<MudStack Spacing="3" Class="mt-2">
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" StartIcon="@Icons.Material.Outlined.Add" OnClick="AddAsync">
+        @LabelNames.ButtonAddNewEdu.GetLabelText()
+    </MudButton>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (!string.IsNullOrEmpty(_loadError))
+    {
+        <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    }
+    else if (_items.Length == 0)
+    {
+        <MudText Typo="Typo.body2" Class="mud-text-secondary">@LabelNames.NoEducationYet.GetLabelText()</MudText>
+    }
+    else
+    {
+        @foreach (var item in _items)
+        {
+            <MudPaper Class="pa-4" Elevation="0" Outlined="true">
+                <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Start">
+                    <MudText Typo="Typo.h6">@item.SchoolName</MudText>
+                    <EditDeleteToolbar OnEdit="@(() => EditAsync(item.EducationId))"
+                                       OnDelete="@(() => DeleteAsync(item.EducationId, item.SchoolName))" />
+                </MudStack>
+                <MudText Typo="Typo.caption" Class="mud-text-secondary">@TimeRangeDisplay.Format(item)</MudText>
+                @if (!string.IsNullOrWhiteSpace(item.Field))
+                {
+                    <MudText Typo="Typo.body2">@item.Field</MudText>
+                }
+                @if (!string.IsNullOrWhiteSpace(item.Degree))
+                {
+                    <MudText Typo="Typo.body2">@item.Degree</MudText>
+                }
+                @if (!string.IsNullOrWhiteSpace(item.Specialization))
+                {
+                    <MudText Typo="Typo.body2">@item.Specialization</MudText>
+                }
+            </MudPaper>
+        }
+    }
+</MudStack>

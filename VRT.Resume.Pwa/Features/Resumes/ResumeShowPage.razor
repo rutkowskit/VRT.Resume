@@ -1,0 +1,46 @@
+
+@if (_loading)
+{
+    <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+}
+else if (!string.IsNullOrEmpty(_loadError))
+{
+    <MudAlert Severity="Severity.Error" Variant="Variant.Outlined">@_loadError</MudAlert>
+    <MudButton Variant="Variant.Text" Href="@Routes.Home" Class="mt-2">@LabelNames.BackToResumes.GetLabelText()</MudButton>
+}
+else if (_resume is not null)
+{
+    <HeadContent>
+        <link rel="stylesheet" href="@_activeTemplate.CssPath" />
+    </HeadContent>
+
+    <div class="resume-show-page">
+    <MudStack Spacing="3" Class="resume-print-toolbar">
+        <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center" Wrap="Wrap.Wrap">
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Outlined.Print"
+                       OnClick="PrintAsync">
+                @LabelNames.ButtonPrint.GetLabelText()
+            </MudButton>
+            <MudSelect T="string"
+                       Label="@LabelNames.ResumeTemplateLabel.GetLabelText()"
+                       Value="_selectedTemplateId"
+                       ValueChanged="OnTemplateChangedAsync"
+                       Dense="true"
+                       Margin="Margin.Dense"
+                       Style="min-width: 12rem; max-width: 16rem;">
+                @foreach (var template in _templates)
+                {
+                    <MudSelectItem Value="@template.Id">@template.LabelName.GetLabelText()</MudSelectItem>
+                }
+            </MudSelect>
+            <MudButton Variant="Variant.Text" Href="@Routes.Home">@LabelNames.BackToResumes.GetLabelText()</MudButton>
+        </MudStack>
+    </MudStack>
+
+    <div class="overflow-container">
+        <DynamicComponent Type="_activeTemplate.ComponentType" Parameters="_documentParameters" />
+    </div>
+    </div>
+}

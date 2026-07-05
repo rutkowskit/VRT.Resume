@@ -30,7 +30,7 @@ public partial class PersonResume
     /// <summary>
     /// Flag indicates if profile photo should be displayed on resume
     /// </summary>
-    public bool? ShowProfilePhoto { get; set; }
+    public bool ShowProfilePhoto { get; set; }
 
     /// <summary>
     /// Permission to process personal data by the receiver of the resume.
@@ -49,5 +49,5 @@ public partial class PersonResume
 
     public virtual Person Person { get; set; }
 
-    public virtual ICollection<ResumePersonSkill> ResumePersonSkill { get; } = new List<ResumePersonSkill>();
+    public virtual ICollection<ResumePersonSkill> ResumePersonSkill { get; set; } = new List<ResumePersonSkill>();
 }

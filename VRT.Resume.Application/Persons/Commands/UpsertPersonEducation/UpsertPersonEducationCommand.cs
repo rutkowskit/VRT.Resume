@@ -1,24 +1,18 @@
-﻿using CSharpFunctionalExtensions;
-using MediatR;
-using VRT.Resume.Application.Common.Abstractions;
-using VRT.Resume.Domain.Entities;
-using VRT.Resume.Persistence.Data;
-
-namespace VRT.Resume.Application.Persons.Commands.UpsertPersonEducation;
+﻿namespace VRT.Resume.Application.Persons.Commands.UpsertPersonEducation;
 
 public sealed class UpsertPersonEducationCommand : IRequest<Result>
 {
     #region command fields
     public int EducationId { get; set; }
-    public string SchoolName { get; set; }
-    public string Degree { get; set; }
-    public string Field { get; set; }
+    public string? SchoolName { get; set; }
+    public string? Degree { get; set; }
+    public string? Field { get; set; }
 
     public DateTime FromDate { get; set; }
     public DateTime ToDate { get; set; }
-    public string Grade { get; set; }
-    public string ThesisTitle { get; set; }
-    public string Specialization { get; set; }
+    public string? Grade { get; set; }
+    public string? ThesisTitle { get; set; }
+    public string? Specialization { get; set; }
     #endregion
 
     internal sealed class UpsertPersonEducationCommandHandler : UpsertHandlerBase<UpsertPersonEducationCommand, PersonEducation>
@@ -30,7 +24,7 @@ public sealed class UpsertPersonEducationCommand : IRequest<Result>
         {
         }
 
-        protected override Result<PersonEducation> UpdateData(PersonEducation current, UpsertPersonEducationCommand request)
+        protected override async Task<Result<PersonEducation>> UpdateData(PersonEducation current, UpsertPersonEducationCommand request)
         {
             current.FromDate = request.FromDate;
             current.ToDate = request.ToDate;
@@ -38,30 +32,30 @@ public sealed class UpsertPersonEducationCommand : IRequest<Result>
             current.ThesisTitle = request.ThesisTitle;
             current.Specialization = request.Specialization;
 
-            return UpdateSchool(current, request)
+            return await UpdateSchool(current, request)
                 .Bind(c => UpdateDegree(c, request))
                 .Bind(c => UpdateEducationField(c, request))
                 .Bind(UpdateModificationDate);
         }
-        protected override Result<PersonEducation> GetExistingData(UpsertPersonEducationCommand request)
+        protected override async Task<Result<PersonEducation>> GetExistingData(UpsertPersonEducationCommand request)
         {
-            return GetCurrentUserPersonId()
-                .Bind(m =>
+            return await GetCurrentUserPersonId()
+                .Bind(async m =>
                 {
                     var query = from p in Context.PersonEducation
                                 where p.PersonId == m
                                 where p.EducationId == request.EducationId
                                 select p;
-                    var result = query.FirstOrDefault();
+                    var result = await query.FirstOrDefaultAsync();
                     return result ?? Result.Failure<PersonEducation>(Errors.RecordNotFound);
                 });
         }
 
 
-        private Result<PersonEducation> UpdateSchool(PersonEducation person,
+        private async Task<Result<PersonEducation>> UpdateSchool(PersonEducation person,
             UpsertPersonEducationCommand request)
         {
-            var school = Context.School.FirstOrDefault(s =>
+            var school = await Context.School.FirstOrDefaultAsync(s =>
                         (s.SchoolId == person.SchoolId && s.Name == request.SchoolName)
                         || s.Name == request.SchoolName);
 
@@ -80,10 +74,10 @@ public sealed class UpsertPersonEducationCommand : IRequest<Result>
             return person;
         }
 
-        private Result<PersonEducation> UpdateDegree(PersonEducation person,
+        private async Task<Result<PersonEducation>> UpdateDegree(PersonEducation person,
             UpsertPersonEducationCommand request)
         {
-            var degree = Context.Degree.FirstOrDefault(s =>
+            var degree = await Context.Degree.FirstOrDefaultAsync(s =>
                         (s.DegreeId == person.DegreeId && s.Name == request.Degree)
                         || s.Name == request.Degree);
 
@@ -100,11 +94,11 @@ public sealed class UpsertPersonEducationCommand : IRequest<Result>
             return person;
         }
 
-        private Result<PersonEducation> UpdateEducationField(PersonEducation person,
+        private async Task<Result<PersonEducation>> UpdateEducationField(PersonEducation person,
             UpsertPersonEducationCommand request)
         {
-            var eduField = Context.EducationField
-                    .FirstOrDefault(s =>
+            var eduField = await Context.EducationField
+                    .FirstOrDefaultAsync(s =>
                         (s.EducationFieldId == person.EducationFieldId && s.Name == request.Field)
                         || s.Name == request.Field);
 

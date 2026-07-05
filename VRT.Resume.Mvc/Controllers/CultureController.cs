@@ -31,7 +31,7 @@ namespace VRT.Resume.Mvc.Controllers
         }        
         public ActionResult Cancel() => ToReturnUrl() ?? ToHome();
 
-        protected override ActionResult ToReturnUrl()
+        protected override ActionResult? ToReturnUrl()
         {
             var url = TempData[TempDataKeys.ReturnUrlFromCulture]?.ToString();
             return string.IsNullOrWhiteSpace(url)

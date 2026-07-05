@@ -1,0 +1,48 @@
+@inherits CultureAwareComponentBase
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" Options="@PwaDialogOptions.ResumeForm">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_isNew ? LabelNames.AddResumeTitle.GetLabelText() : LabelNames.EditResumeTitle.GetLabelText())</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
+                <MudStack Spacing="3">
+                    <MudTextField @bind-Value="_description" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Description.GetLabelText()" Required="true" MaxLength="50" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Description))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Description))" />
+                    <MudTextField @bind-Value="_position" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Position.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Position))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonResumeCommand.Position))" />
+                    <MudTextField @bind-Value="_summary" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Summary.GetLabelText()" Lines="4" MaxLength="4000" Immediate="true" />
+                    <MudTextField @bind-Value="_dataProcessingPermission" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.DataProcessingPermission.GetLabelText()" Lines="3" MaxLength="2000" Immediate="true" />
+                    <MudCheckBox @bind-Value="_showProfilePhoto" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.ShowProfilePhoto.GetLabelText()" Color="Color.Primary" />
+                    @if (!_isNew)
+                    {
+                        <MudSelect T="string"
+                                   Label="@LabelNames.ResumeTemplateLabel.GetLabelText()"
+                                   @bind-Value="_printTemplate"
+                                   @bind-Value:after="OnFieldChangedAsync"
+                                   Dense="true"
+                                   Margin="Margin.Dense">
+                            @foreach (var template in _templates)
+                            {
+                                <MudSelectItem Value="@template.Id">@template.LabelName.GetLabelText()</MudSelectItem>
+                            }
+                        </MudSelect>
+                    }
+                </MudStack>
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!CanSave)" OnClick="SaveAsync">
+            @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
+        </MudButton>
+    </DialogActions>
+</MudDialog>

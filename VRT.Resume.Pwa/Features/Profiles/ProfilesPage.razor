@@ -1,0 +1,90 @@
+@inherits CultureAwareComponentBase
+
+
+<MudStack Spacing="4">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+        <MudText Typo="Typo.h4">@LabelNames.PageProfiles.GetLabelText()</MudText>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Outlined.PersonAdd"
+                   Href="@Routes.Profiles.Create">
+            @LabelNames.ButtonCreateProfile.GetLabelText()
+        </MudButton>
+    </MudStack>
+
+    <MudText Typo="Typo.body1" Class="mud-text-secondary">
+        @LabelNames.ProfilesPageDescription.GetLabelText()
+    </MudText>
+
+    <MudStack Row="true" Spacing="2" Wrap="Wrap.Wrap">
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Outlined.Download"
+                   Disabled="@_backupBusy"
+                   OnClick="ExportDatabaseAsync">
+            @LabelNames.ButtonExportDatabase.GetLabelText()
+        </MudButton>
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Outlined.Upload"
+                   Disabled="@_backupBusy"
+                   OnClick="TriggerImportPickerAsync">
+            @LabelNames.ButtonImportDatabase.GetLabelText()
+        </MudButton>
+        <InputFile id="db-import-input"
+                   OnChange="OnImportFileSelectedAsync"
+                   accept=".db,application/octet-stream"
+                   class="d-none"
+                   hidden />
+    </MudStack>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (_profiles.Count == 0)
+    {
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
+            @LabelNames.NoProfilesYet.GetLabelText()
+        </MudAlert>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Outlined.PersonAdd"
+                   Href="@Routes.Profiles.Create">
+            @LabelNames.CreateFirstProfile.GetLabelText()
+        </MudButton>
+    }
+    else
+    {
+        <MudGrid Spacing="3">
+            @foreach (var profile in _profiles)
+            {
+                var isActive = string.Equals(CurrentUser.UserId, profile.UserId, StringComparison.Ordinal);
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="@(isActive ? 4 : 1)" Class="@(isActive ? "border-solid border-2 mud-border-primary" : null)">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6">@profile.DisplayName</MudText>
+                            <MudText Typo="Typo.caption" Class="mud-text-secondary">@profile.UserId</MudText>
+                            @if (isActive)
+                            {
+                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Class="mt-2">@LabelNames.ProfileActive.GetLabelText()</MudChip>
+                            }
+                        </MudCardContent>
+                        <MudCardActions Class="justify-space-between">
+                            <MudButton Variant="Variant.Filled"
+                                       Color="Color.Primary"
+                                       Disabled="@isActive"
+                                       OnClick="@(() => SelectProfileAsync(profile.UserId))">
+                                @(isActive ? LabelNames.ProfileSelected.GetLabelText() : LabelNames.ButtonSelectProfile.GetLabelText())
+                            </MudButton>
+                            <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Delete"
+                                                    Color="Color.Error"
+                                                    Title="@LabelNames.ButtonDelete.GetLabelText()"
+                                                    OnClick="@(() => DeleteProfileAsync(profile))" />
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+</MudStack>

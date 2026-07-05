@@ -8,6 +8,6 @@ namespace VRT.Resume.Mvc.Models
         public int ExperienceId { get; internal set; }
         [Required]
         [Display(Name = LabelNames.Name, ResourceType = typeof(Resources.LabelResource))]
-        public string Name { get; internal set; }
+        public string Name { get; set; } = string.Empty;
     }
 }

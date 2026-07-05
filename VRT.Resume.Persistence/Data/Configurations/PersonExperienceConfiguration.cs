@@ -19,22 +19,22 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.HasIndex(e => e.PersonId, "IX_PersonExperience_PersonId");
 
             entity.Property(e => e.CompanyName)
-            .IsRequired()
-            .HasMaxLength(200);
+                .IsRequired()
+                .HasMaxLength(200);
             entity.Property(e => e.FromDate).HasColumnType("date");
             entity.Property(e => e.Location)
-            .IsRequired()
-            .HasMaxLength(200);
+                .IsRequired()
+                .HasMaxLength(200);
             entity.Property(e => e.ModifyDate).HasColumnType("datetime");
             entity.Property(e => e.Position)
-            .IsRequired()
-            .HasMaxLength(200);
+                .IsRequired()
+                .HasMaxLength(200);
             entity.Property(e => e.ToDate).HasColumnType("date");
 
             entity.HasOne(d => d.Person).WithMany(p => p.PersonExperience)
-            .HasForeignKey(d => d.PersonId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PersonExperience_Person");
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonExperience_Person");
 
             OnConfigurePartial(entity);
         }

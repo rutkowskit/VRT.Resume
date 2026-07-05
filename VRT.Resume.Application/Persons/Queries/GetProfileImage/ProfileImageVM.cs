@@ -2,7 +2,7 @@
 {
     public sealed class ProfileImageVM
     {
-        public string ImageType { get; set; }
-        public byte[] ImageData { get; set; }
+        public required string ImageType { get; set; }
+        public required byte[] ImageData { get; set; }
     }
 }

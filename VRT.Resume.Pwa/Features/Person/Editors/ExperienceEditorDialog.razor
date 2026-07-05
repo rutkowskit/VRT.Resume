@@ -1,0 +1,38 @@
+@inherits CultureAwareComponentBase
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" Options="@PwaDialogOptions.Form">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_isNew ? LabelNames.AddWorkExpTitle.GetLabelText() : LabelNames.EditWorkExpTitle.GetLabelText())</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
+                <MudStack Spacing="3">
+                    <MudTextField @bind-Value="_position" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Position.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Position))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Position))" />
+                    <MudTextField @bind-Value="_companyName" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.CompanyName.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.CompanyName))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.CompanyName))" />
+                    <MudTextField @bind-Value="_location" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Location.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Location))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceCommand.Location))" />
+                    <MudStack Row="true" Spacing="2">
+                        <MudDatePicker @bind-Date="_fromDate" @bind-Date:after="OnFieldChangedAsync" Label="@LabelNames.FromDate.GetLabelText()" Required="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                        <MudDatePicker @bind-Date="_toDate" @bind-Date:after="OnFieldChangedAsync" Label="@LabelNames.ToDateOptional.GetLabelText()" Clearable="true" DateFormat="yyyy-MM-dd" Class="flex-grow-1" />
+                    </MudStack>
+                </MudStack>
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!CanSave)" OnClick="SaveAsync">
+            @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
+        </MudButton>
+    </DialogActions>
+</MudDialog>

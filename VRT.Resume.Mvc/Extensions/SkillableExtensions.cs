@@ -8,10 +8,10 @@ namespace VRT.Resume.Mvc
 {
     public static class SkillableExtensions
     {
-        public static IHtmlContent FormatSkills(this ISkillable entity)
+        public static IHtmlContent? FormatSkills(this ISkillable entity)
             => entity.FormatSkills("(", ")", ", ", FormatSkill);
 
-        public static IHtmlContent FormatSkills(this ISkillable entity, 
+        public static IHtmlContent? FormatSkills(this ISkillable entity, 
             string prefix, string postfix, string separator, 
             Func<SkillDto, string> formatter)
         {

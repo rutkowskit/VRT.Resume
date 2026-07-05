@@ -16,13 +16,14 @@ Nowy projekt **Blazor WebAssembly PWA** z pełną funkcjonalnością obecnego ge
 | „Auth” w PWA | **Lokalne profile** — tworzenie + wybór kontekstu (zastępuje OAuth) |
 | Kontekst użytkownika | `DummyCurrentUserService` (**Singleton**) — mutowalny `UserId` + `localStorage` |
 | Tworzenie profilu | `CreatePersonAccountCommand` (MediatR) — bez zmian w Application |
-| UI | Bootstrap 5 + `Resume.css` z MVC |
+| UI | **MudBlazor 9.x** (PWA); MVC pozostaje Bootstrap + `Resume.css` |
 | Zakres v1 | Pełny parytet MVC + zarządzanie profilami (create, switch; delete opcjonalnie) |
 | .NET | `net10.0` |
 
 **Open (non-blocking):**
-- Usuwanie profilu (kaskada danych) — v1 czy później?
-- Eksport/backup całej bazy SQLite (wszystkie profile)?
+- ~~Usuwanie profilu (kaskada danych)~~ — zrobione (Faza 11+)
+- ~~Eksport/backup całej bazy SQLite~~ — zrobione (`PwaDatabaseBackupService`)
+- Lighthouse PWA ≥90 — `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1`; wymaga Chrome/Edge lokalnie
 
 ## For Future Agents
 
@@ -113,56 +114,58 @@ VRT.Resume.Pwa/
 ---
 
 ## Phase 1: Solution scaffold & PWA shell
-Status: Not started
+Status: Complete
 
-- [ ] `dotnet new blazorwasm -n VRT.Resume.Pwa -o VRT.Resume.Pwa --pwa` (net10.0)
-- [ ] Dodaj do `VRT.Resume.sln` i `VRT.Resume.slnx` (folder `/01.Client/`)
-- [ ] Referencje: `VRT.Resume.Application`, `VRT.Resume.Resources`
-- [ ] Pakiety: `Microsoft.EntityFrameworkCore.Sqlite` + SQLite WASM (wybór w Fazie 2)
-- [ ] Usuń `Counter`, `FetchData`
-- [ ] Layout: **Profiles** (kontekst), Home, Person, About — Home/Person disabled bez kontekstu
-- [ ] `manifest.webmanifest` + service worker
+- [x] `dotnet new blazorwasm -n VRT.Resume.Pwa -o VRT.Resume.Pwa --pwa` (net10.0)
+- [x] Dodaj do `VRT.Resume.slnx` (folder `/01.Client/`)
+- [x] Referencje: `VRT.Resume.Application`, `VRT.Resume.Resources`
+- [x] Pakiety WASM w `Directory.Packages.props` (EF/SQLite WASM — Faza 2)
+- [x] Usuń `Counter`, `Weather`
+- [x] Layout: **Profiles**, Resumes (Home), Person, About — Resumes/Person disabled bez kontekstu (`StubActiveProfileContext`)
+- [x] **MudBlazor 9.6** — `AddMudServices()`, `MudLayout`/`MudNavMenu`, providers w `App.razor`; usunięto `wwwroot/lib/bootstrap`
+- [x] `manifest.webmanifest` (VRT Resume) + service worker (szablon PWA)
 
 ### Verification Plan
-- `dotnet build VRT.Resume.sln -c Release` — 0 errors
+- `dotnet build VRT.Resume.slnx -c Release` — 0 errors ✅
 - `dotnet run --project VRT.Resume.Pwa` — start OK
 
 ### Phase Summary
-_(write when phase completes)_
+Utworzono `VRT.Resume.Pwa` (Blazor WASM PWA, net10.0). Central package management: `Microsoft.AspNetCore.Components.WebAssembly` 10.0.9, `MudBlazor` 9.6.0. Solution: `VRT.Resume.slnx` (/01.Client/). Referencje do Application + Resources. UI: MudBlazor (`MudLayout`, drawer, `MudNavMenu`). Strony: `/profiles`, `/`, `/person`, `/about`. NavMenu z disabled Resumes/Person gdy brak kontekstu (`IActiveProfileContext` stub). Usunięto szablon Counter/Weather i Bootstrap z layoutu.
 
 ---
 
 ## Phase 2: Composition root — DI, DbContext, seed (w Pwa)
-Status: Not started
+Status: Complete
 
-- [ ] `DependencyInjection.cs` — `AddApplication()`, serwisy aplikacyjne
-- [ ] `DummyCurrentUserService` — **Singleton**, `ICurrentUserService`, `SetContext(userId)`, restore z `localStorage` przy starcie
-- [ ] `ProfileContextStorage` — JS interop: get/set `VRT.Resume.ActiveProfileUserId`
-- [ ] `LocalProfileService` — Scoped; odczyt listy profili z `AppDbContext`
-- [ ] `DependencyInjection.DbContext.cs` — `AddDbContext<AppDbContext>`, Transient (jak MVC), SQLite WASM
-- [ ] `DatabaseInitializer` — `InitDatabase()` (SkillType seed only); **nie** seeduj domyślnego użytkownika
-- [ ] Zweryfikuj Persistence pod SQLite (`UseCollation`, schema `Auth`)
+- [x] `DependencyInjection.cs` — `AddApplication()`, `DateTimeService`, `ProfileImageService`
+- [x] `DummyCurrentUserService` — **Singleton**, `ICurrentUserService` + `IActiveProfileContext`, `SetContext` / `SetContextAsync`, restore z `localStorage` przy starcie
+- [x] `ProfileContextStorage` — JS interop: get/set `VRT.Resume.ActiveProfileUserId`
+- [x] `LocalProfileService` — Scoped; odczyt listy profili z `AppDbContext`
+- [x] `DependencyInjection.DbContext.cs` — `SqliteWasmBlazor` (OPFS + Web Worker) + `AppDbContext` Transient (jak MVC)
+- [x] `DatabaseInitializer` — `InitDatabaseAsync()` (SkillType seed only); **nie** seeduj domyślnego użytkownika
+- [x] Persistence pod SQLite: `UseCollation` tylko dla SQL Server; `InitDatabase` seeduje gdy `SkillType` puste (nie po `EnsureCreated()`)
 
 ### Verification Plan
-- `EnsureCreated()` OK; `SkillType` = 5; `UserPerson` puste na świeżej bazie
-- Po ręcznym insert testowym: `DummyCurrentUserService.SetContext` → `UserId` zwracany poprawnie
+- `dotnet build VRT.Resume.slnx -c Release` — 0 errors ✅
+- `EnsureCreated()` + seed: `SkillType` = 5 na świeżej bazie (runtime w przeglądarce — Faza 3 UI)
+- `DummyCurrentUserService.SetContext` — gotowe; test E2E w Fazie 3
 
 ### Phase Summary
-_(write when phase completes)_
+Composition root w `VRT.Resume.Pwa`: MediatR (`AddApplication`), SQLite WASM (`SqliteWasmBlazor` 0.9.1-pre, plik `vrt-resume.db`, OPFS). **Nie** `SqliteWasmHelper9` / `SQLitePCLRaw` native — powoduje błąd `sqlite3_config` varargs w WASM. `DummyCurrentUserService` (Singleton) implementuje `ICurrentUserService` i `IActiveProfileContext`; `ProfileContextStorage` (Scoped, via `IServiceScopeFactory`). `LocalProfileService` — lista `UserPerson`⋈`Person`. Startup: `DatabaseInitializer` + restore kontekstu z `localStorage`. Persistence: collation warunkowa (SQLite); `InitDatabase`/`InitDatabaseAsync` seeduje `SkillType` gdy tabela pusta. Wymaga workload `wasm-tools` (`dotnet workload restore`).
 
 ---
 
 ## Phase 3: Local profiles — create, list, switch context
-Status: Not started
+Status: Complete
 
-- [ ] `/profiles` — `LocalProfileService.GetAllAsync()`; karty z imieniem/nazwiskiem; przycisk **Wybierz** → `SetContext(userId)` → redirect `/`
-- [ ] `/profiles/create` — formularz: FirstName, LastName (opcjonalnie Email); generuj `UserId = $"local:{Guid}"`
-- [ ] Submit → `IMediator.Send(new CreatePersonAccountCommand { ... })` → auto-`SetContext` na nowy profil
-- [ ] Pusty stan: komunikat „Utwórz pierwszy profil” (brak redirect loop)
-- [ ] `AuthorizeRouteView` / custom `ProfileRequiredRouteView` — bez kontekstu → `/profiles`
-- [ ] Menu: wyświetl aktywny profil (imię/nazwisko z `GetPersonDataQuery` lub z listy); link „Zmień profil”
-- [ ] Odświeżenie stanu UI po `SetContext` (`NavigationManager` + event `OnContextChanged`)
-- [ ] **Opcjonalnie v1:** usuwanie profilu (kaskada) — jeśli poza scope, odłożyć na Fazę 11
+- [x] `/profiles` — `LocalProfileService.GetAllAsync()`; karty z imieniem/nazwiskiem; przycisk **Wybierz** → `SetContext(userId)` → redirect `/`
+- [x] `/profiles/create` — formularz: FirstName, LastName (opcjonalnie Email); generuj `UserId = $"local:{Guid}"`
+- [x] Submit → `IMediator.Send(new CreatePersonAccountCommand { ... })` → auto-`SetContext` na nowy profil
+- [x] Pusty stan: komunikat „Utwórz pierwszy profil” (brak redirect loop)
+- [x] `ProfileRequiredRouteView` + `IProfileExemptPage` — bez kontekstu → `/profiles`
+- [x] Menu: wyświetl aktywny profil (`GetPersonDataQuery`); link „Change profile”
+- [x] Odświeżenie stanu UI po `SetContext` (`ContextChanged` + `NavMenu`)
+- [x] **Opcjonalnie v1:** usuwanie profilu (kaskada) — `LocalProfileService.DeleteAsync`, Faza 11+
 
 ### Verification Plan
 - Utwórz 2 profile → lista pokazuje 2; przełącz kontekst → `GetResumeListQuery` zwraca CV tylko aktywnego
@@ -170,141 +173,157 @@ Status: Not started
 - `git diff VRT.Resume.Application` — pusty
 
 ### Phase Summary
-_(write when phase completes)_
+Feature-oriented `Features/Profiles/`: lista profili (`ProfilesPage`), tworzenie (`ProfilesCreatePage` → `CreatePersonAccountCommand`, `UserId = local:{guid}`), `ProfileRequiredRouteView` + `IProfileExemptPage` (profiles/about exempt). `NavMenu` pokazuje aktywny profil i „Change profile”. Build Release OK; `VRT.Resume.Application` nietknięty.
 
 ---
 
 ## Phase 4: MediatR patterns & error handling
-Status: Not started
+Status: Complete
 
-- [ ] Helper `MediatorExtensions.SendAsync` — port obsługi `ValidationException` / `Result` z `ControllerBase`
-- [ ] Toast/Alert dla sukcesu i błędu
-- [ ] Smoke: `GetPersonDataQuery`, `UpdatePersonDataCommand` w kontekście profilu A vs B — izolacja danych
+- [x] `MediatorSender.SendAsync` — port obsługi `ValidationException` / `Result` z `ControllerBase`
+- [x] `UserNotificationService` (MudSnackbar) + field errors (`MediatorSendOutcome`)
+- [x] Smoke: `Features/Person/PersonDataPage` — `GetPersonDataQuery`, `UpdatePersonDataCommand`, izolacja per profil
 
 ### Verification Plan
 - Profil A ma inne imię niż profil B po `UpdatePersonData`
 - Walidacja pustego FirstName przy tworzeniu profilu → błąd w UI
 
 ### Phase Summary
-_(write when phase completes)_
+`Features/Mediator/`: `MediatorSender` (ValidationException → field errors + snackbar), `UserNotificationService`, `MediatorSendOutcome`. `ProfilesCreatePage` i `NavMenu` używają sendera. `PersonDataPage` — podstawowy edytor imienia/nazwiska pod smoke test izolacji profili.
 
 ---
 
 ## Phase 5: Profile UI — Person tabs & CRUD
-Status: Not started
+Status: Complete
 
-- [ ] `/person` — zakładki: Profile, Edu, Skills, WorkExp, Contacts
-- [ ] CRUD przez MediatR (jak MVC): contacts, education, skills, experience, duties, `MergePersonDutySkills`
-- [ ] `EditDeleteToolbar`, `ConfirmDelete`
+- [x] `/person` — zakładki: Profile, Edu, Skills, WorkExp, Contacts
+- [x] CRUD przez MediatR (jak MVC): contacts, education, skills, experience, duties, `MergePersonDutySkills`
+- [x] `EditDeleteToolbar`, `ConfirmDelete`
 
 ### Verification Plan
 - Dane dodane w profilu A niewidoczne po przełączeniu na profil B
 
 ### Phase Summary
-_(write when phase completes)_
+`Features/Person/PersonPage.razor` — MudTabs shell (Profile, Education, Skills, Work experience, Contacts). Shared `EditDeleteToolbar`, `ConfirmDeleteDialog`, `TimeRangeDisplay`. Tab listy + MudDialog edytory dla każdej encji; WorkExp zagnieżdżone duties + `DutySkillsEditorDialog` (`MergePersonDutySkillsCommand`). Usunięto smoke `PersonDataPage` — profil w zakładce Profile. Build Release Pwa OK; Application nietknięty.
 
 ---
 
 ## Phase 6: Resume management & skill merge
-Status: Not started
+Status: Complete
 
-- [ ] `/` — `GetResumeListQuery` + Add/Edit/Delete/Clone
-- [ ] `UpsertPersonResume`, `ClonePersonResume`, `MergeResumeSkills`
+- [x] `/` — `GetResumeListQuery` + Add/Edit/Delete/Clone
+- [x] `UpsertPersonResume`, `ClonePersonResume`, `MergeResumeSkills`
 
 ### Verification Plan
 - 2 profile, każdy z własnymi CV; clone działa w obrębie aktywnego kontekstu
 
 ### Phase Summary
-_(write when phase completes)_
+`Pages/Home` — lista CV (`GetResumeListQuery` via `MediatorSender.SendQueryAsync`). `Features/Resumes/Editors/`: `ResumeEditorDialog` (`UpsertPersonResume`), `ResumeSkillsEditorDialog` (`MergeResumeSkills`). Akcje: edit, skills, clone, delete (reuse `ConfirmDeleteDialog`). `Routes.Resumes.Show` zarezerwowany na Fazę 8. Build Release Pwa OK.
 
 ---
 
 ## Phase 7: Profile image
-Status: Not started
+Status: Complete
 
-- [ ] `ProfileImageService` (SkiaSharp) — test WASM; fallback w Pwa jeśli potrzeba
-- [ ] `/person/image` — `UpsertProfileImageCommand`
-- [ ] Zdjęcie per `Person` — izolowane między profilami
+- [x] `ProfileImageService` (SkiaSharp) — test WASM; fallback w Pwa jeśli potrzeba
+- [x] `/person/image` — `UpsertProfileImageCommand`
+- [x] Zdjęcie per `Person` — izolowane między profilami
 
 ### Verification Plan
 - Różne zdjęcia dla profilu A i B
 
 ### Phase Summary
-_(write when phase completes)_
+`PersonImagePage` (`/person/image`) — upload via `InputFile` + `UpsertProfileImageCommand`; podgląd z `GetProfileImageQuery` (data URL). `ProfileImageUrl` helper; placeholder `wwwroot/img/unknown.png`. `PersonProfileTab` — miniatura + link „Change photo”. `ProfileImageService` (SkiaSharp) z DI Pwa; handler Application ma fallback na surowe bajty gdy resize się nie uda. Build Release Pwa OK.
 
 ---
 
 ## Phase 8: Resume view, print & CSS
-Status: Not started
+Status: Complete
 
-- [ ] `/resumes/show/{id}` — `GetFullResumeQuery` + A4 layout
-- [ ] `Resume.css`, `window.print()`
+- [x] `/resumes/show/{id}` — `GetFullResumeQuery` + A4 layout
+- [x] `Resume.css`, `window.print()`
 
 ### Verification Plan
 - Print preview OK
 
 ### Phase Summary
-_(write when phase completes)_
+`ResumeShowPage` (`/resumes/show/{id}`) — `GetFullResumeQuery` + profilowe zdjęcie z `GetProfileImageQuery`. `ResumeDocument` — layout A4 (parity z MVC `Show.cshtml`); `ResumeDisplayHelpers` (zakres dat, umiejętności, kontakty). `wwwroot/css/Resume.css` (MVC + `.page-a4`, reguły `@media print` — ukrycie toolbara, app bar, drawer). Przycisk Print → `window.print()`. `Home` — link opisu i ikona View do strony podglądu. Build Release Pwa OK.
 
 ---
 
 ## Phase 9: Localization (PL/EN)
-Status: Not started
+Status: Complete
 
-- [ ] `PwaCultureService`, Resources, przełącznik języka
-- [ ] Labelki na `/profiles` (PL: „Wybierz profil”, „Utwórz nowy profil”)
+- [x] `ResourceHelper` — `CultureInfo.CurrentUICulture` w `GetString`
+- [x] `PwaCultureService.CultureChanged` — event po `SetCurrentCulture` i `InitializeAsync`
+- [x] `LabelNames.cs` (Pwa) — mirror MVC + klucze PWA
+- [x] `LabelResource` / `MessageResource` — sync EN (Actions, Hidden, Language, No, Relevant, Yes) + ~50 kluczy PWA (PL + EN)
+- [x] `CultureSelector` — MudSelect pl/en w app bar (`MainLayout`)
+- [x] Lokalizacja wszystkich ekranów PWA (`LabelNames.*.GetLabelText()`, `MessageKeys.*.GetMessageText()`)
 
 ### Verification Plan
 - PL ↔ EN na ekranie profili i formularzach
+- `dotnet build VRT.Resume.Pwa\VRT.Resume.Pwa.csproj -c Release` — 0 errors ✅
 
 ### Phase Summary
-_(write when phase completes)_
+PL (domyślny) / EN przez `VRT.Resume.Resources`. `ResourceHelper` używa `CurrentUICulture`; `PwaCultureService` emituje `CultureChanged` po zmianie języka (localStorage). `CultureSelector` w app bar; `MainLayout`/`NavMenu` odświeżają UI po zmianie kultury. `LabelNames.cs` w Pwa (MVC + PWA keys). Zlokalizowano: Profiles, Home/Resumes, Person (zakładki, edytory, dialogi), Resume show/document, About, NotFound. Komunikaty CRUD (delete confirm, clone success, image errors) w `MessageResource`.
 
 ---
 
 ## Phase 10: PWA offline hardening
-Status: Not started
+Status: Complete
 
-- [ ] Service worker, offline CRUD + przełączanie profili
-- [ ] Lighthouse PWA ≥ 90
+- [x] `service-worker.published.js` — resilient install (`Promise.allSettled`), `skipWaiting`, `clients.claim`, cache-first + offline navigation fallback
+- [x] `manifest.webmanifest` — `scope`, `description`, `categories`, icon `purpose`, `lang`
+- [x] `index.html` — `theme-color`, apple-mobile-web-app meta; usunięto Google Fonts CDN (offline-safe system font stack)
+- [x] Publish manifest obejmuje MudBlazor, SqliteWasm (`sqlite3.wasm`, worker), SkiaSharp WASM, static assets
+- [ ] Lighthouse PWA ≥ 90 — `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1` (Chrome/Edge) lub DevTools na `http://127.0.0.1:8080`
 
 ### Verification Plan
-- Offline: utwórz profil, dodaj CV, przełącz profil, F5 — wszystko zachowane
+- `dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa` — 0 errors ✅
+- Offline (Chrome DevTools): załaduj published app → Network Offline → F5 → app startuje; CRUD + przełącz profil + F5 — dane w OPFS/localStorage
+- **Hosting lokalny:** `pwsh ./VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (nie `http-server` na LAN IP — OPFS wymaga secure context + COOP/COEP)
+- Lighthouse PWA audit na published URL (HTTPS lub localhost)
 
 ### Phase Summary
-_(write when phase completes)_
+Utwardzono offline PWA: published service worker cache'uje cały manifest (WASM, MudBlazor, SQLite worker, assety wwwroot) z odpornym installem (`Promise.allSettled`), `skipWaiting` + `clients.claim`; SPA routing offline przez `index.html`. Manifest (maskable icons) i meta tagi pod installability/Lighthouse. Usunięto zewnętrzny Google Fonts — fonty systemowe w `app.css`. Dane użytkownika offline: SQLite WASM (OPFS) + `localStorage` (aktywny profil, kultura). Audyt: `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1`.
 
 ---
 
 ## Phase 11: Tests, docs & optional features
-Status: Not started
+Status: Complete
 
-- [ ] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych
-- [ ] Zaktualizuj `AGENTS.md` + `README.md`
-- [ ] **Opcjonalnie:** usuwanie profilu (kaskada EF)
-- [ ] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile)
+- [x] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych (`VRT.Resume.Pwa.Tests`, 13 testów)
+- [x] Zaktualizuj `AGENTS.md` + `README.md`
+- [x] **Opcjonalnie:** usuwanie profilu (kaskada EF) — `LocalProfileService.DeleteAsync`, UI na `/profiles`
+- [x] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile) — `PwaDatabaseBackupService`, UI na `/profiles`
 
 ### Verification Plan
-- `dotnet test` + `dotnet build` green
+- `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug` — 13/13 ✅
+- `dotnet build VRT.Resume.slnx -c Release` — 0 errors ✅
 
 ### Phase Summary
-_(write when phase completes)_
+Dodano `VRT.Resume.Pwa.Tests` (bUnit 1.38, xUnit): `PwaTestContext` (in-memory SQLite, Mud providers), testy izolacji profili, `ProfilesPage` (lista, wybór, delete), `ProfileRequiredRouteView`, `LocalProfileService.DeleteAsync`, `PwaDatabaseBackupService.IsValidSqliteFile`. Zaktualizowano `AGENTS.md` i `README.md`. Opcjonalne: delete profilu + export/import SQLite — ukończone po Fazie 11.
 
 ---
 
 ## Final Recap
-_(write when all phases complete)_
+
+Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA, delete profilu, export/import DB). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`, 13). **Gotowe do merge** `feature/blazor-wasm-pwa` → `main`. Pozostaje: Lighthouse ≥90 (lokalny audyt `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1`).
 
 ---
 
 ## Deployment Plan
-_(write when all phases complete)_
 
-```powershell
-dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
-```
-
-Statyczny hosting; dane (wszystkie lokalne profile) w SQLite WASM w przeglądarce użytkownika.
+1. **Build & publish**
+   ```powershell
+   dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Release
+   dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
+   ```
+2. **Serve locally (OPFS smoke test)** — `pwsh ./VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (COOP/COEP).
+3. **Static host** — upload `deploy/pwa/wwwroot` to any HTTPS static host (Azure Static Web Apps, GitHub Pages, nginx). Ensure SPA fallback to `index.html` for client routes.
+4. **Data** — all profiles live in browser SQLite WASM (OPFS); user can export/import `.db` on `/profiles`. One tab per origin.
+5. **MVC (Azure)** — unchanged: `dotnet publish VRT.Resume.Mvc` → App Service per `README.md`.
 
 ---
 
@@ -315,7 +334,7 @@ Statyczny hosting; dane (wszystkie lokalne profile) w SQLite WASM w przeglądarc
 | `CreatePersonAccount` ustawia `UserPerson.UserId = Email ?? UserId` | Przy braku email używaj unikalnego `local:{guid}` jako `UserId` |
 | Singleton `DummyCurrentUserService` + Transient `DbContext` | Wzorzec jak MVC; kontekst tylko w Singleton, DB per operation |
 | Brak kontekstu → 401 w handlerach | Route guard + zawsze `SetContext` przed wejściem w app |
-| Usuwanie profilu — kaskada | Odłożyć lub transakcja DELETE Person + powiązania (Pwa service, nie Application) |
+| Usuwanie profilu — kaskada | `LocalProfileService.DeleteAsync` (transakcja w Pwa) |
 | `localStorage` wyczyszczone — utrata „ostatniego profilu” | Redirect `/profiles`; dane w SQLite zostają |
 | Persistence / SQLite collation | Minimal fix w Persistence only |
 

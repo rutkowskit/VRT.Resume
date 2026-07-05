@@ -10,8 +10,8 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
             get=>(SkillTypes) SkillTypeId; 
             set=>SkillTypeId=(byte)value; 
         }        
-        public string Name { get; set; }        
-        public string Level { get; set; }
+        public required string Name { get; set; }        
+        public string? Level { get; set; }
         internal byte SkillTypeId { get; set; }
     }
 }

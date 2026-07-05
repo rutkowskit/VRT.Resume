@@ -1,0 +1,26 @@
+@inherits CultureAwareComponentBase
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" Options="@PwaDialogOptions.Form">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_isNew ? LabelNames.AddDutyTitle.GetLabelText() : LabelNames.EditDutyTitle.GetLabelText())</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
+                <MudTextField @bind-Value="_name" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Duties.GetLabelText()" Required="true" MaxLength="500" Immediate="true"
+                              Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonExperienceDutyCommand.Name))"
+                              ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonExperienceDutyCommand.Name))" />
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!CanSave)" OnClick="SaveAsync">
+            @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
+        </MudButton>
+    </DialogActions>
+</MudDialog>

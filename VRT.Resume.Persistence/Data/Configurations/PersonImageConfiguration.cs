@@ -22,9 +22,9 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.Property(e => e.ImageType).HasMaxLength(30);
 
             entity.HasOne(d => d.Person).WithMany(p => p.PersonImage)
-            .HasForeignKey(d => d.PersonId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PersonImage_Person");
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonImage_Person");
 
             OnConfigurePartial(entity);
         }

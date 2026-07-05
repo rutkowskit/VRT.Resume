@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Persistence.Data;
 
@@ -20,18 +21,16 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeList
             }
             public async Task<IEnumerable<ResumeInListVM>> Handle(GetResumeListQuery request, CancellationToken cancellationToken)
             {
-                await Task.Yield();
-                var result = GetCurrentUserPersonId()
-                    .Bind(GetResumes);
+                var personIdResult = await GetCurrentUserPersonIdAsync(cancellationToken);
+                if (personIdResult.IsFailure)
+                    return new ResumeInListVM[0];
 
-                return result.IsSuccess
-                    ? result.Value
-                    : new ResumeInListVM[0];
+                return await GetResumesAsync(personIdResult.Value, cancellationToken);
             }
 
-            private Result<IEnumerable<ResumeInListVM>> GetResumes(int personId)
+            private async Task<IEnumerable<ResumeInListVM>> GetResumesAsync(int personId, CancellationToken cancellationToken)
             {
-                var query = from rd in Context.PersonResume
+                var query = from rd in Context.PersonResume.AsNoTracking()
                             where rd.PersonId == personId
                             select new ResumeInListVM()
                             {
@@ -41,7 +40,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeList
                                 Description = rd.Description
                             };
 
-                return query.ToList();
+                return await query.ToListAsync(cancellationToken);
             }
         }
     }

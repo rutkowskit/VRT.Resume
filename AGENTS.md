@@ -10,6 +10,7 @@ Guide for AI agents working on this codebase. Read this before making changes.
 - **Solutions:** `VRT.Resume.sln` (classic), `VRT.Resume.slnx` (folder-organized)
 - **Live DEV:** https://vrt-cv.azurewebsites.net/ (may change; testing only)
 - **Owner context:** Polish-first UI; Azure App Service deployment documented in `README.md`
+- **Product direction:** **PWA** (`VRT.Resume.Pwa`) is the active UI; **MVC** (`VRT.Resume.Mvc`) is legacy — planned for gradual retirement. **Do not extend or polish MVC** unless a change is strictly required (bugfix, security, shared-layer dependency). Prefer PWA for new UX and open-source touches (e.g. GitHub link in app bar).
 
 ## Tech stack
 
@@ -17,7 +18,8 @@ Guide for AI agents working on this codebase. Read this before making changes.
 |-----------|----------------|
 | .NET | `net10.0` (`Directory.Build.props`) |
 | ASP.NET Core | `10.0.9` |
-| EF Core | `10.0.9` (SqlServer + Sqlite) |
+| EF Core | `10.0.8` (pinned for SqliteWasmBlazor; SqlServer + Sqlite) |
+| Blazor WASM PWA | `VRT.Resume.Pwa` — MudBlazor 9.6, SqliteWasmBlazor 0.9.1-pre |
 | MediatR | `12.5.0` |
 | FluentValidation | `12.1.1` |
 | CSharpFunctionalExtensions | `3.7.0` |
@@ -35,6 +37,7 @@ VRT.Resume.Persistence      ← EF Core AppDbContext, fluent configurations
 VRT.Resume.Domain           ← Entities (EF-generated + *.ex.cs partials)
 VRT.Resume.Resources        ← LabelResource / MessageResource (.resx, PL+EN)
 VRT.Resume.Application.Tests.Unit/   ← folder name; csproj: Tests.Integration
+VRT.Resume.Pwa                    ← Blazor WASM offline PWA (local profiles, browser SQLite)
 ```
 
 ### Reference graph
@@ -42,8 +45,14 @@ VRT.Resume.Application.Tests.Unit/   ← folder name; csproj: Tests.Integration
 ```
 Mvc → Application → Persistence → Domain
 Mvc → Resources
+Pwa → Application, Persistence, Resources
 Tests.Integration → Application, Persistence, Domain
 ```
+
+### Agent language
+
+- **Documentation, code comments, and commit messages:** English only.
+- **End-user UI strings:** Polish + English via `VRT.Resume.Resources` (.resx / .pl.resx).
 
 ## Architecture patterns
 
@@ -80,6 +89,81 @@ Custom handlers: `CreatePersonAccount`, `UpdatePersonData`, `ClonePersonResume`,
 ### Application → Persistence (no repository layer)
 
 Handlers use `AppDbContext` directly with LINQ. Do not introduce repositories unless explicitly requested.
+
+### EF provider placement
+
+- **`VRT.Resume.Persistence`** references `Microsoft.EntityFrameworkCore.Relational` only (no SqlServer/Sqlite).
+- **Hosts register the provider:** `VRT.Resume.Mvc` → SqlServer + Sqlite; `VRT.Resume.Pwa` → SqliteWasm; `Tests.Integration` → SqlServer.
+- Keeps SQL Server client assemblies out of the WASM bundle and avoids mixed EF provider versions at runtime.
+
+## VRT.Resume.Pwa (Blazor WASM offline)
+
+Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
+
+### Architecture
+
+- **Feature-oriented layout** (vertical-slice style): group by feature under `Features/{FeatureName}/` (pages, feature services, components). Shared shell stays in `Layout/`; composition root stays at project root (`Program.cs`, `DependencyInjection*.cs`).
+- **Blazor UI convention:** `*.razor` = markup only (no `@code`). Logic in `*.razor.cs` (`partial class`). Routed pages: `[Route(Routes.*)]` in code-behind; constants in `Routes.cs` (no `@page`).
+- **Reuse Application unchanged** — wire PWA-specific adapters in `VRT.Resume.Pwa` (`DummyCurrentUserService`, `PwaCultureService`, `LocalProfileService`, etc.).
+- **Do not run long-lived processes** unless the user asks (`dotnet run` only on request).
+
+### Composition root
+
+| File | Role |
+|------|------|
+| `Program.cs` | `InitializeSqliteWasmAsync` → `DatabaseInitializer` → `PwaCultureService` → `DummyCurrentUserService` |
+| `DependencyInjection.cs` | `AddApplication()`, PWA services |
+| `DependencyInjection.DbContext.cs` | `UseSqliteWasm`, `AddSqliteWasm`, `BaseHref` from `HostEnvironment.BaseAddress` |
+
+### csproj essentials
+
+```xml
+<WasmBuildNative>true</WasmBuildNative>
+<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+<NoWarn>$(NoWarn);WASM0001</NoWarn>  <!-- SqliteWasmBlazor e_sqlite3 stub -->
+```
+
+### Runtime pitfalls (verified)
+
+| Issue | Fix |
+|-------|-----|
+| `RelationalQueryCompilationContext..ctor` Method not found | Pin **all** EF Core packages to **10.0.8** in `Directory.Packages.props` (SqliteWasmBlazor 0.9.1-pre depends on EF Sqlite 10.0.8). Clean rebuild; hard-refresh browser. |
+| Culture change not supported at startup | `BlazorWebAssemblyLoadAllGlobalizationData=true` (`PwaCultureService` restores pl/en from `localStorage`). |
+| `mudElementRef.getBoundingClientRect` undefined | Load `_content/MudBlazor/MudBlazor.min.js` **before** `blazor.webassembly.js`; use `MudDrawer` `Variant="DrawerVariant.Persistent"` + `Breakpoint="Breakpoint.Md"`. |
+| `sqlite3_config` varargs crash | SqliteWasmBlazor + `WasmBuildNative=true` (not SqliteWasmHelper9). |
+| `Missing required OPFS APIs` on published static host | Serve only on **`http://127.0.0.1`** (not LAN IP); use `pwsh ./VRT.Resume.Pwa/serve-published.ps1` (COOP/COEP headers). Close duplicate tabs. |
+| OPFS `createSyncAccessHandle` / database locked | SqliteWasmBlazor allows **one tab per origin**. Second tab: `wwwroot/js/pwa-boot.js` (Navigator Locks) shows `#opfs-tab-blocked` before Blazor loads; C# fallback: `StartupErrorView` + `PwaStartupState`. Close other tabs or wait for auto-refresh when leader tab closes. |
+| `SkiaSharp` `libSkiaSharp` in WASM | Add `SkiaSharp.NativeAssets.WebAssembly` to `VRT.Resume.Pwa.csproj`. |
+| String component parameter renders as literal | Use `@` for C# expressions: `ProfileImageUrl="@_profileImageUrl"` (without `@`, Blazor passes the string `"_profileImageUrl"`). |
+| Photo missing on resume view | Per-resume flag `ShowProfilePhoto` (edit CV dialog). Profile tab always shows the uploaded photo. |
+| Backup / restore all profiles | `/profiles` → Export/Import via `PwaDatabaseBackupService` + `ISqliteWasmDatabaseService` (`vrt-resume.db`). Import replaces OPFS DB; clears active profile context; `forceLoad` reload. |
+| Lighthouse PWA audit | `pwsh ./VRT.Resume.Pwa/run-lighthouse.ps1` after publish; or DevTools on `http://127.0.0.1:8080` via `pwsh ./VRT.Resume.Pwa/serve-published.ps1`. Manifest includes maskable icons; published SW uses `skipWaiting` + `clients.claim`. |
+| Offline refresh shows browser “no network” | SW must install on an **online** visit first. Blazor serves **`service-worker.js`** (not `service-worker.published.js`) — `Include` in csproj must be `wwwroot/service-worker.js`. `pwa-boot.js` awaits `serviceWorker.ready` before loading Blazor. |
+| Cloudflare Pages deploy | `pwsh ./VRT.Resume.Pwa/deploy-pwa-cloudflare.ps1` (Wrangler direct upload) or ZIP via dashboard; `wwwroot/_headers` + `_redirects` ship on publish; see `VRT.Resume.Pwa/Readme.md`. |
+| Client update after redeploy | `pwa-boot.js` calls `registration.update()` when tab becomes visible / goes online / hourly; SW uses `skipWaiting` + `clients.claim`; `controllerchange` sets `sessionStorage` flag and reloads; `App.razor.cs` shows MudBlazor info snackbar on next load. |
+
+### PWA tests (`VRT.Resume.Pwa.Tests`)
+
+- **bUnit 1.x** + in-memory SQLite (`:memory:` shared connection) — not SqliteWasm.
+- Fixture: `PwaTestContext` — registers PWA services + `AddApplication()`; `RenderWithMudProviders<T>()` wraps Mud providers (`MudTestShell`).
+- Covers: profile context switch, data isolation (person + resumes), `ProfilesPage` select/delete, `ProfileRequiredRouteView` guard, `LocalProfileService.DeleteAsync`, `PwaDatabaseBackupService.IsValidSqliteFile`.
+- Run: `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug`
+
+### index.html (MudBlazor)
+
+```html
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+<script src="_framework/blazor.webassembly.js"></script>
+```
+
+### PWA language switcher (`CultureSelector`)
+
+- **UI:** `Layout/CultureSelector.razor` — `MudMenu` with translate icon + current ISO code (e.g. `PL` / `EN`) in the app bar; dropdown is a `MudList` (native caption + code + checkmark on the active language). Pattern matches MudBlazor docs (icon button opens a list panel).
+- **Data:** `PwaCultureService.SupportedLanguages`; persisted in `localStorage` key `VRT.Resume.Culture`.
+- **Scales automatically:** add a dictionary entry only — `CultureSelector` iterates `GetSupportedLanguages()`; no markup changes per language.
+- **UX:** ISO codes in the app bar, not country flags (flags represent countries, not languages — e.g. `en`).
+- **MudMenu 9.x activator:** custom `ActivatorContent` must call `context.ToggleAsync` on click — otherwise the menu never opens. Prefer built-in `StartIcon` + `Label` (wired automatically) when possible.
 
 ## Domain model
 
@@ -189,8 +273,31 @@ Config keys (Azure uses `__` nesting):
 
 - Resources: `VRT.Resume.Resources` — `LabelResource`, `MessageResource` (+ `.pl.resx`).
 - Access: `LabelNames.*.GetLabelText()`, `MsgNames.*.GetMessageText()`.
-- Cultures: `pl` (default), `en`; cookie `VRT.Resume.Culture`.
+- Cultures: `pl` (default), `en`; cookie `VRT.Resume.Culture` (MVC), `localStorage` `VRT.Resume.Culture` (PWA).
 - Date format forced to `yyyy-MM-dd` in `RequestCultureMiddleware`.
+- **Registry (both hosts):** `CultureService.SupportedLangDic` (Mvc) and `PwaCultureService.SupportedLanguages` (Pwa) — keep in sync; `ICultureService.GetSupportedLanguages()` feeds `GetSupportedLanguagesQuery`, MVC `CultureLink`, and PWA `CultureSelector`.
+
+### Adding a new language
+
+Checklist when extending beyond `pl` / `en` (example: `de`):
+
+1. **Registry** — add `["de"] = ("de", "Deutsch")` to **both**:
+   - `VRT.Resume.Mvc/Services/CultureService.cs` → `SupportedLangDic`
+   - `VRT.Resume.Pwa/Services/PwaCultureService.cs` → `SupportedLanguages`  
+   Key = two-letter ISO code; `caption` = language name **in that language** (shown in PWA list and MVC `/Culture/Change` dropdown).
+
+2. **Resources** — add satellite files in `VRT.Resume.Resources`:
+   - `LabelResource.de.resx`
+   - `MessageResource.de.resx`  
+   Copy all keys from neutral `LabelResource.resx` / `MessageResource.resx` (English fallback). Polish overrides live in `.pl.resx` today.
+
+3. **Application errors (optional)** — `Errors.de.resx` in `VRT.Resume.Application` if localized handler errors are needed.
+
+4. **MVC** — no extra wiring: `CultureLink` view component and `CultureController` use `ICultureService`; `RequestCultureMiddleware` applies the culture cookie.
+
+5. **PWA** — no `CultureSelector` changes; `BlazorWebAssemblyLoadAllGlobalizationData=true` must stay enabled (csproj). `Program.cs` sets `ResourceHelper.ResolveCulture` from `PwaCultureService`.
+
+6. **Validators** — `SetUserCultureCommandValidator` only requires `MinimumLength(2)`; no whitelist update needed.
 
 ## Testing conventions
 
@@ -255,6 +362,8 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 8. **Respawn 7** — requires open `DbConnection`, not raw connection string.
 9. **Build solution file** — folder contains `.sln` and `.slnx`; use `VRT.Resume.sln` for CLI.
 10. **InternalsVisibleTo** — test project can access `internal` handlers via `Directory.Build.targets`.
+11. **PWA EF versions** — SqliteWasmBlazor requires EF Core 10.0.8; do not mix 10.0.9 relational/sqlite assemblies in the WASM bundle.
+12. **PWA providers** — SqlServer package must not flow into `VRT.Resume.Pwa` via Persistence; register providers in host projects only.
 
 ## Files to read first
 
@@ -266,7 +375,12 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 | DB change | `Persistence/Data/AppDbContext.cs`, `AppDbContextExtensions.cs` |
 | New test | `Fixtures/ApplicationFixture.cs`, `CommandTestBase.cs` |
 | UI label | `VRT.Resume.Resources/LabelResource.resx` (+ `.pl.resx`) |
-| Deploy | `README.md`, `build.cake` |
+| New language | `CultureService.cs`, `PwaCultureService.cs`, `VRT.Resume.Resources/*.resx`, `Layout/CultureSelector.razor` (reference only — auto-scales) |
+| Deploy (PWA) | `VRT.Resume.Pwa/Readme.md` |
+| Deploy (MVC, legacy) | `VRT.Resume.Mvc/Readme.md`, `build.cake` |
+| PWA feature | `plans/blazor-wasm-pwa-offline.md`, `VRT.Resume.Pwa/Program.cs`, `AGENTS.md` → VRT.Resume.Pwa |
+| New resume print template | `plans/resume-print-templates.md` → **Adding a new print template (step by step)**; `ResumeTemplateRegistry.cs`, `Features/Resumes/Components/` |
+| PWA tests | `VRT.Resume.Pwa.Tests/Fixtures/PwaTestContext.cs` |
 
 ## Project skill (`.grok/skills/`)
 
@@ -299,6 +413,11 @@ For Grok, also copy `real-work` to `~/.grok/skills/` (or symlink from `~/.agents
 1. Read this file (and `.grok/skills/vrt-resume/SKILL.md` when using Grok).
 2. Identify layer(s) affected — prefer minimal, focused diffs.
 3. Match existing patterns (nested handlers, Result, validator per command).
-4. Run `dotnet build VRT.Resume.sln` and `dotnet test` before finishing.
+4. Run `dotnet build VRT.Resume.slnx` before finishing; run `dotnet test` for Application integration tests when that layer changes; run `dotnet test VRT.Resume.Pwa.Tests` when PWA UI/services change.
 5. Do not drive-by refactor unrelated code.
 6. Update this `AGENTS.md` if you discover new architectural facts worth persisting.
+
+### Git
+
+- **Never run `git push`** unless the user explicitly asks (e.g. “push”, “zrób push”). Commits are fine when requested; leave pushing to the user so they can review first.
+- **After each completed PWA plan phase:** propose a commit message (title + body) for the user to review before they commit or push.

@@ -1,0 +1,80 @@
+@inherits ResumeDocumentBase
+<div class="resume page-a4 resume-template-compact">
+    <div class="resume-compact-body">
+        <header class="resume-compact-header">
+            <h1 class="resume-compact-name">@Model.FirstName @Model.LastName</h1>
+            <p class="resume-compact-position">@Model.Position</p>
+            <ResumeInlineContactLine Contacts="@Model.Contact" />
+        </header>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Summary))
+        {
+            <section class="resume-card resume-section">
+                <div class="resume-card-body">
+                    <h2 class="resume-section-title">@LabelNames.ResumeProfile.GetLabelText()</h2>
+                    <p class="resume-summary">@Model.Summary</p>
+                </div>
+            </section>
+        }
+
+        <ResumeExperienceSection Experience="@OrderedExperience" />
+        <ResumeEducationSection Education="@OrderedEducation" />
+
+        @{
+            var technicalSkills = ResumeDisplayHelpers.GetTechnicalSkills(Model.Skills).ToArray();
+            var softSkills = ResumeDisplayHelpers.GetSoftSkills(Model.Skills).ToArray();
+        }
+        @if (technicalSkills.Length > 0 || softSkills.Length > 0)
+        {
+            <section class="resume-card resume-section">
+                <div class="resume-card-body">
+                    @if (technicalSkills.Length > 0)
+                    {
+                        <h2 class="resume-section-title">@LabelNames.ResumeTechSkills.GetLabelText()</h2>
+                        <p class="resume-skills-inline">
+                            @foreach (var skill in technicalSkills)
+                            {
+                                <span class="@ResumeDisplayHelpers.SkillCssClass(skill, "resume-skill-item")">@skill.Name</span>
+                            }
+                        </p>
+                    }
+                    @if (softSkills.Length > 0)
+                    {
+                        <h2 class="resume-section-title @(technicalSkills.Length > 0 ? "resume-section-title--follow" : null)">@LabelNames.ResumeSoftSkills.GetLabelText()</h2>
+                        <p class="resume-skills-inline">
+                            @foreach (var skill in softSkills)
+                            {
+                                <span class="@ResumeDisplayHelpers.SkillCssClass(skill, "resume-skill-item")">@skill.Name</span>
+                            }
+                        </p>
+                    }
+                </div>
+            </section>
+        }
+
+        @{
+            var languages = ResumeDisplayHelpers.GetLanguageSkills(Model.Skills).ToArray();
+        }
+        @if (languages.Length > 0)
+        {
+            <section class="resume-card resume-section">
+                <div class="resume-card-body">
+                    <h2 class="resume-section-title">@LabelNames.ResumeHumanLanguages.GetLabelText()</h2>
+                    <p class="resume-languages-inline">
+                        @foreach (var skill in languages)
+                        {
+                            <span class="@ResumeDisplayHelpers.SkillCssClass(skill, "resume-language-item")">
+                                <span class="resume-language-name">@skill.Name</span><span class="resume-language-level">@skill.Level</span>
+                            </span>
+                        }
+                    </p>
+                </div>
+            </section>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Permission))
+        {
+            <p class="resume-rodo-inline">@Model.Permission</p>
+        }
+    </div>
+</div>

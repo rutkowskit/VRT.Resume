@@ -1,9 +1,4 @@
-﻿using MediatR;
-using VRT.Resume.Application.Common.Abstractions;
-using VRT.Resume.Domain.Entities;
-using VRT.Resume.Persistence.Data;
-
-namespace VRT.Resume.Application.Persons.Commands.UpsertProfileImage;
+﻿namespace VRT.Resume.Application.Persons.Commands.UpsertProfileImage;
 
 public sealed class UpsertProfileImageCommand : IRequest<Result>
 {
@@ -22,9 +17,9 @@ public sealed class UpsertProfileImageCommand : IRequest<Result>
             _profileImageService = profileImageService;
         }
 
-        protected override Result<PersonImage> UpdateData(PersonImage current, UpsertProfileImageCommand request)
+        protected override async Task<Result<PersonImage>> UpdateData(PersonImage current, UpsertProfileImageCommand request)
         {
-            var scaledImg = _profileImageService
+            return await _profileImageService
                 .CreateProfileImage(request.ImageData)
                 .Tap(img =>
                 {
@@ -35,21 +30,19 @@ public sealed class UpsertProfileImageCommand : IRequest<Result>
                 {
                     current.ImageData = request.ImageData;
                     current.ImageType = request.ImageType;
-                });
-
-
-            return current;
+                })
+                .Map(_ => current);
         }
 
-        protected override Result<PersonImage> GetExistingData(UpsertProfileImageCommand request)
+        protected override Task<Result<PersonImage>> GetExistingData(UpsertProfileImageCommand request)
         {
             return GetCurrentUserPersonId()
-               .Bind(m =>
+               .Bind(async m =>
                {
                    var query = from img in Context.PersonImage
                                where img.PersonId == m
                                select img;
-                   var result = query.FirstOrDefault();
+                   var result = await query.FirstOrDefaultAsync();
                    return result ?? Result.Failure<PersonImage>(Errors.ImageNotFound);
                });
         }

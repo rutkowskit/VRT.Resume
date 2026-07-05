@@ -1,5 +1,5 @@
 ﻿@{
-    string msg = null;
+    string? msg = null;
     if (TempData.TryGetNonEmpty(TempDataKeys.ErrorMsg, out msg))
     {
         <div aria-live="polite" aria-atomic="true"

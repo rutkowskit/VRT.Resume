@@ -138,4 +138,70 @@
   <data name="ValidationFailed" xml:space="preserve">
     <value>Validation failed</value>
   </data>
+  <data name="DeleteConfirmDefault" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+  </data>
+  <data name="ResumeClonedSuccess" xml:space="preserve">
+    <value>Cloned resume "{0}".</value>
+  </data>
+  <data name="DeleteResumeConfirm" xml:space="preserve">
+    <value>Delete resume "{0}"?</value>
+  </data>
+  <data name="DeleteContactConfirm" xml:space="preserve">
+    <value>Delete contact "{0}"?</value>
+  </data>
+  <data name="DeleteEducationConfirm" xml:space="preserve">
+    <value>Delete education entry "{0}"?</value>
+  </data>
+  <data name="DeleteWorkExpConfirm" xml:space="preserve">
+    <value>Delete work experience "{0}"?</value>
+  </data>
+  <data name="DeleteDutyConfirm" xml:space="preserve">
+    <value>Delete duty "{0}"?</value>
+  </data>
+  <data name="DeleteSkillConfirm" xml:space="preserve">
+    <value>Delete skill "{0}"?</value>
+  </data>
+  <data name="DeleteProfileConfirm" xml:space="preserve">
+    <value>Delete profile "{0}" and all associated data (CV, contacts, photo)? This cannot be undone.</value>
+  </data>
+  <data name="ProfileDeletedSuccess" xml:space="preserve">
+    <value>Profile "{0}" was deleted.</value>
+  </data>
+  <data name="ImportDatabaseConfirm" xml:space="preserve">
+    <value>Import will replace all local profiles and CV data. Export a backup first if you want to keep the current data. Continue?</value>
+  </data>
+  <data name="DatabaseExportSuccess" xml:space="preserve">
+    <value>Database exported.</value>
+  </data>
+  <data name="DatabaseImportInvalid" xml:space="preserve">
+    <value>The selected file is not a valid SQLite database.</value>
+  </data>
+  <data name="DatabaseImportTooLarge" xml:space="preserve">
+    <value>Database file must be 50 MB or smaller.</value>
+  </data>
+  <data name="DatabaseBackupFailed" xml:space="preserve">
+    <value>Database backup operation failed.</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>Image must be 5 MB or smaller.</value>
+  </data>
+  <data name="ImageReadFailed" xml:space="preserve">
+    <value>Could not read the selected image.</value>
+  </data>
+  <data name="OpfsAnotherTabTitle" xml:space="preserve">
+    <value>App already open</value>
+  </data>
+  <data name="OpfsAnotherTabBody" xml:space="preserve">
+    <value>VRT Resume can only run in one browser tab. Close the other tab with this app, then refresh this page.</value>
+  </data>
+  <data name="OpfsStartupFailedTitle" xml:space="preserve">
+    <value>Could not start the app</value>
+  </data>
+  <data name="OpfsRetryButton" xml:space="preserve">
+    <value>Refresh now</value>
+  </data>
+  <data name="AppUpdatedSuccess" xml:space="preserve">
+    <value>Application updated to the latest version.</value>
+  </data>
 </root>

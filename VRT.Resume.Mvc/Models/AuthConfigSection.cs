@@ -4,12 +4,12 @@
     {
         public sealed class AuthProvider
         {
-            public string Name { get; set; }
-            public string ClientId { get; set; }
-            public string ClientSecret { get; set; }
-            public string CallbackPath { get; set; }
+            public required string Name { get; set; }
+            public required string ClientId { get; set; }
+            public required string ClientSecret { get; set; }
+            public required string CallbackPath { get; set; }
         }
-        public AuthProvider[] Providers { get; set; }
+        public AuthProvider[]? Providers { get; set; }
     }
     
 }

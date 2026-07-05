@@ -138,4 +138,70 @@
   <data name="ValidationFailed" xml:space="preserve">
     <value>Walidacja nie powiodła się</value>
   </data>
+  <data name="DeleteConfirmDefault" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć ten element?</value>
+  </data>
+  <data name="ResumeClonedSuccess" xml:space="preserve">
+    <value>Sklonowano życiorys „{0}".</value>
+  </data>
+  <data name="DeleteResumeConfirm" xml:space="preserve">
+    <value>Usunąć życiorys „{0}"?</value>
+  </data>
+  <data name="DeleteContactConfirm" xml:space="preserve">
+    <value>Usunąć kontakt „{0}"?</value>
+  </data>
+  <data name="DeleteEducationConfirm" xml:space="preserve">
+    <value>Usunąć wpis o wykształceniu „{0}"?</value>
+  </data>
+  <data name="DeleteWorkExpConfirm" xml:space="preserve">
+    <value>Usunąć doświadczenie zawodowe „{0}"?</value>
+  </data>
+  <data name="DeleteDutyConfirm" xml:space="preserve">
+    <value>Usunąć obowiązek „{0}"?</value>
+  </data>
+  <data name="DeleteSkillConfirm" xml:space="preserve">
+    <value>Usunąć umiejętność „{0}"?</value>
+  </data>
+  <data name="DeleteProfileConfirm" xml:space="preserve">
+    <value>Usunąć profil „{0}" i wszystkie powiązane dane (CV, kontakty, zdjęcie)? Tej operacji nie można cofnąć.</value>
+  </data>
+  <data name="ProfileDeletedSuccess" xml:space="preserve">
+    <value>Profil „{0}" został usunięty.</value>
+  </data>
+  <data name="ImportDatabaseConfirm" xml:space="preserve">
+    <value>Import zastąpi wszystkie lokalne profile i dane CV. Najpierw wyeksportuj kopię zapasową, jeśli chcesz zachować obecne dane. Kontynuować?</value>
+  </data>
+  <data name="DatabaseExportSuccess" xml:space="preserve">
+    <value>Baza danych wyeksportowana.</value>
+  </data>
+  <data name="DatabaseImportInvalid" xml:space="preserve">
+    <value>Wybrany plik nie jest prawidłową bazą SQLite.</value>
+  </data>
+  <data name="DatabaseImportTooLarge" xml:space="preserve">
+    <value>Plik bazy danych musi mieć rozmiar 50 MB lub mniejszy.</value>
+  </data>
+  <data name="DatabaseBackupFailed" xml:space="preserve">
+    <value>Operacja kopii zapasowej bazy danych nie powiodła się.</value>
+  </data>
+  <data name="ImageTooLarge" xml:space="preserve">
+    <value>Obraz musi mieć rozmiar 5 MB lub mniejszy.</value>
+  </data>
+  <data name="ImageReadFailed" xml:space="preserve">
+    <value>Nie można odczytać wybranego obrazu.</value>
+  </data>
+  <data name="OpfsAnotherTabTitle" xml:space="preserve">
+    <value>Aplikacja jest już otwarta</value>
+  </data>
+  <data name="OpfsAnotherTabBody" xml:space="preserve">
+    <value>VRT Resume działa tylko w jednej karcie przeglądarki. Zamknij inną kartę z tą aplikacją i odśwież tę stronę.</value>
+  </data>
+  <data name="OpfsStartupFailedTitle" xml:space="preserve">
+    <value>Nie udało się uruchomić aplikacji</value>
+  </data>
+  <data name="OpfsRetryButton" xml:space="preserve">
+    <value>Odśwież teraz</value>
+  </data>
+  <data name="AppUpdatedSuccess" xml:space="preserve">
+    <value>Aplikacja została zaktualizowana do najnowszej wersji.</value>
+  </data>
 </root>

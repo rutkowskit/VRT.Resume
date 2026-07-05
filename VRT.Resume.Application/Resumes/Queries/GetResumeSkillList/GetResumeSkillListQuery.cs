@@ -3,6 +3,7 @@ using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Persistence.Data;
 
@@ -20,23 +21,22 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeSkillList
             }
             public async Task<Result<ResumeSkillListVM>> Handle(GetResumeSkillListQuery request, CancellationToken cancellationToken)
             {
-                await Task.Yield();
-                return GetCurrentUserPersonId()
-                    .Bind(p => GetResumes(p, request.ResumeId))
-                    .Map(p =>
-                    {
-                        return new ResumeSkillListVM()
-                        {
-                            ResumeId = request.ResumeId,
-                            ResumeSkills = p
-                        };
-                    });
+                var personIdResult = await GetCurrentUserPersonIdAsync(cancellationToken);
+                if (personIdResult.IsFailure)
+                    return Result.Failure<ResumeSkillListVM>(personIdResult.Error);
+
+                var skills = await GetResumesAsync(personIdResult.Value, request.ResumeId, cancellationToken);
+                return new ResumeSkillListVM()
+                {
+                    ResumeId = request.ResumeId,
+                    ResumeSkills = skills
+                };
             }
 
-            private Result<ResumeSkillInListDto[]> GetResumes(int personId, int resumeId)
+            private async Task<ResumeSkillInListDto[]> GetResumesAsync(int personId, int resumeId, CancellationToken cancellationToken)
             {
-                var query = from rd in Context.PersonSkill
-                            join rs in Context.ResumePersonSkill
+                var query = from rd in Context.PersonSkill.AsNoTracking()
+                            join rs in Context.ResumePersonSkill.AsNoTracking()
                                 .Where(r => r.ResumeId == resumeId) on rd.SkillId equals rs.SkillId into grs
                             from rs in grs.DefaultIfEmpty()
                             where rd.PersonId == personId
@@ -51,7 +51,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResumeSkillList
                                 Position = rs == null ? 0 : rs.Position
                             };
 
-                return query.ToArray();
+                return await query.ToArrayAsync(cancellationToken);
             }
         }
     }

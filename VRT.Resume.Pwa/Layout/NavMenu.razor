@@ -1,0 +1,38 @@
+<MudNavMenu Class="nav-menu">
+    <div class="nav-menu-profile">
+        <MudIcon Icon="@Icons.Material.Outlined.Badge"
+                 Size="Size.Small"
+                 Class="nav-menu-profile__icon mud-text-secondary" />
+        <div class="nav-menu-profile__text">
+            <MudText Typo="Typo.caption" Class="mud-text-secondary">
+                @LabelNames.ActiveProfile.GetLabelText()
+            </MudText>
+            <MudText Typo="Typo.body2" Class="@GetActiveProfileNameClass()">
+                @GetActiveProfileDisplayName()
+            </MudText>
+        </div>
+    </div>
+    <MudDivider Class="my-2 nav-menu-profile-divider" />
+
+    <MudNavLink Href="@Routes.Profiles.List" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.Badge">
+        @LabelNames.PageProfiles.GetLabelText()
+    </MudNavLink>
+
+    <MudNavLink Href="@Routes.Home"
+                Match="NavLinkMatch.All"
+                Icon="@Icons.Material.Outlined.Description"
+                Disabled="@(!ActiveProfile.HasActiveContext)">
+        @LabelNames.PageResume.GetLabelText()
+    </MudNavLink>
+
+    <MudNavLink Href="@Routes.Persons.Person"
+                Match="NavLinkMatch.Prefix"
+                Icon="@Icons.Material.Outlined.Person"
+                Disabled="@(!ActiveProfile.HasActiveContext)">
+        @LabelNames.PagePerson.GetLabelText()
+    </MudNavLink>
+
+    <MudNavLink Href="@Routes.About" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Outlined.Info">
+        @LabelNames.PageAbout.GetLabelText()
+    </MudNavLink>
+</MudNavMenu>

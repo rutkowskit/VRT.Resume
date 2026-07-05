@@ -6,7 +6,7 @@ namespace VRT.Resume.Mvc
 {
     public static class PrincipalExtensions
     {
-        public static UserLoginViewModel AsUserLoginViewModel(this IPrincipal principal)
+        public static UserLoginViewModel? AsUserLoginViewModel(this IPrincipal principal)
         {
             var claims = principal?.Identity as ClaimsIdentity;
             if (null == claims) 

@@ -1,0 +1,37 @@
+@inherits AppLayoutBase
+
+<PageTitle>@LabelNames.AppTitle.GetLabelText()</PageTitle>
+
+<MudLayout>
+    <MudAppBar Elevation="0" Class="app-bar">
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu"
+                       Color="Color.Inherit"
+                       Edge="Edge.Start"
+                       OnClick="DrawerToggle" />
+        <MudText Typo="Typo.h6" Class="d-none d-sm-inline">@LabelNames.AppTitle.GetLabelText()</MudText>
+        <MudSpacer />
+        <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="0" Class="app-bar-actions">
+            <MudIconButtonWithTitle Icon="@Icons.Custom.Brands.GitHub"
+                                    Color="Color.Inherit"
+                                    Href="@GitHubRepositoryUrl"
+                                    Target="_blank"
+                                    Rel="noopener noreferrer"
+                                    Title="@LabelNames.GitHubRepository.GetLabelText()" />
+            <CultureSelector />
+        </MudStack>
+    </MudAppBar>
+
+    <MudDrawer @bind-Open="DrawerOpen"
+               Variant="DrawerVariant.Responsive"
+               ClipMode="DrawerClipMode.Always"
+               Breakpoint="Breakpoint.Md"
+               Elevation="2">
+        <NavMenu />
+    </MudDrawer>
+
+    <MudMainContent Class="pa-4 pt-16">
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>

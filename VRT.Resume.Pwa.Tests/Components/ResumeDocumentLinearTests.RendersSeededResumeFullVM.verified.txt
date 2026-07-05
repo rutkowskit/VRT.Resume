@@ -1,0 +1,13 @@
+﻿<div class="resume page-a4 resume-template-linear"><div class="resume-linear-body"><header class="resume-linear-header"><h1 class="resume-linear-name">Jan Kowalski</h1>
+            <p class="resume-linear-position">Senior Developer</p>
+            <div class="resume-linear-contact-line"><span class="resume-contact-item"><span>jan@example.com</span></span></div></header><section class="resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Profil</h2>
+                    <p class="resume-summary">Experienced .NET developer.</p></div></section><section class="resume-experience resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Doświadczenie zawodowe</h2>
+        <div class="resume-work-list"><div class="resume-work-item"><div class="resume-timeline-item-title">01-2020 - 06-2024 — Developer</div>
+                    <div class="resume-timeline-item-title-1">Acme Corp</div>
+                    <div class="resume-timeline-item-title-2">Warsaw</div><ul class="resume-work-resp"><li>Built web APIs</li></ul></div></div></div></section>
+        <section class="resume-education resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Wykształcenie</h2>
+        <div class="resume-education-list"><div class="resume-edu-item"><div class="resume-timeline-item-title">2015 - 2020 — Computer Science</div>
+                    <div class="resume-timeline-item-title-1">Warsaw University</div>
+                    <div class="resume-timeline-item-title-2">Tytuł: <span>MSc</span></div></div></div></div></section><section class="resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Umiejętności techniczne</h2>
+                    <p class="resume-skills-inline"><span class="resume-skill-item font-weight-bolder">C#</span></p></div></section><section class="resume-card resume-section"><div class="resume-card-body"><h2 class="resume-section-title">Języki</h2>
+                    <p class="resume-languages-inline"><span class="resume-language-item"><span class="resume-language-name">English</span><span class="resume-language-level">C1</span></span></p></div></section></div></div>

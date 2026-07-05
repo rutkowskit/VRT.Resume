@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Offline CV generator with local profiles (PL/EN)." />
+    <meta name="theme-color" content="#143a5c" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <title>VRT Resume</title>
+    <base href="/" />
+    <link rel="preload" id="webassembly" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/resume/_print-base.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="manifest.webmanifest" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <script type="importmap"></script>
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <section id="opfs-tab-blocked" class="opfs-tab-blocked" hidden>
+        <div class="opfs-tab-blocked__card">
+            <h1 id="opfs-tab-blocked-title"></h1>
+            <p id="opfs-tab-blocked-body"></p>
+            <button type="button" id="opfs-tab-blocked-retry" class="opfs-tab-blocked__button"></button>
+        </div>
+    </section>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
+
+    <template id="pwa-blazor-scripts">
+        <script src="js/pwa-db-backup.js"></script>
+        <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+        <script src="_framework/blazor.webassembly#[.{fingerprint}].js"></script>
+    </template>
+
+    <script src="js/pwa-boot.js"></script>
+</body>
+
+</html>

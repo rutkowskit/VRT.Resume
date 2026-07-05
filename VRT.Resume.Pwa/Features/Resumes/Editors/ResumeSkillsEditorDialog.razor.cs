@@ -1,0 +1,99 @@
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+using VRT.Resume.Application.Resumes.Commands.MergeResumeSkills;
+using VRT.Resume.Application.Resumes.Queries.GetResumeSkillList;
+using VRT.Resume.Pwa.Features.Mediator;
+using VRT.Resume.Pwa.Features.Person;
+
+namespace VRT.Resume.Pwa.Features.Resumes.Editors;
+
+public partial class ResumeSkillsEditorDialog
+{
+    [CascadingParameter] private IMudDialogInstance MudDialog { get; set; } = null!;
+    [Inject] private MediatorSender Mediator { get; set; } = null!;
+
+    [Parameter] public int ResumeId { get; set; }
+
+    private readonly List<ResumeSkillRow> _skills = [];
+    private bool _loading = true;
+    private bool _saving;
+    private Dictionary<int, SkillSnapshot> _originalSkills = [];
+
+    private bool CanSave => !_loading && !_saving && _skills.Count > 0 && IsDirty;
+
+    private bool IsDirty =>
+        _skills.Any(skill =>
+            !_originalSkills.TryGetValue(skill.SkillId, out var original)
+            || skill.IsRelevant != original.IsRelevant
+            || skill.IsHidden != original.IsHidden
+            || skill.Position != original.Position);
+
+    protected override async Task OnInitializedAsync()
+    {
+        var outcome = await Mediator.SendAsync(
+            new GetResumeSkillListQuery { ResumeId = ResumeId },
+            new MediatorSendOptions { NotifyOnFailure = true });
+
+        if (outcome.Result.IsFailure)
+        {
+            MudDialog.Cancel();
+            return;
+        }
+
+        var list = outcome.Result.Value.ResumeSkills ?? [];
+        _skills.AddRange(list.Select(s => new ResumeSkillRow
+        {
+            SkillId = s.SkillId,
+            Name = s.Name,
+            Type = s.Type,
+            IsRelevant = s.IsRelevant,
+            IsHidden = s.IsHidden,
+            Position = s.Position,
+        }));
+        CaptureSnapshot();
+        _loading = false;
+    }
+
+    private void CaptureSnapshot() =>
+        _originalSkills = _skills.ToDictionary(
+            skill => skill.SkillId,
+            skill => new SkillSnapshot(skill.IsRelevant, skill.IsHidden, skill.Position));
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private async Task SaveAsync()
+    {
+        _saving = true;
+
+        var outcome = await Mediator.SendAsync(
+            new MergeResumeSkillsCommand
+            {
+                ResumeId = ResumeId,
+                ResumeSkills = _skills.Select(s => new ResumePersonSkillDto
+                {
+                    SkillId = s.SkillId,
+                    IsRelevant = s.IsRelevant,
+                    IsHidden = s.IsHidden,
+                    Position = s.Position,
+                }).ToArray(),
+            },
+            new MediatorSendOptions { NotifyOnSuccess = true });
+
+        _saving = false;
+
+        if (outcome.Result.IsSuccess)
+            MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private sealed class ResumeSkillRow
+    {
+        public int SkillId { get; init; }
+        public string Name { get; init; } = string.Empty;
+        public string Type { get; init; } = string.Empty;
+        public bool IsRelevant { get; set; }
+        public bool IsHidden { get; set; }
+        public int Position { get; set; }
+    }
+
+    private readonly record struct SkillSnapshot(bool IsRelevant, bool IsHidden, int Position);
+}

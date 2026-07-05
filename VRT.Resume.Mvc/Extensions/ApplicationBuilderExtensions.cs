@@ -14,7 +14,9 @@ namespace VRT.Resume.Mvc
         }
         public static IApplicationBuilder UseAppDatabase(this IApplicationBuilder app)
         {
-            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            var scopeFactory = app.ApplicationServices.GetService<IServiceScopeFactory>();
+            if (scopeFactory is null) return app;
+            using (var serviceScope = scopeFactory.CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
                 context.InitDatabase();

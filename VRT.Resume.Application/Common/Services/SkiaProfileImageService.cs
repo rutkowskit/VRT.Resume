@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using SkiaSharp;
-using VRT.Resume.Application.Common.Abstractions;
 
 namespace VRT.Resume.Application.Common.Services;
 
@@ -8,11 +7,12 @@ public sealed class ProfileImageService(ILogger<ProfileImageService> logger) : I
 {
     private readonly ILogger<ProfileImageService> _logger = logger;
 
-    public Result<IProfileImageService.ProfileImage> CreateProfileImage(byte[] imageBytes,
+    public async Task<Result<IProfileImageService.ProfileImage>> CreateProfileImage(byte[] imageBytes,
         int desiredWidth = IProfileImageService.DefaultImageWidth,
         int desiredHeight = IProfileImageService.DefaultImageHeight,
         int desiredQuality = IProfileImageService.DefaultImageQuality)
     {
+        await Task.Yield(); // Ensure this method is asynchronous
         if (imageBytes is null || imageBytes.Length == 0)
         {
             return Result.Failure<IProfileImageService.ProfileImage>("Image is empty or null");
@@ -34,7 +34,7 @@ public sealed class ProfileImageService(ILogger<ProfileImageService> logger) : I
                 return Result.Failure<IProfileImageService.ProfileImage>("Image encoding error");
             }
 
-            var result = new IProfileImageService.ProfileImage
+            return new IProfileImageService.ProfileImage
             {
                 ImageBytes = profileImageBytes,
                 ImageMimeType = IProfileImageService.DefaultImageMimeType,
@@ -42,7 +42,6 @@ public sealed class ProfileImageService(ILogger<ProfileImageService> logger) : I
                 ImageWidth = skProfileImage.Width,
                 ImageQuality = desiredQuality
             };
-            return result;
         }
         catch (Exception ex)
         {

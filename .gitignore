@@ -351,3 +351,10 @@ artifacts/
 #Agents
 terminals/
 agent-tools/
+
+#Wrangler
+wrangler/
+.wrangler/
+
+# Verify snapshot tests (commit *.verified.* only)
+*.received.*

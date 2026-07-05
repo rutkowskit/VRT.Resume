@@ -56,7 +56,7 @@ namespace VRT.Resume.Mvc.Controllers
             return ToActionResult(result);
         }
 
-        private void SetTabName(string tabName=null, [CallerMemberName] string memberName = "")
+        private void SetTabName(string? tabName=null, [CallerMemberName] string memberName = "")
         {
             TempData[TempDataKeys.TabName] = tabName ?? memberName;
         }        

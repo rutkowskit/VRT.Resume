@@ -20,15 +20,15 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.Name)
-            .IsRequired()
-            .HasMaxLength(50);
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.Url).HasMaxLength(255);
             entity.Property(e => e.Value).IsRequired();
 
             entity.HasOne(d => d.Person).WithMany(p => p.PersonContact)
-            .HasForeignKey(d => d.PersonId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PersonContact_Person");
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonContact_Person");
 
             OnConfigurePartial(entity);
         }

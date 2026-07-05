@@ -56,7 +56,7 @@ public sealed class PersonEduController : PersonEditControllerBase
         return new PersonEducationViewModel
         {
             EducationId = dto.EducationId,
-            Degree = dto.Degree,
+            Degree = dto.Degree ?? string.Empty,
             Field = dto.Field,
             FromDate = dto.FromDate,
             ToDate = dto.ToDate.GetValueOrDefault(),

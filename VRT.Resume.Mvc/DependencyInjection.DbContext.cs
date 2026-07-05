@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Mvc;
@@ -21,7 +22,11 @@ internal static partial class DependencyInjection
         return provider switch
         {
             "mssql" => (DbContextOptionsBuilder opt) => ConfigureSqlServer(opt, connString!),
-            _ => (DbContextOptionsBuilder opt) => opt.UseSqlite(connString),
+            _ => (DbContextOptionsBuilder opt) =>
+            {
+                opt.ConfigureWarnings(w => w.Ignore(SqliteEventId.SchemaConfiguredWarning));
+                opt.UseSqlite(connString);
+            },
         };
     }
     private static void ConfigureSqlServer(DbContextOptionsBuilder opt, string connString)

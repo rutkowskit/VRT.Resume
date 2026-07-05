@@ -4,6 +4,6 @@
     {        
         public int DutyId { get; internal set; }
         public int ExperienceId { get; internal set; }
-        public string Name { get; internal set; }
+        public required string Name { get; set; }
     }
 }

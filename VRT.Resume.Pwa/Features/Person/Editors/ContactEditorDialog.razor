@@ -1,0 +1,35 @@
+@inherits CultureAwareComponentBase
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" Options="@PwaDialogOptions.Form">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@(_isNew ? LabelNames.AddContactTitle.GetLabelText() : LabelNames.EditContactTitle.GetLabelText())</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+            <MudForm @ref="_form" @bind-IsValid="_isValid" ValidationDelay="0">
+                <MudStack Spacing="3">
+                    <MudTextField @bind-Value="_name" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Name.GetLabelText()" Required="true" MaxLength="100" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Name))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Name))" />
+                    <MudTextField @bind-Value="_value" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Value.GetLabelText()" Required="true" MaxLength="200" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Value))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Value))" />
+                    <MudTextField @bind-Value="_url" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.Url.GetLabelText()" MaxLength="500" Immediate="true" />
+                    <MudTextField @bind-Value="_icon" @bind-Value:after="OnFieldChangedAsync" Label="@LabelNames.IconSvgHtml.GetLabelText()" Lines="3" MaxLength="5000" Immediate="true"
+                                  Error="FieldErrors.HasFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Icon))"
+                                  ErrorText="@FieldErrors.GetFieldError(_fieldErrors, nameof(UpsertPersonContactCommand.Icon))" />
+                </MudStack>
+            </MudForm>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!CanSave)" OnClick="SaveAsync">
+            @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
+        </MudButton>
+    </DialogActions>
+</MudDialog>

@@ -1,0 +1,41 @@
+@inherits CultureAwareComponentBase
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" Options="@PwaDialogOptions.Form">
+    <TitleContent>
+        <MudText Typo="Typo.h6">@LabelNames.DutySkillsTitle.GetLabelText()</MudText>
+    </TitleContent>
+    <DialogContent>
+        @if (_loading)
+        {
+            <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+        }
+        else if (_skills.Count == 0)
+        {
+            <MudText>@LabelNames.NoSkillsInProfile.GetLabelText()</MudText>
+        }
+        else
+        {
+            <div style="max-height: 60vh; overflow: auto;">
+                <MudTable Items="_skills" Dense="true" Hover="true">
+                    <HeaderContent>
+                        <MudTh>@LabelNames.Name.GetLabelText()</MudTh>
+                        <MudTh>@LabelNames.Type.GetLabelText()</MudTh>
+                        <MudTh>@LabelNames.Relevant.GetLabelText()</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="@LabelNames.Name.GetLabelText()">@context.Name</MudTd>
+                        <MudTd DataLabel="@LabelNames.Type.GetLabelText()">@context.Type</MudTd>
+                        <MudTd DataLabel="@LabelNames.Relevant.GetLabelText()">
+                            <MudCheckBox @bind-Value="context.IsRelevant" Color="Color.Primary" />
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </div>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!CanSave)" OnClick="SaveAsync">
+            @(_saving ? LabelNames.StatusSaving.GetLabelText() : LabelNames.ButtonSave.GetLabelText())
+        </MudButton>
+    </DialogActions>
+</MudDialog>

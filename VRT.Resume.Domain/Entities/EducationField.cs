@@ -14,5 +14,5 @@ public partial class EducationField
 
     public string Name { get; set; }
 
-    public virtual ICollection<PersonEducation> PersonEducation { get; } = new List<PersonEducation>();
+    public virtual ICollection<PersonEducation> PersonEducation { get; set; } = new List<PersonEducation>();
 }

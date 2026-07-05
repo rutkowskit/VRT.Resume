@@ -18,7 +18,7 @@ namespace VRT.Resume.Mvc.Controllers
         public virtual ActionResult ConfirmDelete(int id)
         {
             var ctrl= ControllerContext.RouteData.Values["controller"]?.ToString();
-            var data = new Models.EditDeleteToolbarData(ctrl, id);
+            var data = new Models.EditDeleteToolbarData(ctrl ?? string.Empty, id);
             return View("ConfirmDelete", data);
         }                 
     }

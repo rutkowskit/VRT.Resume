@@ -4,6 +4,6 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDutySkillLis
     public sealed class PersonExpDutySkillListVM
     {
         public int DutyId { get; internal set; }
-        public PersonExpDutySkillInListDto[] DutySkills { get; internal set; }
+        public required PersonExpDutySkillInListDto[] DutySkills { get; set; }
     }
 }

@@ -4,7 +4,7 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
 {
     public sealed class WorkActivityDto: ISkillable
     {
-        public string Description { get; set; }
-        public SkillDto[] Skills { get; set; }
+        public required string Description { get; set; }
+        public required SkillDto[] Skills { get; set; }
     }
 }

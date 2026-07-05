@@ -29,7 +29,7 @@ namespace VRT.Resume.Mvc.Controllers
                 .Map(m => new PersonSkillEditViewModel()
                 {
                     SkillId = m.SkillId,
-                    SkillLevel = m.Level,
+                    SkillLevel = m.Level ?? string.Empty,
                     SkillName = m.Name,
                     SkillType = m.Type
                 });

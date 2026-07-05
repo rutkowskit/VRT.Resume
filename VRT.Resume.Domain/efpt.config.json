@@ -1,0 +1,110 @@
+﻿{
+   "CodeGenerationMode": 6,
+   "ContextClassName": "AppDbContext",
+   "ContextNamespace": "Persistence.Data",
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "IrregularWords": null,
+   "MinimumProductVersion": "2.6.1604",
+   "ModelNamespace": "Domain.Entities",
+   "OutputContextPath": "Data",
+   "OutputPath": "Entities",
+   "PluralRules": null,
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "VRT.Resume",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 2,
+   "SingularRules": null,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "[Auth].[UserPerson]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[Degree]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[EducationField]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[Person]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[PersonContact]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[PersonEducation]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[PersonExperience]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[PersonExperienceDuty]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[PersonExperienceDutySkill]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[PersonImage]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[PersonSkill]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[School]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Persons].[SkillType]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Resumes].[PersonResume]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Resumes].[ResumePersonSkill]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": true,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false,
+   "UseTypedTvpParameters": true
+}

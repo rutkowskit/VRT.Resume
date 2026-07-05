@@ -1,0 +1,78 @@
+@inherits CultureAwareComponentBase
+
+
+<MudStack Spacing="4">
+    <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+        <MudText Typo="Typo.h4">@LabelNames.PageResume.GetLabelText()</MudText>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Outlined.Add"
+                   OnClick="AddAsync">
+            @LabelNames.ButtonAddResume.GetLabelText()
+        </MudButton>
+    </MudStack>
+
+    <MudText Typo="Typo.body1" Class="mud-text-secondary">
+        @LabelNames.ResumesPageDescription.GetLabelText()
+    </MudText>
+
+    @if (_loading)
+    {
+        <MudProgressLinear Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (_resumes.Count == 0)
+    {
+        <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
+            @LabelNames.NoResumesYet.GetLabelText()
+        </MudAlert>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Outlined.Add"
+                   OnClick="AddAsync">
+            @LabelNames.ButtonAddResume.GetLabelText()
+        </MudButton>
+    }
+    else
+    {
+        <MudTable Items="_resumes" Hover="true" Dense="true" Breakpoint="Breakpoint.Sm">
+            <HeaderContent>
+                <MudTh>@LabelNames.Description.GetLabelText()</MudTh>
+                <MudTh>@LabelNames.Position.GetLabelText()</MudTh>
+                <MudTh>@LabelNames.LastModification.GetLabelText()</MudTh>
+                <MudTh Style="width: 200px;">@LabelNames.Actions.GetLabelText()</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="@LabelNames.Description.GetLabelText()">
+                    <MudLink Href="@ResumeDisplayHelpers.ShowUrl(context.ResumeId)">@context.Description</MudLink>
+                </MudTd>
+                <MudTd DataLabel="@LabelNames.Position.GetLabelText()">@context.Position</MudTd>
+                <MudTd DataLabel="@LabelNames.LastModification.GetLabelText()">@context.ModifiedDate.ToString("yyyy-MM-dd HH:mm")</MudTd>
+                <MudTd DataLabel="@LabelNames.Actions.GetLabelText()">
+                    <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Visibility"
+                                                Size="Size.Small"
+                                                Title="@LabelNames.ButtonShow.GetLabelText()"
+                                                Href="@ResumeDisplayHelpers.ShowUrl(context.ResumeId)" />
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Edit"
+                                                Size="Size.Small"
+                                                Title="@LabelNames.ButtonEdit.GetLabelText()"
+                                                OnClick="@(() => EditAsync(context.ResumeId))" />
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Workspaces"
+                                                Size="Size.Small"
+                                                Title="@LabelNames.Skills.GetLabelText()"
+                                                OnClick="@(() => EditSkillsAsync(context.ResumeId))" />
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.ContentCopy"
+                                                Size="Size.Small"
+                                                Title="@LabelNames.Clone.GetLabelText()"
+                                                OnClick="@(() => CloneAsync(context.ResumeId, context.Description))" />
+                        <MudIconButtonWithTitle Icon="@Icons.Material.Outlined.Delete"
+                                                Size="Size.Small"
+                                                Color="Color.Error"
+                                                Title="@LabelNames.ButtonDelete.GetLabelText()"
+                                                OnClick="@(() => DeleteAsync(context.ResumeId, context.Description))" />
+                    </MudStack>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+    }
+</MudStack>

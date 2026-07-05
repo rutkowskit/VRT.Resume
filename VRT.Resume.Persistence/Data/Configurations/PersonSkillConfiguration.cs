@@ -21,24 +21,24 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.HasIndex(e => e.SkillTypeId, "IX_PersonSkill_SkillTypeId");
 
             entity.Property(e => e.Level)
-            .IsRequired()
-            .HasMaxLength(50)
-            .HasComment("Knowledge level of the skill");
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasComment("Knowledge level of the skill");
             entity.Property(e => e.Name)
-            .IsRequired()
-            .HasMaxLength(50)
-            .HasComment("Default name of the skill");
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasComment("Default name of the skill");
             entity.Property(e => e.SkillTypeId).HasComment("Skill type id");
 
             entity.HasOne(d => d.Person).WithMany(p => p.PersonSkill)
-            .HasForeignKey(d => d.PersonId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PersonSkill_Person");
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonSkill_Person");
 
             entity.HasOne(d => d.SkillType).WithMany(p => p.PersonSkill)
-            .HasForeignKey(d => d.SkillTypeId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PersonSkill_SkillType");
+                .HasForeignKey(d => d.SkillTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonSkill_SkillType");
 
             OnConfigurePartial(entity);
         }

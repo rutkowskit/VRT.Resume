@@ -1,0 +1,27 @@
+@inherits CultureAwareComponentBase
+
+
+<MudStack Spacing="2">
+    <MudText Typo="Typo.h4">@LabelNames.PagePerson.GetLabelText()</MudText>
+    <MudText Typo="Typo.body2" Class="mud-text-secondary">
+        @LabelNames.PersonPageDescription.GetLabelText()
+    </MudText>
+
+    <MudTabs @bind-ActivePanelIndex="_activeTab" Class="mt-2" @key="CultureService.GetCurrentCulture()">
+        <MudTabPanel Text="@LabelNames.ProfileTab.GetLabelText()">
+            <PersonProfileTab />
+        </MudTabPanel>
+        <MudTabPanel Text="@LabelNames.EduTab.GetLabelText()">
+            <PersonEducationTab />
+        </MudTabPanel>
+        <MudTabPanel Text="@LabelNames.Skills.GetLabelText()">
+            <PersonSkillsTab />
+        </MudTabPanel>
+        <MudTabPanel Text="@LabelNames.WorkExpTab.GetLabelText()">
+            <PersonWorkExpTab />
+        </MudTabPanel>
+        <MudTabPanel Text="@LabelNames.ContactTab.GetLabelText()">
+            <PersonContactsTab />
+        </MudTabPanel>
+    </MudTabs>
+</MudStack>

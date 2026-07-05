@@ -15,8 +15,8 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.ToTable("SkillType", "Persons", tb => tb.HasComment("Skill types dictionary"));
 
             entity.Property(e => e.Name)
-            .IsRequired()
-            .HasMaxLength(50);
+                .IsRequired()
+                .HasMaxLength(50);
 
             OnConfigurePartial(entity);
         }

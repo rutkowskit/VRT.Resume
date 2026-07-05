@@ -1,0 +1,10 @@
+@inherits CultureAwareComponentBase
+<section class="resume-card resume-section">
+    <div class="resume-card-body">
+        <h2 class="resume-section-title">@LabelNames.ResumeContact.GetLabelText()</h2>
+        @foreach (var contact in Contacts ?? [])
+        {
+            <div class="resume-contact-item">@ResumeDisplayHelpers.ContactLine(contact)</div>
+        }
+    </div>
+</section>

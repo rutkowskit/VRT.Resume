@@ -12,7 +12,7 @@ namespace VRT.Resume.Persistence.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<PersonEducation> entity)
         {
-            entity.HasKey(e => e.EducationId).HasName("PK_PersonEducation_1");
+            entity.HasKey(e => new { e.EducationId, e.PersonId });
 
             entity.ToTable("PersonEducation", "Persons", tb => tb.HasComment("Persons education entries"));
 
@@ -24,6 +24,7 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.HasIndex(e => e.SchoolId, "IX_PersonEducation_SchoolId");
 
+            entity.Property(e => e.EducationId).ValueGeneratedOnAdd();
             entity.Property(e => e.FromDate).HasColumnType("date");
             entity.Property(e => e.Grade).HasMaxLength(20);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
@@ -31,22 +32,22 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.Property(e => e.ToDate).HasColumnType("date");
 
             entity.HasOne(d => d.Degree).WithMany(p => p.PersonEducation)
-            .HasForeignKey(d => d.DegreeId)
-            .HasConstraintName("FK_PersonEducation_Degree");
+                .HasForeignKey(d => d.DegreeId)
+                .HasConstraintName("FK_PersonEducation_Degree");
 
             entity.HasOne(d => d.EducationField).WithMany(p => p.PersonEducation)
-            .HasForeignKey(d => d.EducationFieldId)
-            .HasConstraintName("FK_PersonEducation_EducationField");
+                .HasForeignKey(d => d.EducationFieldId)
+                .HasConstraintName("FK_PersonEducation_EducationField");
 
             entity.HasOne(d => d.Person).WithMany(p => p.PersonEducation)
-            .HasForeignKey(d => d.PersonId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PersonEducation_Person");
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonEducation_Person");
 
             entity.HasOne(d => d.School).WithMany(p => p.PersonEducation)
-            .HasForeignKey(d => d.SchoolId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_PersonEducation_School");
+                .HasForeignKey(d => d.SchoolId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonEducation_School");
 
             OnConfigurePartial(entity);
         }
