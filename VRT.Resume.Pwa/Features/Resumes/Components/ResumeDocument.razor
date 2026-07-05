@@ -13,36 +13,36 @@
                                       ObjectFit="ObjectFit.Cover" />
                         </div>
                     }
-                    <div class="resume-card-title" style="font-size: 1.5rem;">
-                        @Model.FirstName @Model.LastName
-                    </div>
-                    <p style="text-align: center; margin: 0.5rem 0 0;">@Model.Position</p>
+                    <h1 class="resume-profile-name">@Model.FirstName @Model.LastName</h1>
+                    <p class="resume-profile-position">@Model.Position</p>
                 </div>
             </div>
 
-            <div class="resume-card">
+            <section class="resume-card resume-section">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">@LabelNames.ResumeContact.GetLabelText()</h5>
+                    <h2 class="resume-section-title">@LabelNames.ResumeContact.GetLabelText()</h2>
                     @foreach (var contact in Model.Contact ?? [])
                     {
                         <div class="resume-contact-item">@ResumeDisplayHelpers.ContactLine(contact)</div>
                     }
                 </div>
-            </div>
+            </section>
 
-            <div class="resume-card">
+            <section class="resume-card resume-section">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">@LabelNames.ResumeTechSkills.GetLabelText()</h5>
-                    @foreach (var skill in ResumeDisplayHelpers.GetTechnicalSkills(Model.Skills))
-                    {
-                        <span class="@ResumeDisplayHelpers.SkillCssClass(skill, "chip")">@skill.Name</span>
-                    }
+                    <h2 class="resume-section-title">@LabelNames.ResumeTechSkills.GetLabelText()</h2>
+                    <div class="resume-skills-chips">
+                        @foreach (var skill in ResumeDisplayHelpers.GetTechnicalSkills(Model.Skills))
+                        {
+                            <span class="@ResumeDisplayHelpers.SkillCssClass(skill, "chip")">@skill.Name</span>
+                        }
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="resume-card">
+            <section class="resume-card resume-section">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">@LabelNames.ResumeSoftSkills.GetLabelText()</h5>
+                    <h2 class="resume-section-title">@LabelNames.ResumeSoftSkills.GetLabelText()</h2>
                     <ul class="resume-work-resp">
                         @foreach (var skill in ResumeDisplayHelpers.GetSoftSkills(Model.Skills))
                         {
@@ -50,41 +50,40 @@
                         }
                     </ul>
                 </div>
-            </div>
+            </section>
 
-            <div class="resume-card">
+            <section class="resume-card resume-section">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">@LabelNames.ResumeHumanLanguages.GetLabelText()</h5>
+                    <h2 class="resume-section-title">@LabelNames.ResumeHumanLanguages.GetLabelText()</h2>
                     <div class="resume-language-list">
                         @foreach (var skill in ResumeDisplayHelpers.GetLanguageSkills(Model.Skills))
                         {
                             <div class="@ResumeDisplayHelpers.SkillCssClass(skill, "resume-language")">
-                                <b>@skill.Name</b>
-                                <p>@skill.Level</p>
+                                <span class="resume-language-name">@skill.Name</span><span class="resume-language-level">@skill.Level</span>
                             </div>
                         }
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
         <div class="resume-right-panel">
-            <div class="resume-card">
+            <section class="resume-card resume-section">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">@LabelNames.ResumeProfile.GetLabelText()</h5>
-                    <p style="text-align: justify; margin: 0; white-space: pre-wrap;">@Model.Summary</p>
+                    <h2 class="resume-section-title">@LabelNames.ResumeProfile.GetLabelText()</h2>
+                    <p class="resume-summary">@Model.Summary</p>
                 </div>
-            </div>
+            </section>
 
-            <div class="resume-experience resume-card">
+            <section class="resume-experience resume-card resume-section">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">@LabelNames.ResumeWorkExp.GetLabelText()</h5>
+                    <h2 class="resume-section-title">@LabelNames.ResumeWorkExp.GetLabelText()</h2>
                     <div class="resume-work-list">
                         @foreach (var exp in OrderedExperience)
                         {
                             <div class="resume-work-item">
                                 <div class="resume-timeline-item-title">
-                                    @ResumeDisplayHelpers.FormatTimeRange(exp) - @exp.Position
+                                    @ResumeDisplayHelpers.FormatTimeRange(exp) — @exp.Position
                                 </div>
                                 <div class="resume-timeline-item-title-1">@exp.CompanyName</div>
                                 <div class="resume-timeline-item-title-2">@exp.Location</div>
@@ -110,17 +109,17 @@
                         }
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="resume-education resume-card">
+            <section class="resume-education resume-card resume-section">
                 <div class="resume-card-body">
-                    <h5 class="resume-card-title">@LabelNames.ResumeEducation.GetLabelText()</h5>
+                    <h2 class="resume-section-title">@LabelNames.ResumeEducation.GetLabelText()</h2>
                     <div class="resume-education-list">
                         @foreach (var edu in OrderedEducation)
                         {
                             <div class="resume-edu-item">
                                 <div class="resume-timeline-item-title">
-                                    @ResumeDisplayHelpers.FormatTimeRange(edu, "yyyy") - @edu.Field
+                                    @ResumeDisplayHelpers.FormatTimeRange(edu, "yyyy") — @edu.Field
                                 </div>
                                 <div class="resume-timeline-item-title-1">@edu.SchoolName</div>
                                 <div class="resume-timeline-item-title-2">
@@ -142,7 +141,7 @@
                         }
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
 
         @if (!string.IsNullOrWhiteSpace(Model.Permission))
