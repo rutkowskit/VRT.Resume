@@ -38,9 +38,7 @@ public partial class NavMenu : IDisposable
             return;
         }
 
-        var profiles = await ProfileService.GetAllAsync();
-        var profile = profiles.FirstOrDefault(p => p.UserId == CurrentUser.UserId);
-        _activeProfileName = profile?.DisplayName;
+        _activeProfileName = await ProfileService.GetDisplayNameAsync(CurrentUser.UserId);
     }
 
     private void OnCultureChanged() => _ = InvokeAsync(StateHasChanged);

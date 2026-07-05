@@ -3,10 +3,11 @@ using VRT.Resume.Persistence.Data;
 
 namespace VRT.Resume.Pwa.Services;
 
-public sealed class LocalProfileService(AppDbContext context)
+public sealed class LocalProfileService(IDbContextFactory<AppDbContext> dbContextFactory)
 {
     public async Task<IReadOnlyList<LocalProfileDto>> GetAllAsync(CancellationToken cancellationToken = default)
     {
+        await using var context = await dbContextFactory.CreateDbContextAsync(cancellationToken);
         return await context.UserPerson
             .AsNoTracking()
             .Include(u => u.Person)
@@ -19,9 +20,23 @@ public sealed class LocalProfileService(AppDbContext context)
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<string?> GetDisplayNameAsync(string userId, CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(userId);
+
+        await using var context = await dbContextFactory.CreateDbContextAsync(cancellationToken);
+        return await context.UserPerson
+            .AsNoTracking()
+            .Where(u => u.UserId == userId)
+            .Select(u => u.Person.FirstName + " " + u.Person.LastName)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
     public async Task<bool> DeleteAsync(string userId, CancellationToken cancellationToken = default)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(userId);
+
+        await using var context = await dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         var userPerson = await context.UserPerson
             .Include(u => u.Person)
