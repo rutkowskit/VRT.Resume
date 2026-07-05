@@ -1,0 +1,6 @@
+/profiles/*   /index.html   200
+/profiles     /index.html   200
+/person/*     /index.html   200
+/resumes/*    /index.html   200
+/about        /index.html   200
+/not-found    /index.html   200

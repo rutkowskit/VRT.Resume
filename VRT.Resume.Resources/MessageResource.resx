@@ -201,4 +201,7 @@
   <data name="OpfsRetryButton" xml:space="preserve">
     <value>Refresh now</value>
   </data>
+  <data name="AppUpdatedSuccess" xml:space="preserve">
+    <value>Application updated to the latest version.</value>
+  </data>
 </root>

@@ -27,4 +27,5 @@ internal static class MessageKeys
     public const string OpfsAnotherTabBody = "OpfsAnotherTabBody";
     public const string OpfsStartupFailedTitle = "OpfsStartupFailedTitle";
     public const string OpfsRetryButton = "OpfsRetryButton";
+    public const string AppUpdatedSuccess = "AppUpdatedSuccess";
 }

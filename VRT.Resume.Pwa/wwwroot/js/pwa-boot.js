@@ -1,6 +1,7 @@
 // PWA bootstrap: service worker, single-tab OPFS lock, deferred Blazor load.
 (function () {
     const cultureStorageKey = 'VRT.Resume.Culture';
+    const updateStorageKey = 'vrt-pwa-updated';
     const tabLockName = 'vrt-resume-opfs';
     const tabChannelName = 'vrt-resume-opfs-tab';
 
@@ -66,13 +67,46 @@
         document.body.appendChild(template.content.cloneNode(true));
     }
 
+    let isReloadingForUpdate = false;
+
+    function listenForServiceWorkerUpdates(registration) {
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (isReloadingForUpdate) {
+                return;
+            }
+
+            console.info('Service worker: new version activated, reloading…');
+            sessionStorage.setItem(updateStorageKey, '1');
+            isReloadingForUpdate = true;
+            location.reload();
+        });
+
+        const checkForUpdate = () => {
+            if (!navigator.onLine) {
+                return;
+            }
+
+            registration.update().catch(() => { });
+        };
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                checkForUpdate();
+            }
+        });
+
+        window.addEventListener('online', checkForUpdate);
+        setInterval(checkForUpdate, 60 * 60 * 1000);
+    }
+
     async function configureServiceWorker() {
         if (!('serviceWorker' in navigator)) {
             return;
         }
 
         try {
-            await navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
+            const registration = await navigator.serviceWorker.register('service-worker.js', { updateViaCache: 'none' });
+            listenForServiceWorkerUpdates(registration);
             await navigator.serviceWorker.ready;
         } catch (error) {
             console.warn('Service worker registration failed:', error);
@@ -166,6 +200,15 @@
     }
 
     document.getElementById('opfs-tab-blocked-retry')?.addEventListener('click', () => location.reload());
+
+    window.__pwaConsumeUpdateFlag = function () {
+        if (sessionStorage.getItem(updateStorageKey)) {
+            sessionStorage.removeItem(updateStorageKey);
+            return true;
+        }
+
+        return false;
+    };
 
     window.__pwaBootReady = boot();
 })();

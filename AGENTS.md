@@ -138,6 +138,8 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 | Backup / restore all profiles | `/profiles` → Export/Import via `PwaDatabaseBackupService` + `ISqliteWasmDatabaseService` (`vrt-resume.db`). Import replaces OPFS DB; clears active profile context; `forceLoad` reload. |
 | Lighthouse PWA audit | `./VRT.Resume.Pwa/run-lighthouse.ps1` after publish; or DevTools on `http://127.0.0.1:8080` via `serve-published.ps1`. Manifest includes maskable icons; published SW uses `skipWaiting` + `clients.claim`. |
 | Offline refresh shows browser “no network” | SW must install on an **online** visit first. Blazor serves **`service-worker.js`** (not `service-worker.published.js`) — `Include` in csproj must be `wwwroot/service-worker.js`. `pwa-boot.js` awaits `serviceWorker.ready` before loading Blazor. |
+| Cloudflare Pages deploy | `wwwroot/_headers` (COOP/COEP for OPFS) and `wwwroot/_redirects` (SPA routes) publish with `wwwroot`; see `VRT.Resume.Pwa/Readme.md`. |
+| Client update after redeploy | `pwa-boot.js` calls `registration.update()` when tab becomes visible / goes online / hourly; SW uses `skipWaiting` + `clients.claim`; `controllerchange` sets `sessionStorage` flag and reloads; `App.razor.cs` shows MudBlazor info snackbar on next load. |
 
 ### PWA tests (`VRT.Resume.Pwa.Tests`)
 
