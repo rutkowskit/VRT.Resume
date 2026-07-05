@@ -14,7 +14,8 @@ self.addEventListener('fetch', event => {
 
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
-const offlineAssetsInclude = [ /\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff2?$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/, /\.webmanifest$/ ];
+// img/contact/* — precache all contact icons (new files picked up via service-worker-assets.js on publish)
+const offlineAssetsInclude = [ /\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff2?$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/, /\.webmanifest$/, /^img\/contact\// ];
 const offlineAssetsExclude = [ /^service-worker\.js$/ ];
 const shellUrls = ['./index.html', './js/pwa-boot.js', './js/pwa-db-backup.js', './manifest.webmanifest'];
 
