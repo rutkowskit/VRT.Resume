@@ -55,10 +55,10 @@
                                     <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
                                         <MudText Typo="Typo.body1">@duty.Name</MudText>
                                         <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
-                                            <MudIconButton Icon="@Icons.Material.Filled.Workspaces"
-                                                           Size="Size.Small"
-                                                           Title="@LabelNames.Skills.GetLabelText()"
-                                                           OnClick="@(() => EditDutySkillsAsync(duty.DutyId))" />
+                                            <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Workspaces"
+                                                                      Size="Size.Small"
+                                                                      Title="@LabelNames.Skills.GetLabelText()"
+                                                                      OnClick="@(() => EditDutySkillsAsync(duty.DutyId))" />
                                             <EditDeleteToolbar OnEdit="@(() => EditDutyAsync(item.ExperienceId, duty.DutyId))"
                                                                OnDelete="@(() => DeleteDutyAsync(duty.DutyId, duty.Name))" />
                                         </MudStack>

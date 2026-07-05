@@ -3,11 +3,11 @@
     public sealed class UpsertPersonResumeCommand : IRequest<Result>
     {
         public int ResumeId { get; set; }
-        public string Position { get; set; }
-        public string Summary { get; set; }
+        public required string Position { get; set; }
+        public string? Summary { get; set; }
         public bool ShowProfilePhoto { get; set; }
-        public string DataProcessingPermission { get; set; }
-        public string Description { get; set; }
+        public string? DataProcessingPermission { get; set; }
+        public required string Description { get; set; }
 
         internal sealed class UpsertPersonResumeCommandHandler : UpsertHandlerBase<UpsertPersonResumeCommand, PersonResume>
         {

@@ -19,6 +19,8 @@ namespace VRT.Resume.Mvc.Models
         }
         private UserLoginViewModel()
         {
+            FirstName = "";
+            LastName = "";
         }
         public string? UserId { get; private set; }
         public string? Email { get; private set; }

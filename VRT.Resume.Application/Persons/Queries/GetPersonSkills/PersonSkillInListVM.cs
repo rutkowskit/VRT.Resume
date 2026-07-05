@@ -3,8 +3,8 @@
     public sealed class PersonSkillInListVM
     {
         public int SkillId { get; internal set; }
-        public string Type { get; internal set; }
-        public string Name { get; internal set; }
-        public string Level { get; internal set; }
+        public required string Type { get; set; }
+        public required string Name { get; set; }
+        public string? Level { get; internal set; }
     }
 }

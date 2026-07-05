@@ -6,8 +6,8 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonSkill
     {
         public int SkillId { get; set; }
         public SkillTypes SkillType { get; set; }
-        public string SkillName { get; set; }
-        public string SkillLevel { get; set; }
+        public required string SkillName { get; set; }
+        public required string SkillLevel { get; set; }
 
         internal sealed class UpsertPersonDataCommandHandler : UpsertHandlerBase<UpsertPersonSkillCommand, PersonSkill>
         {

@@ -10,6 +10,8 @@
     <BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
     <!-- SqliteWasmBlazor ships an 8KB e_sqlite3 stub; WASM0001 on SQLitePCLRaw is expected at build time. -->
     <NoWarn>$(NoWarn);WASM0001</NoWarn>
+    <!-- Cloudflare Pages compresses responses on the fly; skip publish-time .br/.gz sidecars. -->
+    <CompressionEnabled>false</CompressionEnabled>
   </PropertyGroup>
 
   <ItemGroup>

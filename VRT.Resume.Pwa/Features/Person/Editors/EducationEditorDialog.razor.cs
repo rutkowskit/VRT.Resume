@@ -59,8 +59,8 @@ public partial class EducationEditorDialog
 
         var item = outcome.Result.Value;
         _schoolName = item.SchoolName;
-        _field = item.Field;
-        _degree = item.Degree;
+        _field = item.Field ?? string.Empty;
+        _degree = item.Degree ?? string.Empty;
         _specialization = item.Specialization ?? string.Empty;
         _thesisTitle = item.ThesisTitle ?? string.Empty;
         _grade = item.Grade ?? string.Empty;

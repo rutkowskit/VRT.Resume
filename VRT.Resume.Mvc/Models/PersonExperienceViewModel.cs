@@ -9,14 +9,14 @@ namespace VRT.Resume.Mvc.Models
 
         [Required]
         [Display(Name = LabelNames.Position, ResourceType = typeof(Resources.LabelResource))]
-        public string Position { get; internal set; }
+        public string Position { get; set; } = string.Empty;
         
         [Required]
         [Display(Name = LabelNames.CompanyName, ResourceType = typeof(Resources.LabelResource))]
-        public string CompanyName { get; internal set; }
+        public string CompanyName { get; set; } = string.Empty;
 
         [Display(Name = LabelNames.Location, ResourceType = typeof(Resources.LabelResource))]
-        public string Location { get; internal set; }
+        public string? Location { get; internal set; }
 
         [Required]
         [Display(Name = LabelNames.FromDate, ResourceType = typeof(Resources.LabelResource))]

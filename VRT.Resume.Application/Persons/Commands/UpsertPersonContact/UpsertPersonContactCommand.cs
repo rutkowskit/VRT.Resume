@@ -9,10 +9,10 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
     public sealed class UpsertPersonContactCommand : IRequest<Result>
     {
         public int ContactId { get; set; }
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public string Icon { get; set; }
-        public string Url { get; set; }
+        public required string Name { get; set; }
+        public required string Value { get; set; }
+        public string? Icon { get; set; }
+        public string? Url { get; set; }
 
         internal sealed class UpsertPersonDataCommandHandler : UpsertHandlerBase<UpsertPersonContactCommand, PersonContact>
         {

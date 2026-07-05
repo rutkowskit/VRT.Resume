@@ -44,7 +44,11 @@ public sealed class GetFullResumeQuery : IRequest<Result<ResumeFullVM>>
                             Permission = rd.Permission,
                             Position = rd.Position,
                             Summary = rd.Summary,
-                            ShowProfilePhoto = rd.ShowProfilePhoto ?? true
+                            ShowProfilePhoto = rd.ShowProfilePhoto ?? true,
+                            Contact = Array.Empty<ContactItemDto>(),
+                            WorkExperience = Array.Empty<WorkExperienceDto>(),
+                            Education = Array.Empty<EducationDto>(),
+                            Skills = Array.Empty<SkillDto>()
                         };
             var result = await query.FirstOrDefaultAsync(cancellationToken);
             return result == null

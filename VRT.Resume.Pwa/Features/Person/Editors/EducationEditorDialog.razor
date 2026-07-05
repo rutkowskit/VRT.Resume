@@ -1,5 +1,5 @@
 @inherits CultureAwareComponentBase
-<MudDialog DefaultFocus="DefaultFocus.FirstChild" DisableBackdropClick="true">
+<MudDialog DefaultFocus="DefaultFocus.FirstChild" Options="@PwaDialogOptions.Form">
     <TitleContent>
         <MudText Typo="Typo.h6">@(_isNew ? LabelNames.AddEducationTitle.GetLabelText() : LabelNames.EditEducationTitle.GetLabelText())</MudText>
     </TitleContent>

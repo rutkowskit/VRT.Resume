@@ -10,9 +10,9 @@ namespace VRT.Resume.Application.Persons.Commands.UpsertPersonExperience
     {
         #region command fields
         public int ExperienceId { get; set; }
-        public string Position { get; set; }
-        public string CompanyName { get; set; }
-        public string Location { get; set; }
+        public required string Position { get; set; }
+        public required string CompanyName { get; set; }
+        public required string Location { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         #endregion

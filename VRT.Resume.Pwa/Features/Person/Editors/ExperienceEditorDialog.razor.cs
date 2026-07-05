@@ -57,7 +57,7 @@ public partial class ExperienceEditorDialog
         var item = outcome.Result.Value;
         _position = item.Position;
         _companyName = item.CompanyName;
-        _location = item.Location;
+        _location = item.Location ?? string.Empty;
         _fromDate = item.FromDate;
         _toDate = item.ToDate;
         _loading = false;

@@ -56,7 +56,7 @@ public partial class SkillEditorDialog
         var item = outcome.Result.Value;
         _skillType = item.Type;
         _skillName = item.Name;
-        _skillLevel = item.Level;
+        _skillLevel = item.Level ?? string.Empty;
         _loading = false;
         _formValidity.RequestSync();
     }

@@ -7,11 +7,11 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperience
     public sealed class PersonExperienceInListVM : ITimeRange
     {
         public int ExperienceId { get; internal set; }
-        public string Position { get; internal set; }
-        public string CompanyName { get; internal set; }
-        public string Location { get; internal set; }
+        public required string Position { get; set; }
+        public required string CompanyName { get; set; }
+        public string? Location { get; internal set; }
         public DateTime FromDate { get; internal set; }
         public DateTime? ToDate { get; internal set; }
-        public IEnumerable<PersonExperienceDutyInListDto> Duties { get; set; }
+        public required IEnumerable<PersonExperienceDutyInListDto> Duties { get; set; }
     }
 }

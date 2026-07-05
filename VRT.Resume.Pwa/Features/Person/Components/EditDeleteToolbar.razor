@@ -1,12 +1,12 @@
 @inherits CultureAwareComponentBase
 <MudStack Row="true" Spacing="0" AlignItems="AlignItems.Center">
-    <MudIconButton Icon="@Icons.Material.Filled.Edit"
-                   Size="Size.Small"
-                   Title="@LabelNames.ButtonEdit.GetLabelText()"
-                   OnClick="OnEdit" />
-    <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                   Size="Size.Small"
-                   Color="Color.Error"
-                   Title="@LabelNames.ButtonDelete.GetLabelText()"
-                   OnClick="OnDelete" />
+    <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Edit"
+                            Size="Size.Small"
+                            Title="@LabelNames.ButtonEdit.GetLabelText()"
+                            OnClick="OnEdit" />
+    <MudIconButtonWithTitle Icon="@Icons.Material.Filled.Delete"
+                            Size="Size.Small"
+                            Color="Color.Error"
+                            Title="@LabelNames.ButtonDelete.GetLabelText()"
+                            OnClick="OnDelete" />
 </MudStack>

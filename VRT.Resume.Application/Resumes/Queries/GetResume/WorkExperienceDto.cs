@@ -5,11 +5,11 @@ namespace VRT.Resume.Application.Resumes.Queries.GetResume
 {
     public sealed class WorkExperienceDto : ITimeRange
     {        
-        public string Position { get; set; }
-        public string CompanyName { get; set; }
-        public string Location { get; set; }
-        public string Description { get; set; }
-        public WorkActivityDto[] WorkActivities { get; set; }
+        public required string Position { get; set; }
+        public required string CompanyName { get; set; }
+        public string? Location { get; set; }
+        public string? Description { get; set; }
+        public required WorkActivityDto[] WorkActivities { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
     }

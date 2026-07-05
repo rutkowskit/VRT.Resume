@@ -17,13 +17,13 @@ namespace VRT.Resume.Mvc.Models
 
         [Required]
         [Display(Name = "Name", ResourceType = typeof(Resources.LabelResource))]
-        public string SkillName { get; set; }
+        public string SkillName { get; set; } = string.Empty;
 
         /// <summary>
         /// Skill level description
         /// </summary>
         [Required]
         [Display(Name = "Level", ResourceType = typeof(Resources.LabelResource))]
-        public string SkillLevel { get; set; }
+        public string SkillLevel { get; set; } = string.Empty;
     }
 }
