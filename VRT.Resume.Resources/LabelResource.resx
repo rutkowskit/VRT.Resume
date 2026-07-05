@@ -378,6 +378,15 @@
   <data name="ButtonPrint" xml:space="preserve">
     <value>Print</value>
   </data>
+  <data name="ResumeTemplateLabel" xml:space="preserve">
+    <value>Print template</value>
+  </data>
+  <data name="ResumeTemplateClassic" xml:space="preserve">
+    <value>Classic</value>
+  </data>
+  <data name="ResumeTemplateLinear" xml:space="preserve">
+    <value>Linear</value>
+  </data>
   <data name="BackToResumes" xml:space="preserve">
     <value>Back to resumes</value>
   </data>

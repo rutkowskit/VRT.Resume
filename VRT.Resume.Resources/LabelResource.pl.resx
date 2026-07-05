@@ -378,6 +378,15 @@
   <data name="ButtonPrint" xml:space="preserve">
     <value>Drukuj</value>
   </data>
+  <data name="ResumeTemplateLabel" xml:space="preserve">
+    <value>Szablon druku</value>
+  </data>
+  <data name="ResumeTemplateClassic" xml:space="preserve">
+    <value>Klasyczny</value>
+  </data>
+  <data name="ResumeTemplateLinear" xml:space="preserve">
+    <value>Liniowy</value>
+  </data>
   <data name="BackToResumes" xml:space="preserve">
     <value>Powrót do życiorysów</value>
   </data>

@@ -107,6 +107,9 @@ public static class LabelNames
     public const string ButtonExportDatabase = "ButtonExportDatabase";
     public const string ButtonImportDatabase = "ButtonImportDatabase";
     public const string ButtonPrint = "ButtonPrint";
+    public const string ResumeTemplateLabel = "ResumeTemplateLabel";
+    public const string ResumeTemplateClassic = "ResumeTemplateClassic";
+    public const string ResumeTemplateLinear = "ResumeTemplateLinear";
     public const string BackToResumes = "BackToResumes";
     public const string ButtonEdit = "ButtonEdit";
     public const string EmailOptional = "EmailOptional";

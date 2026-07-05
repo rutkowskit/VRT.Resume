@@ -4,7 +4,7 @@ using VRT.Resume.Pwa.Features.Person;
 
 namespace VRT.Resume.Pwa.Features.Resumes.Components;
 
-public partial class ResumeDocument
+public partial class ResumeDocumentClassic
 {
     [Parameter, EditorRequired] public ResumeFullVM Model { get; set; } = null!;
     [Parameter] public string ProfileImageUrl { get; set; } = Person.ProfileImageUrl.DefaultImagePath;
