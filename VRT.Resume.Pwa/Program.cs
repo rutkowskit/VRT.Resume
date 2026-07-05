@@ -24,7 +24,7 @@ try
     await PwaSqliteStartup.InitializeAsync(host.Services);
     await host.Services.GetRequiredService<DatabaseInitializer>().InitializeAsync();
     var cultureService = host.Services.GetRequiredService<PwaCultureService>();
-    await cultureService.InitializeAsync();
+    cultureService.ApplyCurrentCulture();
     ResourceHelper.ResolveCulture = () => CultureInfo.GetCultureInfo(cultureService.GetCurrentCulture());
     await host.Services.GetRequiredService<DummyCurrentUserService>().InitializeAsync();
     startup.MarkReady();
@@ -34,7 +34,7 @@ catch (Exception ex)
     startup.SetFailure(ex);
 
     var cultureService = host.Services.GetRequiredService<PwaCultureService>();
-    await cultureService.InitializeAsync();
+    cultureService.ApplyCurrentCulture();
     ResourceHelper.ResolveCulture = () => CultureInfo.GetCultureInfo(cultureService.GetCurrentCulture());
 }
 

@@ -7,11 +7,26 @@ using VRT.Resume.Resources;
 
 namespace VRT.Resume.Pwa;
 
-public partial class App
+public partial class App : IDisposable
 {
     [Inject] private PwaStartupState Startup { get; set; } = null!;
     [Inject] private IJSRuntime Js { get; set; } = null!;
     [Inject] private ISnackbar Snackbar { get; set; } = null!;
+    [Inject] private PwaCultureService CultureService { get; set; } = null!;
+
+    private string _cultureKey = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        _cultureKey = CultureService.GetCurrentCulture();
+        CultureService.CultureChanged += OnCultureChanged;
+    }
+
+    private void OnCultureChanged()
+    {
+        _cultureKey = CultureService.GetCurrentCulture();
+        _ = InvokeAsync(StateHasChanged);
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -39,4 +54,6 @@ public partial class App
             // Boot script not available (e.g. test host).
         }
     }
+
+    public void Dispose() => CultureService.CultureChanged -= OnCultureChanged;
 }

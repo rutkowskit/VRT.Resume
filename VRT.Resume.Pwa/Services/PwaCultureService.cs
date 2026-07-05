@@ -4,7 +4,7 @@ using VRT.Resume.Application.Common.Abstractions;
 
 namespace VRT.Resume.Pwa.Services;
 
-public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICultureService
+public sealed class PwaCultureService(IJSRuntime js) : ICultureService
 {
     public const string StorageKey = "VRT.Resume.Culture";
 
@@ -21,23 +21,28 @@ public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICult
 
     public event Action? CultureChanged;
 
-    public async Task InitializeAsync(CancellationToken cancellationToken = default)
-    {
-        await WithJsAsync(async js =>
-        {
-            try
-            {
-                var stored = await js.InvokeAsync<string?>("localStorage.getItem", cancellationToken, StorageKey);
-                _currentCulture = NormalizeCulture(stored);
-            }
-            catch (JSException)
-            {
-                _currentCulture = DefaultLanguage;
-            }
+    /// <summary>Apply the in-memory culture to thread defaults (safe before JS interop).</summary>
+    public void ApplyCurrentCulture() => ApplyCulture(_currentCulture);
 
-            ApplyCulture(_currentCulture);
-            CultureChanged?.Invoke();
-        });
+    /// <summary>Read persisted culture once Blazor JS interop is available.</summary>
+    public async Task InitializeFromStorageAsync(CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var stored = await js.InvokeAsync<string?>("localStorage.getItem", cancellationToken, StorageKey);
+            var normalized = NormalizeCulture(stored);
+            if (!string.Equals(_currentCulture, normalized, StringComparison.OrdinalIgnoreCase))
+            {
+                _currentCulture = normalized;
+                CultureChanged?.Invoke();
+            }
+        }
+        catch (JSException)
+        {
+            // Keep default culture when storage is unavailable (e.g. prerender/test host).
+        }
+
+        ApplyCulture(_currentCulture);
     }
 
     public IReadOnlyDictionary<string, (string key, string caption)> GetSupportedLanguages() => SupportedLanguages;
@@ -54,7 +59,11 @@ public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICult
 
     public void SetCurrentCulture(string culture)
     {
-        _currentCulture = NormalizeCulture(culture);
+        var normalized = NormalizeCulture(culture);
+        if (string.Equals(_currentCulture, normalized, StringComparison.OrdinalIgnoreCase))
+            return;
+
+        _currentCulture = normalized;
         ApplyCulture(_currentCulture);
         _ = PersistCultureAsync(_currentCulture);
         CultureChanged?.Invoke();
@@ -62,17 +71,14 @@ public sealed class PwaCultureService(IServiceScopeFactory scopeFactory) : ICult
 
     private async Task PersistCultureAsync(string culture)
     {
-        await WithJsAsync(async js =>
+        try
         {
             await js.InvokeVoidAsync("localStorage.setItem", StorageKey, culture);
-        });
-    }
-
-    private async Task WithJsAsync(Func<IJSRuntime, Task> action)
-    {
-        await using var scope = scopeFactory.CreateAsyncScope();
-        var js = scope.ServiceProvider.GetRequiredService<IJSRuntime>();
-        await action(js);
+        }
+        catch (JSException)
+        {
+            // UI culture already applied; persistence can fail on test hosts.
+        }
     }
 
     private static string NormalizeCulture(string? culture)
