@@ -290,23 +290,25 @@ Utwardzono offline PWA: published service worker cache'uje cały manifest (WASM,
 ---
 
 ## Phase 11: Tests, docs & optional features
-Status: Not started
+Status: Complete
 
-- [ ] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych
-- [ ] Zaktualizuj `AGENTS.md` + `README.md`
-- [ ] **Opcjonalnie:** usuwanie profilu (kaskada EF)
-- [ ] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile)
+- [x] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych (`VRT.Resume.Pwa.Tests`, 8 testów)
+- [x] Zaktualizuj `AGENTS.md` + `README.md`
+- [ ] **Opcjonalnie:** usuwanie profilu (kaskada EF) — odłożone
+- [ ] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile) — odłożone
 
 ### Verification Plan
-- `dotnet test` + `dotnet build` green
+- `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug` — 8/8 ✅
+- `dotnet build VRT.Resume.slnx -c Release` — 0 errors ✅
 
 ### Phase Summary
-_(write when phase completes)_
+Dodano `VRT.Resume.Pwa.Tests` (bUnit 1.38, xUnit): `PwaTestContext` (in-memory SQLite, Mud providers), testy izolacji profili (`DummyCurrentUserService`, `GetPersonDataQuery`, `GetResumeListQuery`), `ProfilesPage` (lista + wybór), `ProfileRequiredRouteView` (redirect `/profiles`). Zaktualizowano `AGENTS.md` (pitfalls PWA, sekcja testów) i `README.md` (run, publish, testy). Opcjonalne: delete profilu i export DB — na później.
 
 ---
 
 ## Final Recap
-_(write when all phases complete)_
+
+Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`). Opcjonalnie na backlog: usuwanie profilu, export SQLite, Lighthouse ≥90 na published URL.
 
 ---
 

@@ -7,6 +7,7 @@
   <Folder Name="/02.Application/">
     <Project Path="VRT.Resume.Application.Tests.Unit/VRT.Resume.Application.Tests.Integration.csproj" />
     <Project Path="VRT.Resume.Application/VRT.Resume.Application.csproj" />
+    <Project Path="VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj" />
   </Folder>
   <Folder Name="/03.Persistance/">
     <Project Path="VRT.Resume.Persistence/VRT.Resume.Persistence.csproj" />

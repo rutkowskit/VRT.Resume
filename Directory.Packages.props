@@ -22,6 +22,7 @@
     <PackageVersion Include="Respawn" Version="7.0.0" />
     <PackageVersion Include="SkiaSharp" Version="4.148.0" />
     <PackageVersion Include="SkiaSharp.NativeAssets.WebAssembly" Version="4.148.0" />
+    <PackageVersion Include="bunit" Version="1.38.5" />
     <PackageVersion Include="coverlet.collector" Version="10.0.1" />
     <PackageVersion Include="SqliteWasmBlazor" Version="0.9.1-pre" />
     <PackageVersion Include="xunit" Version="2.9.3" />

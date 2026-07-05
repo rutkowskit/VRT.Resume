@@ -127,6 +127,35 @@ Add a deploy step after `dotnet publish` that uploads `./deploy/web` to the App 
 1. Check **App Service → Log stream** or **Application Insights** if the app fails to start.
 
 
+## Blazor WASM PWA (offline)
+
+`VRT.Resume.Pwa` is an offline CV generator: local profiles (no OAuth), SQLite WASM in the browser (OPFS), PL/EN UI (MudBlazor).
+
+### Run locally (development)
+
+```powershell
+dotnet run --project VRT.Resume.Pwa/VRT.Resume.Pwa.csproj
+```
+
+Open the URL from the console (e.g. `http://localhost:5176`). Create a profile at `/profiles`, then use Resumes and Person tabs.
+
+### Publish and serve statically
+
+```powershell
+dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
+./VRT.Resume.Pwa/serve-published.ps1
+```
+
+Use **`http://127.0.0.1:8080`** (script sets COOP/COEP for OPFS). One browser tab per origin.
+
+### Tests
+
+```powershell
+dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug
+```
+
+Plan and architecture: `plans/blazor-wasm-pwa-offline.md`, `AGENTS.md` (section **VRT.Resume.Pwa**).
+
 ## Deployed versions
 
 ### DEV version on Azure 

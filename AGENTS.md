@@ -133,6 +133,15 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 | `Missing required OPFS APIs` on published static host | Serve only on **`http://127.0.0.1`** (not LAN IP); use `VRT.Resume.Pwa/serve-published.ps1` (COOP/COEP headers). Close duplicate tabs. |
 | OPFS `createSyncAccessHandle` / database locked | SqliteWasmBlazor allows **one tab per origin**. Second tab: `wwwroot/js/pwa-boot.js` (Navigator Locks) shows `#opfs-tab-blocked` before Blazor loads; C# fallback: `StartupErrorView` + `PwaStartupState`. Close other tabs or wait for auto-refresh when leader tab closes. |
 | `SkiaSharp` `libSkiaSharp` in WASM | Add `SkiaSharp.NativeAssets.WebAssembly` to `VRT.Resume.Pwa.csproj`. |
+| String component parameter renders as literal | Use `@` for C# expressions: `ProfileImageUrl="@_profileImageUrl"` (without `@`, Blazor passes the string `"_profileImageUrl"`). |
+| Photo missing on resume view | Per-resume flag `ShowProfilePhoto` (edit CV dialog). Profile tab always shows the uploaded photo. |
+
+### PWA tests (`VRT.Resume.Pwa.Tests`)
+
+- **bUnit 1.x** + in-memory SQLite (`:memory:` shared connection) — not SqliteWasm.
+- Fixture: `PwaTestContext` — registers PWA services + `AddApplication()`; `RenderWithMudProviders<T>()` wraps Mud providers (`MudTestShell`).
+- Covers: profile context switch, data isolation (person + resumes), `ProfilesPage` select, `ProfileRequiredRouteView` guard.
+- Run: `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug`
 
 ### index.html (MudBlazor)
 
@@ -331,6 +340,7 @@ dotnet publish .\VRT.Resume.Mvc\VRT.Resume.Mvc.csproj -c Release -o .\deploy\web
 | UI label | `VRT.Resume.Resources/LabelResource.resx` (+ `.pl.resx`) |
 | Deploy | `README.md`, `build.cake` |
 | PWA feature | `plans/blazor-wasm-pwa-offline.md`, `VRT.Resume.Pwa/Program.cs`, `AGENTS.md` → VRT.Resume.Pwa |
+| PWA tests | `VRT.Resume.Pwa.Tests/Fixtures/PwaTestContext.cs` |
 
 ## Project skill (`.grok/skills/`)
 
@@ -363,7 +373,7 @@ For Grok, also copy `real-work` to `~/.grok/skills/` (or symlink from `~/.agents
 1. Read this file (and `.grok/skills/vrt-resume/SKILL.md` when using Grok).
 2. Identify layer(s) affected — prefer minimal, focused diffs.
 3. Match existing patterns (nested handlers, Result, validator per command).
-4. Run `dotnet build VRT.Resume.sln` before finishing; run `dotnet test` only when changes touch projects **other than** `VRT.Resume.Pwa`.
+4. Run `dotnet build VRT.Resume.slnx` before finishing; run `dotnet test` for Application integration tests when that layer changes; run `dotnet test VRT.Resume.Pwa.Tests` when PWA UI/services change.
 5. Do not drive-by refactor unrelated code.
 6. Update this `AGENTS.md` if you discover new architectural facts worth persisting.
 
