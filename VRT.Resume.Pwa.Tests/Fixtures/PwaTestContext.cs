@@ -7,6 +7,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
+using SqliteWasmBlazor;
 using VRT.Resume.Application;
 using VRT.Resume.Application.Common.Abstractions;
 using VRT.Resume.Application.Common.Services;
@@ -44,6 +45,8 @@ public class PwaTestContext : TestContext
         Services.AddSingleton<IActiveProfileContext>(sp => sp.GetRequiredService<DummyCurrentUserService>());
         Services.AddScoped<ProfileContextStorage>();
         Services.AddScoped<LocalProfileService>();
+        Services.AddSingleton<ISqliteWasmDatabaseService, StubSqliteWasmDatabaseService>();
+        Services.AddScoped<PwaDatabaseBackupService>();
         Services.AddScoped<UserNotificationService>();
         Services.AddScoped<MediatorSender>();
         Services.AddSingleton<PwaStartupState>();

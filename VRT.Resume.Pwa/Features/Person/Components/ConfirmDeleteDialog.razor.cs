@@ -11,6 +11,8 @@ public partial class ConfirmDeleteDialog
 
     [Parameter] public string Title { get; set; } = LabelNames.DeleteEntry.GetLabelText();
     [Parameter] public string Message { get; set; } = MessageKeys.DeleteConfirmDefault.GetMessageText();
+    [Parameter] public string ConfirmButtonText { get; set; } = LabelNames.ButtonDelete.GetLabelText();
+    [Parameter] public Color ConfirmButtonColor { get; set; } = Color.Error;
 
     private void Cancel() => MudDialog.Cancel();
 

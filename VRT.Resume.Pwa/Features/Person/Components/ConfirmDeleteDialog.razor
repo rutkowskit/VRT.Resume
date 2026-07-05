@@ -8,6 +8,6 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">@LabelNames.ButtonCancel.GetLabelText()</MudButton>
-        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="Confirm">@LabelNames.ButtonDelete.GetLabelText()</MudButton>
+        <MudButton Color="@ConfirmButtonColor" Variant="Variant.Filled" OnClick="Confirm">@ConfirmButtonText</MudButton>
     </DialogActions>
 </MudDialog>

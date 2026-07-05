@@ -137,7 +137,7 @@ Add a deploy step after `dotnet publish` that uploads `./deploy/web` to the App 
 dotnet run --project VRT.Resume.Pwa/VRT.Resume.Pwa.csproj
 ```
 
-Open the URL from the console (e.g. `http://localhost:5176`). Create a profile at `/profiles`, then use Resumes and Person tabs.
+Open the URL from the console (e.g. `http://localhost:5176`). Create a profile at `/profiles`, then use Resumes and Person tabs. On `/profiles` you can **export** or **import** the full SQLite database (all local profiles) as a `.db` file.
 
 ### Publish and serve statically
 

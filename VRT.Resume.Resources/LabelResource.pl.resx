@@ -396,6 +396,12 @@
   <data name="ChooseFile" xml:space="preserve">
     <value>Wybierz plik</value>
   </data>
+  <data name="ButtonExportDatabase" xml:space="preserve">
+    <value>Eksportuj bazę</value>
+  </data>
+  <data name="ButtonImportDatabase" xml:space="preserve">
+    <value>Importuj bazę</value>
+  </data>
   <data name="ProfilesPageDescription" xml:space="preserve">
     <value>Wybierz lokalny profil, aby pracować z danymi CV. Każdy profil ma własne dane osobowe i życiorysy.</value>
   </data>

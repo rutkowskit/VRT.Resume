@@ -135,12 +135,13 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 | `SkiaSharp` `libSkiaSharp` in WASM | Add `SkiaSharp.NativeAssets.WebAssembly` to `VRT.Resume.Pwa.csproj`. |
 | String component parameter renders as literal | Use `@` for C# expressions: `ProfileImageUrl="@_profileImageUrl"` (without `@`, Blazor passes the string `"_profileImageUrl"`). |
 | Photo missing on resume view | Per-resume flag `ShowProfilePhoto` (edit CV dialog). Profile tab always shows the uploaded photo. |
+| Backup / restore all profiles | `/profiles` → Export/Import via `PwaDatabaseBackupService` + `ISqliteWasmDatabaseService` (`vrt-resume.db`). Import replaces OPFS DB; clears active profile context; `forceLoad` reload. |
 
 ### PWA tests (`VRT.Resume.Pwa.Tests`)
 
 - **bUnit 1.x** + in-memory SQLite (`:memory:` shared connection) — not SqliteWasm.
 - Fixture: `PwaTestContext` — registers PWA services + `AddApplication()`; `RenderWithMudProviders<T>()` wraps Mud providers (`MudTestShell`).
-- Covers: profile context switch, data isolation (person + resumes), `ProfilesPage` select/delete, `ProfileRequiredRouteView` guard, `LocalProfileService.DeleteAsync`.
+- Covers: profile context switch, data isolation (person + resumes), `ProfilesPage` select/delete, `ProfileRequiredRouteView` guard, `LocalProfileService.DeleteAsync`, `PwaDatabaseBackupService.IsValidSqliteFile`.
 - Run: `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug`
 
 ### index.html (MudBlazor)

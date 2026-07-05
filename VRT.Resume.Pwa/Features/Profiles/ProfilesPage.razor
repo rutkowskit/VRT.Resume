@@ -16,6 +16,28 @@
         @LabelNames.ProfilesPageDescription.GetLabelText()
     </MudText>
 
+    <MudStack Row="true" Spacing="2" Wrap="Wrap.Wrap">
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Download"
+                   Disabled="@_backupBusy"
+                   OnClick="ExportDatabaseAsync">
+            @LabelNames.ButtonExportDatabase.GetLabelText()
+        </MudButton>
+        <MudButton Variant="Variant.Outlined"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Upload"
+                   Disabled="@_backupBusy"
+                   OnClick="TriggerImportPickerAsync">
+            @LabelNames.ButtonImportDatabase.GetLabelText()
+        </MudButton>
+        <InputFile id="db-import-input"
+                   OnChange="OnImportFileSelectedAsync"
+                   accept=".db,application/octet-stream"
+                   class="d-none"
+                   hidden />
+    </MudStack>
+
     @if (_loading)
     {
         <MudProgressLinear Indeterminate="true" Color="Color.Primary" />

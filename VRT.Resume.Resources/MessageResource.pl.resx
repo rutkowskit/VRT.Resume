@@ -168,6 +168,21 @@
   <data name="ProfileDeletedSuccess" xml:space="preserve">
     <value>Profil „{0}" został usunięty.</value>
   </data>
+  <data name="ImportDatabaseConfirm" xml:space="preserve">
+    <value>Import zastąpi wszystkie lokalne profile i dane CV. Najpierw wyeksportuj kopię zapasową, jeśli chcesz zachować obecne dane. Kontynuować?</value>
+  </data>
+  <data name="DatabaseExportSuccess" xml:space="preserve">
+    <value>Baza danych wyeksportowana.</value>
+  </data>
+  <data name="DatabaseImportInvalid" xml:space="preserve">
+    <value>Wybrany plik nie jest prawidłową bazą SQLite.</value>
+  </data>
+  <data name="DatabaseImportTooLarge" xml:space="preserve">
+    <value>Plik bazy danych musi mieć rozmiar 50 MB lub mniejszy.</value>
+  </data>
+  <data name="DatabaseBackupFailed" xml:space="preserve">
+    <value>Operacja kopii zapasowej bazy danych nie powiodła się.</value>
+  </data>
   <data name="ImageTooLarge" xml:space="preserve">
     <value>Obraz musi mieć rozmiar 5 MB lub mniejszy.</value>
   </data>

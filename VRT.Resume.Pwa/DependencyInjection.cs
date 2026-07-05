@@ -19,6 +19,7 @@ internal static partial class DependencyInjection
         services.AddSingleton<IActiveProfileContext>(sp => sp.GetRequiredService<DummyCurrentUserService>());
         services.AddScoped<ProfileContextStorage>();
         services.AddScoped<LocalProfileService>();
+        services.AddScoped<PwaDatabaseBackupService>();
         services.AddScoped<UserNotificationService>();
         services.AddScoped<MediatorSender>();
         services.AddSingleton<DatabaseInitializer>();

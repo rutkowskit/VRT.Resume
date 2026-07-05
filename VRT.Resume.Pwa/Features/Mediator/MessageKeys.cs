@@ -16,6 +16,11 @@ internal static class MessageKeys
     public const string DeleteSkillConfirm = "DeleteSkillConfirm";
     public const string DeleteProfileConfirm = "DeleteProfileConfirm";
     public const string ProfileDeletedSuccess = "ProfileDeletedSuccess";
+    public const string ImportDatabaseConfirm = "ImportDatabaseConfirm";
+    public const string DatabaseExportSuccess = "DatabaseExportSuccess";
+    public const string DatabaseImportInvalid = "DatabaseImportInvalid";
+    public const string DatabaseImportTooLarge = "DatabaseImportTooLarge";
+    public const string DatabaseBackupFailed = "DatabaseBackupFailed";
     public const string ImageTooLarge = "ImageTooLarge";
     public const string ImageReadFailed = "ImageReadFailed";
     public const string OpfsAnotherTabTitle = "OpfsAnotherTabTitle";

@@ -295,7 +295,7 @@ Status: Complete
 - [x] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych (`VRT.Resume.Pwa.Tests`, 8 testów)
 - [x] Zaktualizuj `AGENTS.md` + `README.md`
 - [x] **Opcjonalnie:** usuwanie profilu (kaskada EF) — `LocalProfileService.DeleteAsync`, UI na `/profiles`
-- [ ] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile) — odłożone
+- [x] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile) — `PwaDatabaseBackupService`, UI na `/profiles`
 
 ### Verification Plan
 - `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug` — 8/8 ✅
@@ -308,7 +308,7 @@ Dodano `VRT.Resume.Pwa.Tests` (bUnit 1.38, xUnit): `PwaTestContext` (in-memory S
 
 ## Final Recap
 
-Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`). Opcjonalnie na backlog: usuwanie profilu, export SQLite, Lighthouse ≥90 na published URL.
+Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokalne, Person CRUD, CV, zdjęcie, podgląd/druk, PL/EN, offline PWA). Application/Domain nietknięte. Testy: integracyjne MVC (`Application.Tests.Integration`, LocalDB) + bUnit PWA (`Pwa.Tests`). Opcjonalnie na backlog: Lighthouse ≥90 na published URL.
 
 ---
 

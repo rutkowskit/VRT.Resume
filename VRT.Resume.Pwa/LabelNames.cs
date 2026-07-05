@@ -102,6 +102,8 @@ public static class LabelNames
     public const string ProfileActive = "ProfileActive";
     public const string ButtonCreateProfile = "ButtonCreateProfile";
     public const string ButtonSelectProfile = "ButtonSelectProfile";
+    public const string ButtonExportDatabase = "ButtonExportDatabase";
+    public const string ButtonImportDatabase = "ButtonImportDatabase";
     public const string ButtonPrint = "ButtonPrint";
     public const string BackToResumes = "BackToResumes";
     public const string ButtonEdit = "ButtonEdit";

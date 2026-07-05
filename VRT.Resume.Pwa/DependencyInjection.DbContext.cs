@@ -7,13 +7,11 @@ namespace VRT.Resume.Pwa;
 
 internal static partial class DependencyInjection
 {
-    private const string DatabaseFileName = "vrt-resume.db";
-
     public static IServiceCollection AddPwaDbContext(this IServiceCollection services, string baseAddress)
     {
         services.AddDbContextFactory<AppDbContext>(options =>
         {
-            var connection = new SqliteWasmConnection($"Data Source={DatabaseFileName}");
+            var connection = new SqliteWasmConnection($"Data Source={PwaDatabaseNames.FileName}");
             options.ConfigureWarnings(w => w.Ignore(SqliteEventId.SchemaConfiguredWarning));
             options.UseSqliteWasm(connection);
         });
