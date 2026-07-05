@@ -1,6 +1,5 @@
-﻿namespace VRT.Resume.Domain.Entities
+﻿namespace VRT.Resume.Domain.Entities;
+
+partial class PersonSkill : IPersonEntity
 {
-    partial class PersonSkill : IPersonEntity
-    {
-    }
 }

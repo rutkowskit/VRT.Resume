@@ -14,5 +14,5 @@ public partial class SkillType
 
     public string Name { get; set; }
 
-    public virtual ICollection<PersonSkill> PersonSkill { get; } = new List<PersonSkill>();
+    public virtual ICollection<PersonSkill> PersonSkill { get; set; } = new List<PersonSkill>();
 }

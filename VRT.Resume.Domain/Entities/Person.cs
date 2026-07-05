@@ -20,17 +20,17 @@ public partial class Person
 
     public DateTime ModifiedDate { get; set; }
 
-    public virtual ICollection<PersonContact> PersonContact { get; } = new List<PersonContact>();
+    public virtual ICollection<PersonContact> PersonContact { get; set; } = new List<PersonContact>();
 
-    public virtual ICollection<PersonEducation> PersonEducation { get; } = new List<PersonEducation>();
+    public virtual ICollection<PersonEducation> PersonEducation { get; set; } = new List<PersonEducation>();
 
-    public virtual ICollection<PersonExperience> PersonExperience { get; } = new List<PersonExperience>();
+    public virtual ICollection<PersonExperience> PersonExperience { get; set; } = new List<PersonExperience>();
 
-    public virtual ICollection<PersonImage> PersonImage { get; } = new List<PersonImage>();
+    public virtual ICollection<PersonImage> PersonImage { get; set; } = new List<PersonImage>();
 
-    public virtual ICollection<PersonResume> PersonResume { get; } = new List<PersonResume>();
+    public virtual ICollection<PersonResume> PersonResume { get; set; } = new List<PersonResume>();
 
-    public virtual ICollection<PersonSkill> PersonSkill { get; } = new List<PersonSkill>();
+    public virtual ICollection<PersonSkill> PersonSkill { get; set; } = new List<PersonSkill>();
 
-    public virtual ICollection<UserPerson> UserPerson { get; } = new List<UserPerson>();
+    public virtual ICollection<UserPerson> UserPerson { get; set; } = new List<UserPerson>();
 }

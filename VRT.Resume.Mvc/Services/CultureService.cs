@@ -43,8 +43,10 @@ namespace VRT.Resume.Mvc.Services
 
         public string GetCurrentCulture()
         {
-            var request = _httpContext.HttpContext.Request;
-            var langCookie = request?.Cookies[CultureCookieKey];
+            var request = _httpContext.HttpContext?.Request;
+            if (request is null)
+                return GetDefaultLanguage();
+            var langCookie = request.Cookies[CultureCookieKey];
             return langCookie == null
                 ? GetDefaultLanguage()
                 : langCookie;
@@ -57,7 +59,9 @@ namespace VRT.Resume.Mvc.Services
 
         private string GetDefaultLanguage()
         {
-            var request = _httpContext.HttpContext.Request;
+            var request = _httpContext.HttpContext?.Request;
+            if (request is null)
+                return DefaultLanguage;
             var userLanguage = request.Headers["Accept-Language"].ToString();
             var firstLang = userLanguage.Split(',').FirstOrDefault();
             var defaultLang = string.IsNullOrEmpty(firstLang) 
@@ -70,8 +74,8 @@ namespace VRT.Resume.Mvc.Services
         }
         private void AddLanguageCookie(string language)
         {
-            var response = _httpContext.HttpContext.Response;
-            if (response == null) return;
+            var response = _httpContext.HttpContext?.Response;
+            if (response is null) return;
             var opt = new CookieOptions()
             {
                 Expires = DateTime.Now.AddYears(1),

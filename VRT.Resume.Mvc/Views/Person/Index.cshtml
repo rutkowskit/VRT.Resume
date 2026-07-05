@@ -1,5 +1,5 @@
 ﻿@{
-    string tabName = TempData.GetValueOrDefault(TempDataKeys.TabName, TabNames.Profile);
+    string tabName = TempData.GetValueOrDefault(TempDataKeys.TabName, TabNames.Profile) ?? TabNames.Profile;
     var tabsToShow = new string[]
     {
         TabNames.Profile,

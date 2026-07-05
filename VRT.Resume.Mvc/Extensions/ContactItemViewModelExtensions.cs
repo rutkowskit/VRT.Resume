@@ -6,14 +6,14 @@ namespace VRT.Resume.Mvc
 {
     public static class ContactItemDtoExtensions
     {
-        public static IHtmlContent GetIconHtmlString(this ContactItemDto contact)
+        public static IHtmlContent? GetIconHtmlString(this ContactItemDto contact)
         {
             return contact?.Icon == null
                 ? null
                 : new HtmlString(contact.Icon);                        
         }
 
-        public static IHtmlContent GetValueHtmlString(this ContactItemDto contact)
+        public static IHtmlContent? GetValueHtmlString(this ContactItemDto contact)
         {
             if (contact == null) return null;
             var type = !string.IsNullOrWhiteSpace(contact.Url)

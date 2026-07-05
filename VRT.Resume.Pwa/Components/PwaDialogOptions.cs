@@ -17,4 +17,12 @@ internal static class PwaDialogOptions
         MaxWidth = MaxWidth.Large,
         FullWidth = true,
     };
+
+    /// <summary>Resume add/edit — pass to DialogService.ShowAsync (MudDialog Options alone is not applied).</summary>
+    public static DialogOptions ResumeForm { get; } = new()
+    {
+        BackdropClick = false,
+        MaxWidth = MaxWidth.Large,
+        FullWidth = true,
+    };
 }

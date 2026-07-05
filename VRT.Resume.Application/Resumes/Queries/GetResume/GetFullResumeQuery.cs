@@ -44,7 +44,7 @@ public sealed class GetFullResumeQuery : IRequest<Result<ResumeFullVM>>
                             Permission = rd.Permission,
                             Position = rd.Position,
                             Summary = rd.Summary,
-                            ShowProfilePhoto = rd.ShowProfilePhoto ?? true,
+                            ShowProfilePhoto = rd.ShowProfilePhoto,
                             Contact = Array.Empty<ContactItemDto>(),
                             WorkExperience = Array.Empty<WorkExperienceDto>(),
                             Education = Array.Empty<EducationDto>(),

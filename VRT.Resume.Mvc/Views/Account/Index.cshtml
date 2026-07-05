@@ -1,4 +1,4 @@
-﻿@if (User.Identity.IsAuthenticated)
+﻿@if (User.Identity?.IsAuthenticated == true)
 {
     <legend>@Html.GetMessage(MsgNames.UserSignedIn)</legend>    
     <div class="no-padding">

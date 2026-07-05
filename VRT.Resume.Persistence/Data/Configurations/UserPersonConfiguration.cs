@@ -21,9 +21,9 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.Property(e => e.UserId).HasMaxLength(50);
 
             entity.HasOne(d => d.Person).WithMany(p => p.UserPerson)
-            .HasForeignKey(d => d.PersonId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_UserPerson_Person");
+                .HasForeignKey(d => d.PersonId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UserPerson_Person");
 
             OnConfigurePartial(entity);
         }

@@ -3,6 +3,7 @@ using MudBlazor;
 using VRT.Resume.Application.Resumes.Commands.ClonePersonResume;
 using VRT.Resume.Application.Resumes.Commands.DeletePersonResume;
 using VRT.Resume.Application.Resumes.Queries.GetResumeList;
+using VRT.Resume.Pwa.Components;
 using VRT.Resume.Pwa.Features.Mediator;
 using VRT.Resume.Pwa.Features.Person.Components;
 using VRT.Resume.Pwa.Features.Resumes.Editors;
@@ -46,7 +47,7 @@ public partial class Home
         {
             { x => x.ResumeId, resumeId },
         };
-        var dialog = await DialogService.ShowAsync<ResumeEditorDialog>(null, parameters);
+        var dialog = await DialogService.ShowAsync<ResumeEditorDialog>(null, parameters, PwaDialogOptions.ResumeForm);
         var result = await dialog.Result;
         if (result is not null && !result.Canceled)
             await LoadAsync();
@@ -58,7 +59,7 @@ public partial class Home
         {
             { x => x.ResumeId, resumeId },
         };
-        var dialog = await DialogService.ShowAsync<ResumeSkillsEditorDialog>(null, parameters);
+        var dialog = await DialogService.ShowAsync<ResumeSkillsEditorDialog>(null, parameters, PwaDialogOptions.LargeForm);
         var result = await dialog.Result;
         if (result is not null && !result.Canceled)
             await LoadAsync();

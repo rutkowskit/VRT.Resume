@@ -1,10 +1,4 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using VRT.Resume.Application.Common.Abstractions;
-using VRT.Resume.Domain.Entities;
-using VRT.Resume.Persistence.Data;
-
-namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
+﻿namespace VRT.Resume.Application.Persons.Commands.UpsertPersonContact
 {
     public sealed class UpsertPersonContactCommand : IRequest<Result>
     {

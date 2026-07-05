@@ -51,7 +51,7 @@ namespace VRT.Resume.Mvc
             {
                 Value = c.Key,
                 Text = c.Caption,
-                Selected = (string)html.ViewContext.TempData[TempDataKeys.CultureKey] == c.Key
+                Selected = html.ViewContext.TempData[TempDataKeys.CultureKey]?.ToString() == c.Key
             }).ToArray();
             return html.DropDownList(name, cultures, new { @class = "form-control form-control-lg col-md-2" });
         }

@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using VRT.Resume.Application.Common.Extensions;
 
 namespace VRT.Resume.Mvc.Models
 {
@@ -15,7 +14,7 @@ namespace VRT.Resume.Mvc.Models
                 LastName = "",
                 PersonId = "",
                 UserId = ""
-            };            
+            };
         }
         private UserLoginViewModel()
         {
@@ -27,29 +26,29 @@ namespace VRT.Resume.Mvc.Models
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public string? PersonId { get; private set; }
-        
+
         public string GetInitials()
         {
             var result = new List<char>(2);
             if (!string.IsNullOrEmpty(FirstName) && FirstName.Length > 0)
                 result.Add(FirstName[0]);
             if (!string.IsNullOrEmpty(LastName) && LastName.Length > 0)
-                result.Add(LastName[0]);            
-            
-            return result.Count>0 
+                result.Add(LastName[0]);
+
+            return result.Count > 0
                 ? new string(result.ToArray())
                 : "?";
         }
 
-        internal static UserLoginViewModel Create(ClaimsIdentity identity)
+        internal static UserLoginViewModel? Create(ClaimsIdentity? identity)
         {
             var claims = identity?.Claims
                 ?.GroupBy(g => g.Type)
                 .ToDictionary(k => k.Key, v => v.Select(s => s.Value).FirstOrDefault());
 
-            if (claims == null || claims.Count==0)
+            if (claims == null || claims.Count == 0 || identity is null)
                 return null;
-            var userId = claims.GetValueOrDefault(ClaimTypes.Email, CreateUserId(identity));                
+            var userId = claims.GetValueOrDefault(ClaimTypes.Email, CreateUserId(identity));
             return new UserLoginViewModel()
             {
                 UserId = userId,
@@ -59,7 +58,7 @@ namespace VRT.Resume.Mvc.Models
                 PersonId = claims.GetValueOrDefault("PersonId")
             };
         }
-        private static string CreateUserId(ClaimsIdentity identity)
+        private static string? CreateUserId(ClaimsIdentity identity)
         {
             var id = identity?.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);

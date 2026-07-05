@@ -16,5 +16,5 @@ public partial class School
 
     public DateTime ModifiedDate { get; set; }
 
-    public virtual ICollection<PersonEducation> PersonEducation { get; } = new List<PersonEducation>();
+    public virtual ICollection<PersonEducation> PersonEducation { get; set; } = new List<PersonEducation>();
 }

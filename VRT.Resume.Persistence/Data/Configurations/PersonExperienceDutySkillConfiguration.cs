@@ -19,12 +19,12 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.HasIndex(e => new { e.DutyId, e.SkillId }, "UX_PersonExperienceSkill_DutyId_SkillId").IsUnique();
 
             entity.HasOne(d => d.Duty).WithMany(p => p.PersonExperienceDutySkill)
-            .HasForeignKey(d => d.DutyId)
-            .HasConstraintName("FK_PersonExperienceSkill_PersonExperienceDuty");
+                .HasForeignKey(d => d.DutyId)
+                .HasConstraintName("FK_PersonExperienceSkill_PersonExperienceDuty");
 
             entity.HasOne(d => d.Skill).WithMany(p => p.PersonExperienceDutySkill)
-            .HasForeignKey(d => d.SkillId)
-            .HasConstraintName("FK_PersonExperienceSkill_PersonSkill");
+                .HasForeignKey(d => d.SkillId)
+                .HasConstraintName("FK_PersonExperienceSkill_PersonSkill");
 
             OnConfigurePartial(entity);
         }

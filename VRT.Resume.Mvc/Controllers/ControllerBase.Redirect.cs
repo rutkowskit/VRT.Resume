@@ -17,7 +17,7 @@ namespace VRT.Resume.Mvc.Controllers
         protected ActionResult ToRequestReferer()
             => DoRedirection(new RedirectResult(Request.GetReferer().AbsoluteUri));        
 
-        protected virtual ActionResult ToReturnUrl()
+        protected virtual ActionResult? ToReturnUrl()
         {
             var url = TempData[TempDataKeys.ReturnUrl]?.ToString();            
             return string.IsNullOrWhiteSpace(url)

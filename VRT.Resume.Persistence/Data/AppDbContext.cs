@@ -47,26 +47,22 @@ public partial class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        if (!string.Equals(Database.ProviderName, "Microsoft.EntityFrameworkCore.Sqlite", StringComparison.Ordinal))
-        {
-            modelBuilder.UseCollation("Latin1_General_100_CI_AI");
-        }
+        modelBuilder.ApplyConfiguration(new Configurations.DegreeConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.EducationFieldConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonContactConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonEducationConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonExperienceConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonExperienceDutyConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonExperienceDutySkillConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonImageConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonResumeConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.PersonSkillConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.ResumePersonSkillConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.SchoolConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.SkillTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new Configurations.UserPersonConfiguration());
 
-            modelBuilder.ApplyConfiguration(new Configurations.DegreeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.EducationFieldConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonContactConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonEducationConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonExperienceConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonExperienceDutyConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonExperienceDutySkillConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonImageConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonResumeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.PersonSkillConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.ResumePersonSkillConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.SchoolConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.SkillTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Configurations.UserPersonConfiguration());
         OnModelCreatingPartial(modelBuilder);
     }
 

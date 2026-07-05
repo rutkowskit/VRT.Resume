@@ -1,20 +1,11 @@
-﻿using CSharpFunctionalExtensions;
-using MediatR;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using VRT.Resume.Application.Common.Abstractions;
-using VRT.Resume.Persistence.Data;
-
-namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDuty
+﻿namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDuty
 {
     public sealed class GetPersonExperienceDutyQuery : IRequest<Result<PersonExperienceDutyVM>>
     {
         public int DutyId { get; set; }
-        internal sealed class GetPersonExperienceQueryHandler : HandlerBase, 
+        internal sealed class GetPersonExperienceQueryHandler : HandlerBase,
             IRequestHandler<GetPersonExperienceDutyQuery, Result<PersonExperienceDutyVM>>
-        { 
+        {
             public GetPersonExperienceQueryHandler(AppDbContext context, ICurrentUserService userService)
                 : base(context, userService)
             {
@@ -34,7 +25,8 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonExperienceDuty
                                 Name = per.Name,
                                 ExperienceId = per.ExperienceId
                             };
-                return await query.FirstOrDefaultAsync(cancellationToken);
+                return await query.FirstOrDefaultAsync(cancellationToken)
+                    ?? Result.Failure<PersonExperienceDutyVM>(Errors.RecordNotFound);
             }
         }
     }

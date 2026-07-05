@@ -23,17 +23,17 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.Property(e => e.IsHidden).HasComment("The flag indicates wheter the skill should be hidden in profile skills section (main)");
             entity.Property(e => e.IsRelevant).HasComment("The flag indicates wheter the skill is significant for potencial employer");
             entity.Property(e => e.Position)
-            .HasDefaultValueSql("((1))")
-            .HasComment("Position on the skills list (skills with higher values goes first - they are more important)");
+                .HasComment("Position on the skills list (skills with higher values goes first - they are more important)")
+                .HasDefaultValue(1, "DF_ResumePersonSkill_Position");
 
             entity.HasOne(d => d.Resume).WithMany(p => p.ResumePersonSkill)
-            .HasForeignKey(d => d.ResumeId)
-            .HasConstraintName("FK_ResumePersonSkill_Resume");
+                .HasForeignKey(d => d.ResumeId)
+                .HasConstraintName("FK_ResumePersonSkill_Resume");
 
             entity.HasOne(d => d.Skill).WithMany(p => p.ResumePersonSkill)
-            .HasForeignKey(d => d.SkillId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
-            .HasConstraintName("FK_ResumePersonSkill_PersonSkill");
+                .HasForeignKey(d => d.SkillId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_ResumePersonSkill_PersonSkill");
 
             OnConfigurePartial(entity);
         }

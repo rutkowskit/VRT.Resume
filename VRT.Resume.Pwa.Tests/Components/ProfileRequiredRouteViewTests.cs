@@ -1,7 +1,6 @@
 using FluentAssertions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
-using VRT.Resume.Pwa.Pages;
 using VRT.Resume.Pwa.Components;
 using VRT.Resume.Pwa.Features.Profiles;
 using VRT.Resume.Pwa.Layout;

@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace VRT.Resume.Application.Common.Extensions;
 
-namespace VRT.Resume
+public static class DictionaryExtensions
 {
-    public static class DictionaryExtensions
+    public static TValue? GetValueOrDefault<TKey, TValue>(
+        this IReadOnlyDictionary<TKey, TValue> dic, TKey key,
+        Func<TValue>? defaultValueGetter = null)
     {
-        public static TValue GetValueOrDefault<TKey, TValue>(
-            this IReadOnlyDictionary<TKey, TValue> dic, TKey key, 
-            Func<TValue> defaultValueGetter = null)
-        {
-            if (null == dic) return default;
+        if (null == dic) return default;
 
-            if (dic.TryGetValue(key, out var value))
-                return value;
+        if (dic.TryGetValue(key, out var value))
+            return value;
 
-            return defaultValueGetter == null
-                ? default
-                : defaultValueGetter();                
-        }
+        return defaultValueGetter == null
+            ? default
+            : defaultValueGetter();
     }
 }

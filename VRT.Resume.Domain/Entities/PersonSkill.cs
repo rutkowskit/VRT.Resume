@@ -31,9 +31,9 @@ public partial class PersonSkill
 
     public virtual Person Person { get; set; }
 
-    public virtual ICollection<PersonExperienceDutySkill> PersonExperienceDutySkill { get; } = new List<PersonExperienceDutySkill>();
+    public virtual ICollection<PersonExperienceDutySkill> PersonExperienceDutySkill { get; set; } = new List<PersonExperienceDutySkill>();
 
-    public virtual ICollection<ResumePersonSkill> ResumePersonSkill { get; } = new List<ResumePersonSkill>();
+    public virtual ICollection<ResumePersonSkill> ResumePersonSkill { get; set; } = new List<ResumePersonSkill>();
 
     public virtual SkillType SkillType { get; set; }
 }

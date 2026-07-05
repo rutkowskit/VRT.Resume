@@ -16,8 +16,8 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.Name)
-            .IsRequired()
-            .HasMaxLength(50);
+                .IsRequired()
+                .HasMaxLength(50);
 
             OnConfigurePartial(entity);
         }

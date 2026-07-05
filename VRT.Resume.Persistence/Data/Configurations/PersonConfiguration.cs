@@ -16,8 +16,8 @@ namespace VRT.Resume.Persistence.Data.Configurations
 
             entity.Property(e => e.DateOfBirth).HasColumnType("date");
             entity.Property(e => e.FirstName)
-            .IsRequired()
-            .HasMaxLength(50);
+                .IsRequired()
+                .HasMaxLength(50);
             entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
 

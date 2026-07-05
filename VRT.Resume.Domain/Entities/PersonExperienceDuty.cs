@@ -18,5 +18,5 @@ public partial class PersonExperienceDuty
 
     public virtual PersonExperience Experience { get; set; }
 
-    public virtual ICollection<PersonExperienceDutySkill> PersonExperienceDutySkill { get; } = new List<PersonExperienceDutySkill>();
+    public virtual ICollection<PersonExperienceDutySkill> PersonExperienceDutySkill { get; set; } = new List<PersonExperienceDutySkill>();
 }

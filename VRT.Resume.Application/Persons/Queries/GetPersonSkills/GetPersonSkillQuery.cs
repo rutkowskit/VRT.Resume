@@ -36,7 +36,8 @@ namespace VRT.Resume.Application.Persons.Queries.GetPersonSkills
                                 Name = per.Name,
                                 Level = per.Level                                        
                             };
-                return await query.FirstOrDefaultAsync(cancellationToken);
+                return await query.FirstOrDefaultAsync(cancellationToken)
+                    ?? Result.Failure<PersonSkillVM>(Errors.RecordNotFound);
             }
         }
     }

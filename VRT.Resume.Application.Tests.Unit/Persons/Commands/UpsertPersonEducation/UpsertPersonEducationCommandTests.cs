@@ -60,7 +60,7 @@ public class UpsertPersonEducationCommandTests : CommandTestBase<UpsertPersonEdu
         result.AssertSuccess();
 
         var edu = GetSinglePersonEducation();
-        AssertPersonEducation(edu, sut);        
+        AssertPersonEducation(edu, sut);
     }
 
     [Fact()]
@@ -74,7 +74,7 @@ public class UpsertPersonEducationCommandTests : CommandTestBase<UpsertPersonEdu
 
         result.AssertSuccess();
         var edu = GetSinglePersonEducation();
-        AssertPersonEducation(edu, sut);        
+        AssertPersonEducation(edu, sut);
     }
 
     [Fact()]
@@ -82,7 +82,7 @@ public class UpsertPersonEducationCommandTests : CommandTestBase<UpsertPersonEdu
     {
         var sut = CreateSut();
         var seedEdu = await GetDbContext().SeedEducation();
-        var school = await GetDbContext().SeedSchool(sut.SchoolName);
+        var school = await GetDbContext().SeedSchool(sut.SchoolName!);
         sut.EducationId = seedEdu.EducationId;
 
         var result = await Send(sut);
@@ -96,17 +96,17 @@ public class UpsertPersonEducationCommandTests : CommandTestBase<UpsertPersonEdu
 
     [Fact()]
     public async Task Send_CommandWithDegreeNameThatExistsInDb_ShouldSetExistingDegreeId()
-    {        
+    {
         var education = await GetDbContext().SeedEducation();
         var sut = CreateSut(education);
-        var degree = await GetDbContext().SeedDegree(sut.Degree);
+        var degree = await GetDbContext().SeedDegree(sut.Degree!);
 
         var result = await Send(sut);
 
         result.AssertSuccess();
         var edu = GetSinglePersonEducation();
         AssertPersonEducation(edu, sut);
-        Assert.Equal(degree.DegreeId, edu.DegreeId);        
+        Assert.Equal(degree.DegreeId, edu.DegreeId);
     }
 
     [Fact()]
@@ -114,13 +114,13 @@ public class UpsertPersonEducationCommandTests : CommandTestBase<UpsertPersonEdu
     {
         var sut = CreateSut();
         var seedEdu = await GetDbContext().SeedEducation();
-        var eduField = await GetDbContext().SeedEducationField(sut.Field);
+        var eduField = await GetDbContext().SeedEducationField(sut.Field!);
         sut.EducationId = seedEdu.EducationId;
         sut.Field = eduField.Name;
 
         var result = await Send(sut);
-        
-        result.AssertSuccess();        
+
+        result.AssertSuccess();
         var edu = GetSinglePersonEducation();
         AssertPersonEducation(edu, sut);
         edu.EducationFieldId.Should().Be(eduField.EducationFieldId);
@@ -141,24 +141,24 @@ public class UpsertPersonEducationCommandTests : CommandTestBase<UpsertPersonEdu
     private static void AssertPersonEducation(PersonEducation edu,
            UpsertPersonEducationCommand sut)
     {
-        Assert.NotNull(edu);        
+        Assert.NotNull(edu);
         Assert.Equal(sut.Degree, edu.Degree.Name);
         Assert.Equal(sut.Field, edu.EducationField.Name);
         Assert.Equal(sut.FromDate, edu.FromDate);
-        Assert.Equal(sut.ToDate, edu.ToDate);        
+        Assert.Equal(sut.ToDate, edu.ToDate);
     }
 
     private UpsertPersonEducationCommand CreateSut(PersonEducation seeded)
     {
         var result = CreateSut();
-        result.EducationId = seeded.EducationId;        
-        return result; 
+        result.EducationId = seeded.EducationId;
+        return result;
     }
 
     protected override UpsertPersonEducationCommand CreateSut()
     {
         return new UpsertPersonEducationCommand()
-        {            
+        {
             Degree = "Master of Science",
             Field = "Computer Science",
             SchoolName = "Bajtowards",

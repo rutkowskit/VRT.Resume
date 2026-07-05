@@ -83,7 +83,7 @@ public class ResumesController : ControllerBase
     public virtual ActionResult ConfirmDelete(int id)
     {
         var ctrl = ControllerContext.RouteData.Values["controller"]?.ToString();
-        var data = new EditDeleteToolbarData(ctrl, id, LabelNames.PageResume);
+        var data = new EditDeleteToolbarData(ctrl ?? string.Empty, id, LabelNames.PageResume);
         return View(nameof(ConfirmDelete), data);
     }
 
@@ -109,7 +109,7 @@ public class ResumesController : ControllerBase
         {
             ResumeId = dto.ResumeId,
             Position = dto.Position,
-            Summary = dto.Summary,
+            Summary = dto.Summary ?? string.Empty,
             ShowProfilePhoto = dto.ShowProfilePhoto,
             DataProcessingPermission = dto.DataProcessingPermission,
             Description = dto.Description

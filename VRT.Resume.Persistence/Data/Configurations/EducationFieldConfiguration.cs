@@ -15,8 +15,8 @@ namespace VRT.Resume.Persistence.Data.Configurations
             entity.ToTable("EducationField", "Persons", tb => tb.HasComment("Education fields dictionary table"));
 
             entity.Property(e => e.Name)
-            .IsRequired()
-            .HasMaxLength(50);
+                .IsRequired()
+                .HasMaxLength(50);
 
             OnConfigurePartial(entity);
         }

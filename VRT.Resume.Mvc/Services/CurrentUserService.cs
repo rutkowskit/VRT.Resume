@@ -12,6 +12,6 @@ namespace VRT.Resume.Mvc.Services
             _httpContext = httpContext;
         }
         public string UserId
-            => _httpContext?.HttpContext?.User.AsUserLoginViewModel()?.UserId;
+            => _httpContext?.HttpContext?.User.AsUserLoginViewModel()?.UserId ?? string.Empty;
     }
 }

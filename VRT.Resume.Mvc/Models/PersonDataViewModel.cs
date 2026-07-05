@@ -14,7 +14,7 @@ namespace VRT.Resume.Mvc.Models
         public PersonDataViewModel(): this(null)
         {
         }
-        public PersonDataViewModel(PersonDataVM vm)
+        public PersonDataViewModel(PersonDataVM? vm)
         {
             _decorated = vm ?? new PersonDataVM();
         }

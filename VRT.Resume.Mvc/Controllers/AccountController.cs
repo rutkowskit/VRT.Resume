@@ -1,13 +1,11 @@
 ﻿using MediatR;
-using VRT.Resume.Mvc.Models;
-using System.Security.Claims;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using VRT.Resume.Application.Persons.Commands.CreatePersonAccount;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using System.Linq;
+using VRT.Resume.Mvc.Models;
 
 namespace VRT.Resume.Mvc.Controllers
 {
@@ -30,16 +28,16 @@ namespace VRT.Resume.Mvc.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public ChallengeResult SignIn(string type = "")
+        public ChallengeResult? SignIn(string type = "")
         {
-            if (User.Identity.IsAuthenticated) return null;
+            if (User.Identity?.IsAuthenticated ?? false) return null;
 
             return string.IsNullOrWhiteSpace(type)
                 ? null
                 : Challenge(new AuthenticationProperties
                 {
                     RedirectUri = Url.Action($"signin-{type.ToLower()}")
-                }, type);            
+                }, type);
         }
 
         [ValidateAntiForgeryToken]
@@ -47,7 +45,7 @@ namespace VRT.Resume.Mvc.Controllers
         [Route("logout")]
         public IActionResult LogOut()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (!User.Identity?.IsAuthenticated ?? false)
                 return ToRequestReferer();
             SignOut();
             Response.Cookies.Delete(Globals.AuthCookieName);
@@ -56,7 +54,7 @@ namespace VRT.Resume.Mvc.Controllers
 
         [AllowAnonymous]
         [Route("signin-google")]
-        [Route("signin-github")]        
+        [Route("signin-github")]
         public async Task<IActionResult> SignInCallback()
         {
             var claimsPrincipal = HttpContext.User.Identity as ClaimsIdentity;
@@ -66,7 +64,7 @@ namespace VRT.Resume.Mvc.Controllers
             {
                 LogOut();
                 return RedirectToAction("Index");
-            }                
+            }
 
             var command = new CreatePersonAccountCommand()
             {
@@ -98,17 +96,17 @@ namespace VRT.Resume.Mvc.Controllers
                 ToClaim(ClaimTypes.Surname, loginInfo.LastName),
                 ToClaim(ClaimTypes.Email, loginInfo.Email),
                 ToClaim("PersonId", personId.ToString())
-            }.Where(w => w != null);
+            }.OfType<Claim>();
 
-            var ident = new ClaimsIdentity(claimsList, 
+            var ident = new ClaimsIdentity(claimsList,
                 CookieAuthenticationDefaults.AuthenticationScheme);
 
             var props = new AuthenticationProperties { IsPersistent = false };
             var claims = new ClaimsPrincipal(ident);
-            SignIn(claims,props);
+            SignIn(claims, props);
         }
-        
-        private static Claim ToClaim(string claimType, string value)
+
+        private static Claim? ToClaim(string claimType, string? value)
         {
             if (string.IsNullOrWhiteSpace(value))
                 return null;
