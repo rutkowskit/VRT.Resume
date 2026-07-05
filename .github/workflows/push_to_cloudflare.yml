@@ -11,7 +11,59 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test-pwa:
+    runs-on: ubuntu-latest
+    name: PWA tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
+          cache-dependency-path: |
+            **/*.csproj
+            Directory.Packages.props
+
+      - name: Install WASM workload
+        run: dotnet workload install wasm-tools
+
+      - name: Run PWA tests
+        run: dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Release
+
+  test-integration:
+    runs-on: windows-latest
+    name: Integration tests (LocalDB)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          cache: true
+          cache-dependency-path: |
+            **/*.csproj
+            Directory.Packages.props
+
+      - name: Start SQL Server LocalDB
+        shell: pwsh
+        run: |
+          $instances = sqllocaldb info
+          if ($instances -notmatch 'MSSQLLocalDB') {
+            sqllocaldb create MSSQLLocalDB
+          }
+          sqllocaldb start MSSQLLocalDB
+          sqllocaldb info MSSQLLocalDB
+
+      - name: Run integration tests
+        run: dotnet test VRT.Resume.Application.Tests.Unit/VRT.Resume.Application.Tests.Integration.csproj -c Release
+
   deploy:
+    needs: [test-pwa, test-integration]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -39,11 +91,12 @@ jobs:
       - name: Verify publish output
         run: test -f ./deploy/pwa/wwwroot/index.html
 
-      - name: Deploy to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages (production)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4'
-          command: pages deploy ./deploy/pwa/wwwroot --project-name=vrt-resume-pwa
+          # --branch must match the production branch in Cloudflare Pages project settings.
+          command: pages deploy ./deploy/pwa/wwwroot --project-name=vrt-resume-pwa --branch=master
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
