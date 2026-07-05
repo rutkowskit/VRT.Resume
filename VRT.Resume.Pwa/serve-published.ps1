@@ -51,9 +51,88 @@ function Send-Response([System.Net.HttpListenerResponse]$response, [int]$status,
     $response.Close()
 }
 
+function Add-SecurityHeaders([System.Net.HttpListenerResponse]$response, [string]$relativePath) {
+    $response.Headers['Cross-Origin-Opener-Policy'] = 'same-origin'
+    $response.Headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
+    $response.Headers['Cross-Origin-Resource-Policy'] = 'same-origin'
+
+    if ($relativePath -eq 'service-worker.js' -or $relativePath -eq 'service-worker-assets.js') {
+        $response.Headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    }
+}
+
+function Get-SpaFallbackPath([string]$requestPath) {
+    $redirectsPath = Join-Path $WebRoot '_redirects'
+    if (-not (Test-Path $redirectsPath)) {
+        return $null
+    }
+
+    $normalized = '/' + $requestPath.Trim('/')
+    foreach ($line in Get-Content $redirectsPath) {
+        $trimmed = $line.Trim()
+        if ([string]::IsNullOrWhiteSpace($trimmed) -or $trimmed.StartsWith('#')) {
+            continue
+        }
+
+        $parts = $trimmed -split '\s+', 3
+        if ($parts.Count -lt 2) {
+            continue
+        }
+
+        $from = $parts[0]
+        if ($from.EndsWith('/*')) {
+            $prefix = $from.Substring(0, $from.Length - 1)
+            if ($normalized.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)) {
+                return Join-Path $WebRoot 'index.html'
+            }
+        }
+        elseif ($normalized.Equals($from, [StringComparison]::OrdinalIgnoreCase)) {
+            return Join-Path $WebRoot 'index.html'
+        }
+    }
+
+    return $null
+}
+
+function Resolve-RequestPath([System.Net.HttpListenerRequest]$request) {
+    $relativePath = [System.Uri]::UnescapeDataString($request.Url.AbsolutePath.TrimStart('/'))
+    if ([string]::IsNullOrWhiteSpace($relativePath)) {
+        $relativePath = 'index.html'
+    }
+
+    $fullPath = [System.IO.Path]::GetFullPath((Join-Path $WebRoot $relativePath))
+    if (-not $fullPath.StartsWith($WebRoot, [StringComparison]::OrdinalIgnoreCase)) {
+        return @{ Status = 403; Path = $null; RelativePath = $relativePath }
+    }
+
+    if (Test-Path $fullPath -PathType Leaf) {
+        return @{ Status = 200; Path = $fullPath; RelativePath = $relativePath }
+    }
+
+    if ($request.HttpMethod -eq 'GET' -and -not $relativePath.Contains('.')) {
+        $spaFallback = Get-SpaFallbackPath $relativePath
+        if ($spaFallback -and (Test-Path $spaFallback -PathType Leaf)) {
+            return @{ Status = 200; Path = $spaFallback; RelativePath = 'index.html' }
+        }
+
+        $indexPath = Join-Path $WebRoot 'index.html'
+        if (Test-Path $indexPath -PathType Leaf) {
+            return @{ Status = 200; Path = $indexPath; RelativePath = 'index.html' }
+        }
+    }
+
+    return @{ Status = 404; Path = $null; RelativePath = $relativePath }
+}
+
 $listener = [System.Net.HttpListener]::new()
 $listener.Prefixes.Add("http://127.0.0.1:$Port/")
-$listener.Start()
+
+try {
+    $listener.Start()
+}
+catch [System.Net.HttpListenerException] {
+    Write-Error "Port $Port is already in use. Stop the other server or pass -Port <number>."
+}
 
 Write-Host "Serving PWA at http://127.0.0.1:$Port/"
 Write-Host "Root: $WebRoot"
@@ -66,37 +145,29 @@ try {
         $request = $context.Request
         $response = $context.Response
 
-        $response.Headers['Cross-Origin-Opener-Policy'] = 'same-origin'
-        $response.Headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
-        $response.Headers['Cross-Origin-Resource-Policy'] = 'same-origin'
-
-        $relativePath = [System.Uri]::UnescapeDataString($request.Url.AbsolutePath.TrimStart('/'))
-        if ([string]::IsNullOrWhiteSpace($relativePath)) {
-            $relativePath = 'index.html'
-        }
-
-        $fullPath = [System.IO.Path]::GetFullPath((Join-Path $WebRoot $relativePath))
-        if (-not $fullPath.StartsWith($WebRoot, [StringComparison]::OrdinalIgnoreCase)) {
-            Send-Response $response 403 'Forbidden'
-            continue
-        }
-
-        if (-not (Test-Path $fullPath -PathType Leaf)) {
-            if ($request.HttpMethod -eq 'GET' -and -not $relativePath.Contains('.')) {
-                $fullPath = Join-Path $WebRoot 'index.html'
-            }
-            elseif (-not (Test-Path $fullPath -PathType Leaf)) {
-                Send-Response $response 404 "Not found: $relativePath"
+        try {
+            $resolved = Resolve-RequestPath $request
+            if ($resolved.Status -ne 200) {
+                Send-Response $response $resolved.Status $(if ($resolved.Status -eq 403) { 'Forbidden' } else { "Not found: $($resolved.RelativePath)" })
                 continue
             }
-        }
 
-        $bytes = [System.IO.File]::ReadAllBytes($fullPath)
-        $response.StatusCode = 200
-        $response.ContentType = Get-ContentType $fullPath
-        $response.ContentLength64 = $bytes.Length
-        $response.OutputStream.Write($bytes, 0, $bytes.Length)
-        $response.Close()
+            Add-SecurityHeaders $response $resolved.RelativePath
+            $bytes = [System.IO.File]::ReadAllBytes($resolved.Path)
+            $response.StatusCode = 200
+            $response.ContentType = Get-ContentType $resolved.Path
+            $response.ContentLength64 = $bytes.Length
+            $response.OutputStream.Write($bytes, 0, $bytes.Length)
+            $response.Close()
+        }
+        catch {
+            try {
+                Send-Response $response 500 "Internal server error: $($_.Exception.Message)"
+            }
+            catch {
+                # Response may already be closed.
+            }
+        }
     }
 }
 finally {
