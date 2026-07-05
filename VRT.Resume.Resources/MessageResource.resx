@@ -162,6 +162,12 @@
   <data name="DeleteSkillConfirm" xml:space="preserve">
     <value>Delete skill "{0}"?</value>
   </data>
+  <data name="DeleteProfileConfirm" xml:space="preserve">
+    <value>Delete profile "{0}" and all associated data (CV, contacts, photo)? This cannot be undone.</value>
+  </data>
+  <data name="ProfileDeletedSuccess" xml:space="preserve">
+    <value>Profile "{0}" was deleted.</value>
+  </data>
   <data name="ImageTooLarge" xml:space="preserve">
     <value>Image must be 5 MB or smaller.</value>
   </data>

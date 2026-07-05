@@ -48,13 +48,17 @@
                                 <MudChip T="string" Size="Size.Small" Color="Color.Primary" Class="mt-2">@LabelNames.ProfileActive.GetLabelText()</MudChip>
                             }
                         </MudCardContent>
-                        <MudCardActions>
+                        <MudCardActions Class="justify-space-between">
                             <MudButton Variant="Variant.Filled"
                                        Color="Color.Primary"
                                        Disabled="@isActive"
                                        OnClick="@(() => SelectProfileAsync(profile.UserId))">
                                 @(isActive ? LabelNames.ProfileSelected.GetLabelText() : LabelNames.ButtonSelectProfile.GetLabelText())
                             </MudButton>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           Color="Color.Error"
+                                           Title="@LabelNames.ButtonDelete.GetLabelText()"
+                                           OnClick="@(() => DeleteProfileAsync(profile))" />
                         </MudCardActions>
                     </MudCard>
                 </MudItem>

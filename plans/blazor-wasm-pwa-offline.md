@@ -294,7 +294,7 @@ Status: Complete
 
 - [x] bUnit: wybór kontekstu, tworzenie profilu, izolacja danych (`VRT.Resume.Pwa.Tests`, 8 testów)
 - [x] Zaktualizuj `AGENTS.md` + `README.md`
-- [ ] **Opcjonalnie:** usuwanie profilu (kaskada EF) — odłożone
+- [x] **Opcjonalnie:** usuwanie profilu (kaskada EF) — `LocalProfileService.DeleteAsync`, UI na `/profiles`
 - [ ] **Opcjonalnie:** eksport/import całego pliku SQLite (wszystkie profile) — odłożone
 
 ### Verification Plan
@@ -313,13 +313,16 @@ Fazy 1–11 ukończone. **VRT.Resume.Pwa** — pełny parytet MVC (profile lokal
 ---
 
 ## Deployment Plan
-_(write when all phases complete)_
 
-```powershell
-dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
-```
-
-Statyczny hosting; dane (wszystkie lokalne profile) w SQLite WASM w przeglądarce użytkownika.
+1. **Build & publish**
+   ```powershell
+   dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Release
+   dotnet publish VRT.Resume.Pwa/VRT.Resume.Pwa.csproj -c Release -o ./deploy/pwa
+   ```
+2. **Serve locally (OPFS smoke test)** — `VRT.Resume.Pwa/serve-published.ps1` → `http://127.0.0.1:8080` (COOP/COEP).
+3. **Static host** — upload `deploy/pwa/wwwroot` to any HTTPS static host (Azure Static Web Apps, GitHub Pages, nginx). Ensure SPA fallback to `index.html` for client routes.
+4. **Data** — all profiles live in browser SQLite WASM (OPFS); no server backup unless user exports (future). One tab per origin.
+5. **MVC (Azure)** — unchanged: `dotnet publish VRT.Resume.Mvc` → App Service per `README.md`.
 
 ---
 

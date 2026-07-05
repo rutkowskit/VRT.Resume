@@ -140,7 +140,7 @@ Branch/plan: `feature/blazor-wasm-pwa`, `plans/blazor-wasm-pwa-offline.md`.
 
 - **bUnit 1.x** + in-memory SQLite (`:memory:` shared connection) — not SqliteWasm.
 - Fixture: `PwaTestContext` — registers PWA services + `AddApplication()`; `RenderWithMudProviders<T>()` wraps Mud providers (`MudTestShell`).
-- Covers: profile context switch, data isolation (person + resumes), `ProfilesPage` select, `ProfileRequiredRouteView` guard.
+- Covers: profile context switch, data isolation (person + resumes), `ProfilesPage` select/delete, `ProfileRequiredRouteView` guard, `LocalProfileService.DeleteAsync`.
 - Run: `dotnet test VRT.Resume.Pwa.Tests/VRT.Resume.Pwa.Tests.csproj -c Debug`
 
 ### index.html (MudBlazor)

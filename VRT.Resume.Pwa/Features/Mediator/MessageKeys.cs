@@ -14,6 +14,8 @@ internal static class MessageKeys
     public const string DeleteWorkExpConfirm = "DeleteWorkExpConfirm";
     public const string DeleteDutyConfirm = "DeleteDutyConfirm";
     public const string DeleteSkillConfirm = "DeleteSkillConfirm";
+    public const string DeleteProfileConfirm = "DeleteProfileConfirm";
+    public const string ProfileDeletedSuccess = "ProfileDeletedSuccess";
     public const string ImageTooLarge = "ImageTooLarge";
     public const string ImageReadFailed = "ImageReadFailed";
     public const string OpfsAnotherTabTitle = "OpfsAnotherTabTitle";

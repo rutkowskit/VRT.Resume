@@ -162,6 +162,12 @@
   <data name="DeleteSkillConfirm" xml:space="preserve">
     <value>Usunąć umiejętność „{0}"?</value>
   </data>
+  <data name="DeleteProfileConfirm" xml:space="preserve">
+    <value>Usunąć profil „{0}" i wszystkie powiązane dane (CV, kontakty, zdjęcie)? Tej operacji nie można cofnąć.</value>
+  </data>
+  <data name="ProfileDeletedSuccess" xml:space="preserve">
+    <value>Profil „{0}" został usunięty.</value>
+  </data>
   <data name="ImageTooLarge" xml:space="preserve">
     <value>Obraz musi mieć rozmiar 5 MB lub mniejszy.</value>
   </data>

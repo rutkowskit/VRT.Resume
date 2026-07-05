@@ -70,7 +70,7 @@ public sealed class DummyCurrentUserService(IServiceScopeFactory scopeFactory)
         return personId > 0 ? personId : null;
     }
 
-    private async Task ClearContextAsync(CancellationToken cancellationToken)
+    public async Task ClearContextAsync(CancellationToken cancellationToken = default)
     {
         UserId = string.Empty;
         PersonId = null;
